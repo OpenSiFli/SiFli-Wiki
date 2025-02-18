@@ -22,7 +22,7 @@ https://www.bilibili.com/video/BV1v3USYbEYy/
 
 #### 1.2.1 驱动Bin或者elf修改
 
-下载最新的[Impeller.exe](https://webfile.lovemcu.cn/file/tools/Impeller_COMMON.7z)工具，里面包含了Flash驱动生成工具UartburnEx.exe
+下载最新的[Impeller.exe](http://10.23.10.196:19000/web-file/tools/Impeller_COMMON.7z)工具，里面包含了Flash驱动生成工具UartburnEx.exe
 
 填好Flash的chipid和Flash配置参数，填入到UartburnEx.exe如下界面中，如果在下载时，要新增一个IO口或者通过SF30147电源芯片给Flash供电，也可以添加
 
@@ -342,7 +342,7 @@ Nor通常提供了大约256byte的Security Registers.寄存器（俗称OTP(One T
 
 容量低于16MB（128Mbit） bytes的 nor，一般使用 3 字节地址模式，即命令格式是cmd + addr[2] + addr[1] + addr[0] + ...
 
-使用超过16M bytes 的 nor flash，则需要 4 字节地址模式， 即命令格式是 cmd + addr[3] + addr[2] + addr[1] + addr[0] + ...
+使用超过16M bytes 的 nor flash，则需要 4 字节地址模式， 即命令格式是 cmd + addr[3] + addr[2] + addr[1] + addr[0] + ...
 
 **原因**
 
