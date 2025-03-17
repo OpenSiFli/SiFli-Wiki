@@ -16,10 +16,16 @@ sftool是一个专为SiFli系列SoC（系统芯片）设计的开源工具，用
 - 自定义连接尝试次数
 
 ## 安装
+
+
 ### 下载预构建
-```bash
-git clone https://github.com/OpenSiFli/sftool/releases
-```
+#### 可以在GitHub release中下载最新的预构建sftool，我们的命名标准为sftool-v{version}-{target}.zip/tar.xz，请选择适合您系统架构的压缩包下载
+URL: https://github.com/OpenSiFli/sftool/releases
+
+
+
+
+
 ### 使用 Cargo 安装
 
 ```bash
