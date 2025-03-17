@@ -1,16 +1,14 @@
-# SFTool
+# sftool
 
 一个用于SiFli SoC串行工具的命令行实用程序。
 
-[English](README_EN.md) | 中文
-
 ## 简介
 
-SFTool是一个专为SiFli系列SoC（系统芯片）设计的开源工具，用于通过串行接口与芯片进行交互。它支持多种操作，包括向闪存写入数据、重置芯片等功能。
+sftool是一个专为SiFli系列SoC（系统芯片）设计的开源工具，用于通过串行接口与芯片进行交互。它支持多种操作，包括向闪存写入数据、重置芯片等功能。
 
 ## 特性
 
-- 支持SF32LB52芯片
+- 支持SF32系列芯片
 - 支持多种存储类型：NOR闪存、NAND闪存和SD卡
 - 可配置的串口参数
 - 可靠的闪存写入功能，支持验证和压缩
@@ -18,7 +16,10 @@ SFTool是一个专为SiFli系列SoC（系统芯片）设计的开源工具，用
 - 自定义连接尝试次数
 
 ## 安装
-
+### 下载预构建
+```bash
+git clone https://github.com/OpenSiFli/sftool/releases
+```
 ### 使用 Cargo 安装
 
 ```bash
@@ -102,7 +103,7 @@ sftool -c SF32LB52 -p /dev/ttyUSB0 write_flash bootloader.bin@0x1000 app.bin@0x1
 
 ## 库使用
 
-SFTool也提供了一个可重用的Rust库 `sftool-lib`，可以集成到其他Rust项目中：
+sftool也提供了一个可重用的Rust库 `sftool-lib`，可以集成到其他Rust项目中：
 
 ```rust
 use sftool_lib::{SifliTool, SifliToolBase, WriteFlashParams};
@@ -132,10 +133,6 @@ fn main() {
 ## 贡献
 
 欢迎提交问题和Pull Request！
-
-## 许可证
-
-本项目采用Apache-2.0许可证授权 - 详情请查看[LICENSE](LICENSE)文件。
 
 ## 项目链接
 
