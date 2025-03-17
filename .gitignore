@@ -6,3 +6,5 @@ project/
 #build文件夹
 build/
 wiki/
+# Virtual environment
+.venv/
