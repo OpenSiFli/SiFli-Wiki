@@ -90,13 +90,8 @@ html_theme_options = {
         "github_url": "https://github.com/OpenSiFli",
         "nav_links": [
         {
-            "title": "用户指南",
+            "title": "入门指南",
             "url": "docs/index",
-        },
-        {
-            "title": "示例",
-            "url": "https://docs.sifli.com/projects/sdk/v2.3/sf32lb52x/example/hal/index.html",
-            "external": True,
         },
         {
             "title": "API文档",
