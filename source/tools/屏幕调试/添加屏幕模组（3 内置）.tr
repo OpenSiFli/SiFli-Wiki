@@ -1,0 +1,37 @@
+str_cn:屏幕模组的menuconfig选项是集合了屏驱IC、背光IC、触控IC的一个综合菜单选项,str_en:The menuconfig option for the screen module is a comprehensive menu option that combines the screen driver IC, backlight IC, and touch control IC
+str_cn:它指定了这个模组使用了哪个屏幕IC, 哪个触控IC, 使用什么类型的背光，同时指定了模组的液晶玻璃的分辨率、DPI、外形等信息,str_en:It specifies which screen IC this module uses, which touch control IC, what type of backlight is used, and also specifies the resolution, DPI, shape and other information of the liquid crystal glass of the module
+str_cn:添加后就可以在工程里面使用这个新的menuconfig菜单选项,str_en:After adding, you can use this new menuconfig menu option in the project
+str_cn:总共分为以下几个步骤,str_en:Divided into the following steps in total
+str_cn:打开Kconfig_lcd文件,str_en:Open the Kconfig_lcd file
+str_cn:添加屏幕模组选项,str_en:Add screen module options
+str_cn:配置屏幕模组液晶的分辨率、DPI,str_en:Configure the resolution and DPI of the screen module LCD
+str_cn:打开SDK\customer\peripherals\Kconfig文件里面有很多类似LCD_USING_XXX的config，在后面添加新的config,str_en:Open the SDK\customer\peripherals\Kconfig file which contains many configs like LCD_USING_XXX, and add a new config at the end
+str_cn:注意: 如果已经有同名的屏驱IC，则意味着只需修改现有驱动的初始代码,str_en:Note: If there is already a screen drive IC with the same name, it means that you only need to modify the initialization code of the existing driver
+str_cn:打开SDK\customer\peripherals\Kconfig文件里面找到其他背光的定义处,str_en:Open the SDK\customer\peripherals\Kconfig file and find the definition of other backlights
+str_cn:在后面添加新的config,str_en:Add a new config afterward
+str_cn:在Kconfig文件中增加驱动IC的宏定义,str_en:Add macro definitions for the driver IC in the Kconfig file
+str_cn:新的屏幕模组的宏一般形式是`LCD_USING_AAA_BBB_CCC`形式,str_en:The general form of the macro for the new screen module is `LCD_USING_AAA_BBB_CCC`
+str_cn:AAA是模组的生产厂家，BBB是模组的型号，CCC是模组的编号出厂日期等,str_en:AAA is the manufacturer of the module, BBB is the model of the module, CCC is the number and manufacture date of the module, etc.
+str_cn:屏幕模组的名称，尽量写上尺寸，接口类型，模组厂家，模组编号，分辨率等信息,str_en:The name of the screen module should include size, interface type, module manufacturer, module number, resolution and other information as much as possible
+str_cn:指定该屏幕使用什么接口类型，支持以下选项,str_en:Specifies what interface type the screen uses, supports the following options
+str_cn:可选项，根据当前开发板是否支持该类型的接口，来决定是否显示该menuconfig选项,str_en:Optional, depending on whether the current development board supports this type of interface, to decide whether to display the menuconfig option
+str_cn:可选项，背光驱动仅针对配有背光的屏幕模组，如AMOLED屏幕不需要背光，则可以不设置,str_en:Optional, backlight drive only applies to screen modules with backlight. If AMOLED screens do not need backlight, it can be unset
+str_cn:分辨率在模组手册里面比较容易找到,str_en:The resolution is relatively easy to find in the module manual
+str_cn:DPI（Dot Per Inch, 有的叫PPI - Pixel Per Inch)的值可能需要自己根据屏幕的物理大小和分辨率计算一下,str_en:The value of DPI (Dot Per Inch, sometimes called PPI - Pixel Per Inch) may need to be calculated based on the physical size and resolution of the screen
+str_cn:但是这个值不会影响点亮屏幕, 一般在UI层才会用到这个值,str_en:But this value will not affect the lighting of the screen, usually this value will be used at the UI layer
+str_cn:换行,str_en:Line break
+str_cn:忽略非中文内容,str_en:Ignore non-Chinese content
+str_cn:处理完以后,str_en:After processing
+str_cn:提取词语,str_en:Extract words
+str_cn:合并重复内容,str_en:Merge duplicate content
+str_cn:翻译成英文,str_en:Translate into English
+str_cn:输出格式,str_en:Output format
+str_cn:结果中不能包含任何其他内容,str_en:The result cannot contain any other content
+str_cn:不同翻译对用分号分隔，并且必须换行,str_en:Different translation pairs are separated by semicolons and must be newline
+str_cn:每个翻译对必须严格按格式,str_en:Each translation pair must strictly follow the format
+str_cn:首先你要忽略链接和图片等内容,str_en:First you have to ignore links and images, etc.
+str_cn:提取所有中文句子,str_en:Extract all Chinese sentences
+str_cn:优先按句子进行提取,str_en:Prioritize extraction by sentence
+str_cn:处理完以后再对非句子的词语进行处理,str_en:After processing, deal with non-sentence words
+str_cn:文本格式为markdown,str_en:The text format is markdown
+str_cn:忽略```{toctree}```中的内容,str_en:Ignore the contents in ```{toctree}```

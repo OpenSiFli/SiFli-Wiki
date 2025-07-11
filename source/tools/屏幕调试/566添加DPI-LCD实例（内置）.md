@@ -1,4 +1,4 @@
-# 566添加DPI-LCD实例
+# 566添加DPI-LCD实例（内置）
 ## 1 确认rt-driver工程正常运行
 调屏推荐采用rt-driver工程，调试前确认rt-driver工程能正常运行并有Log打印
 ### 1.1 编译

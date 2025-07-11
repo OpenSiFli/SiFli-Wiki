@@ -1,3 +1,11 @@
+str_cn:外置屏驱显示框架介绍,str_en:Introduction to the External Screen Drive Display Frame
+str_cn:主要用于SDK 2.4版本以后的仓库，主要把屏驱放置SDK外部运行，主要的框架如下,此处以sf32lb52-lcd_n16r8板子，屏幕模组nv3051f屏驱为例,str_en:This is mainly used for repositories after SDK 2.4 version. The screen driver is placed outside the SDK for operation. The main framework is as follows. Here, taking the sf32lb52-lcd_n16r8 board with the screen module nv3051f and screen driver as an example.
+str_cn:屏驱的实现,str_en:The implementation of screen shielding
+str_cn:编译链接文件,str_en:Compile the link file
+str_cn:屏幕模组的menuconfig菜单定义和屏驱IC、触控IC、背光IC的宏定义处,str_en:The menuconfig menu definitions for the screen module and the macro definitions for the screen driver IC, touch IC, and backlight IC
+str_cn:屏幕调试工程, 调用“lcd”和“touch"设备,str_en:Screen debugging project, calling "lcd" and "touch" devices
+str_cn:编译链接文件,str_en:Compile and link the file.
+str_cn:下面有详细介绍,str_en:Below is a detailed introduction.
 str_cn:思澈的显示框架是基于rt_device框架的，具有如下特点,str_en:SiChu's display framework is based on the rt_device framework and has the following characteristics
 str_cn:同一个屏幕驱动、TP驱动、背光驱动可以在不同的开发板之间复用,str_en:The same screen driver, TP driver, and backlight driver can be reused among different development boards
 str_cn:同一个开发板可以通过menuconfig选择不同的屏幕模组,str_en:The same development board can choose different screen modules through menuconfig
@@ -6,28 +14,6 @@ str_cn:这样设计确实提高了复用度，但也给屏幕模组驱动配置�
 str_cn:屏幕模组的上下电、复位接口、pinmux的设置、背光用到的pwm等程序都与开发板的相关联,str_en:The power on/off, reset interface, pinmux settings, and PWM used for backlight of the screen module are all associated with the development board
 str_cn:屏幕驱动、TP驱动、背光驱动的编写需要基于上面提供的这些宏定义、IO接口来实现,str_en:The writing of the screen driver, TP driver, and backlight driver needs to be implemented based on the provided macro definitions and IO interfaces above
 str_cn:最终将实现的屏幕驱动、TP驱动、背光驱动汇集成一个menuconfig菜单，供开发板选择,str_en:Ultimately, the implemented screen driver, TP driver, and backlight driver are aggregated into a menuconfig menu for the development board to choose from
-str_cn:此处以eh-lb525板子，屏幕模组（nv3051f屏驱+gt911触控驱动）， aw9364背光驱动芯片 为例,str_en:Here is an example with the eh-lb525 board, screen module (nv3051f screen drive + gt911 touch control drive), and aw9364 backlight drive chip
-str_cn:屏幕和TP上下电、复位接口实现、通信接口的pinmux配置等,str_en:Implementation of power on/off and reset interfaces for the screen and TP, pinmux configuration for communication interfaces, etc.
-str_cn:屏幕和TP上下电、复位管脚的定义、pwm背光引脚的定义,str_en:Definition of power on/off and reset pins for the screen and TP, definition of PWM backlight pins
-str_cn:屏幕模组的menuconfig菜单定义（汇集屏驱、TP驱动、背光类型、以及屏幕模组分辨率的宏定义）,str_en:Menuconfig menu definition for the screen module (gathering macro definitions for screen drive, TP drive, backlight type, and screen module resolution)
-str_cn:nv3051f1屏幕驱动的目录,str_en:Directory for the nv3051f1 screen driver
-str_cn:屏驱的实现,str_en:Implementation of the screen driver
-str_cn:编译链接文件,str_en:Compilation link file
-str_cn:gt911触控驱动的目录,str_en:Directory for the gt911 touch driver
-str_cn:触控驱动的c文件,str_en:C file for the touch driver
-str_cn:触控驱动的头文件,str_en:Header file for the touch driver
-str_cn:aw9364背光驱动芯片，背光设备“lcdlight”,str_en:Aw9364 backlight driver chip, backlight device "lcdlight"
-str_cn:背光驱动芯片的c文件,str_en:C file for the backlight driver chip
-str_cn:背光驱动芯片的头文件,str_en:Header file for the backlight driver chip
-str_cn:屏驱IC、触控IC、背光IC的宏定义处,str_en:Location of macro definitions for screen IC, touch IC, and backlight IC
-str_cn:TP驱动管理层，对应用层提供“touch”设备,str_en:TP driver management layer, providing the "touch" device to the application layer
-str_cn:LCD驱动的管理层，对应用层提供“lcd”设备,str_en:LCD driver management layer, providing the "lcd" device to the application layer
-str_cn:屏幕调试工程, 调用“lcd”和“touch"设备,str_en:Screen debugging project, calling the "lcd" and "touch" devices
-str_cn:驱动层(drv_lcd.c) --- 实现了名为“lcd”的rt_device，供上层操作屏幕,str_en:Driver layer (drv_lcd.c) - implements an rt_device named "lcd" for upper-layer screen operations
-str_cn:中间绿色部分具体的驱动代码（为客户添加屏幕驱动的主要代码）,str_en:The middle green part is the specific driver code (the main code for customers to add screen drivers)
-str_cn:板级IO接口文件(bsp_lcd_tp.c, 或 drv_io.c) --- 为屏幕驱动提供统一的上电、下电、复位的接口,str_en:Board-level IO interface files (bsp_lcd_tp.c or drv_io.c) - provide a unified interface for powering on, powering off, and resetting the screen driver
-str_cn:背光设备”lcdlight" --- 为屏幕驱动提供统一的背光控制接口,str_en:Backlight device "lcdlight" - provides a unified backlight control interface for the screen driver
-str_cn:HAL层（bf0_hal_lcdc.c） --- 为屏幕驱动提供基本统一的参数配置、LCD寄存器读写等接口,str_en:HAL layer (bf0_hal_lcdc.c) - provides a basically unified parameter configuration, LCD register read/write, etc., interface for the screen driver
 str_cn:思澈的屏驱框架支持同时注册多个屏驱到系统，通过宏`LCD_DRIVER_EXPORT2`生成一个特殊段名的变量，链接到一起,str_en:SiChu's screen driver framework supports registering multiple screen drivers to the system simultaneously, generating a specially named variable via the `LCD_DRIVER_EXPORT2` macro, linked together
 str_cn:在nv3051f1.c中通过LCD_DRIVER_EXPORT2将屏驱的回调函数注册到系统，每个函数的详细解析请参考屏驱回调函数,str_en:In nv3051f1.c, the callback functions of the screen driver are registered to the system via LCD_DRIVER_EXPORT2. For detailed analysis of each function, please refer to the screen driver callback functions
 str_cn:【必选】，屏驱初始函数(包括复位，初始化程序等),str_en:[Mandatory], screen driver initialization function (including reset, initialization program, etc.)
