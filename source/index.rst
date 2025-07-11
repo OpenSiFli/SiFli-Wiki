@@ -47,7 +47,8 @@
     :caption: 软件开发
     :hidden:
 
-    SDK文档  <https://docs.sifli.com/projects/sdk/latest/sf32lb52x/index.html>
+    SDK 编程指南  <https://docs.sifli.com/projects/sdk/latest/sf32lb52x/index.html>
+    API 文档 <https://docs.sifli.com/projects/sdk/latest/sf32lb52x/api/index.html>
     faq/index
     appnote/index
 
