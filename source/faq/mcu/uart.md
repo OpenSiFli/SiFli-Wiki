@@ -40,3 +40,44 @@ static void gpio_wakeup_handler(void *args)
  rt_device_open(g_bt_uart, RT_DEVICE_FLAG_INT_RX);
 改成
  rt_device_open(g_bt_uart, RT_DEVICE_FLAG_DMA_RX);
+
+ ## 13.3 UART不用rt_kprintf怎么打印Log
+
+1. rt_kprintf<br>
+```c
+rt_kprintf("app_cache_alloc: size %d failed!\n", size);
+```
+rt_kprintf打印不受其他开关影响,会一直有打印,适合短期调试,后续可以删掉,此类log不能太多,会影响系统速度<br>
+2. Ulog打印<br>
+Ulog的打印,是可以分级别输出的,当级别DBG_LEVEL调整到DBG_ERROR后,比它级别低的`DBG_WARNING,DBG_INFO,DBG_LOG`都不会再输出
+```c
+#define DBG_LEVEL          DBG_ERROR  // DBG_LOG //
+#define LOG_TAG              "drv.it7259e"
+#include <drv_log.h>
+void init(void)
+{
+    LOG_D("it7259e touch_init\n");
+}
+
+```
+3. 操作UART寄存器打印<br>
+在有些情形下,比如`bootloader`或RTT操作系统还没起来的情况下,需要Log调试,可以采用下面方法,使用的前提是hwp_usart1已经初始化过,uart初始化方法可以参考例程`example\uart\src`
+```c
+char *boot_tag = "0x";
+void boot_uart_tx(USART_TypeDef *uart, uint8_t *data, int len)
+{
+    int i;
+
+    for (i = 0; i < len; i++)
+    {
+        while ((uart->ISR & UART_FLAG_TXE) == 0);
+        uart->TDR = (uint32_t)data[i];
+    }
+}
+void main()
+{
+    boot_tag = "tag0\n";
+    boot_uart_tx(hwp_usart1, (uint8_t *)boot_tag, strlen(boot_tag));
+}
+```
+

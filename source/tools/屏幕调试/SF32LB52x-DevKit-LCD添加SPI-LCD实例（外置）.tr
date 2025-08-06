@@ -1,0 +1,69 @@
+str_cn:SF32LB52x-DevKit-LCD添加SPI-LCD实例,str_en:SF32LB52x-DevKit-LCD adds SPI-LCD instance
+str_cn:确认rt-driver工程正常运行,str_en: Confirm that the rt-driver project is operating normally.
+str_cn:调屏推荐采用rt-driver工程，调试前确认rt-driver工程能正常运行并有Log打印,str_en:It is recommended to use the rt-driver project for screen adjustment, and confirm that the rt-driver project can run normally and has Log printing before debugging
+str_cn:进入`example\rt_driver\project`目录，右键选择`ComEmu_Here`弹出编译命令串口，依次执行,str_en:Enter the `example\rt_driver\project` directory, right-click on `ComEmu_Here` and select "Open Serial Port Compilation Command", and then execute it step by step.
+str_cn:编译,str_en:Compilation
+str_cn:设置编译环境路径,str_en:Set compilation environment path
+str_cn:指定sf32lb52-lcd_n16r8模块编译rt-driver工程,str_en:Specify sf32lb52-lcd_n16r8 module to compile rt-driver project
+str_cn:进入BOOT模式,str_en:Enter BOOT mode
+str_cn:确认`sf32lb52-lcd_n16r8`模块板进入`boot`模式便于下载，如下图操作,str_en:Confirm that the `sf32lb52-lcd_n16r8` module board enters the `boot` mode for easy downloading. Refer to the following steps as shown in the figure.
+str_cn:下载,str_en:Download
+str_cn:选择sf32lb52-lcd_n16r8模块连接的串口号进行下载,str_en:Select the serial port number connected to the sf32lb52-lcd_n16r8 module to download
+str_cn:确认正常LOG,str_en:Confirm normal LOG
+str_cn:如下图，运行用户程序需要去掉勾选进入`BOOT`选项,确认板子跑起来后，就可以继续下一步添加新屏幕模组,str_en:As shown in the figure below, to run the user program, you need to uncheck the option to enter the `BOOT` mode，After confirming that the board is running, you can continue to the next step to add a new screen module
+str_cn:添加屏驱gc9107,str_en:Add screen driver gc9107
+str_cn:创建gc9107驱动,str_en:Create gc9107 driver
+str_cn:创建一个新的屏驱文件夹和,str_en:Create a new screen driver folder and
+str_cn:复制`SDK\example\rt_driver`，并修改名称，以屏驱名称命名`multi_screen`放在SDK外部。并在`project`中创建新的`Konfig.proj`并添加内容如下,str_en:Copy `SDK\example\rt_driver`, and change the name to `multi_screen`, which is named after the screen driver. Place it outside the SDK. Then, create a new `Konfig.proj` in the `project` and add the following content:
+str_cn:SDK内屏驱位置,str_en:The position of the internal screen driver in the SDK
+str_cn:SDK内屏驱动位于`sdk\customer\peripherals`目录,str_en:The SDK internal screen driver is located in the `sdk\customer\peripherals` directory.
+str_cn:复制驱动,str_en:Copy driver
+str_cn:复制一份其他`spi`接口的驱动放在新创建的屏驱文件夹中并更名为`qspi_gc9107,str_en:Copy a copy of the other `qspi` interface driver and place it in the newly created screen driver folder, renaming it as `qspi_gc9107`
+str_cn:Menuconfig添加gc9107_Multi_screen,str_en:Add "gc9107_Multi_screen" to Menuconfig
+str_cn:修改Kconfig在menuconfig中生成该屏的选项,str_en:Modify Kconfig to generate options for this screen in menuconfig
+str_cn:文本编辑器打开`project\Kconfig.proj`，添加qspi的该屏的选项和分辨率，如下,str_en:The text editor opens `project\Kconfig.proj`, and adds the options and resolution for this screen of the QSPI as follows
+str_cn:menuconfig 生成菜单呈现的选项,str_en:The menuconfig generates the options presented in the menu.
+str_cn:menuconfig中显示的字符,str_en:The characters displayed in menuconfig
+str_cn:spi_gc9107文件夹内文件是否的编译依赖于此宏,str_en:Whether the files in the "spi_gc9107" folder are compiled depends on this macro
+str_cn:选择SPI接口,str_en:Select the SPI interface
+str_cn:LCD_HOR_RES_MAX 为屏的水平分辨率,str_en:LCD_HOR_RES_MAX is the horizontal resolution of the screen
+str_cn:LCD_VER_RES_MAX 为屏的垂直分辨率,str_en:LCD_VER_RES_MAX is the vertical resolution of the screen
+str_cn:LCD_DPI 像素密度，为屏一英寸多少个像素点，不知道就填默认315,str_en:LCD_DPI pixel density, how many pixels per inch of the screen, fill in the default 315 if unknown
+str_cn:文本编辑器打开文件`project\Kconfig.proj`，添加如下,str_en:The text editor opens the file `project\Kconfig.proj` and adds the following
+str_cn:添加该配置，Kconfig中才能select上,str_en:Add this configuration so that it can be selected in Kconfig
+str_cn:Conscript修改,str_en:SConscript modification
+str_cn:文本编辑器打开文件`gc9107_Multi_screen\SConscript`，修改宏`LCD_USING_GC9107_MULTI_SCREEN`,这样该目录下的*.c和*.h文件就能加入编译,str_en:Open the file `gc9107_Multi_screen\SConscript` in the text editor and modify the macro `LCD_USING_GC9107_MULTI_SCREEN`. After doing this, the *.c and *.h files in this directory will be included in the compilation process.
+str_cn:Menuconfig选中gc9107_Multi_screen,str_en:Select "gc9107_Multi_screen" in Menuconfig
+str_cn:在这个路径下`(Top) →Custom LCD driver`选中刚添加的屏，示例如下，保存退出，即选中了spi_gc9107_Multi_screen目录下屏驱动参加编译,str_en:Under this path `(Top) → Custom LCD driver`, select the newly added screen. As an example, it will look like this. Save and exit, which means the screen driver has been selected for compilation under the directory `spi_gc9107_Multi_screen`
+str_cn:屏硬件连接,str_en:Screen hardware connection
+str_cn:排线连接,str_en:Ribbon connection
+str_cn:如果购买的是匹配的屏幕模组，直接排线连接到插座即可，如下图,str_en:If the purchased screen module is a compatible one, simply connect the wires directly to the socket as shown in the following picture.
+str_cn:飞线连接,str_en:Flying wire connection
+str_cn:如果新的屏幕模组，排线排列不一致，就需要自己设计排线转接板或者从插针飞线调试。,str_en:
+str_cn:转接板的设计可以参考[SF32LB52-DevKit-LCD转接板制作指南],str_en:The design of the adapter board can refer to [SF32LB52-DevKit-LCD Adapter Board Production Guide]
+str_cn:屏驱动配置,str_en:Screen driver configuration
+str_cn:默认IO配置,str_en:Default IO configuration
+str_cn:如果采用的默认IO，此处可以跳过,str_en:If the default IO is adopted, this part can be skipped.
+str_cn:IO模式设置,str_en:IO Mode Settings
+str_cn:LCD采用的是LCDC1硬件来输出波形，需配置为对应的FUNC模式,str_en:LCD uses LCDC1 hardware to output waveforms and needs to be configured to the corresponding FUNC mode
+str_cn:每个IO有哪些Funtion可以参考硬件文档,str_en:For each IO, which Funtion can refer to the hardware documentation
+str_cn:LCD和TP的RESET脚都是采用GPIO模式，则默认已经配置为GPIO模式,str_en:The RESET pins of LCD and TP are in GPIO mode, so they are configured as GPIO mode by default
+str_cn:上电LCD初始化流程,str_en:Power-on LCD initialization process
+str_cn:可以看到上电`BSP_LCD_PowerUp`在屏驱动初始化`LCD_drv.LCD_Init`之前,str_en:It can be seen that the power-on `BSP_LCD_PowerUp` is before the screen driver initialization `LCD_drv.LCD_Init`
+str_cn:所以需要在初始化LCD前，确保BSP_LCD_PowerUp中已经打开LCD供电,str_en:Therefore, it is necessary to ensure that the LCD power supply has been turned on in BSP_LCD_PowerUp before initializing the LCD
+str_cn:背光PWM配置,str_en:Backlight PWM configuration
+str_cn:pwm软件中有一个默认配置，配置在文件`customer\boards\sf32lb52-lcd_n16r8\Kconfig.board`中，此`Kconfig.board`的配置会编译后在`rtconfig.h`中生成下面3个宏,str_en:The pwm software has a default configuration, configured in the file `customer\boards\sf32lb52-lcd_n16r8\Kconfig.board`, and this configuration of `Kconfig.board` will generate the following three macros in `rtconfig.h` after compilation
+str_cn:用PWM3需要用到GPTIM2（位于Hcpu）输出，还需确认`rtconfig.h`下面宏是否生效,str_en:Using PWM3 requires the output of GPTIM2 (located at Hcpu), and it is also necessary to confirm whether the following macros in `rtconfig.h` are effective
+str_cn:软件默认PA01从`GPTIM2`的`"pwm3"`设备输出PWM波形，默认配置在,str_en:The software defaults PA01 to output PWM waveform from the `"pwm3"` device of `GPTIM2`, with the default configuration at
+str_cn:通过函数`HAL_PIN_Set`配置后，GPTIM2_CH4跟PA01的对应关系就会建立起来，具体体现在寄存器配置`hwp_hpsys_cfg->GPTIM2_PINR`中,str_en:After configuring through the function `HAL_PIN_Set`, the correspondence between GPTIM2_CH4 and PA01 will be established, specifically reflected in the register configuration `hwp_hpsys_cfg->GPTIM2_PINR`
+str_cn:可以看到可以配置为CH1-CH4输出，而且必须是PA00-PA44口,str_en:It can be seen that it can be configured as CH1-CH4 output, and must be PA00-PA44 port
+str_cn:下面几个延时比较关键，需要参照屏驱IC相关文档的初始化时序，谨慎修改,str_en:The following delays are critical and need to refer to the initialization timing of the screen drive IC related documents, modify with caution
+str_cn:每个屏驱IC的初始化寄存器配置差异较大，需要按照屏厂提供的寄存器参数，按照他们的SPI时序依次通过QSPI写入屏驱IC,特别注意0x11和0x29寄存器后的延时长度要求,str_en:The initialization register configuration of each screen drive IC varies greatly. It is necessary to follow the register parameters provided by the screen factory, write to the screen drive IC through QSPI according to their SPI timing, and pay special attention to the delay length requirements after registers 0x11 and 0x29
+str_cn:选择LCDC_INTF_SPI_DCX_4DATA表示QSPI 4线模式,str_en:Select LCDC_INTF_SPI_DCX_4DATA to indicate QSPI 4-wire mode
+str_cn:选择36000000，表示QSPI的clk主频为36Mhz，这个时钟要依据屏驱IC支持的最高时钟来选择，越高每帧送数时间越短，帧率会越高,str_en:Select 36000000, indicating that the clk main frequency of QSPI is 36Mhz. This clock should be selected based on the highest clock supported by the screen drive IC. The higher the clock, the shorter the time to send data per frame, and the higher the frame rate
+str_cn:选择RGB565 还是RGB888格式,str_en:Choose between RGB565 or RGB888 format
+str_cn:选择是否启用TE防撕裂功能，如果启动TE，屏驱IC无TE信号，不会送屏，会出现Timeout死机，前期调试建议关闭TE,str_en:Choose whether to enable TE anti-tearing function. If TE is enabled and the screen drive IC has no TE signal, the screen will not be sent, and a Timeout crash will occur. It is recommended to disable TE during early debugging
+str_cn:选择TE的极性,str_en:Choose the polarity of TE
+str_cn:选择TE波形到来后多久LCDC1开始送数给屏驱IC,str_en:Choose how long after the TE waveform arrives, LCDC1 starts sending data to the screen drive IC
+str_cn:选择QSPI读Chipid时，屏驱IC的数据是从D0-D3的哪条信号线输出,str_en:When reading Chipid via QSPI, choose which signal line among D0-D3 the data from the screen drive IC is output from
+str_cn:如下图,如果显示正常会依次6种图像，3秒定时循环显示,str_en:As shown in the figure below, if the display is normal, there will be 6 kinds of images displayed in a 3-second timed loop

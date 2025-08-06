@@ -7,3 +7,4 @@ pillow==11.1.0
 sphinx_sitemap== 2.6.0
 openai==1.81.0
 tqdm==4.67.1
+sphinx-autobuild==2024.10.3

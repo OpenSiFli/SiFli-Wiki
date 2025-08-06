@@ -63,6 +63,26 @@ rt_device_control(lcd_device, RTGRAPHIC_CTRL_SET_BRIGHTNESS, &brightness); //设
 | 2 | LCD_DisplayOn(hlcdc) | nv3051f1.c | 打开液晶屏幕 |
 
 
+### 组合刷屏操作
+组合刷新函数包括了：设置屏幕数据接收区域&推送Framebuffer到屏幕
+应用层调用函数：
+```c
+lcd_flush_info_t flush_info = {
+    .cmpr_rate = 0,
+    .color_format = RTGRAPHIC_PIXEL_FORMAT_RGB565,
+    .pixel = framebuffer,
+    .window = {100,100,200,200}，
+    .pixel_area = {0,0,240,240},
+};
+err = rt_device_control(p_lcd_dev, SF_GRAPHIC_CTRL_LCDC_FLUSH, &flush_info);
+```
+
+| 顺序 |  驱动层调用函数 | 函数在文件路径 | 描述 |
+| ----------- | ----------- | ----------- | ----------- |
+| 1 | 自动设置framebuffer的压缩率和颜色格式 | drv_lcd.c | 驱动框架自动完成 |
+| 2 | LCD_SetRegion(hlcdc, Xpos0, Ypos0, Xpos1, Ypos1) | nv3051f1.c | 设置屏幕接收区域 |
+| 3 | LCD_WriteMultiplePixels(hlcdc, const uint8_t *RGBCode, Xpos0, Ypos0, Xpos1, Ypos1) | nv3051f1.c | 推送Framebuffer到屏幕 |
+
 
 <br>
 <br>

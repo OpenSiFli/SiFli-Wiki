@@ -1,13 +1,6 @@
 str_cn:添加新的TP驱动,str_en:Add a new TP driver
-str_cn:添加新的TP驱动主要分为：,str_en:Adding a new TP driver mainly includes:
-str_cn:在Kconfig文件中增加驱动IC的宏定义,str_en:Add macro definitions for the driver IC in the Kconfig file
-str_cn:复制类似的驱动代码并加入编译,str_en:Copy similar driver code and add it to the compilation
+str_cn:添加新的TP驱动主要分为：,str_en:Adding a new TP driver mainly includes:s
 str_cn:修改复制的TP驱动文件,str_en:Modify the copied TP driver file
-str_cn:打开SDK\customer\peripherals\Kconfig文件里面有很多类似TSC_USING_XXX的config，在后面添加新的config：,str_en:Open the SDK\customer\peripherals\Kconfig file which contains many configs like TSC_USING_XXX, and append a new config:
-str_cn:在SDK\customer\peripherals目录下找一个类似且已适配过的TP驱动,str_en:Find a similar and already adapted TP driver in the SDK\customer\peripherals directory
-str_cn:将整个目录copy一份，并将其目录名称改成"gt911",str_en:Copy the entire directory and rename it to "gt911"
-str_cn:里面的屏驱.c/.h文件也改成gt911.c/.h, 并修改里面的内容。,str_en:Change the screen drive .c/.h files inside to gt911.c/.h and modify their contents.
-str_cn:里面的SConscript文件中的depend宏改为前面添加的‘TSC_USING_GT911’，让新加的文件加入编译,str_en:Change the depend macro in the SConscript file to the previously added 'TSC_USING_GT911' so that the newly added files are included in the compilation
 str_cn:修改注册的信号量名称,str_en:Modify the registered semaphore name
 str_cn:修改这个信号量名称为gt911,str_en:Change this semaphore name to gt911
 str_cn:修改probe函数里面的通信接口,str_en:Modify the communication interface in the probe function

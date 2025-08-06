@@ -1,32 +1,4 @@
-# 添加新的TP驱动
-
-
-添加新的TP驱动主要分为：  
-1. [在Kconfig文件中增加驱动IC的宏定义](add_tp_ic_macro)
-1. [复制类似的驱动代码并加入编译](add_tp_ic_c_files)
-1. [修改复制的TP驱动文件](modify_tp_c_file)
-
-
-
-
-(add_tp_ic_macro)=
-## 在Kconfig文件中增加驱动IC的宏定义
-打开SDK\customer\peripherals\Kconfig文件里面有很多类似TSC_USING_XXX的config，在后面添加新的config：
-```
-config TSC_USING_GT911
-    bool
-    default n
-```
-
-(add_tp_ic_c_files)=
-## 复制类似的驱动代码并加入编译
-- 在SDK\customer\peripherals目录下找一个类似且已[适配过的TP驱动](../../adaptors/LCD屏模组.md)，
-- 将整个目录copy一份，并将其目录名称改成"gt911"
-- 里面的屏驱.c/.h文件也改成gt911.c/.h, 并[修改里面的内容](update-tp-param)。
-- 里面的SConscript文件中的depend宏改为前面添加的‘TSC_USING_GT911’，让新加的文件加入编译
-
-
-
+# 修改屏幕TP驱动
 
 
 (modify_tp_c_file)=

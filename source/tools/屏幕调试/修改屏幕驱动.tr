@@ -1,13 +1,5 @@
 str_cn:添加新的屏幕驱动主要分为,str_en:Adding a new screen driver is mainly divided into
-str_cn:在Kconfig文件中增加驱动IC的宏定义,str_en:Add macro definitions for the driver IC in the Kconfig file
-str_cn:复制类似的驱动代码并加入编译,str_en:Copy similar driver code and add it to the compilation
 str_cn:修改复制的屏幕驱动文件,str_en:Modify the copied screen driver file
-str_cn:打开SDK\customer\peripherals\Kconfig文件里面有很多类似LCD_USING_XXX的config，在后面添加新的config,str_en:Open the SDK\customer\peripherals\Kconfig file which contains many configs like LCD_USING_XXX, and add a new config at the end
-str_cn:注意: 如果已经有同名的屏驱IC，则意味着只需修改现有驱动的初始代码,str_en:Note: If there is already a screen drive IC with the same name, it means that you only need to modify the initialization code of the existing driver
-str_cn:在SDK\customer\peripherals目录下找一个类似且已适配过的屏驱,str_en:Find a similar and already adapted screen driver in the SDK\customer\peripherals directory
-str_cn:将整个目录copy一份，并将其目录名称改成"nv3051f1",str_en:Copy the entire directory and rename it to "nv3051f1"
-str_cn:里面的屏驱.c文件也改成nv3051f1.c, 并修改里面的内容,str_en:Change the screen driver .c file inside to nv3051f1.c and modify its contents
-str_cn:里面的SConscript文件中的depend宏改为前面添加的‘LCD_USING_NV3051F1’，让新加的文件加入编译,str_en:Change the depend macro in the SConscript file inside to 'LCD_USING_NV3051F1' added before, so that the newly added file will be compiled
 str_cn:配置屏幕参数,str_en:Configure screen parameters
 str_cn:根据接口不同，每一种屏幕需要配置的参数会有所区别，如下几种屏幕接口均有各自对应的参数进行配置,str_en:Depending on the interface, the parameters required for each type of screen will vary. The following several screen interfaces each have corresponding parameters for configuration
 str_cn:修改屏驱回调函数,str_en:Modify the screen driver callback functions

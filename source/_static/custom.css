@@ -5,3 +5,101 @@ html[data-accent-color='blue'] {
 html.light {
     --sy-c-link:var(--accent-9)
 }
+
+.hardware-docs .sd-card {
+    border-left: 4px solid #28a745;
+    background: linear-gradient(135deg, #f8fff9 0%, #ffffff 100%);
+}
+
+.software-docs .sd-card {
+    border-left: 4px solid #007bff;
+    background: linear-gradient(135deg, #f0f8ff 0%, #ffffff 100%);
+}
+
+.support-container {
+    margin-top: 40px;
+}
+
+.support-container .sd-card {
+    text-align: center;
+    padding: 30px 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.support-container .sd-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* 产品系列标题样式 */
+.product-index h2 {
+    color: #2c3e50;
+    border-bottom: 3px solid var(--accent-9);
+    padding-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+
+.product-index h3 {
+    color: #34495e;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+/* 链接样式优化 */
+.sd-card ul li a {
+    text-decoration: none;
+    color: var(--accent-9);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.sd-card ul li a:hover {
+    color: #1a9bc8;
+    text-decoration: underline;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .product-search-container {
+        padding: 15px;
+    }
+    
+    .search-filters {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .product-series-container {
+        padding: 15px;
+        margin-bottom: 25px;
+    }
+    
+    .support-container .sd-card {
+        padding: 20px 15px;
+    }
+}
+
+/* 卡片内容样式 */
+.sd-card h4 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.sd-card ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.sd-card ul li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+/* 特殊标记样式 */
+.sd-card ul li strong {
+    color: #2c3e50;
+    font-weight: 600;
+}

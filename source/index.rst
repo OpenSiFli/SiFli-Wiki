@@ -39,7 +39,8 @@
     :hidden:
 
     docs/index
-    docs/docs
+    .. docs/docs
+    silicon/product-index
 
 
 
