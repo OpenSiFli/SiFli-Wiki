@@ -1,326 +1,329 @@
-# SF32LB52-DevKit-LCD开发板使用指南
+# SF32LB52-DevKit-LCD Development Board User Guide
 
 
 
 
-## 开发板概述
+## Overview of the Development Board
 
 
-SF32LB52-DevKit-LCD是一款基于SF32LB52x系列芯片模组的开发板，主要用于开发基于`SPI`/`DSPI`/`QSPI`或`MCU/8080`接口显示屏的各种应用。
+The SF32LB52-DevKit-LCD is a development board based on the SF32LB52x series chip module, primarily used for developing various applications with displays based on `SPI`/`DSPI`/`QSPI` or `MCU/8080` interfaces.
 
-开发板同时搭载模拟MIC输入，模拟音频输出，SDIO接口，USB-C接口，支持TF卡等，为开发者提供丰富的硬件接口资源，可以用于开发各种接口外设的驱动，帮助开发者简化硬件开发过程和缩短产品的上市时间。
+The development board also features an analog MIC input, analog audio output, SDIO interface, USB-C interface, and supports TF cards, providing a rich set of hardware interface resources for developers. This allows for the development of various peripheral drivers, simplifying the hardware development process and reducing the time to market for products.
 
-SF32LB52_DevKit-LCD的外形如{numref}`图 {number} <SF32LB52x_DevKit-LCD_Front_Look>`、{numref}`图 {number} <SF32LB52x_DevKit-LCD_Back_Look>`所示。
+The appearance of the SF32LB52_DevKit-LCD is shown in {numref}`Figure {number} <SF32LB52x_DevKit-LCD_Front_Look>` and {numref}`Figure {number} <SF32LB52x_DevKit-LCD_Back_Look>`.
 
 ```{figure} assets/SF32LB52x-DevKit-LCD_Front_Look.png
 
 :scale: 20%
 :name: SF32LB52x_DevKit-LCD_Front_Look
-SF32LB52x_DevKit-LCD开发板实物正面照
+Front view of the SF32LB52x_DevKit-LCD development board
 ```
 
-```{figure} assets/SF32LB52x_DevKit-LCD_Back_Look.png
+```{figure} assets/SF32LB52x-DevKit-LCD_Back_Look.png
 
 :scale: 20%
 :name: SF32LB52x_DevKit-LCD_Back_Look
-SF32LB52x_DevKit-LCD开发板实物背面照
+Back view of the SF32LB52x_DevKit-LCD development board
 ```
-### 特性列表
-该开发板具有以下特性：
-1.	模组：板载基于SF32LB52x芯片的SF32LB52x-MOD-N16R8模组，模组配置如下：
-    - 标配SF32LB525UC6芯片，内置合封配置为：
-        - 8MB OPI-PSRAM，接口频率144MHz（正式发布可能会改变）
-    - 128Mb QSPI-NOR Flash，接口频率72MHz，STR模式（正式发布可能会改变）
-    - 48MHz晶体
-    - 32.768KHz晶体
-    - 板载天线，或IPEX天线座，通过0欧电阻选择，默认为板载天线
-    - 射频匹配网络及其它阻容感器件
-2.	专用屏幕接口
-    - SPI/DSPI/QSPI，支持DDR模式QSPI，通过22pin FPC和40pin排针引出
-    - 8bit MCU/8080，通过22pin FPC和40pin排针引出
-     - 支持I2C接口的触摸屏
-3.	音频
-    - 支持模拟MIC输入
-    - 模拟音频输出，板载Class-D音频PA
-4.	USB
-    - Type C接口，支持板载USB转串口芯片，实现程序下载和软件DEBUG，可供电
-    - Type C接口，支持USB2.0 FS，可供电
-5.	SD卡
-    - 支持采用SPI接口的TF卡，板载Micro SD卡插槽
+
+### Feature List
+The development board has the following features:
+1. Module: Equipped with the SF32LB52x-MOD-N16R8 module based on the SF32LB52x chip, with the following configuration:
+    - Standard configuration: SF32LB525UC6 chip, with integrated package:
+        - 8MB OPI-PSRAM, interface frequency 144MHz (subject to change upon official release)
+    - 128Mb QSPI-NOR Flash, interface frequency 72MHz, STR mode (subject to change upon official release)
+    - 48MHz crystal
+    - 32.768KHz crystal
+    - On-board antenna or IPEX antenna connector, selected via 0Ω resistor, default is on-board antenna
+    - RF matching network and other resistive, capacitive, and inductive components
+2. Dedicated screen interface
+    - SPI/DSPI/QSPI, supports DDR mode QSPI, connected via 22-pin FPC and 40-pin header
+    - 8-bit MCU/8080, connected via 22-pin FPC and 40-pin header
+    - Supports I2C interface touch screen
+3. Audio
+    - Supports analog MIC input
+    - Analog audio output, with on-board Class-D audio PA
+4. USB
+    - Type C interface, supports on-board USB-to-serial chip for program download and software debugging, can provide power
+    - Type C interface, supports USB2.0 FS, can provide power
+5. SD Card
+    - Supports SPI interface TF card, with on-board Micro SD card slot
 
 
-### 功能框图
+### Functional Block Diagram
 
 ```{figure} assets/SF32LB52x_DevKit-LCD_Block_Diagram.png
 
 :scale: 110%
-开发板功能框图
+Functional block diagram of the development board
 ```
-### 组件介绍
 
-SF32LB52-DevKit-LCD开发板的主板是整个套件的核心，该主板集成了SF32LB52-MOD-N16R8模组，并提供QSPI和MUC8的LCD连接座
+### Component Introduction
+
+The main board of the SF32LB52-DevKit-LCD development kit is the core of the entire kit. This main board integrates the SF32LB52-MOD-N16R8 module and provides QSPI and MUC8 LCD connection sockets.
 
 ```{figure} assets/52KIT-LCD-T-Notes.png
 
 :scale: 70%
-SF32LB52-DevKit-LCD Board - 正面（点击放大）
+SF32LB52-DevKit-LCD Board - Front (Click to enlarge)
 ```
 
 ```{figure} assets/52KIT-LCD-B-Notes.png
 
 :scale: 70%
-SF32LB52-DevKit-LCD Board - 背面（点击放大）
+SF32LB52-DevKit-LCD Board - Back (Click to enlarge)
 ```
 
 
-## 应用程序开发
+## Application Development
 
-本节主要介绍硬件和软件的设置方法，以及烧录固件至开发板以及开发应用程序的说明。
+This section mainly introduces the setup methods for hardware and software, as well as the instructions for burning firmware to the development board and developing applications.
 
-### 必备硬件
+### Required Hardware
 
-- 1 x SF32LB52-DevKit-LCD（含SF32-LB52X-MOD模组）
-- 1 x LCD模组
-- 1 x USB2.0数据线（标准A型转Type-C型）
-- 1 x电脑（Windows、Linux或macOS）
+- 1 x SF32LB52-DevKit-LCD (with SF32-LB52X-MOD module)
+- 1 x LCD module
+- 1 x USB2.0 data cable (Standard A to Type-C)
+- 1 x Computer (Windows, Linux, or macOS)
 
 ```{note}
 
-1. 如果需要既通过UART调试，也要使用USB接口，需要两根USB2.0数据线；
-2. 请确保使用适当的USB数据线，部分数据线仅可用于充电，无法用于数据传输和程序烧录。
+1. If you need to debug via UART and also use the USB interface, you will need two USB2.0 data cables.
+2. Ensure that you use an appropriate USB data cable. Some cables are only suitable for charging and cannot be used for data transmission or firmware burning.
 
 ```
-### 可选硬件
 
-- 1 x扬声器
+### Optional Hardware
+
+- 1 x Speaker
 - 1 x TF Card
-- 1 x 大于450mAh锂电池
+- 1 x Lithium battery with a capacity greater than 450mAh
 
-### 硬件设置
+### Hardware Setup
 
-准备好开发板，加载第一个示例应用程序：
+Prepare the development board and load the first example application:
 
-1.	连接屏幕模组至相应的LCD连接器接口；
-2.	打开思澈的SifliTrace工具软件，选择正确的COM口；
-3.	插入USB数据线，分别连接PC与开发板的USB to UART端口；
-4.	LCD屏幕亮起，可以用手指与触摸屏进行交互。
+1. Connect the screen module to the corresponding LCD connector interface;
+2. Open the SifliTrace tool software from Sicheng, and select the correct COM port;
+3. Insert the USB data cable to connect the PC to the USB to UART port of the development board;
+4. The LCD screen will light up, and you can interact with the touch screen using your fingers.
 
-硬件设置完成，接下来可以进行软件设置。
+Once the hardware setup is complete, you can proceed to the software setup.
 
 
-### 软件设置
+### Software Setup
 
-SF32LB52-DevKit-LCD的开发板，如何快速设置开发环境，请参考软件相关文档。 
+For quick setup of the development environment for the SF32LB52-DevKit-LCD development board, please refer to the relevant software documentation.
 
-## 硬件参考
+## Hardware Reference
 
-本节提供关于开发板硬件的更多信息。
+This section provides more information about the hardware of the development board.
 
-### GPIO分配列表
+### GPIO Allocation List
 
-下表为 SF32LB52-MOD-N16R8 模组管脚的 GPIO 分配列表，用于控制开发板的特定组件或功能。
+The following table lists the GPIO allocation for the SF32LB52-MOD-N16R8 module, used to control specific components or functions of the development board.
 
-```{table} SF32LB52-MOD-N16R8 GPIO分配
+```{table} SF32LB52-MOD-N16R8 GPIO Allocation
 
 :name: SF32LB52-MOD-N16R8-GPIO-LIST
 
-|管脚|	管脚名称           	   |   功能  |
+|Pin| Pin Name | Function |
 |:--|:-----------------------|:-----------|
-|1 | GND   | 接地                     |
-|2 | PA_44 | VBUS_DET，充电器插入检测   |
-|3 | PA_43 | MCU 8080 DB7，LCD接口信号 |
-|4 | PA_42 | MCU 8080 DB6，LCD接口信号 |
-|5 | PA_23 | XTAL32K_XO，默认NC       |
-|6 | PA_22 | XTAL32K_XI，默认NC       |
-|7 | PA_41 | MCU 8080 DB5，LCD接口信号 |
-|8 | PA_40 | MCU 8080 DB4，LCD接口信号 |
-|9 | PA_39 | MCU 8080 DB3，LCD接口信号 |
+|1 | GND   | Ground                     |
+|2 | PA_44 | VBUS_DET, charger insertion detection   |
+|3 | PA_43 | MCU 8080 DB7, LCD interface signal |
+|4 | PA_42 | MCU 8080 DB6, LCD interface signal |
+|5 | PA_23 | XTAL32K_XO, default NC       |
+|6 | PA_22 | XTAL32K_XI, default NC       |
+|7 | PA_41 | MCU 8080 DB5, LCD interface signal |
+|8 | PA_40 | MCU 8080 DB4, LCD interface signal |
+|9 | PA_39 | MCU 8080 DB3, LCD interface signal |
 |10 | PA_38 | GPIO                    |
-|11 | PA_37 | MCU 8080 DB2，LCD接口信号 |
+|11 | PA_37 | MCU 8080 DB2, LCD interface signal |
 |12 | PA_36 | USB_DM                  |
 |13 | PA_35 | USB_DP                  |
-|14 | PA_34 | HOME和长按复位按键        |
-|15 | PA_33 | 触摸屏I2C_SDA            |
+|14 | PA_34 | HOME and long press reset button        |
+|15 | PA_33 | Touchscreen I2C_SDA            |
 |16 | PA_32 | RGB LED                 |
-|17 | VDD33_VOUT2/AVDD33 | SF32LB-MOD-1模组时3.3V电源输出（默认无输出，需要软件配置后才有输出），SF32LB-MOD-A/B时3.3V电源输入  |
-|18 | PA_24 | SPI1_DIO，SD卡接口信号    |
-|19 | PA_25 | SPI1_DI，SD卡接口信号     |
-|20 | PA_26 | SD卡_CD信号，LED          |
+|17 | VDD33_VOUT2/AVDD33 | 3.3V power output when SF32LB-MOD-1 module is used (default no output, requires software configuration), 3.3V power input when SF32LB-MOD-A/B is used  |
+|18 | PA_24 | SPI1_DIO, SD card interface signal    |
+|19 | PA_25 | SPI1_DI, SD card interface signal     |
+|20 | PA_26 | SD card_CD signal, LED          |
 |21 | PA_27 | UART_TXD                |
-|22 | PA_28 | SPI1_CLK，SD卡接口信号    |
-|23 | PA_29 | SPI1_CS，SD卡接口信号     |
-|24 | PA_30 | 触摸屏I2C_SCL            |
-|25 | PA_31 | 触摸屏中断INT             |
-|26 | GND | 接地                       |
-|27 | VBAT  | SF32LB-MOD-1模组时3.2~4.7V电源输入，SF32LB-MOD-A/B时3.3V电源输入     |
+|22 | PA_28 | SPI1_CLK, SD card interface signal    |
+|23 | PA_29 | SPI1_CS, SD card interface signal     |
+|24 | PA_30 | Touchscreen I2C_SCL            |
+|25 | PA_31 | Touchscreen interrupt INT             |
+|26 | GND | Ground                       |
+|27 | VBAT  | 3.2~4.7V power input when SF32LB-MOD-1 module is used, 3.3V power input when SF32LB-MOD-A/B is used     |
 |28 | PA_20 | UART_RXD                |
-|29 | PA_19 | DB_UART_TXD, 程序下载及软件调试接口 |
-|30 | PA_18 | DB_UART_RXD, 程序下载及软件调试接口 |
-|31 | PA_11 | KEY，功能按键             |
-|32 | PA_10 | AU_PA_EN，音频功放控制信号 |
-|33 | AU_DAC1P_OUT | 模拟音频输出信号    |
-|34 | AU_DAC1N_OUT | 模拟音频输出信号    |
-|35 | GND | 接地                       |
-|36 | MIC_BIAS | MIC偏置电压            |
-|37 | MIC_ADC_IN | MIC输入信号          |
-|38 | PA_09 | 触摸屏中断RST             |
-|39 | PA_08 | MCU 8080 DB1，QSPI D3，LCD接口信号 |
-|40 | PA_07 | MCU 8080 DB0，QSPI D2，LCD接口信号 |
-|41 | PA_06 | MCU 8080 DC，QSPI D1，E-Paper DC，LCD接口信号 |
-|42 | PA_05 | MCU 8080 RD，QSPI D0，E-Paper SDI，LCD接口信号 |
-|43 | PA_04 | MCU 8080 WR，QSPI CLK，E-Paper SCLK，LCD接口信号 |
-|44 | PA_03 | MCU 8080 CS，QSPI CS，E-Paper CS，LCD接口信号 |
-|45 | PA_02 | MCU 8080 TE，QSPI TE，E-Paper BUSY，LCD接口信号 |
-|46 | PA_01 | BL PWM，LCD接口信号      |
-|47 | PA_00 | RSTB，LCD接口信号        |
-|48 | GND | 接地                      |
-|49 | GND | 接地                      |
-|50 | GND | 接地                      |
-|51 | GND | 接地                      |
-|52 | GND | 接地                      |
-|53 | GND | 接地                      |
-|54 | GND | 接地                      |
-|55 | GND | 接地                      |
-|56 | GND | 接地                      |
-|57 | GND | 接地                      |
-|58 | GND | 接地                      |
-|58 | GND | 接地                      |
-|60 | GND | 接地                      |
-|61 | VBATS | 电池电压检测输入          |
-|62 | PA_21 | GPIO，只有SF32LB52-MOD-A/B上才有此信号        |
-|63 | PA_15 | MPI2_D0，SD1_CMD        |
-|64 | PA_16 | MPI2_CLK，SD1_D0        |
-|65 | PA_17 | MPI2_D3，SD1_D1         |
-|66 | PA_14 | MPI2_D2，SD1_CLK        |
-|67 | PA_13 | MPI2_D1，SD1_D3         |
-|68 | PA_12 | MPI2_CS，SD1_D2         |
+|29 | PA_19 | DB_UART_TXD, program download and software debugging interface |
+|30 | PA_18 | DB_UART_RXD, program download and software debugging interface |
+|31 | PA_11 | KEY, function button             |
+|32 | PA_10 | AU_PA_EN, audio amplifier control signal |
+|33 | AU_DAC1P_OUT | Analog audio output signal    |
+|34 | AU_DAC1N_OUT | Analog audio output signal    |
+|35 | GND | Ground                       |
+|36 | MIC_BIAS | MIC bias voltage            |
+|37 | MIC_ADC_IN | MIC input signal          |
+|38 | PA_09 | Touchscreen interrupt RST             |
+|39 | PA_08 | MCU 8080 DB1, QSPI D3, LCD interface signal |
+|40 | PA_07 | MCU 8080 DB0, QSPI D2, LCD interface signal |
+|41 | PA_06 | MCU 8080 DC, QSPI D1, E-Paper DC, LCD interface signal |
+|42 | PA_05 | MCU 8080 RD, QSPI D0, E-Paper SDI, LCD interface signal |
+|43 | PA_04 | MCU 8080 WR, QSPI CLK, E-Paper SCLK, LCD interface signal |
+|44 | PA_03 | MCU 8080 CS, QSPI CS, E-Paper CS, LCD interface signal |
+|45 | PA_02 | MCU 8080 TE, QSPI TE, E-Paper BUSY, LCD interface signal |
+|46 | PA_01 | BL PWM, LCD interface signal      |
+|47 | PA_00 | RSTB, LCD interface signal        |
+|48 | GND | Ground                      |
+|49 | GND | Ground                      |
+|50 | GND | Ground                      |
+|51 | GND | Ground                      |
+|52 | GND | Ground                      |
+|53 | GND | Ground                      |
+|54 | GND | Ground                      |
+|55 | GND | Ground                      |
+|56 | GND | Ground                      |
+|57 | GND | Ground                      |
+|58 | GND | Ground                      |
+|58 | GND | Ground                      |
+|60 | GND | Ground                      |
+|61 | VBATS | Battery voltage detection input          |
+|62 | PA_21 | GPIO, only available on SF32LB52-MOD-A/B        |
+|63 | PA_15 | MPI2_D0, SD1_CMD        |
+|64 | PA_16 | MPI2_CLK, SD1_D0        |
+|65 | PA_17 | MPI2_D3, SD1_D1         |
+|66 | PA_14 | MPI2_D2, SD1_CLK        |
+|67 | PA_13 | MPI2_D1, SD1_D3         |
+|68 | PA_12 | MPI2_CS, SD1_D2         |
 
 ```
 
 ```{important}
-1. SF32LB52-DevKit-LCD适配SF32LB-MOD-1，SF32LB-MOD-A和SF32LB-MOD-B共三种模组。
-2. 模组17管脚VDD33_VOUT2/AVDD33，SF32LB-MOD-1模组时3.3V电源输出（默认无输出，需要软件配置后才有输出），SF32LB-MOD-A/B时3.3V电源输入。
-3. 模组27管脚VBAT，SF32LB-MOD-1模组时3.2~4.7V电源输入，SF32LB-MOD-A/B时3.3V电源输入。
-4. SF32LB-MOD-1模组的VBAT电源的开机阈值设置为3.58V，关机阈值设置为3.48V。非电池类供电应用，推荐VBAT供3.8V电压。
-5. 模组62管脚PA21只有SF32LB52-MOD-A/B支持，SF32LB-MOD-1为NC。
-6. 模组62~68管脚默认为模组内部连接Nor Flash，开发板无法使用；若要使用SDIO接口，请选择无flash版本的模组。
+1. The SF32LB52-DevKit-LCD is compatible with three modules: SF32LB-MOD-1, SF32LB-MOD-A, and SF32LB-MOD-B.
+2. Pin 17 VDD33_VOUT2/AVDD33 of the module: For the SF32LB-MOD-1 module, it is a 3.3V power output (default no output, requires software configuration to enable output); for the SF32LB-MOD-A/B modules, it is a 3.3V power input.
+3. Pin 27 VBAT of the module: For the SF32LB-MOD-1 module, it is a 3.2~4.7V power input; for the SF32LB-MOD-A/B modules, it is a 3.3V power input.
+4. The power-on threshold for the VBAT power supply of the SF32LB-MOD-1 module is set to 3.58V, and the power-off threshold is set to 3.48V. For non-battery applications, it is recommended to supply 3.8V to VBAT.
+5. Pin 62 PA21 of the module is supported only by the SF32LB52-MOD-A/B modules; it is NC (Not Connected) for the SF32LB-MOD-1 module.
+6. Pins 62~68 of the module are default connected to the internal Nor Flash and cannot be used on the development board; if you need to use the SDIO interface, please choose a module without the flash.
 ```
 
-### 40P排针接口定义
+### 40P Header Pin Definition
 
 ```{figure} assets/SF32LB52x_DevKit-40p-define.png
 
 :scale: 10%
 :name: SF32LB52x_DevKit-40p-define
-开发板40p排针接口定义（点击放大）
+40p header pin definition on the development board (click to enlarge)
 ```
-### 22p QSPI线序FPC接口定义
 
+### 22p QSPI Line Order FPC Interface Definition
 
-```{table} QSPI-FPC-J0102 信号定义
+```{table} QSPI-FPC-J0102 Signal Definition
 :name: QSPI-FPC-J0102-GPIO-LIST
 
-|管脚|	管脚名称           	   |   功能  |
-|:--|:-----------------------|:-----------|
-|1  | LEDK    | LCD屏背光二极管阴极                     
-|2  | LEDA    | LCD屏背光二极管阳极    
-|3  | PA_07   | MIPI-DBI(8080) B0，QSPI D2，LCD接口信号 
-|4  | PA_08   | MIPI-DBI(8080) B1，QSPI D3，LCD接口信号 
-|5  | PA_37   | MIPI-DBI(8080) B2，LCD接口信号 
-|6  | PB_39   | MIPI-DBI(8080) B3，LCD接口信号 
-|7  | PB_40   | MIPI-DBI(8080) B4，LCD接口信号 
-|8  | PA_41   | MIPI-DBI(8080) B5，LCD接口信号  
-|9  | PA_42   | MIPI-DBI(8080) B6，LCD接口信号 
-|10 | PA_43   | MIPI-DBI(8080) B7，LCD接口信号                 
-|11 | PA_02   | MIPI-DBI(8080) TE，QSPI TE，LCD接口信号                   
-|12 | PA_00   | LCD Reset，LCD接口信号 
-|13 | PA_04   | MIPI-DBI(8080) WRx，QSPI CLK，SPI CLK，LCD接口信号 
-|14 | PB_05   | MIPI-DBI(8080) RDx，QSPI D0，SPI SDI，LCD接口信号         
-|15 | PA_03   | MIPI-DBI(8080) CSx，QSPI CS，SPI CS，LCD接口信号             
-|16 | PA_06   | MIPI-DBI(8080) DCx，QSPI D1，SPI DC，LCD接口信号 
-|17 | VDD_3V3 | 3.3V电源输出 
-|18 | PA_31   | 触摸屏INT中断信号
-|19 | PA_33   | 触摸屏I2C_SDA信号 
-|20 | PA_30   | 触摸屏I2C_SCL信号 
-|21 | PA_09   | 触摸屏RTN复位信号 
-|22 | GND     | 接地      
+| Pin | Pin Name | Function |
+|:---:|:---------|:---------|
+| 1   | LEDK     | LCD backlight diode cathode |
+| 2   | LEDA     | LCD backlight diode anode |
+| 3   | PA_07    | MIPI-DBI(8080) B0, QSPI D2, LCD interface signal |
+| 4   | PA_08    | MIPI-DBI(8080) B1, QSPI D3, LCD interface signal |
+| 5   | PA_37    | MIPI-DBI(8080) B2, LCD interface signal |
+| 6   | PB_39    | MIPI-DBI(8080) B3, LCD interface signal |
+| 7   | PB_40    | MIPI-DBI(8080) B4, LCD interface signal |
+| 8   | PA_41    | MIPI-DBI(8080) B5, LCD interface signal |
+| 9   | PA_42    | MIPI-DBI(8080) B6, LCD interface signal |
+| 10  | PA_43    | MIPI-DBI(8080) B7, LCD interface signal |
+| 11  | PA_02    | MIPI-DBI(8080) TE, QSPI TE, LCD interface signal |
+| 12  | PA_00    | LCD Reset, LCD interface signal |
+| 13  | PA_04    | MIPI-DBI(8080) WRx, QSPI CLK, SPI CLK, LCD interface signal |
+| 14  | PB_05    | MIPI-DBI(8080) RDx, QSPI D0, SPI SDI, LCD interface signal |
+| 15  | PA_03    | MIPI-DBI(8080) CSx, QSPI CS, SPI CS, LCD interface signal |
+| 16  | PA_06    | MIPI-DBI(8080) DCx, QSPI D1, SPI DC, LCD interface signal |
+| 17  | VDD_3V3  | 3.3V power output |
+| 18  | PA_31    | Touchscreen INT interrupt signal |
+| 19  | PA_33    | Touchscreen I2C_SDA signal |
+| 20  | PA_30    | Touchscreen I2C_SCL signal |
+| 21  | PA_09    | Touchscreen RTN reset signal |
+| 22  | GND      | Ground |
 
 ```
 
-### 供电说明
+### Power Supply Description
 
-SF32LB52-DevKit-LCD开发板有2种供电方式：USB Type-C和电池供电。
+The SF32LB52-DevKit-LCD development board has two power supply methods: USB Type-C and battery power.
 
-1.  板上2个USB Type-C接口都可以给板子供电，下载和调试时，请用 USB-to-UART 端口。
-2.  可以电池单独供电，便于脱离电脑独立运行。
+1. Both USB Type-C ports on the board can power the board. Use the USB-to-UART port for downloading and debugging.
+2. The board can be powered by a battery alone, which is convenient for independent operation without a computer.
 
-### 硬件设置选项
+### Hardware Configuration Options
 
-通过USB-to-UART端口连上USB线，打开思澈科技的程序下载工具，选取相应的COM口和程序。
-1.  下载模式
-- 勾选BOOT项，上电，开机后进入下载模式，就可以完成程序的下载。
-2.  软件开发模式
-- 去掉BOOT项，上电，开机后进入串口log打印模式，便进入软件调试模式。
+Connect the USB cable to the USB-to-UART port, open the Sifli Technology program download tool, and select the corresponding COM port and program.
+1. Download Mode
+- Check the BOOT item, power on, and enter the download mode after startup to complete the program download.
+2. Software Development Mode
+- Uncheck the BOOT item, power on, and enter the serial port log print mode to enter the software debugging mode.
 
-**具体请参考&emsp;[固件烧录工具 Impeller](烧录工具)**
+**For more details, please refer to the [Firmware Burn Tool Impeller](烧录工具)**
 
-### 充电及电池选型
+### Charging and Battery Selection
 
-SF32LB52-DevKit-LCD开发板集成了ETA9640P 线性充电芯片，最大支持1A充电电流，默认设置为450mA恒流电流。
+The SF32LB52-DevKit-LCD development board integrates the ETA9640P linear charging chip, which supports a maximum charging current of 1A, with a default setting of 450mA constant current.
 
-电池推荐选取450mAh~500mAh单芯聚合物锂电池，电池接口为2.0mm HDR母座，极性请参考开发板上电池座丝印。
+It is recommended to use a 450mAh~500mAh single-cell polymer lithium battery. The battery connector is a 2.0mm HDR female socket. Refer to the battery holder silk screen on the development board for polarity.
 
-### LCD显示屏接口
+### LCD Display Interface
 
-SF32LB52-DevKit-LCD开发板支持QSPI接口LCD屏，接插件为22p-0.5pitch FPC，上翻下接触。
-信号线序请参考上文定义，线序不同需要做转接板测试，请参考《SF32LB52-DevKit-LCD转接板制作指南》。
-* 已支持屏型号：[TFT-H043A28WQISTKN22_V0-3](鑫洪泰)
+The SF32LB52-DevKit-LCD development board supports QSPI interface LCD screens. The connector is a 22p-0.5pitch FPC, with the upper side for contact and the lower side for connection. Refer to the signal definitions above. If the signal order is different, a conversion board is required for testing. Please refer to the "SF32LB52-DevKit-LCD Adapter Board Manufacturing Guide."
+* Supported screen models: [TFT-H043A28WQISTKN22_V0-3](鑫洪泰)
 
-### 音频接口
+### Audio Interface
 
-SF32LB52-DevKit-LCD开发板集成MEMS MIC和音频功放芯片。
-* 支持板上mic的音频信号输入。
-* 支持外接喇叭（最大支持3W/4欧姆），喇叭接插件规格（2.0mm 间距 HDR母座）。
+The SF32LB52-DevKit-LCD development board integrates a MEMS MIC and an audio amplifier chip.
+* Supports audio signal input from the onboard mic.
+* Supports external speakers (up to 3W/4 ohms), with a connector specification of 2.0mm pitch HDR female socket.
 
-## 样品获取
+## Sample Acquisition
 
-零售样品与小批量可直接在[淘宝](https://sifli.taobao.com/)购买，批量客户可发邮件到sales@sifli.com或淘宝找客服获取销售联系方式。
-参与开源可以免费申请样品，可加入QQ群674699679进行交流。
+Retail samples and small batches can be purchased directly from [Taobao](https://sifli.taobao.com/). Bulk customers can send an email to sales@sifli.com or contact customer service on Taobao for sales information.
+Participating in open-source projects can allow you to apply for free samples. You can join QQ group 674699679 for discussions.
 
-## 相关文档
+## Related Documents
+```
 
-- [SF32LB52x芯片技术规格书](https://downloads.sifli.com/silicon/DS0052-SF32LB52x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V2p4.pdf?)
-- [SF32LB52x用户手册](https://downloads.sifli.com/silicon/UM0052-SF32LB52x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V0p3.pdf?)
-- [SF32LB52-MOD-1技术规格书](https://downloads.sifli.com/silicon/DS5203-SF32LB52-MOD-1%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p1.pdf?)
-- [SF32LB52-MOD-1设计图纸](https://downloads.sifli.com/hardware/files/documentation/SF32LB52-MOD-1-V1.0.0.zip?)
-- [SF32LB52-DevKit-LCD设计图纸](https://downloads.sifli.com/hardware/files/documentation/SF32LB52-DevKit-LCD_V1.2.0.zip?)
-- [SF32LB52-DevKit-LCD转接板制作指南](SF32LB52-DevKit-LCD-Adapter)
+- [SF32LB52x Chip Technical Specification](https://downloads.sifli.com/silicon/DS0052-SF32LB52x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V2p4.pdf?)
+- [SF32LB52x User Manual](https://downloads.sifli.com/silicon/UM0052-SF32LB52x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V0p3.pdf?)
+- [SF32LB52-MOD-1 Technical Specification](https://downloads.sifli.com/silicon/DS5203-SF32LB52-MOD-1%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p1.pdf?)
+- [SF32LB52-MOD-1 Design Drawings](https://downloads.sifli.com/hardware/files/documentation/SF32LB52-MOD-1-V1.0.0.zip?)
+- [SF32LB52-DevKit-LCD Design Drawings](https://downloads.sifli.com/hardware/files/documentation/SF32LB52-DevKit-LCD_V1.2.0.zip?)
+- [SF32LB52-DevKit-LCD Adapter Board Manufacturing Guide](SF32LB52-DevKit-LCD-Adapter)
 
 
 
-## 开发板版本信息：
+## Development Board Version Information:
 
-* V1.2.0：采用SF32LB52-MOD-1/A/B模组，即将推出SF32LB52-MOD-1(SF32LB525UC6)
+* V1.2.0: Uses the SF32LB52-MOD-1/A/B module, and the upcoming SF32LB52-MOD-1 (SF32LB525UC6)
 ```{table} 
-|序号 | V1.2.0更新内容 |
+| No. | V1.2.0 Update Content |
 |:-- |:------ |
-|1 | 修改SD卡拔插检查信号输入管脚，改用PA26，和外部Flash2 片选，GPIO LED共用一个IO。   
+| 1 | Modified the SD card insertion detection signal input pin to PA26, shared with the external Flash2 chip select and GPIO LED.   
 ```
-* V1.1.0：采用SF32LB52-MOD-A/B模组，目前实物有(-A:SF32LB52BU36和-B:SF32LB52EUB6)
+* V1.1.0: Uses the SF32LB52-MOD-A/B module, currently available (-A: SF32LB52BU36 and -B: SF32LB52EUB6)
 ```{table} 
-|序号 | V1.1.0更新内容 |
+| No. | V1.1.0 Update Content |
 |:-- |:------ |
-|1 | 更新充电芯片原理图库，解决充电芯片5V输出不对的问题。   
-|2 | 去掉MOS管VBUS和VBAT切换电路，后级电路全部由充电芯片的5V输出供电，解决VBUS和VBAT切换不正常问题。 
-|3 | 调整音频PA的放大倍数。
-|4 | 解决Reset按键异常的问题。 
-|5 | 去掉RGBLED电路里的电平转换部分，该电路不满足RGBLED的时序。
-|6 | 升级了模组的管脚定义，新增2个IO，解决-1模组和-A/B模组兼容问题。
-|7 | 更新电源部分，-A/B的AVDD改为LDO供电，解决原DCDC输出纹波大导致RF灵敏度问题。
-|8 | 增加对双flash的支持。
-|9 | 增加SD卡的插拔检查功能，只有-A/B支持该功能。
-|10 | 增加SDIO WiFi功能选项，只有-A支持该功能。
-|11 | 修改定位孔类型，天线背面PCB挖槽。
-|12 | 修改了VBUS输入的EOS保护器件接入位置点。
+| 1 | Updated the charging chip schematic library to resolve the issue of incorrect 5V output from the charging chip.   
+| 2 | Removed the MOSFET VBUS and VBAT switching circuit, and powered the downstream circuit entirely from the 5V output of the charging chip, resolving the issue of abnormal VBUS and VBAT switching. 
+| 3 | Adjusted the gain of the audio PA.
+| 4 | Resolved the issue of the Reset button malfunctioning. 
+| 5 | Removed the level shifting part of the RGBLED circuit, as it did not meet the timing requirements of the RGBLED.
+| 6 | Updated the module pin definitions, adding 2 IOs to resolve the compatibility issue between the -1 module and the -A/B modules.
+| 7 | Updated the power supply section, changing the AVDD of -A/B to LDO power supply to resolve the issue of high ripple in the original DCDC output causing RF sensitivity problems.
+| 8 | Added support for dual flash.
+| 9 | Added SD card insertion detection functionality, supported only by -A/B.
+| 10 | Added SDIO WiFi functionality option, supported only by -A.
+| 11 | Modified the type of positioning holes and the PCB slot on the back of the antenna.
+| 12 | Modified the connection point of the EOS protection device for VBUS input.
 ```
-* V1.0.0：采用SF32LB52-MOD模组，当前版本
+* V1.0.0: Uses the SF32LB52-MOD module, current version

@@ -1,10 +1,9 @@
-# SF32LB52-DevKit-ULP开发板使用指南(暂无)
+# SF32LB52-DevKit-ULP Development Board User Guide (Not Available)
 
-面向超低功耗传感器应用，面向智能穿戴
+For ultra-low power sensor applications, for smart wearables
 
-* 3轴传感器或6轴传感器
-* 预留低功耗测试点
+* 3-axis sensor or 6-axis sensor
+* Low power test points reserved
 
 
 <a href="../../_static/SF32LB52-DevKit-Nano-%E8%BE%85%E5%8A%A9%E7%84%8A%E6%8E%A5.html">SF32LB52-DevKit-ULP-PCB</a>
-

@@ -1,100 +1,97 @@
-# 入门指南
+# Getting Started Guide
 
-
-欢迎开发者使用 **Wiki 开发文档**！本指南旨在帮助软件和硬件开发者快速了解Wiki的内容结构及其使用方法，助力您的开发工作更加高效。无论您是初学者还是经验丰富的开发者，都可以在Wiki中找到适合您的学习和参考资源。
-遇到文档问题是请及时反馈，我们会及时处理。
-
+Welcome to the **Wiki Development Documentation**! This guide is designed to help software and hardware developers quickly understand the content structure and usage methods of the Wiki, making your development work more efficient. Whether you are a beginner or an experienced developer, you can find suitable learning and reference resources in the Wiki.
+If you encounter any documentation issues, please provide feedback promptly, and we will address them in a timely manner.
 
 ---
 
-## Wiki 适用人群
+## Target Audience
 
-Wiki 是一个高效的知识库，特别适合以下开发者使用：
+The Wiki is an efficient knowledge base, particularly suitable for the following developers:
 
-- **软件开发者**：提供从入门到进阶的完整开发资源。
-- **硬件开发者**：涵盖硬件设计所需的重要文档和工具。
+- **Software Developers**: Provides comprehensive development resources from beginner to advanced levels.
+- **Hardware Developers**: Covers important documents and tools required for hardware design.
 
-请根据您的需求和开发阶段，选择适合的内容进行学习和参考。
-
-
----
-
-## 内容结构与使用方法
-
-### 1. 软件开发入门
-如果您是刚开始学习软件开发的用户，建议从以下部分入手：
-
-- **推荐阅读**：
-  - SDK 编程指南
-  - FAQ 常见问题解答
-
-- **主要内容**
-  - 适合快速上手开发的用户。
-  - 提供开发环境搭建、基础功能实现的详细步骤。
-  - 涵盖常见的示例代码和开发技巧。
-  - 帮助入门者迅速掌握开发工具和基础知识。
-  
-- **使用步骤**：
-  - 在 Wiki 主目录中找到 “软件开发 > SDK 编程指南”。
-  - 按章节顺序阅读，配合开发板完成示例代码实践。 
-  - 如遇问题，可前往 “软件开发 > FAQ 常见问题解答” 查找解决方案。
+Please choose the appropriate content based on your needs and development stage for learning and reference.
 
 ---
 
-### 2. 软件开发进阶
-具备一定开发经验的用户，可以直接进入更深层次的技术内容：
+## Content Structure and Usage Methods
 
-- **推荐阅读**：
-  - API 文档
-  - 应用笔记
+### 1. Getting Started with Software Development
+If you are a user who is just starting to learn software development, it is recommended to start with the following sections:
 
-- **主要内容**：
-  - 提供全面的 API 文档，包括函数说明、参数定义和使用示例。
-  - 帮助开发者快速调用接口、实现复杂功能。
-  - 涵盖常见应用场景的最佳实践。
+- **Recommended Reading**:
+  - SDK Programming Guide
+  - FAQ: Frequently Asked Questions
 
-  **使用步骤**：
-  - 查找需要的模块或功能所在的 **“API 文档”**。
-  - 根据模块分类，定位具体API接口文档。
-  - 按需阅读相关示例代码并集成到您的项目中。
+- **Main Content**:
+  - Suitable for users who want to quickly get started with development.
+  - Provides detailed steps for setting up the development environment and implementing basic functions.
+  - Includes common example code and development tips.
+  - Helps beginners quickly master development tools and basic knowledge.
 
----
-
-### 3. 硬件开发
-硬件开发者可以利用Wiki中的硬件相关文档，更好地完成设计和开发工作：
-
-- **硬件设计指南**：
-  - 提供硬件设计的技术规范、原理图参考和PCB设计建议。
-  - 包含设计注意事项和性能优化的实用建议。
-  - 帮助开发者理解硬件与软件的协同工作方式。
-
-  **使用步骤**：
-  - 进入 **“硬件设计指南”**。
-  - 查阅设计规范，确保您的设计符合文档中的建议。
-  - 根据项目需求，下载相关文档模板或参考设计。
+- **Usage Steps**:
+  - In the main directory of the Wiki, find “Software Development > SDK Programming Guide”.
+  - Read the chapters in order and complete the example code practice with the development board.
+  - If you encounter any issues, refer to “Software Development > FAQ: Frequently Asked Questions” for solutions.
 
 ---
 
-## 使用建议
+### 2. Advanced Software Development
+Users with some development experience can directly dive into more advanced technical content:
 
-1. **关键词搜索**：
-   - 如果您不确定所需内容的位置，请使用Wiki自带的搜索功能。
-   - 输入关键词，例如功能名称、接口名称或硬件模块编号，快速定位相关内容。
+- **Recommended Reading**:
+  - API Documentation
+  - Application Notes
 
-2. **结合示例代码学习**：
-   - Wiki中包含大量示例代码，建议结合实际项目进行实践，以加深对文档内容的理解。
+- **Main Content**:
+  - Provides comprehensive API documentation, including function descriptions, parameter definitions, and usage examples.
+  - Helps developers quickly call interfaces and implement complex functions.
+  - Covers best practices for common application scenarios.
 
-3. **定期关注更新**：
-   - Wiki文档会定期更新，请留意首页的更新日志，及时获取最新开发支持信息。
-
----
-
-## 技术支持
-
-如果您在使用Wiki的过程中遇到问题，建议您：
-1. 查阅 **FAQ 部分**，这里列出了常见问题及其解决方法。
-2. 通过项目组提供的技术支持渠道，联系相关技术人员获取帮助。
+- **Usage Steps**:
+  - Find the module or function you need in the **“API Documentation”**.
+  - Locate the specific API interface documentation based on the module category.
+  - Read the relevant example code and integrate it into your project as needed.
 
 ---
 
-感谢您使用Wiki开发文档！希望它能成为您开发路上的得力助手，祝您工作顺利，项目成功！
+### 3. Hardware Development
+Hardware developers can use the hardware-related documents in the Wiki to better complete design and development work:
+
+- **Hardware Design Guide**:
+  - Provides technical specifications, reference schematics, and PCB design recommendations for hardware design.
+  - Includes practical suggestions for design considerations and performance optimization.
+  - Helps developers understand the collaboration between hardware and software.
+
+- **Usage Steps**:
+  - Enter the **“Hardware Design Guide”**.
+  - Review the design specifications to ensure your design meets the recommendations in the document.
+  - Download relevant document templates or reference designs based on your project needs.
+
+---
+
+## Usage Tips
+
+1. **Keyword Search**:
+   - If you are unsure of the location of the content you need, use the built-in search function of the Wiki.
+   - Enter keywords, such as function names, interface names, or hardware module numbers, to quickly locate the relevant content.
+
+2. **Learn with Example Code**:
+   - The Wiki includes a large number of example codes. It is recommended to practice with actual projects to deepen your understanding of the documentation content.
+
+3. **Regularly Check for Updates**:
+   - The Wiki documentation is updated regularly. Pay attention to the update log on the homepage to get the latest development support information.
+
+---
+
+## Technical Support
+
+If you encounter any issues while using the Wiki, we recommend that you:
+1. Check the **FAQ Section**, which lists common problems and their solutions.
+2. Contact the relevant technical personnel through the technical support channels provided by the project team for assistance.
+
+---
+
+Thank you for using the Wiki Development Documentation! We hope it becomes a valuable assistant in your development journey, and wish you smooth sailing and successful projects!

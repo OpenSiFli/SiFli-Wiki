@@ -1,6 +1,6 @@
-# 15 I2S相关
-## 15.1 MCLK输出频率翻倍
-1，PLL的49.152M分频比SPCLK_DIV从8变为4，MCLK从6.144M提高到12.288M<br>
+# 15 I2S Related
+## 15.1 MCLK Output Frequency Doubling
+1. Change the SPCLK_DIV division ratio of PLL's 49.152M from 8 to 4, increasing MCLK from 6.144M to 12.288M<br>
 ```c
 #ifdef DOUBLE_MCLK    
     __HAL_I2S_SET_SPCLK_DIV(hi2s, 4);   // set to 12.288M to i2s (49.152M/4=12.288M)  PLL 
@@ -8,14 +8,14 @@
     __HAL_I2S_SET_SPCLK_DIV(hi2s, 8);   // set to 6.144M to i2s   PLL
 #endif
 ```
-2，对应的bclk duty还有lrck duty都提高一倍，这样保证MCLK翻倍后，其他时钟频率保持不变
-如下，对应结构体中CLK_DIV_T的如下值都提高一倍<br>
+2. Correspondingly, double the duty cycles of bclk and lrck to ensure that after MCLK is doubled, other clock frequencies remain unchanged.  
+As shown below, the following values in the CLK_DIV_T structure are all doubled<br>
 ```c
 uint16_t  lr_clk_duty_high;   /*!<  LRCK duty cycle high   */
 uint16_t  lr_clk_duty_low;    /*!<  RX LRCK duty cycle low   */
 uint16_t  blck_duty;          /*!<  bit clock duty cycle   */
 ```
-原{48000, 64, 64,  2},修改为{48000, 128, 128,  4},其他采样率配置也一样修改<br>
+Original {48000, 64, 64,  2}, changed to {48000, 128, 128,  4}, other sample rate configurations are modified similarly<br>
 ```c
 #ifdef DOUBLE_MCLK
 static CLK_DIV_T  txrx_clk_div[9]  = {{48000, 128, 128,  4}, {44100, 128, 128,  4}, {32000, 192, 192,  6}, {24000, 256, 256, 8}, {22050, 256, 256,  8},
@@ -26,4 +26,3 @@ static CLK_DIV_T  txrx_clk_div[9]  = {{48000, 64, 64,  2}, {44100, 64, 64,  2}, 
     {16000, 192, 192, 6}, {12000, 256, 256, 8}, {11025, 256, 256, 8}, { 8000, 384, 384, 12}
 };
 ```
-

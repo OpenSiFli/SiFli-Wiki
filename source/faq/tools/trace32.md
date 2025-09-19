@@ -1,14 +1,14 @@
 # 6 Trace32
-## 6.1 Trace32下载和配置方法
-**1. 下载Trace32** <br>
-可以直接在Lauterbach公司的官网下载，如下图：<br>
-版本选择ARM版本的[simarm.zip](https://repo.lauterbach.com/download_demo.html)，免费版本在线调试和Script长度有限制，SiFli的全系列MCU目前只用到了离线调试功能；
+## 6.1 Trace32 Download and Configuration Method
+**1. Download Trace32** <br>
+You can directly download it from the Lauterbach company's official website, as shown in the following figure:<br>
+Choose the ARM version [simarm.zip](https://repo.lauterbach.com/download_demo.html). The free version has limitations on online debugging and script length. Currently, SiFli's entire series of MCUs only use the offline debugging feature;
 <br>![alt text](./assets/trace32018.png)<br>
-Lauterbach公司的离线调试工具下载地址：<br>
+Lauterbach's offline debugging tool download address:<br>
 [Simulator for ARM/CORTEX/XSCALE
-  simarm.zip](https://repo.lauterbach.com/download_demo.html) [[使用方法](#Mark_用Trace32恢复Hcpu死机现场)]<br>
-**2. 配置方法**<br>
-打开安装说明文件`SiFli-SDK\tools\crash_dump_analyser\INSTALL.md`
+  simarm.zip](https://repo.lauterbach.com/download_demo.html) [[Usage](#Mark_Using_Trace32_to_Recover_Hcpu_Crash_Scene)]<br>
+**2. Configuration Method**<br>
+Open the installation guide file `SiFli-SDK\tools\crash_dump_analyser\INSTALL.md`
 ```
 # Installation Guide
 
@@ -16,62 +16,62 @@ Lauterbach公司的离线调试工具下载地址：<br>
 - Extract all files in `simarm.zip` to `simarm` folder, `simarm` folder should be in `crash_dump_analyser` folder
 - Replace t32.cmm and t32.men in `simarm` folder with the ones in `patch` folder
 ```
-下载的压缩包解压到`SiFli-SDK\tools\crash_dump_analyser\`目录内，再把此目录的`patch`的内容复制到刚解压的`simarm`目录内，如下图：
+Extract the downloaded zip file to the `SiFli-SDK\tools\crash_dump_analyser\` directory, then copy the contents of the `patch` directory to the newly extracted `simarm` directory, as shown in the following figure:
 <br>![alt text](./assets/trace32019.png)<br>
-**3. Trace32运行方法** <br>
-该软件免安装，鼠标双击`simarm`目录内`t32marm.exe`可执行文件，就可以打开Trace32<br>
-<a name="Mark_用Trace32恢复Hcpu死机现场"></a>
-## 6.2 用Trace32恢复Hcpu死机现场
-1，参照章节[5.8 Dump内存方法](../tools/sifli.md#Mark_Dump内存方法) Dump内存方法，Dump出内存和编译生成的axf文件放在一个目录内<br>
-2，运行sdk目录下\tools\crash_dump_analyser\simarm\t32marm.exe<br>
-3，查看Hcpu死机，点击HA按钮（HCPU assertion），如果有些bin不存在（例如有的dump没有PSRAM2），可以勾掉去掉。
+**3. Running Trace32** <br>
+This software does not require installation. Double-click the `t32marm.exe` executable file in the `simarm` directory to open Trace32<br>
+<a name="Mark_Using_Trace32_to_Recover_Hcpu_Crash_Scene"></a>
+## 6.2 Using Trace32 to Recover Hcpu Crash Scene
+1. Refer to section [5.8 Dump Memory Method](../tools/sifli.md#Mark_Dump_Memory_Method) for the method to dump memory. Place the dumped memory and the compiled axf file in the same directory<br>
+2. Run `sdk\tools\crash_dump_analyser\simarm\t32marm.exe`<br>
+3. To view the Hcpu crash, click the HA button (HCPU assertion). If some bin files are missing (e.g., some dumps do not have PSRAM2), you can uncheck them.
 <br>![alt text](./assets/trace32001.png)<br>
-点击 “run_next_step”按钮加载<br>
-加载成功后显示下图的现场信息，<br>
+Click the “run_next_step” button to load<br>
+After successful loading, the scene information will be displayed as shown in the following figure,<br>
 <br>![alt text](./assets/trace32002.png)<br> 
-4，在save的内存相关bin都成功的情况下，内存和相关地址关系会建立起来，可以参考各芯片手册的Memory地址空间，如果现场没有恢复，需要查看dump的bin是否正常，查看log.txt内的PC等寄存器是否正确读出来，在特定情况下，比如psram没有准备好，可以修改对应的dump脚本，比如：sf32lb52x.jlink内的dump内容来添加或者减少需要dump的地址空间。
+4. If all memory-related bin files are successfully saved, the memory and related address relationships will be established. You can refer to the memory address space in the chip manual. If the scene is not recovered, check if the dumped bin files are normal and verify if the PC and other registers in `log.txt` are correctly read. In specific cases, such as when PSRAM is not ready, you can modify the corresponding dump script, for example, the dump content in `sf32lb52x.jlink` to add or reduce the address space to be dumped.
 <br>![alt text](./assets/trace32003.png)<br> 
-5，可以在Window菜单切换显示的窗口<br>
+5. You can switch the displayed windows via the Window menu<br>
 <br>![alt text](./assets/trace32004.png)<br> 
-heapAllocation窗口显示了系统中所有heap pool的分配情况，包括system heap以及memheap_pool：<br>
-system heap：rt_malloc和lv_mem_alloc使用的pool<br>
-各个memheap_pool: 使用rt_memheap_init创建的pool，分配和释放使用rt_memheap_alloc和rt_memheap_free<br>
-分配信息列表中的字段含义为：<br>
+The heapAllocation window displays the allocation status of all heap pools in the system, including the system heap and memheap_pool:<br>
+system heap: the pool used by `rt_malloc` and `lv_mem_alloc`<br>
+various memheap_pool: pools created using `rt_memheap_init`, with allocation and release using `rt_memheap_alloc` and `rt_memheap_free`<br>
+The fields in the allocation information list are as follows:<br>
 ```
-BLOCK_ADDR: 分配的内存块的起始地址，包括了管理项
-BLOCK_SIZE: 申请的内存大小，不包括管理项长度
-USED：是否已分配，1表示已分配，0表示未分配
-TICK: 申请时间，单位为OS tick，即1ms
-RETURN ADDR: 申请者地址
+BLOCK_ADDR: The starting address of the allocated memory block, including the management item
+BLOCK_SIZE: The requested memory size, excluding the management item length
+USED: Whether the block is allocated, 1 indicates allocated, 0 indicates not allocated
+TICK: The allocation time, in units of OS tick, i.e., 1ms
+RETURN ADDR: The address of the requester
 ```
-6，没有显示异常栈的处理<br>
-做完前面几个步骤，有时候不会显示死机的现场栈，可能是dump内容中没有保存或者保存的异常，可以尝试以下3种办法：
+6. Handling the absence of exception stack display<br>
+After completing the previous steps, sometimes the crash scene stack may not be displayed, possibly due to the dump content not being saved or saved incorrectly. You can try the following three methods:
 <br>![alt text](./assets/trace32005.png)<br>
-1）从Jlink halt的log信息加载现场栈 HR(HCPU Registers)按钮用于恢复没有走到异常处理程序的CPU寄存器 点击按钮后选择导出现场的 log.txt 文件，他将把里面HCPU的16个寄存器回填到trace32
+1) Load the scene stack from the Jlink halt log information. The HR (HCPU Registers) button is used to restore CPU registers that did not reach the exception handler. Click the button and select the `log.txt` file containing the scene, which will restore the 16 registers of HCPU to Trace32.
 <br>![alt text](./assets/trace32006.png)<br> 
-2）从log里面打印的16个寄存器中，回填到trace32的register窗口中
+2) Manually restore the 16 registers from the log and input them into the register window in Trace32.
 ```
-#提示：ARM内核中，寄存器对应关系如下：
+# Note: The register correspondence in the ARM core is as follows:
 SP <-> R13
 LR <-> R14
 PC <-> R15
 ```
 <br>![alt text](./assets/trace32007.png)<br> 
-3）还有一种方法，直接从hardfault的现场手动恢复，参考[Trace32手动恢复死机现场方法](../debug/dump.md#33Trace32手动恢复死机现场方法) <br>
-4）在hardfaul`RT_ERROR_HW_EXCEPTION` 死机的情况下，要特别留意出问题的PC汇编指令，要考虑为什么出现异常地址，异常指令，如下图：
+3) Another method is to manually recover the scene from the hardfault. Refer to [Trace32 Manual Recovery of Crash Scene](../debug/dump.md#33Trace32_Manual_Recovery_of_Crash_Scene) <br>
+4) In the case of a `RT_ERROR_HW_EXCEPTION` crash, pay special attention to the problematic PC assembly instruction. Consider why the exception address and instruction occurred, as shown in the following figure:
 <br>![alt text](./assets/trace32020.png)<br>  
-## 6.3 用Trace32恢复LCPU死机现场
-与HCPU的恢复现场类似，选择LA按钮，按提示操作即可。 需要注意的是LCPU 多了rom axf的同步加载，可以按需要勾选。
-<br>![alt text](./assets/trace32008.png)<br>  
+## 6.3 Using Trace32 to Recover LCPU Crash Scene
+Similar to recovering the HCPU scene, select the LA button and follow the prompts. Note that LCPU includes the synchronous loading of the rom axf file, which can be selected as needed.
+<br>![alt text](./assets/trace32008.png)<br>
 
-## 6.4 Trace32常用命令
-1， 菜单：View->List Soure，调出查看源码窗口，或者命令L 10063c或者l 0x10063c， 可以查看PC指针为0x10063c的代码。<br>
-2， 菜单：VarT->View, 或者命令：v.v * ，调出查看变量窗口，可以查找变量，函数，支持*通配符，如如下图：
+## 6.4 Common Trace32 Commands
+1. Menu: View->List Source, to open the source code viewing window, or use the command `L 10063c` or `l 0x10063c`, to view the code at the PC pointer 0x10063c.<br>
+2. Menu: VarT->View, or command: `v.v *`, to open the variable viewing window, which can be used to search for variables, functions, and supports the `*` wildcard, as shown in the following figure:
 <br>![alt text](./assets/trace32009.png)<br>  
-3， 菜单：CPU->CPU Registers,或者命令：r ，调出寄存器窗口，修改寄存器值。<br>
-4， 菜单：View->Dump...,或者命令：data.dump，调出查看内存地址窗口，比如输入框内输入0x200c0000，可以查看0x200c0000的内存情况，或者命令：data.dump 0x200c0000查看0x200c0000内存。<br>
-5，菜单：View->StackFrame with locals， 或者命令：frame /locals /caller ，查看调用栈和本地变量。<br>
-6， 可以命令执行tools\crash_dump_analyser\script\下面的脚本，如下图： <br>
+3. Menu: CPU->CPU Registers, or command: `r`, to open the register window and modify register values.<br>
+4. Menu: View->Dump..., or command: `data.dump`, to open the memory address viewing window. For example, entering `0x200c0000` in the input box will display the memory at 0x200c0000, or use the command `data.dump 0x200c0000` to view the memory at 0x200c0000.<br>
+5. Menu: View->StackFrame with locals, or command: `frame /locals /caller`, to view the call stack and local variables.<br>
+6. You can execute the scripts under `tools\crash_dump_analyser\script`, as shown in the following figure:
 ```
 show_app_pages.cmm
 show_heap.cmm
@@ -87,30 +87,30 @@ show_timer.cmm
 switch_task.cmm
 switch_to.cmm
 ``` 
-对应命令:<br> 
-`do show_tasks` #显示所有线程，有显示运行状态和压栈地址和优先级，如下图：
+Corresponding commands:<br> 
+`do show_tasks` # Display all threads, showing their running status, stack address, and priority, as shown in the following figure:
 <br>![alt text](./assets/trace32010.png)<br> 
-`do switch_to 0x200A2F7C` #可以命令切换其他线程，如下图，切换到TP线程：
+`do switch_to 0x200A2F7C` # Switch to another thread using the command, as shown in the following figure, switching to the TP thread:
 <br>![alt text](./assets/trace32011.png)<br> 
-`do show_switch_history` #可以查看线程切换历史。<br>
-`do show_timer` #可以查看timer的使用情况。<br>
+`do show_switch_history` # View the thread switch history.<br>
+`do show_timer` # View the timer usage.<br>
 
-7,内存地址强制转为结构体的方法：<br>
-结构体 `struct rt_pm _pm;`<br>
-转换命令：`(struct rt_pm *)0x101fa2b9 `<br>
-如下图：<br>
+7. Method to cast a memory address to a structure:<br>
+Structure `struct rt_pm _pm;`<br>
+Conversion command: `(struct rt_pm *)0x101fa2b9 `<br>
+As shown in the following figure:<br>
 <br>![alt text](./assets/trace32012.png)<br>  
-8,内存地址强制转为uint8，uint16等变量的方法：<br>
+8. Method to cast a memory address to `uint8`, `uint16`, etc. variables:<br>
 `(uint16_t *)0x101fa2b9`
 <br>![alt text](./assets/trace32013.png)<br>  
 
-## 6.5 Trace32工程路径重定位
-1，trace32恢复dump出来的内存文件在不同电脑恢复现场，会出现如下只显示汇编无法显示C语言的情况：<br>
-原因是执行save_ram_a0.bat进行dump内存工程的路径，跟你trace32复现路径工程所在位置不一致。<br>
+## 6.5 Trace32 Project Path Relocation
+1. When restoring a memory dump file from Trace32 on a different computer, you may encounter the issue where only assembly code is displayed and C language code is not shown:<br>
+The reason is that the path of the memory dump project executed by `save_ram_a0.bat` is different from the path of the Trace32 project used for reproduction.<br>
 <br>![alt text](./assets/trace32014.png)<br>  
-2，我们可以采用重定位工程路径的方式来解决这个问题，如下图：
+2. You can resolve this issue by relocating the project path, as shown in the following figure:
 <br>![alt text](./assets/trace32015.png)<br>  
-选择对应c文件所在的工程路径，选择这一个文件后，所有工程路径，都进行了重定位，如下图：
+Select the project path where the corresponding C file is located. After selecting this file, all project paths will be relocated, as shown in the following figure:
 <br>![alt text](./assets/trace32016.png)<br>  
-3，重定位的trace32界面如下：除了在lib中的代码，都能显示出C语言代码。
-<br>![alt text](./assets/trace32017.png)<br>  
+3. The relocated Trace32 interface is shown below: C language code is displayed for all code except those in the `lib` directory.
+<br>![alt text](./assets/trace32017.png)<br>

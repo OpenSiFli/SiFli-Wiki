@@ -1,52 +1,52 @@
-# 1 编译相关
-## 1.1 如何把axf文件反汇编为asm汇编或bin文件
-用keil的fromelf.exe工具先将需要反汇编的axf文件放在`C:\Keil_v5\ARM\ARMCC\bin`，
-然后cmd窗口敲击命令：
+# 1 Compilation Related
+## 1.1 How to Disassemble axf Files to asm Assembly or bin Files
+Use the `fromelf.exe` tool from Keil to place the axf file that needs to be disassembled in `C:\Keil_v5\ARM\ARMCC\bin`,
+then enter the following commands in the cmd window:
 ```
 c:\Keil_v5\ARM\ARMCC\bin\fromelf.exe lcpu_rom.axf --text -c >lcpu_rom.asm
 c:\Keil_v5\ARM\ARMCC\bin\fromelf.exe hcpu.axf --text -c >hcpu.asm
 ```
-从axf文件输出bin文件：
+To output a bin file from the axf file:
 ```
 c:\Keil_v5\ARM\ARMCC\bin\fromelf.exe --bin --output=./lcpuaxf.bin ./lcpu.axf
 ```
-## 1.2 支持的编译器和版本
-Keil，`armclang --version` 推荐版本:
+## 1.2 Supported Compilers and Versions
+Keil, recommended version:
 ![alt text](./assets/compile001.png)<br>
-GCC，推荐版本: 
+GCC, recommended version:
 ![alt text](./assets/compile002.png)<br>
-## 1.3 SDK工程中默认Lcpu的工程路径
-请看下面编译时候的截图，有进行拷贝操作，
+## 1.3 Default Lcpu Project Path in the SDK
+Please refer to the screenshot during compilation, which shows a copy operation:
 ![alt text](./assets/compile003.png)<br>
-而..\..\..\rom_bin\lcpu_general_ble_img\lcpu_lb551.c 文件来自sdk\example\ble\lcpu_general\project\ec-lb551\工程的编译
-具体代码拷贝操作，在相应工程目录的编译前prebuild.bat批处理文件和编译后postbuild.bat批处理文件中.
+The file `..\..\..\rom_bin\lcpu_general_ble_img\lcpu_lb551.c` is compiled from the project `sdk\example\ble\lcpu_general\project\ec-lb551`.
+The specific code copy operations are performed in the `prebuild.bat` batch file before compilation and the `postbuild.bat` batch file after compilation in the corresponding project directory.
 ![alt text](./assets/compile004.png)<br>
 ![alt text](./assets/compile005.png)<br>
-scons --target=mdk5 会运行下面
+`scons --target=mdk5` will run the following:
 ![alt text](./assets/compile006.png)<br>
-用keil编译提示如下:
+When compiling with Keil, the following prompt appears:
 ![alt text](./assets/compile007.png)<br>
-keil编译前后执行批处理配置， 见问题:2.3.1
-## 1.4 未用的全局变量如何编译不被优化
-为了在调试方便，把某些值放在一个全局变量内便于查看，此时没有用的变量会被优化，
-可以在定义变量时，前面添加上声明volatile，就不会被优化，如下：<br>
+The batch file configurations for pre- and post-compilation with Keil are detailed in issue 2.3.1.
+## 1.4 How to Prevent Unused Global Variables from Being Optimized
+To facilitate debugging, certain values are placed in global variables for easy viewing. However, unused variables may be optimized.
+To prevent this, add the `volatile` keyword before the variable definition, as follows:
 ```
 volatile uint32_t flash_dev_id=0xffffffff;
 ```
-## 1.5 如何解决由于Windows TMP目录文件导致的编译异常问题
-有时会发现编译项目时，个别Windows PC环境下编译生成的bootloader等会存在问题;<br>
-这种情况下需要检查和确认是否是由于Windows临时目录缓存文件导致的，可以将临时目录下的内容清理一下，确认/显示对应目录路径可以通过命令行: "echo %TMP%"，将对应目录下的所有文件和目录删除即可。
-## 1.6 常见编译错误
-(1) The code size of this image (xxx bytes) exceeds the maximum sllowed for this version of the linker，如何解决？<br>
-出现此错误时，需要检查keil许可是否可用。
-## 1.7 强制函数为非内联函数方法
-在Ozone跟踪代码时，会碰到有些函数编程为内联函数后，跟踪的代码变成了汇编语言，不便于跟踪代码，此时可以强制该函数为非内联函数，函数前添加声明：__attribute__ ( (noinline) ) 或__NOINLINE
+## 1.5 How to Resolve Compilation Issues Caused by Windows TMP Directory Files
+Sometimes, when compiling a project, issues may arise with the bootloader or other components on certain Windows PCs.
+In such cases, check if the issue is due to cache files in the Windows temporary directory. You can clear the contents of the temporary directory by using the command line: "echo %TMP%", and then delete all files and directories in the corresponding path.
+## 1.6 Common Compilation Errors
+(1) The code size of this image (xxx bytes) exceeds the maximum allowed for this version of the linker. How to resolve?
+When this error occurs, check if the Keil license is valid.
+## 1.7 How to Force a Function to Not Be Inlined
+When tracking code in Ozone, some functions may be inlined, causing the code to be displayed in assembly language, which is not convenient for tracking. To force a function to not be inlined, add the `__attribute__ ( (noinline) )` or `__NOINLINE` declaration before the function:
 ```c
- #define __NOINLINE __attribute__ ( (noinline) )
+#define __NOINLINE __attribute__ ( (noinline) )
 ```
-如下：<br>
+For example:
 ```c
 __attribute__ ( (noinline) ) uint8_t _pm_enter_sleep(struct rt_pm *pm)
 ```
-## 1.8 源文件文件编译为Lib方法
-部分客户为了保密的需要或其他原因不愿意公开源码，需要编译出lib库提供给客户使用，SDK中提供了打包成Lib的例程`example\misc\generate_lib`，具体操作方法参加项目目录下`README.md`文档
+## 1.8 How to Compile Source Files into a Lib
+Some customers may need to keep their source code confidential or for other reasons, and prefer to provide a compiled lib file to their clients. The SDK provides an example for packaging source files into a lib in `example\misc\generate_lib`. For detailed instructions, refer to the `README.md` document in the project directory.

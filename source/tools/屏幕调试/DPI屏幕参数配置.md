@@ -1,47 +1,42 @@
-# DPI屏幕参数配置
+# DPI Screen Parameter Configuration
 
-## 屏幕参数配置讲解
-### **DPI/RGB接口**
-RGB LCD 液晶屏一般有两种数据同步方式，一种是行场同步模式（HV Mode），另一种是数据使能
-同步模式（DE Mode）。当选择行场同步模式时，行同步信号（HSYNC）和场同步信号（VSYNC）作为数据的同步
-信号，此时数据使能信号（DE）必须为低电平。
-当选择 DE 同步模式时，LCD 的 DE 信号作为数据的有效信号，本例图中DE
-信号所示。只有同时扫描到帧有效显示区域和行有效显示区域时，DE 信号才有效（高电平）。当选择 DE
-同步模式时，此时行场同步信号 VS 和 HS 必须为高电平。
-由于 RGB LCD 液晶屏一般都支持 DE 模式，不是所有的 RGB LCD 液晶屏都支持 HV 模式，因此本章
-采用 DE 同步的方式介绍驱动 LCD 液晶屏。
-                        
+## Explanation of Screen Parameter Configuration
+### **DPI/RGB Interface**
+RGB LCD screens generally have two data synchronization methods: one is the frame and line synchronization mode (HV Mode), and the other is the data enable synchronization mode (DE Mode). When the frame and line synchronization mode is selected, the line synchronization signal (HSYNC) and the frame synchronization signal (VSYNC) are used as the data synchronization signals, and at this time, the data enable signal (DE) must be low.
+When the DE synchronization mode is selected, the DE signal of the LCD is used as the valid data signal, as shown in the example diagram. The DE signal is only valid (high level) when both the frame valid display area and the line valid display area are scanned simultaneously. When the DE synchronization mode is selected, the line and frame synchronization signals VS and HS must be high.
+Since most RGB LCD screens support DE mode, not all RGB LCD screens support HV mode, this chapter introduces driving the LCD screen using the DE synchronization method.
+
 ```c
 static LCDC_InitTypeDef lcdc_int_cfg =
 {
     .lcd_itf = AUTO_SELECTED_DPI_INTFACE,
 /*
-    DPI的clk频率选择，频率为hcpu主频分频后的频率，比如hcpu主频240Mhz，能够得到的频率只能为40/48/60/80,如果设置62Mhz，实际会设置为60Mhz
+    The clock frequency of the DPI interface is selected as the frequency after the hcpu main frequency is divided. For example, if the hcpu main frequency is 240 MHz, the available frequencies can only be 40/48/60/80. If 62 MHz is set, it will actually be set to 60 MHz.
 */    
     .freq = 48 * 1000 * 1000,
 /*
-DPI接口输出的颜色格式
-1. LCDC_PIXEL_FORMAT_RGB565为常见的RGB565色
-2. LCDC_PIXEL_FORMAT_RGB888为常见的RGB888色 
+DPI interface output color format
+1. LCDC_PIXEL_FORMAT_RGB565 for common RGB565 color
+2. LCDC_PIXEL_FORMAT_RGB888 for common RGB888 color 
 */    
     .color_mode = LCDC_PIXEL_FORMAT_RGB888,
 
     .cfg = {
         .dpi = {
-            .PCLK_polarity = 0, /* 选择DPI波形中Pclk（像素时钟信号线）的极性 */
-            .DE_polarity   = 0, /* 选择DPI波形中DE（数据使能信号）的极性 */
-            .VS_polarity   = 1, /* 选择DPI波形中VS（V sync 场同步信号）的极性 */
-            .HS_polarity   = 1, /* 选择DPI波形中HS（H sync 行同步信号）的极性 */
+            .PCLK_polarity = 0, /* Select the polarity of the Pclk (pixel clock signal line) in the DPI waveform */
+            .DE_polarity   = 0, /* Select the polarity of the DE (data enable signal) in the DPI waveform */
+            .VS_polarity   = 1, /* Select the polarity of the VS (V sync frame synchronization signal) in the DPI waveform */
+            .HS_polarity   = 1, /* Select the polarity of the HS (H sync line synchronization signal) in the DPI waveform */
 
-            .VS_width      = 2,  /* 选择VS（场同步信号）持续的宽度，单位为（几个HS波形） */
-            .HS_width      = 2, /* 选择HS（行同步信号）持续的宽度，单位为（几个Pclk波形） */
-            .VBP = 23,   /* VBP（V back porch 帧显示后沿或后肩）的宽度，单位为（几个HS波形） */
-            .VAH = 600, /* 选择屏的垂直高度，单位为（行） */
-            .VFP = 12,   /* VFP（V front proch 帧显示前沿或前肩）的宽度，单位为（几个HS波形）*/
+            .VS_width      = 2,  /* Select the width of the VS (frame synchronization signal) duration, in units of (number of HS waveforms) */
+            .HS_width      = 2, /* Select the width of the HS (line synchronization signal) duration, in units of (number of Pclk waveforms) */
+            .VBP = 23,   /* VBP (V back porch frame display rear or rear shoulder) width, in units of (number of HS waveforms) */
+            .VAH = 600, /* Select the vertical height of the screen, in units of (lines) */
+            .VFP = 12,   /* VFP (V front porch frame display front or front shoulder) width, in units of (number of HS waveforms)*/
 
-            .HBP = 160,  /* HBP（H back porch 行显示后沿或后肩）的宽度，单位为（几个Pclk波形）*/
-            .HAW = 1024, /* 选择屏的水平宽度，单位为（列） */
-            .HFP = 160,  /*  HFP（H front porch 行显示前沿或前肩）的宽度，单位为（几个Pclk波形）*/
+            .HBP = 160,  /* HBP (H back porch line display rear or rear shoulder) width, in units of (number of Pclk waveforms) */
+            .HAW = 1024, /* Select the horizontal width of the screen, in units of (columns) */
+            .HFP = 160,  /* HFP (H front porch line display front or front shoulder) width, in units of (number of Pclk waveforms) */
 
             .interrupt_line_num = 1,
         },
@@ -49,72 +44,68 @@ DPI接口输出的颜色格式
 };
 ```
 
-按照上面的PCLK,DE,VS,HS的极性配置,可以输出对应下图所示的波形：
+According to the PCLK, DE, VS, HS polarity configuration, the corresponding waveform shown in the figure below can be output:
 ![alt text](../assets/st77922.png)
-[参考文章：](https://blog.csdn.net/weixin_50965981/article/details/134496428)https://blog.csdn.net/weixin_50965981/article/details/134496428
+[Reference Article:](https://blog.csdn.net/weixin_50965981/article/details/134496428)https://blog.csdn.net/weixin_50965981/article/details/134496428
 ***
 
+## Bandwidth Requirements
+The screen refresh of the DPI screen requires stable read access to the RAM where the framebuffer is located. Therefore, it is best to ensure that this RAM is used only for screen refresh operations and not for other operations (such as frequently accessed global variables, thread stacks, or other buffers accessed by DMA), otherwise, it may cause display anomalies, including black lines and flickering on the right side of the screen.
 
-## 带宽要求
-DPI屏幕的刷屏对framebuffer所在的RAM的读取稳定性有要求，所以尽量保证这块RAM只有刷屏操作，没有其他操作（比如一些频繁访问的全局变量、线程栈、或者其他DMA会访问的buffer等），否则可能会导致显示出现异常：包括出现一些黑线、屏幕右侧出现抖动等。
+Generally, the bandwidth of SRAM is sufficient and does not need to be specified separately, but the bandwidth of PSRAM may not be sufficient. Therefore, if the framebuffer is located in PSRAM, it is best to meet the conditions mentioned above.
 
-一般来说SRAM的带宽是足够的，不需要单独指定，但是PSRAM的带宽可能会不满足，所以如果刷屏buffer在PSRAM上时，最好满足前面说的条件。
-
-如图所示，就是buffer放在PSRAM上面，带宽不够时闪现的画面（带宽不够是因为有CPU在填充PSRAM内下一帧的framebuffer）
+As shown in the figure, this is the screen when the buffer is placed in PSRAM and the bandwidth is insufficient (the bandwidth is insufficient because the CPU is filling the next frame's framebuffer in PSRAM).
 ![alt text](assets/lcd_dpi_psram_bandwidth_exhausted.png)
 
+## Usage Restrictions of DPI_AUX Mode
+If your screen width is ≤512 pixels, this mode will not be used, so you do not need to be concerned about this part.
 
+If your screen width is ≤1024 pixels and you are using the 58x chip, you also do not need to be concerned about this part.
 
-## DPI_AUX模式的使用限制
-如果你的屏幕宽度≤512像素，则不会使用该模式，就不需要关心这部分。
+### What is DPI_AUX
+The macro `AUTO_SELECTED_DPI_INTFACE` for the DPI screen interface will automatically select one of the following two modes based on the chip and screen width:
 
-如果你的屏幕宽度≤1024像素, 并且使用的是58x芯片，也不需要关心这部分。
+- **DPI Mode**<br>
+  Native mode of the LCD controller, supporting a maximum screen width of 1024 for 58x and 512 for others.
 
+- **DPI_AUX Mode**<br>
+  Auxiliary mode for screens exceeding the native mode width of the LCD controller.
 
-### 什么是DPI_AUX
-对DPI屏幕接口的宏`AUTO_SELECTED_DPI_INTFACE` 实际会根据芯片和屏幕宽度自动选择以下2种模式：
+### Usage Restrictions
+When using the DPI_AUX mode, the following usage restrictions apply:
 
-- **DPI模式**<br>
-LCD控制器原生模式，支持的屏幕最大宽度：58x下是1024，其他是512。
+#### 1. Automatic System Clock Frequency Scaling (BSP_PM_FREQ_SCALING) Must Not Be Enabled
+Automatic frequency scaling can affect the operation of the hardware refresh mechanism. Frequency scaling can only be performed after the screen is turned off.
+#### 2. The Framebuffer Must Be Full Screen and the Number of Lines Must Be Even
+#### 3. The Following Arrays Must Be Placed in SRAM, but Not in the Retention-SRAM Segment
 
-- **DPI_AUX模式**<br>
-针对超出LCD控制器原生模式宽度的屏幕而做的辅助模式。
-
-### 使用限制
-当使用DPI_AUX模式时，有以下使用限制：
-
-#### 一、不能打开自动降系统主频（BSP_PM_FREQ_SCALING）
-自动降频会影响硬件刷新机制的运行，在关闭屏幕后才可以降频。
-#### 二、Framebuffer 必须是全屏且行数为偶数
-#### 三、以下数组需要放在SRAM，但是不能是retention-SRAM段
-
-drv_lcd.c中的ramless_code，sram_data0，sram_data1
-* 55x 避免放在0x00020000 ~ 0x00030000
-* 56x 避免放在0x20000000 ~ 0x20020000
+`ramless_code`, `sram_data0`, `sram_data1` in `drv_lcd.c`
+* For 55x, avoid placing them in the range 0x00020000 ~ 0x00030000
+* For 56x, avoid placing them in the range 0x20000000 ~ 0x20020000
 
 :::{note}
-SDK 2.2.4之后，这部分数组改成了从系统堆里面自动分配一个非Retention-SRAM的内存。
+After SDK 2.2.4, these arrays are automatically allocated from the system heap to a non-Retention-SRAM memory.
 :::
-#### 四、刷屏期间需要一直占用如下硬件模块：
+#### 4. The Following Hardware Modules Must Be Occupied Throughout the Screen Refresh:
 
-56x:
-1. 普通DMA的一个channel(可配置，默认DMA1-CH5）
+For 56x:
+1. One channel of the general-purpose DMA (configurable, default DMA1-CH5)
 2. EXTDMA
-3. PTC模块
+3. PTC module
 4. BUSMONITOR
 5. BTIM2
 
 55x:
-1. 普通DMA的一个channel(可配置，默认DMA1-CH8）
+1. A channel of the standard DMA (configurable, default DMA1-CH8)
 2. EXTDMA
-3. PTC模块
+3. PTC module
 4. BUSMONITOR
 5. BTIM1, BTIM2
 
 
 ```{caution}
-1. 对于NAND系统需要打开PSRAM_CACHE_WB，避免EXTDMA使用冲突
-2. 避免使用lvgl lv_scheme0 (LV_FRAME_BUF_SCHEME_0)，避免EXTDMA使用冲突
-3. 避免使用sifli_memcpy,sifli_memset，避免EXTDMA使用冲突
-4. 在dma_config.h 中要根据目前SPI\UART\I2C\I2S 等模块的dma channel使用情况，避免DMA channel冲突
+1. For NAND systems, enable PSRAM_CACHE_WB to avoid conflicts with EXTDMA usage
+2. Avoid using lvgl lv_scheme0 (LV_FRAME_BUF_SCHEME_0) to avoid conflicts with EXTDMA usage
+3. Avoid using sifli_memcpy, sifli_memset to avoid conflicts with EXTDMA usage
+4. In dma_config.h, configure the DMA channels based on the current usage of SPI, UART, I2C, I2S, etc., to avoid DMA channel conflicts
 ```

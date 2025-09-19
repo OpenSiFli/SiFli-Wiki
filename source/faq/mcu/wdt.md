@@ -1,48 +1,52 @@
-# 4 看门狗相关
-## 4.1 看门狗WDT在Standby后的状态
+# 4 Watchdog Related
+## 4.1 Watchdog WDT Status After Standby
 <br>![alt text](./assets/wdt/wdt001.png)<br>   
-如上代码，目前的SDK是进入standby后，watchdog不会掉电，但代码中会停掉wdt，不管睡多长时间，watchdog都不生效发生reset。<br> 
-从standby醒来会走resume那个case， 会重新初始化wdt， 相当于重新开始计数。<br> 
+As shown in the code above, the current SDK does not power down the watchdog after entering standby, but the code will stop the WDT. Regardless of how long the sleep duration is, the watchdog will not trigger a reset.<br> 
+When waking up from standby, the resume case will be executed, and the WDT will be reinitialized, effectively restarting the countdown.<br> 
 
-## 4.2 Jlink关闭看WDT的方法
-1，场景1，如果Hcpu和Lcpu都开启了看门狗，机器出现反复重启，无法dump内存定位问题，可以jlink关闭看门狗, 
-执行：<br> 
-```
-tools\segger\halt_all_cpu_and_disable_all_wdt_a0.bat
-```
-会关闭hcpu，lcpu的WDT，并且halt 两个cpu，便于dump内存。<br> 
-2，场景2：如果只想关闭Hcpu的log，并且让Hcpu继续运行<br> 
-修改：halt_all_cpu_and_disable_all_wdt_a0.bat对应的halt_all_cpu_and_disable_all_wdt_a0.jlink中命令内容，如下：<br> 
-```
-connect #连接jlink
-w4 0x4004f000 0 #jlink切到Hcpu
-connect #连接jlink
-h #halt hcpu
-w4  0x40014018  0x51ff8621
-w4  0x4001400C  0x34
-w4  0x40014018  0x58ab99fc
-w4  0x4007c018  0x51ff8621
-w4  0x4007c00C  0x34
-w4  0x4007c018  0x58ab99fc
-g #上面操作完WDT寄存器后，go，继续运行Hcpu
-exit
-```
-3，场景3：如果只想关闭Lcpu的log，并且让Lcpu继续运行,截取halt_all_cpu_and_disable_all_wdt_a0.jlink中命令一部分并稍加修改即可。<br> 
-```
-connect
-w4 0x4004f000 1
-connect
-w4 0x40070000 0 
-h
-w4  0x40055018  0x51ff8621
-w4  0x4005500C  0x34
-w4  0x40055018  0x58ab99fc
-g
-exit
-```
-## 4.3 清WDT位置在哪
-1，rt_hw_watchdog_init初始化函数会通过rt_hw_watchdog_hook把rt_hw_watchdog_pet注册为一个钩子函数；<br> 
-2，当系统无任务处理进入idle线程rt_thread_idle_entry后，里面就会执行上面注册在idle_hook_list中的钩子函数；<br> 
+## 4.2 Methods to Disable WDT Using Jlink
+1. **Scenario 1**: If both Hcpu and Lcpu have watchdogs enabled, and the machine repeatedly restarts, making it impossible to dump memory to diagnose the issue, you can disable the watchdog using Jlink:
+   Execute:
+   <br> 
+   ```
+   tools\segger\halt_all_cpu_and_disable_all_wdt_a0.bat
+   ```
+   This will disable the WDT for both Hcpu and Lcpu, and halt both CPUs, facilitating memory dumping.<br> 
+2. **Scenario 2**: If you only want to disable the log for Hcpu and allow Hcpu to continue running:
+   Modify the commands in `halt_all_cpu_and_disable_all_wdt_a0.jlink` corresponding to `halt_all_cpu_and_disable_all_wdt_a0.bat` as follows:
+   <br> 
+   ```
+   connect # Connect Jlink
+   w4 0x4004f000 0 # Switch Jlink to Hcpu
+   connect # Connect Jlink
+   h # Halt Hcpu
+   w4  0x40014018  0x51ff8621
+   w4  0x4001400C  0x34
+   w4  0x40014018  0x58ab99fc
+   w4  0x4007c018  0x51ff8621
+   w4  0x4007c00C  0x34
+   w4  0x4007c018  0x58ab99fc
+   g # After the above operations on the WDT registers, continue running Hcpu
+   exit
+   ```
+3. **Scenario 3**: If you only want to disable the log for Lcpu and allow Lcpu to continue running, you can extract and modify a portion of the commands in `halt_all_cpu_and_disable_all_wdt_a0.jlink`:
+   <br> 
+   ```
+   connect
+   w4 0x4004f000 1
+   connect
+   w4 0x40070000 0 
+   h
+   w4  0x40055018  0x51ff8621
+   w4  0x4005500C  0x34
+   w4  0x40055018  0x58ab99fc
+   g
+   exit
+   ```
+
+## 4.3 Where to Clear the WDT
+1. The `rt_hw_watchdog_init` initialization function registers `rt_hw_watchdog_pet` as a hook function via `rt_hw_watchdog_hook`;<br> 
+2. When the system enters the idle thread `rt_thread_idle_entry` due to no tasks being processed, the hook function registered in `idle_hook_list` will be executed;<br> 
 ```c
 __ROM_USED void rt_hw_watchdog_init(void)
 {
@@ -58,15 +62,14 @@ __ROM_USED void rt_hw_watchdog_init(void)
             rt_device_control(wdt_dev, RT_DEVICE_CTRL_WDT_SET_TIMEOUT, &count);
         }
     }
-    rt_hw_watchdog_hook(1); //注册wdt钩子函数后，会在idle线程自动清狗
+    rt_hw_watchdog_hook(1); // Register the WDT hook function, which will automatically clear the watchdog in the idle thread
 }
 
-__ROM_USED void rt_hw_watchdog_pet(void) //手动清狗函数，可以调用此函数
+__ROM_USED void rt_hw_watchdog_pet(void) // Manual function to clear the watchdog, can be called
 {
     if (wdt_dev)
     {
         rt_device_control(wdt_dev, RT_DEVICE_CTRL_WDT_KEEPALIVE, NULL);
     }
 }
-
 ```

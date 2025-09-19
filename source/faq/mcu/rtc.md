@@ -1,45 +1,43 @@
-# 5 RTC相关
-## 5.1 RTC时钟启动不起来
-现象: <br>
-一客户5块板子4块RTC不跑，2层板，换了我们evb上晶体，晶体偶尔能跑起来，也跑的慢，然后就不跑了，  
-做的实验:<br>
-1，mem32 0x4007a01c 1 寄存器中BM偏置电流默认是2，在jlink界面，重新写BM值为2，RTC可以跑起来;<br>
-2，在代码HAL_PMU_EnableXTAL32中， BM偏置电流从默认0x2改成0x03由PMU寄存器增加晶体驱动电流， RTC慢慢能跑起来， 改到0x6， 10秒后可以跑起来， 改成0x9， 4秒后可以跑起来， 改成0xa后， 可以马上跑起来， 但出现了， 中间存在2秒重复;<br>
-3，改成0xb后，测试RTC完全正常，;<br>
+# 5 RTC Related
+## 5.1 RTC Clock Fails to Start
+Phenomenon: <br>
+One customer reported that 4 out of 5 boards had their RTC not running. The boards are 2-layer boards. After replacing the crystal with the one from our EVB, the crystal occasionally started but ran slowly and then stopped.  
+Experiments conducted:<br>
+1. In the register `0x4007a01c`, the default BM bias current is 2. In the JLink interface, rewriting the BM value to 2 allowed the RTC to start;<br>
+2. In the code `HAL_PMU_EnableXTAL32`, the BM bias current was changed from the default 0x2 to 0x03 by increasing the crystal drive current through the PMU register. The RTC started slowly, and changing it to 0x6 allowed it to start after 10 seconds. Changing it to 0x9 allowed it to start after 4 seconds, and changing it to 0xA allowed it to start immediately, but there was a 2-second repetition in the middle;<br>
+3. Changing it to 0xB resulted in the RTC running completely normally;<br>
 <br>![alt text](./assets/rtc/rtc001.png)<br> 
-由于寄存器0x4007a01c中BM从2提升到3， 会增加80nA电流， 如果直接提高到0xb会增加9倍的电流，
-由于设置少于0xb， RTC又启动时间过长;<br>
-今天又做了些实验， 定位了根本原因;<br>
-a， 首先， 配置为把PB01输出32768时钟用于查看时钟，<br>
-Jlink连接后<br>
+Since increasing the BM value from 2 to 3 in register `0x4007a01c` increases the current by 80nA, and increasing it directly to 0xB increases the current by 9 times. Since setting it to less than 0xB results in a long startup time for the RTC;<br>
+Today, further experiments were conducted to identify the root cause;<br>
+a, First, configure PB01 to output the 32768 clock for observation,<br>
+After connecting JLink<br>
 ```
-a)，命令输入: w4 0x40043004 0x2f9 把PB01切换到function 9，
-b)，命令输入: w4 0x4004F018 0x8 把LSYSCFG其中的DBGCLKR bit3 CLK_EN置1，
+a), Command input: w4 0x40043004 0x2f9 to switch PB01 to function 9,
+b), Command input: w4 0x4004F018 0x8 to set bit3 CLK_EN of LSYSCFG to 1,
 ```
 <br>![alt text](./assets/rtc/rtc002.png)<br>  
-可以用mem32 0x40043004 1 命令读回确认是否写进去，
-如果代码中添加配置，可以在pinmux.c中修改PB01模式为9 DBG_CLK，<br>
+The command `mem32 0x40043004 1` can be used to read back and confirm if the value has been written.
+If the configuration is added in the code, the PB01 mode can be modified to 9 DBG_CLK in `pinmux.c`,<br>
 ```c
 HAL_PIN_Set(PAD_PB01, DBG_CLK, PIN_NOPULL, 0);
 _WWORD(0x4004F018, 0x8);   // PB01 output 32768 clk
 ```
-b，查看正常板子和不正常板子的32768波形如下:<br>
+b, The 32768 waveforms of the normal and abnormal boards are as follows:<br>
 <br>![alt text](./assets/rtc/rtc003.png)<br>  
 <br>![alt text](./assets/rtc/rtc004.png)<br>  
 
-b，对调正常与非正常板子32768晶体， 问题跟着主板走，跟晶体无关;<br>
-c， 给Vbuck1供电1.25V， 测试RTC时钟正常;<br>
-d， 因此怀疑Vbuck1供电存在问题， 更换DCDC 4.7uH电感，没改善， Vbuck DCDC 的4.7uF电容并了一个10uF电容后，rtc问题解决；<br>
-根本原因: <br>
-大板上DCDC电感和电容CPU太远， 电容滤波电容0402封装， 感觉容量也不足，
-之前支持， 碰到过很多DCDC电感Isat电流不够， 导致的不良现象，
-因此希望硬件工程师， 能够多留意DCDC电感，和滤波电容选型和布局走线.<br>
+b, Swapping the 32768 crystals between the normal and abnormal boards, the issue followed the main board, indicating it was not related to the crystal;<br>
+c, Supplying 1.25V to Vbuck1, the RTC clock ran normally;<br>
+d, Therefore, it is suspected that there is an issue with the Vbuck1 power supply. Replacing the DCDC 4.7uH inductor did not improve the situation, but adding a 10uF capacitor in parallel with the 4.7uF capacitor of the Vbuck DCDC resolved the RTC issue;<br>
+Root cause: <br>
+The DCDC inductor and capacitor on the large board are too far from the CPU, and the 0402 package capacitors feel insufficient in capacity.
+Previously, many issues were encountered due to insufficient DCDC inductor Isat current.
+Therefore, it is hoped that hardware engineers will pay more attention to the selection and layout of DCDC inductors and filtering capacitors.<br>
 
-## 5.2 32768晶体的时钟通过IO输出方法
-1. 52/56输出32768时钟方法<br>
+## 5.2 Method to Output 32768 Crystal Clock via IO
+1. Method to output 32768 clock on 52/56<br>
 
-52的PA24-PA27,56的PBR0-PBR3为低功耗IO，可以在deep/standby休眠的时候，都可以持续输出32768hz时钟，
-具体配置方法如下：<br>
+PA24-PA27 on 52 and PBR0-PBR3 on 56 are low-power IOs that can continuously output a 32768Hz clock during deep/standby sleep. The specific configuration method is as follows:<br>
 ```c
 #if defined(SF32LB52X)
     HAL_PIN_Set(PAD_PA24, PBR_CLK_RTC,  PIN_NOPULL, 1); //output 32768 clk
@@ -52,59 +50,60 @@ d， 因此怀疑Vbuck1供电存在问题， 更换DCDC 4.7uH电感，没改善�
     HAL_PIN_Set(PAD_PBR3, PBR_CLK_LP,  PIN_NOPULL, 0); //output 32768 clk
 #endif
 ```
-2. 55系列PB口输出32768时钟方法<br>
-例如：通过PB01输出32768时钟，具体方法:<br>
-Jlink连接后<br>
+2. Method to output 32768 clock on PB port of 55 series<br>
+For example, to output the 32768 clock via PB01, the specific method is:<br>
+After connecting JLink<br>
 ```
-A，命令输入: w4 0x40043004 0x2f9 把PB01切换到function 9，
-B，命令输入: w4 0x4004F018 0x8 把LSYSCFG其中的DBGCLKR bit3 CLK_EN置1，
+A, Command input: w4 0x40043004 0x2f9 to switch PB01 to function 9,
+B, Command input: w4 0x4004F018 0x8 to set bit3 CLK_EN of LSYSCFG to 1,
 ```
 <br>![alt text](./assets/rtc/rtc002.png)<br>  
-可以用`mem32 0x40043004 1 `命令读回确认是否写进去，<br>
-如果代码中添加配置，可以在pinmux.c中修改PB01模式为9 DBG_CLK，<br>
+The command `mem32 0x40043004 1` can be used to read back and confirm if the value has been written.
+If the configuration is added in the code, the PB01 mode can be modified to 9 DBG_CLK in `pinmux.c`,<br>
 ```c
 HAL_PIN_Set(PAD_PB01, DBG_CLK, PIN_NOPULL, 0);
 _WWORD(0x4004F018, 0x8);	// PB01 output 32768 clk
 ```
-**注意：**<br>
-IO输出的32768hz时钟的前提是：板载需要有32768晶体，并且没有打开宏`#define LXT_DISABLE 1`<br>
+**Note:**<br>
+The prerequisite for outputting the 32768Hz clock via IO is that the board must have a 32768 crystal, and the macro `#define LXT_DISABLE 1` must not be enabled.<br>
 
-## 5.3 省32768晶体方案采用内部RC时钟方法
-1，开启方法：<br>
-Hcpu工程menuconfig中，勾选`(Top) → Board Config →  Lower crystal disabled`<br>
-在rtconfig.h中生成下面的宏后，Hcpu会把配置写入寄存器中，Lcpu会通过函数HAL_LXT_DISABLED获取寄存器状态，，bootloader中，默认就是RC10k时钟，不需要修改；<br>
+## 5.3 32768 Crystal Solution Using Internal RC Clock
+1. Enable Method:
+Hcpu project menuconfig, select `(Top) → Board Config →  Lower crystal disabled`  
+In rtconfig.h, after generating the following macros, Hcpu will write the configuration to the registers, and Lcpu will obtain the register status through the function `HAL_LXT_DISABLED`. By default, the bootloader uses the RC10k clock, so no modification is needed;
 ```
 #define LXT_DISABLE 1
 #define LXT_LP_CYCLE 200
 ```
-此处200表示测量时长，单位是RC10K的周期，看200个RC10K周期里有多少个48M的周期，算出RC10K的实际频率;<br>
-为了解决切换到RC时钟后，RTC走时不准的问题，方案是lcpu启动一个名字为“rc10或者rtc”的、15秒周期的定时器，hcpu起一个5分钟的定时器(52只有Hcpu一个15秒周期的定时器)，定时器起来后，基于48M的晶体的时钟进行校准，修正现在的RTC走时精度；<br>
-2，修改为内部RC10K振荡器后，振荡频率从32768变成8000-10000，RC振荡会跟随温度变化，每块板子都有差异，因此时间戳的计算方法为：<br>
-从601272/32.768 变成 601272/9 (ms)<br>
+Here, 200 represents the measurement duration, in units of RC10k cycles. It measures how many 48M cycles occur within 200 RC10k cycles to determine the actual frequency of RC10k;  
+To solve the issue of inaccurate RTC time after switching to the RC clock, the solution is to start a 15-second period timer named “rc10” or “rtc” on lcpu, and a 5-minute timer on hcpu (52 has only one 15-second period timer on Hcpu). After the timers start, they will calibrate the clock based on the 48M crystal to correct the current RTC time accuracy;  
+2. After modifying to the internal RC10K oscillator, the oscillation frequency changes from 32768 to 8000-10000. The RC oscillation will vary with temperature, and each board has differences, so the timestamp calculation method is:  
+From 601272/32.768 to 601272/9 (ms)
 ```
 [160579] TOUCH: Power off done.
 [pm]S:4,160586
 [pm]W:601272
 ```
-如上，sleep到wake之间的持续时间计算：<br>
+As shown above, the duration calculation from sleep to wake:
 ```
 (601272-160586)/9=48965(ms)
 ```
-3，采用rc10k和外部32768晶体的对比优缺点如下：<br>
-||rc10k|32768晶体|
+3. The advantages and disadvantages of using RC10k and external 32768 crystal are as follows:
+||rc10k|32768 Crystal|
 | ----- | --------------- | ---- |
-|精度|取决于48M晶体精度和校准算法|高|
-|功耗|15秒周期唤醒开销约增加15uA|低|
-|成本|低|高|
-|IO输出32K|不能通过IO输出32768|能配置输出32768给wifi/gps等外设用|
-## 5.4 RTC获取的时间戳是100年00月01日 0时0分0秒原因
-1，第一种情况，整机复位或者Lcpu复位，在还没有往RTC写入时钟前<br>
-如下图：<br>
-<br>![alt text](./assets/rtc/rtc005.png)<br>  
-2，第二种情况，CPU从Standby醒来后, 马上读取RTC,延时不够1/256秒（约4ms）。
-<br>![alt text](./assets/rtc/rtc006.png)<br>  
-由于Hcpu从standby醒来会超过4ms，醒来后可以直接读取RTC，<br>
-Lcpu从standby醒来，马上读取RTC这会出现此现象，因此Lcpu从standby醒来不建议频繁读取RTC，如果需要频繁读取，可以采用我们提供的软时间方式，替代之前的直接读取RTC。<br>
+|Accuracy|Depends on the accuracy of the 48M crystal and the calibration algorithm|High|
+|Power Consumption|Approximately 15uA additional wake-up cost every 15 seconds|Low|
+|Cost|Low|High|
+|IO Output 32K|Cannot output 32768 through IO|Can configure to output 32768 to external devices like WiFi/GPS|
+
+## 5.4 Reason for RTC Timestamp Being 0000-01-01 00:00:00
+1. First Scenario: System reset or Lcpu reset before writing the clock to RTC  
+As shown in the figure below:  
+![alt text](./assets/rtc/rtc005.png)  
+2. Second Scenario: CPU wakes up from Standby and immediately reads the RTC, with insufficient delay of 1/256 seconds (approximately 4ms).
+![alt text](./assets/rtc/rtc006.png)  
+Since Hcpu wakes up from standby in more than 4ms, it can directly read the RTC after waking up.  
+Lcpu, when waking up from standby, immediately reading the RTC will cause this issue. Therefore, it is not recommended to frequently read the RTC after waking up from standby. If frequent reading is required, the provided soft time method can be used instead of directly reading the RTC.
 ```c
 #ifdef SOC_BF0_LCPU	
 	timestamp = service_lcpu_get_current_time();
@@ -112,10 +111,10 @@ Lcpu从standby醒来，马上读取RTC这会出现此现象，因此Lcpu从stand
    	timestamp = time(RT_NULL);
 #endif
 ```
-而通过一个定时器30s，`service_lcpu_soft_timestamp_reset()`函数，来定时同步RTC和软RTC的时间。<br>
+And use a timer every 30 seconds to synchronize the RTC and soft RTC time with the `service_lcpu_soft_timestamp_reset()` function.
 
-## 5.5 如何设置RTC默认时间（solution）
-初始时间在在app_comm.c中的app_set_default_system_time中设置，按需修改对应的宏定义即可：<br>
+## 5.5 How to Set the Default RTC Time (Solution)
+The initial time is set in `app_set_default_system_time` in app_comm.c. Modify the corresponding macro definitions as needed:
 ```c
 int app_set_default_system_time(void)
 {
@@ -135,19 +134,18 @@ int app_set_default_system_time(void)
 }
 ```
 
-
-## 5.6 省32768晶体方案（内部RC10K时钟）走时不准调整方法
-1，确保48Mhz的已校准，保证48M晶体的精度；<br>
-2，可以调整校准的补偿，方法如下：<br>
+## 5.6 Adjustment Method for Inaccurate Time with 32768 Crystal Solution (Internal RC10K Clock)
+1. Ensure that the 48MHz clock is calibrated to guarantee the accuracy of the 48M crystal;  
+2. Adjust the calibration compensation as follows:
 ```c
-#define RTC_PPM 75 //可以为负数
+#define RTC_PPM 75 // Can be a negative number
 ```
-<br>![alt text](./assets/rtc/rtc007.png)<br> 
- 计算算法：<br>
-比如一客户反馈RTC 32小时慢了21S，由于是慢了，要跑快多少时钟就是增加 RTC_PPM， RTC_PPM就是每1M多跑多少个时钟<br>
-计算公式如下：<br>
+![alt text](./assets/rtc/rtc007.png)  
+Calculation Algorithm:  
+For example, a customer reported that the RTC was 21 seconds slow after 32 hours. Since it is slow, the clock needs to run faster, which means increasing `RTC_PPM`. `RTC_PPM` represents how many more clock cycles per 1M seconds.
+The calculation formula is:
 ```
 21 / (32 *60*60)  *1000000=182
 ```
-32小时差不多是32*60*60 = 115200 秒， 慢了21秒，那就是1M秒慢了21/115200 * 1000000=182秒<br>
-按照上面方法，计算补偿182后，测试40小时慢2s，达到客户要求。<br>
+32 hours is approximately 32*60*60 = 115200 seconds. Being 21 seconds slow means 1M seconds are 21/115200 * 1000000 = 182 seconds slow.  
+Following the above method, after calculating the compensation of 182, testing for 40 hours showed a 2-second delay, meeting the customer's requirements.

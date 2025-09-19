@@ -1,54 +1,54 @@
-# 10 系统
-## 10.1 Lcpu中ROM空间中固化的函数和变量该如何调用和替换?
-  为了节省Lcpu RAM空间的代码，ROM中固化了BLE协议栈，RTT OS，完整的HAL代码和部分驱动代码，<br> 
-Lcpu中，可以供客户调用的函数和变量，都通过symble file的方式放在:<br> 
-`SDK\example\ble\lcpu_general\project\ec-lb551\rom.sym `文件中，并且声明为不带__weak参数的强函数.<br> 
+# 10 System
+## 10.1 How to Call and Replace Functions and Variables in the ROM of Lcpu?
+To save Lcpu RAM space, the BLE protocol stack, RTT OS, complete HAL code, and some driver code are固化 in the ROM. <br>
+In Lcpu, functions and variables available for customer use are placed in the following file via a symbol file:<br>
+`SDK\example\ble\lcpu_general\project\ec-lb551\rom.sym` and are declared as strong functions without the __weak parameter.<br>
 
-因此编写代码时，在能调用ROM代码的情况， 都会尽量调用ROM中代码.
-比如:<br> 
-你在SDK中看到文件bf0_hal_i2c.c中函数HAL_I2C_Mem_Read，会参加编译，但是在链接时，该处定义成了弱函数:<br> 
+Therefore, when writing code, the ROM code will be called whenever possible.
+For example:<br>
+In the file `bf0_hal_i2c.c` in the SDK, the function `HAL_I2C_Mem_Read` is included in the compilation, but during linking, it is defined as a weak function:
 ```c
 #define __HAL_ROM_USED __weak 
-``` 
-<br>![alt text](./assets/system/system001.png)<br>  
-而在对应的example\ble\lcpu_general\project\ec-lb551\rom.sym 文件中，如下图:<br> 
-<br>![alt text](./assets/system/system002.png)<br>  
+```
+<br>![alt text](./assets/system/system001.png)<br>
+In the corresponding `example\ble\lcpu_general\project\ec-lb551\rom.sym` file, as shown in the following figure:<br>
+<br>![alt text](./assets/system/system002.png)<br>
 
-也有同名函数，并且不是__weak弱函数， 因此会链接到ROM的强函数代码去，因此上面的rt_kprintf并不会打印出来.<br> 
-如果想跑该HAL_I2C_Mem_Read的函数，替换掉ROM中的函数，先删除example\ble\lcpu_general\project\ec-lb551\rom.sym # 该路径项目不同会不一样，可以查看编译过程log来定位，如下图：<br> 
-<br>![alt text](./assets/system/system003.png)<br>   
-再命令scons -c清掉lcpu编译结果重新编译，文件中对应的0x00005621 T HAL_I2C_Mem_Read 这一行，编译链接时，由于只存在这一个HAL_I2C_Mem_Read弱函数， 就会链接这个 __weak函数<br> 
-这时上图中，你添加的rt_kprintf("my own HAL_I2C_Mem_Read\r\n");打印， 就能打印出来.<br> 
-确认用的是ROM内函数还是代码中函数，可以在Lcpu编译出来的map文件内搜索这个函数对应地址来确认。<br> 
+There is a function with the same name, and it is not a __weak weak function, so it will link to the strong function code in the ROM. Therefore, the `rt_kprintf` above will not print anything.
+If you want to run the `HAL_I2C_Mem_Read` function and replace the function in the ROM, first delete the `example\ble\lcpu_general\project\ec-lb551\rom.sym` file (the path may vary depending on the project, you can check the compilation process log to locate it, as shown in the following figure):<br>
+<br>![alt text](./assets/system/system003.png)<br>
+Then run the command `scons -c` to clean the Lcpu compilation results and recompile. In the corresponding line `0x00005621 T HAL_I2C_Mem_Read` in the file, during compilation and linking, since there is only one `HAL_I2C_Mem_Read` weak function, it will link to this __weak function.
+At this point, the `rt_kprintf("my own HAL_I2C_Mem_Read\r\n");` you added in the figure above will print.
+To confirm whether the function in the ROM or the code is being used, you can search for the function's corresponding address in the Lcpu's compiled map file.
 
-## 10.2 获取当前重启方式接口
-目前SF32LB55X芯片，可以辨别的启动状态如下:<br> 
+## 10.2 Interface to Get the Current Restart Method
+The SF32LB55X chip can distinguish the following boot states:<br>
 ```
 /** power on mode */
 typedef enum
 {
-    PM_COLD_BOOT = 0，  /**< cold boot */
+    PM_COLD_BOOT = 0,  /**< cold boot */
     PM_STANDBY_BOOT,   /**< boot from standby power mode */
     PM_HIBERNATE_BOOT, /**< boot from hibernate mode, system can be woken up by RTC and PIN precisely */
     PM_SHUTDOWN_BOOT,   /**< boot from shutdown mode, system can be woken by RTC and PIN, but wakeup time is not accurate */
 } pm_power_on_mode_t;
 ```
-可以通过调用:<br> 
+You can call the following function to get the boot mode:
 ```c
 pm_power_on_mode_t SystemPowerOnModeGet(void)
 {
     return g_pwron_mode;
 }
 ```
-来获取启动的模式;<br> 
-注意:  上电， wdt，按键reset和HAL_PMU_Reboot四种cold root是没法区分;<br> 
-## 10.3 main函数是lcpu的入口函数吗
-lcpu复位地址在<br> 
-<br>![alt text](./assets/system/system004.png)<br>   
-main函数， 是做完了初始化后， 起的其中一个线程的main函数;<br> 
+Note: Power-on, WDT, button reset, and HAL_PMU_Reboot are four cold roots that cannot be distinguished.
 
-## 10.4 Lcpu如何唤醒Hcpu
-a，Lcpu可以通过 ipc_send_msg_from_sensor_to_app往hcpu发消息如下，此消息能唤醒Hcpu<br> 
+## 10.3 Is the main Function the Entry Point of Lcpu?
+The reset address of Lcpu is:
+<br>![alt text](./assets/system/system004.png)<br>
+The `main` function is the entry point of one of the threads after initialization is complete.
+
+## 10.4 How to Wake Up Hcpu from Lcpu
+a. Lcpu can send a message to Hcpu using `ipc_send_msg_from_sensor_to_app` as follows, which can wake up Hcpu:
 ```c
 static void battery_send_event_to_app(event_type_t type)
 {
@@ -59,23 +59,23 @@ static void battery_send_event_to_app(event_type_t type)
     ipc_send_msg_from_sensor_to_app(SENSOR_APP_EVENT_BATTERY_IND, sizeof(event_remind_t), &remind_ind);
 }
 ```
-b，Hcpu端醒来后，在task中，添加处理该消息的代码，如下：
-<br>![alt text](./assets/system/system005.png)<br>  
+b. After Hcpu wakes up, add the code to handle this message in the task, as follows:
+<br>![alt text](./assets/system/system005.png)<br>
 
-## 10.5 MCU进入Boot_Mode的方法
+## 10.5 Methods to Enter Boot_Mode for MCU
 
-SiFli系列MCU内部ROM已经固化了一个boot代码，MCU在不用烧录任何代码的情况下，上电就会进入boot代码，boot代码已经带了常见的flash存储驱动，通过读取外部存储固定地址Flashtable的配置来决定代码如何跳转，boot代码在读取的flashtable不对的情况下，也会一直在boot_mode代码内，可以通过PC指针的地址，对照芯片手册的`HPSYS地址映射`，来判断是否在boot_mode代码区间，boot代码所在的ROM区间地址通常如下：<br>
+The SiFli series MCU has a boot code固化 in its internal ROM. The MCU will enter the boot code upon power-on without any code being flashed. The boot code already includes common flash storage drivers and determines how to jump the code by reading the configuration at a fixed address in external storage (Flashtable). If the boot code reads an incorrect Flashtable, it will remain in the boot_mode code. You can determine whether the MCU is in the boot_mode code by comparing the PC pointer address with the `HPSYS address mapping` in the chip manual. The ROM address range for the boot code is typically as follows:<br>
 Memory|Address space|Starting Address|Ending Address
 :--|:--|:--|:--
 ROM|64KB|0x0000_0000|0x0000_FFFF
 
-进入boot_mode的用处:<br>
-1，硬件调试，可以在不烧录任何程序的情况下，判断MCU是否运行正常；<br>
-2，在用户程序死机或其他情形导致Jlink或者Uart不通的情况下，进入boot_mdoe模式确保正常下载程序；<br>
+Uses of entering boot_mode:<br>
+1. Hardware debugging, to determine whether the MCU is running normally without flashing any program;<br>
+2. In case the user program crashes or other issues cause Jlink or UART to fail, entering boot_mode ensures normal program download.
 
-### 10.5.1 55/58/56系列MCU进入Boot Mode方法
+### 10.5.1 Methods to Enter Boot Mode for 55/58/56 Series MCUs
 <br>![alt text](./assets/system/system006.png)<br>   
-55，58，56系列MCU都有BOOT_MODE脚，BOOT_MODE拉高并且复位或上电，则会进入boot_mode，在Lcpu的默认debug串口会出现下面的log，此串口也是默认uart下载口
+The 55, 58, and 56 series MCUs all have a BOOT_MODE pin. When BOOT_MODE is pulled high and the MCU is reset or powered on, it will enter boot mode. The following log will appear on the default debug serial port of Lcpu, which is also the default UART download port:
 ```
    Serial:c2,Chip:2,Package:0,Rev:0
     \ | /
@@ -84,7 +84,7 @@ ROM|64KB|0x0000_0000|0x0000_FFFF
     2020 - 2022 Copyright by SiFli team
    msh >
 ```
-在boot_mode下，进行uart下载前，可以输入help命令验证串口是否通的，如下操作：
+In boot mode, before performing UART download, you can input the `help` command to verify if the serial port is working, as shown below:
 ```
    Serial:c2,Chip:2,Package:0,Rev:0
     \ | /
@@ -112,32 +112,31 @@ TX:help
    free 
    msh >
 ```  
-<br>**注意**<br> 
-BOOT_MODE拉高后的boot_mode的log输出，是来自内部固化ROM代码不依赖外部代码，如果没有此log，请查串口连接和MCU工作条件是否已经满足<br> 
-### 10.5.2 52系列MCU进入Boot Mode方法
+<br>**Note**<br> 
+The log output after pulling BOOT_MODE high comes from the internal ROM code and does not depend on external code. If this log is not present, please check the serial port connection and whether the MCU operating conditions are met.<br> 
+### 10.5.2 Methods to Enter Boot Mode for 52 Series MCUs
 <br>![alt text](./assets/system/system007.png)<br> 
-如上图，需要用到工具`SiFli-SDK\tools\SifliTrace\SifliTrace.exe`串口连接并勾选上BOOT选项，然后重启机器，在52固化的boot代码中会等待2秒， 勾选BOOT选项后工具SifliTrace会发命令让52进入boot_mode，如果只看到`SFBL`的log没有看到后面的2条log，可能是PC的TX到MCU的RX这路uart不通；<br>
+As shown in the figure above, the tool `SiFli-SDK\tools\SifliTrace\SifliTrace.exe` is required to connect via serial port and select the BOOT option, then restart the machine. In the 52 series' boot code, it will wait for 2 seconds. After selecting the BOOT option, the tool SifliTrace will send a command to enter boot mode. If you only see the `SFBL` log and not the subsequent two logs, it may indicate that the UART connection from the PC's TX to the MCU's RX is not working;
 ```
 SFBL
 receive boot info, stop it!!!
 enter boot mode flow success!!!
 ```
-也可以采用工具`SiFli-SDK\tools\SifliUsartServer.exe`和SifliTrace.exe一起使用，如下图：
+You can also use the tool `SiFli-SDK\tools\SifliUsartServer.exe` together with SifliTrace.exe, as shown in the figure below:
 <br>![alt text](./assets/system/system008.png)<br> 
 
-<br>**注意**<br>
-`SFBL`这条log，不依赖于软件，如果没有此log，请查串口连接和MCU工作条件是否已经满足<br>
+<br>**Note**<br>
+The `SFBL` log does not depend on the software. If this log is not present, please check the serial port connection and whether the MCU operating conditions are met.<br>
 
-## 10.6 52 PA34长按复位时间修改
-58，56，52系列MCU都支持长按电源按键 (PWRKEY) 复位；如果芯片的电源按键 PB54（58系列）， PB32 （56系列），PA34（52系列）持续高电平超过10秒，会发生PWRKEY复位，将除RTC与IWDT以外的所有模块复位。通过PMUC寄存器WSR的`PWRKEY`标志可以查询是否发生过PWRKEY复位，通过PMUC寄存器WCR的`PWRKEY`可以清除该标志。<br> 
-其中52系列可以修改长按按复位时间（58，56无此寄存器，不支持修改），`PWRKEY_HARD_RESET_TIME`默认参数10为10秒，可按照需要进行修改，内部采用RC32计数，并不依赖外部32768晶体时钟，另外按键的极性不能修改；
+## 10.6 Modifying the Long Press Reset Time for PA34 on 52 Series MCUs
+The 58, 56, and 52 series MCUs all support long-press power key (PWRKEY) reset. If the power key PB54 (58 series), PB32 (56 series), PA34 (52 series) remains high for more than 10 seconds, a PWRKEY reset will occur, resetting all modules except the RTC and IWDT. The `PWRKEY` flag in the PMUC register WSR can be used to check if a PWRKEY reset has occurred, and the `PWRKEY` flag in the PMUC register WCR can be used to clear this flag.<br> 
+Among these, the 52 series can modify the long-press reset time (58 and 56 series do not have this register and do not support modification). The default value of `PWRKEY_HARD_RESET_TIME` is 10 seconds, and it can be modified as needed. The internal RC32 counter is used, and it does not depend on the external 32768 Hz crystal clock. Additionally, the polarity of the key cannot be modified;
 ```c
 #ifndef PWRKEY_HARD_RESET_TIME
     #define PWRKEY_HARD_RESET_TIME     (10)   /* unit:s */
 #endif
 ```
-对应代码配置在初始化函数HAL_PreInit内：
+The corresponding code configuration is in the initialization function `HAL_PreInit`:
 ```c
 hwp_pmuc->PWRKEY_CNT = PWRKEY_CNT_CLOCK_FREQ * PWRKEY_HARD_RESET_TIME ;  //set pwrkey hard reset time time*32768
 ```
-

@@ -1,27 +1,26 @@
-# 思澈开发板LCM转接板制作指南
+# Sich Dev Board LCM Adapter Board Guide
 
-本文指导如何给思澈开发板做配套转接板，用来调试第三方显示屏。
+This document guides you on how to create an adapter board for the Sich Dev Board to debug third-party displays.
 
-## 思澈开发板屏幕接口类型
+## Sich Dev Board Screen Interface Types
 
 - 16p QSPI FPC
-	- SF32LB52-DevKit-Nano
-	- SF32LB52-DevKit-Core
+  - SF32LB52-DevKit-Nano
+  - SF32LB52-DevKit-Core
 - 22p QSPI FPC
-	- SF32LB52-DevKit-LCD
-	- SF32LB52-DevKit-ULP（立创.黄山派）
+  - SF32LB52-DevKit-LCD
+  - SF32LB52-DevKit-ULP (Lichuang.Huangshan)
 - 40p RGB FPC
-	- SF32LB56-DevKit-LCD
-	- SF32LB58-DevKit-LCD
+  - SF32LB56-DevKit-LCD
+  - SF32LB58-DevKit-LCD
 - 30p MIPI-DSI FPC
-	- SF32LB58-DevKit-LCD
+  - SF32LB58-DevKit-LCD
 
-## 思澈开发板屏幕接口定义
+## Sich Dev Board Screen Interface Definitions
 
+### 16p QSPI FPC Interface
 
-### 16p QSPI FPC接口
-
-<div align="center"> 16p FPC接口信号定义  </div>
+<div align="center"> 16p FPC Interface Signal Definitions </div>
 
 ```{table}
 :align: center
@@ -46,9 +45,9 @@
 
 ```
 
-### 22p QSPI FPC接口
+### 22p QSPI FPC Interface
 
-<div align="center"> 22p FPC接口信号定义  </div>
+<div align="center"> 22p FPC Interface Signal Definitions </div>
 
 ```{table}
 :align: center
@@ -79,9 +78,9 @@
 
 ```
 
-### 40p RGB FPC接口
+### 40p RGB FPC Interface
 
-<div align="center"> 40p FPC接口信号定义  </div>
+<div align="center"> 40p FPC Interface Signal Definitions  </div>
 
 ```{table}
 :align: center
@@ -130,10 +129,10 @@
 
 ```
 
-### 30p MIPI-DSI FPC接口
+### 30p MIPI-DSI FPC Interface
 
 
-<div align="center"> 30p FPC接口信号定义  </div>
+<div align="center"> 30p FPC Interface Signal Definitions </div>
 
 ```{table}
 :align: center
@@ -145,7 +144,7 @@
 |4  | GND      | Power Supply Ground               | GND      |
 |5  | D1P      | MIPI data Lane 1 positive-end output pin   | D1P      |
 |6  | D1N      | MIPI data Lane 1 negative-end output pin   | D1N      |
-|7  | GND      | Power Supply Groud                | GND      |
+|7  | GND      | Power Supply Ground                | GND      |
 |8  | DCKP     | MIPI clock Lane positive-end output pin    | DCKP     |
 |9  | DCKN     | MIPI clock Lane negative-end output pin    | DCKN     |
 |10 | GND      | Power Supply Ground               | GND      |
@@ -169,16 +168,15 @@
 |28 | NC       | None connect                      | NC       |
 |29 | LEDA     | LED anode                         | LEDA     |
 |30 | LEDA     | LED anode                         | LEDA     |
-
 ```
 
-## LCM转接板信号连接
+## LCM Adapter Board Signal Connections
 
-思澈科技多个系列的开发板，使用一套图形界面完美支持SPI(SPI、DSPI和QSPI)、8080、8bit并口墨水屏、JDI、RGB和DSI等常见接口类型的屏。
+Sicheng Technology's multiple series of development boards use a unified graphical interface to perfectly support common display interfaces such as SPI (SPI, DSPI, and QSPI), 8080, 8-bit parallel e-ink displays, JDI, RGB, and DSI.
 
-### SPI、DSPI和QSPI接口屏
+### SPI, DSPI, and QSPI Display Interfaces
 
-<div align="center"> 16p FPC接口连接SPI、DSPI和QSPI屏  </div>
+<div align="center"> 16p FPC interface for connecting SPI, DSPI, and QSPI displays </div>
 
 ```{table}
 :align: center
@@ -199,7 +197,7 @@
 ```
 <br>
 
-<div align="center"> 22p FPC接口连接SPI、DSPI和QSPI屏  </div>
+<div align="center"> 22p FPC interface for connecting SPI, DSPI, and QSPI displays </div>
 
 ```{table}
 :align: center
@@ -220,7 +218,7 @@
 ```
 <br>
 
-<div align="center"> 56LCD开发板40p FPC接口连接SPI、DSPI和QSPI屏  </div>
+<div align="center"> 56LCD development board 40p FPC interface for connecting SPI, DSPI, and QSPI displays </div>
 
 ```{table}
 :align: center
@@ -243,7 +241,7 @@
 ```
 <br>
 
-<div align="center"> 58LCD开发板40p FPC接口连接SPI、DSPI和QSPI屏  </div>
+<div align="center"> 58LCD development board 40p FPC interface for connecting SPI, DSPI, and QSPI displays </div>
 
 ```{table}
 :align: center
@@ -264,11 +262,11 @@
 |40 | LCD_RST| RESX    | RESX   | RESX  | RESX  |
 
 ```
-### MCU-8080接口屏
+### MCU-8080 Interface Screen
 
-8bit MCU-8080 只有22p和40p（56-DevKit-LCD）FPC接口支持，连接方式如下面2个表格。
+The 8-bit MCU-8080 only supports 22p and 40p (56-DevKit-LCD) FPC interfaces, and the connection methods are shown in the following two tables.
 
-<div align="center"> 22p FPC接口连接MCU-8080屏  </div>
+<div align="center"> 22p FPC Interface Connection to MCU-8080 Screen </div>
 
 ```{table}
 :align: center
@@ -300,7 +298,7 @@
 ```
 <br>
 
-<div align="center"> 56LCD开发板40p FPC接口连接MCU-8080屏  </div>
+<div align="center"> 56LCD Development Board 40p FPC Interface Connection to MCU-8080 Screen </div>
 
 ```{table}
 :align: center
@@ -327,17 +325,17 @@
 |40 | LCD_RST  | LCD reset output Active low       | RESX     | 
 
 ```
-### 8bit并口墨水屏接口
+### 8-bit Parallel Interface E-Ink Display
 
-8bit并口墨水屏需要的IO接口较多，思澈开发板FPC屏幕接口无法满足IO数量要求。
+The 8-bit parallel interface e-ink display requires a large number of IO interfaces, which the FPC screen interface of the Siches development board cannot meet.
 
-详细的设计指南，请参考[8bit并口墨水屏硬件设计指南](http://wiki.sifli.com)。
+For detailed design guidelines, please refer to the [8-bit Parallel Interface E-Ink Display Hardware Design Guide](http://wiki.sifli.com).
 
-### JDI并行接口屏
+### JDI Parallel Interface Display
 
-JDI屏常见的接口有24p并口和10p串口，接口线序如下面2个表格。
+Common interfaces for JDI displays include 24-pin parallel and 10-pin serial interfaces. The pinout for these interfaces is shown in the following two tables.
 
-<div align="center"> 24p并口JDI信号定义  </div>
+<div align="center"> 24-pin Parallel JDI Signal Definitions </div>
 
 ```{table}
 :align: center
@@ -371,7 +369,7 @@ JDI屏常见的接口有24p并口和10p串口，接口线序如下面2个表格�
 ```
 <br>
 
-<div align="center"> 10p串口JDI信号定义  </div>
+<div align="center"> 10p Serial Port JDI Signal Definitions </div>
 
 ```{table}
 :align: center
@@ -389,36 +387,36 @@ JDI屏常见的接口有24p并口和10p串口，接口线序如下面2个表格�
 |10 | VSSA         | Analog ground                                          | Onboard circuit |
 
 ```
-详细的设计指南，请参考[JDI屏硬件设计指南](http://wiki.sifli.com)。
+For detailed design guidelines, please refer to the [JDI Screen Hardware Design Guide](http://wiki.sifli.com).
 
-### RGB(MIPI-DPI)接口屏
+### RGB(MIPI-DPI) Interface Screen
 
-只有SF32LB56-DevKit-LCD和SF32LB56-DevKit-LCD开发板支持RGB接口屏。开发板的40p FPC插座线序兼容正点原子线序，可以直接插上正点原子的RGB屏使用。
+Only the SF32LB56-DevKit-LCD and SF32LB56-DevKit-LCD development boards support the RGB interface screen. The 40-pin FPC connector pinout on the development board is compatible with the pinout of the Olimex RGB screen, allowing the Olimex RGB screen to be directly connected.
 
-开发者可以参考上文定义的40p FPC座线序和正点原子RGB屏资料来制作显示转接板。
+Developers can refer to the 40-pin FPC connector pinout defined above and the Olimex RGB screen documentation to design a display adapter board.
 
-第三方RGB屏链接：
-* [IPS版7寸RGB屏模块1024*600（正点原子）](https://detail.tmall.com/item.htm?abbucket=17&id=609758563397&rn=b8068af8e33ece4aa2c043b54a77a153&spm=a1z10.5-b-s.w4011-24686329149.72.255354adb0S1oV)
+Third-party RGB screen links:
+* [7-inch RGB Screen Module 1024*600 (Olimex)](https://detail.tmall.com/item.htm?abbucket=17&id=609758563397&rn=b8068af8e33ece4aa2c043b54a77a153&spm=a1z10.5-b-s.w4011-24686329149.72.255354adb0S1oV)
 * [HTM-H070A20-RGB-A01C_V0-1](https://item.taobao.com/item.htm?id=845117257237&spm=a213gs.v2success.0.0.42674831Eg7yk8&skuId=5791172462409)
 
-### MIPI(MIPI-DSI)接口屏
+### MIPI(MIPI-DSI) Interface Screen
 
-如上文的30p FPC插座信号定义所示，思澈SF32LB58-DevKit-LCD开发板最高支持 2lane数据传输，最高支持1280*800分辨率的MIPI屏。
+As shown in the 30-pin FPC connector signal definitions above, the Siches SF32LB58-DevKit-LCD development board supports up to 2-lane data transmission and can support MIPI screens with a maximum resolution of 1280*800.
 
-转接板信号连接可以参考上文的30p FPC座线序，其中开发板上已经集成了恒流WLED驱动源电路，背光LEDK和LEDA可以提供100mA的驱动电流，屏幕背光最高支持并行6路LED。可以根据屏幕具体的LED结构来调整开发板上的Rset电阻，来满足实际的驱动电流要求。
+The signal connections for the adapter board can be referenced from the 30-pin FPC connector pinout defined above. The development board already integrates a constant current WLED driver circuit, and the backlight LEDK and LEDA can provide a drive current of 100mA, supporting up to 6 parallel LED channels. The Rset resistor on the development board can be adjusted according to the specific LED structure of the screen to meet the actual drive current requirements.
 
 ```{important}
-1. 开发板的IO是3.3V电平，如果LCD转接板上的驱动芯片的IO电平是1.8V，请使用Level shift芯片来转换电平。
-2. QSPI、8080和RGB的数据和时钟线需要串接22~47欧姆的电阻如果。
-3. *-Nano和*-Core开发板上I2C信号没有加上拉电阻，需要在屏转接板上加I2C上拉电阻。
+1. The IO of the development board is 3.3V level. If the IO level of the LCD adapter board's driver chip is 1.8V, a level shift chip should be used to convert the level.
+2. The data and clock lines of QSPI, 8080, and RGB should be connected in series with 22~47 ohm resistors.
+3. The I2C signals on the *-Nano and *-Core development boards do not have pull-up resistors, and pull-up resistors need to be added on the screen adapter board.
 ```
-## 转接板背光电路
+## Backlight Circuit for Adapter Board
 
-### TFT屏背光电路
+### TFT Screen Backlight Circuit
 
-TFT屏的背光一般由串并联的LED发光管组成，根据屏幕尺寸大小不同，背光的串并联LED数量也不同，一般裸屏规格书里有背光LED的组成介绍，以此来设计背光驱动电路。
+The backlight of a TFT screen is generally composed of series and parallel connected LED light pipes. The number of series and parallel connected LEDs varies depending on the screen size, and the composition of the backlight LEDs is usually introduced in the bare screen specification sheet, which can be used to design the backlight drive circuit.
 
-<div align="center"> TFT常见尺寸屏幕背光组成  </div>
+<div align="center"> Common Backlight Composition for TFT Screens of Different Sizes </div>
 
 ```{table}
 :align: center
@@ -434,123 +432,117 @@ TFT屏的背光一般由串并联的LED发光管组成，根据屏幕尺寸大�
 |10.1inch  | 4 serial *7 parallel | VF=12.8V,IF=105mA    | Boost WLED driver |
 
 ```
-采用1个LED并联方式的背光驱动电路，LEDA可以直接接3.3V电源，LEDK可以直接接GND。
+For the backlight drive circuit using 1 LED in parallel, LEDA can be directly connected to a 3.3V power source, and LEDK can be directly connected to GND.
 
-有多个LED串联的背光驱动电路，常见的5V和3.3V不够VF电压的要求，只能通过升压的方式来驱动LED，推荐使用恒流LED驱动芯片来驱动背光LED。并联LED的通路数量 x 15mA及为屏幕背光的电流需求。如下图所示，Rset来设置IF驱动电流，芯片的FB一般为200mV，IF=VFB/Rset为驱动电流。
+For the backlight drive circuit with multiple LEDs in series, the common 5V and 3.3V are not sufficient to meet the VF voltage requirements, so a boost method must be used to drive the LEDs. It is recommended to use a constant current LED driver chip to drive the backlight LEDs. The current requirement for the backlight is the number of parallel LED paths x 15mA. As shown in the figure below, Rset is used to set the IF drive current, and the chip's FB is typically 200mV, so IF = VFB / Rset is the drive current.
 
 <img src="assets/Boost-WLED-Driver.png" width="80%" align="center" /> 
 
-<div align="center"> 常见恒流LED驱动芯片电路</div>  <br>  <br>  <br>
+<div align="center"> Common Constant Current LED Driver Chip Circuit</div>  <br>  <br>  <br>
 
-### AMOLED屏背光电路
+### AMOLED Backlight Circuit
 
-AMOLED是采用像素级自发光技术，没有像TFT屏一样的背光源，亮度调节一般是调节像素点的颜色，例如黑色为不发光，白色为最亮，所以无需专门提供PWM信号来调整背光亮度。
+AMOLED uses pixel-level self-emitting technology and does not have a backlight source like TFT screens. Brightness adjustment is generally achieved by adjusting the color of the pixels, for example, black does not emit light, and white is the brightest, so there is no need to provide a dedicated PWM signal to adjust the backlight brightness.
 
-AMOLED屏一般自带PMIC芯片，给面板提供VGH、VGL和VCOM电压，屏驱芯片通过1W接口来调整相应的电压值。PMIC的供电范围一般支持2.7~5.5V，所以可以引开发板FPC接口上的5V或3.3V给屏上PMIC供电。
+AMOLED screens typically come with a PMIC chip that provides VGH, VGL, and VCOM voltages to the panel. The screen driver chip adjusts the corresponding voltage values through a 1W interface. The PMIC's power supply range generally supports 2.7~5.5V, so the 5V or 3.3V from the development board's FPC interface can be used to power the PMIC on the screen.
 
 <img src="assets/AMOLED-PMIC.png" width="100%" align="center" /> 
 
-<div align="center"> 常见AMOLED PMIC芯片电路</div>  <br>  <br>  <br>
+<div align="center"> Common AMOLED PMIC Chip Circuit</div>  <br>  <br>  <br>
 
+### E-Ink Backlight Circuit
 
-### 墨水屏背光电路
+The backlight circuit for e-ink screens is relatively complex and uses a dedicated PMIC chip to provide the voltage for various power sources of the e-ink screen.
 
-墨水屏的背光电路比较复杂，使用专用PMIC芯片来提供墨水屏各个电源的电压。
+Commonly used PMIC power chips include TPS65185 and SY7637A.
 
-常用的PMIC电源芯片有TPS65185和SY7637A。
+For detailed design guidelines, please refer to the [8-bit Parallel E-Ink Screen Hardware Design Guide](http://wiki.sifli.com).
 
-详细的设计指南，请参考[8bit并口墨水屏硬件设计指南](http://wiki.sifli.com)。
+## Selection of FPC Flexible Flat Cables
 
-## FPC软排线的选择
+The FPC socket on the Siches development board is of the type that flips up and contacts from below. It is recommended to use an FPC socket that flips up and contacts from both sides when making a breakout board.
 
-思澈开发板FPC插座采用的是上翻下接触类型，建议制作转接板时，转接板上面的FPC插座采用上翻-上下双侧接触类型。
-
-推荐FPC插座：
+Recommended FPC sockets:
 - [16p-0.5mm](https://item.szlcsc.com/5909045.html?fromZone=s_s__%2522C5213753%2522&spm=sc.gbn.xh1.zy.n___sc.cidn.hd.ss&lcsc_vid=QAcLUgJQQlQLU1RQEQQKBVEAFAIIU1NQQ1ZZAgJVFVYxVlNTR1FZVFZTTlRfUTsOAxUeFF5JWBIBSRccGwIdBEoFGAxB)
 - [22p-0.5mm](https://item.szlcsc.com/5909048.html?fromZone=s_s__%2522C5213756%2522&spm=sc.gbn.xh1.zy.n___sc.gbn.hd.ss&lcsc_vid=QAcLUgJQQlQLU1RQEQQKBVEAFAIIU1NQQ1ZZAgJVFVYxVlNTR1FZVFZTTlRfUTsOAxUeFF5JWBIBSRccGwIdBEoFGAxB)
 - [30p-0.5mm](https://item.szlcsc.com/3056931.html?fromZone=s_s__%2522FPC-05FB-30PH20%2522&spm=sc.gbn.xh1.zy.n___sc.it.hd.ss&lcsc_vid=QAcLUgJQQlQLU1RQEQQKBVEAFAIIU1NQQ1ZZAgJVFVYxVlNTR1FZVFZTTlRfUTsOAxUeFF5JWBIBSRccGwIdBEoFGAxB)
 - [40p-0.5mm](https://item.szlcsc.com/3056935.html?fromZone=s_s__%2522C2856837%2522&spm=sc.gbn.xh1.zy.n___sc.it.hd.ss&lcsc_vid=QAcLUgJQQlQLU1RQEQQKBVEAFAIIU1NQQ1ZZAgJVFVYxVlNTR1FZVFZTTlRfUTsOAxUeFF5JWBIBSRccGwIdBEoFGAxB)
 
-转接板上采用上翻-上下双侧接触类型FPC插座，FPC软排线可以选择16p、22p、30p和40p，0.5mm间距的FPC软排线，排线接触点同面或异面的都可以。
+When using an FPC socket that flips up and contacts from both sides on the breakout board, the FPC flexible flat cables can be chosen in 16p, 22p, 30p, and 40p, with a 0.5mm pitch. The contact points of the FPC can be on the same side or on opposite sides.
 
 <img src="assets/FPC-REF.png" width="90%" align="center" /> 
 
-<div align="center"> 参考FPC软排线</div>  <br>  <br>  <br>
+<div align="center"> Reference FPC Flexible Flat Cable</div>  <br>  <br>  <br>
 
 ```{important}
-转接板设计时，注意FPC插座的1脚位置，如果转接板直接参考开发板原理图的线序和1脚位置，实际用软排线对接时就会造成信号交叉而无法使用。解决方法有：
-1. 修改转接板上的插座的PCB库的1脚位置，从相反方向开始命名管脚序号，原理图符合不变。
-2. 修改转接板上的插座的原理图符号库1的1脚位置，从相反方向开始命名管脚序号，PCB库不变。
+When designing the adapter board, pay attention to the position of pin 1 of the FPC connector. If the adapter board directly references the wiring sequence and pin 1 position of the development board schematic, it will cause signal crossover and make the actual flexible flat cable connection unusable. Solutions include:
+1. Modify the position of pin 1 in the PCB library of the connector on the adapter board, and name the pin sequence from the opposite direction, keeping the schematic unchanged.
+2. Modify the position of pin 1 in the schematic symbol library of the connector on the adapter board, and name the pin sequence from the opposite direction, keeping the PCB library unchanged.
 ```
 
-## 思澈LCM模组
+## Sicheng LCM Module
 
-为了方便开发者使用思澈科技的开发板来调试显示功能，思澈科技推出多款LCM屏幕模组，包括QSPI、RGB和DSI接口。屏幕尺寸有1.85寸 AMOLED 390450 手表屏、4.3寸 TFT 800480显示屏、7寸 TFT 1024x600显示屏和8寸 TFT 1280x800显示屏。
+To facilitate developers in using Sicheng Technology's development boards to debug display functions, Sicheng Technology has launched multiple LCM screen modules, including QSPI, RGB, and DSI interfaces. The screen sizes include a 1.85-inch AMOLED 390x450 watch screen, a 4.3-inch TFT 800x480 display, a 7-inch TFT 1024x600 display, and an 8-inch TFT 1280x800 display.
 
-### 1.85inch AMOLED Module
+### 1.85-inch AMOLED Module
 
-#### 特性
+#### Features
 
-- 尺寸：1.85inch 长方形圆角AMOLED手表屏，裸屏型号：ZC-A1D85W-010
-- 分辨率：390x450
-- 亮度：800 cd/m2
-- 显示数据接口：QSPI
-- 触摸数据接口：I2C
+- Size: 1.85-inch rectangular rounded AMOLED watch screen, bare screen model: ZC-A1D85W-010
+- Resolution: 390x450
+- Brightness: 800 cd/m²
+- Display data interface: QSPI
+- Touch data interface: I2C
 - OLED Driver IC: CO5300AF-01
 - Power IC: BV6802W
 - TP IC: FT6146-M00
 
-#### 开发板支持列表
+#### Supported Development Board List
 
 - SF32LB52-DevKit-Nano
-	- [16p-0.5mm间距-5cm长度-反向-FPC](https://detail.tmall.com/item.htm?detail_redpacket_pop=true&id=680458377217&ltk2=1750067224011jye1g23u8nodzodf4cqbwg&ns=1&priceTId=213e035a17500671977881818e1d06&query=FPC%2022P%200.5&spm=a21n57.1.hoverItem.4&utparam=%7B%22aplus_abtest%22%3A%229f477038981a766efe59de49bfe14d1d%22%7D&xxc=ad_ztc&sku_properties=148242406%3A56086872)
+	- [16p-0.5mm pitch-5cm length-reverse-FPC](https://detail.tmall.com/item.htm?detail_redpacket_pop=true&id=680458377217&ltk2=1750067224011jye1g23u8nodzodf4cqbwg&ns=1&priceTId=213e035a17500671977881818e1d06&query=FPC%2022P%200.5&spm=a21n57.1.hoverItem.4&utparam=%7B%22aplus_abtest%22%3A%229f477038981a766efe59de49bfe14d1d%22%7D&xxc=ad_ztc&sku_properties=148242406%3A56086872)
 - SF32LB52-DevKit-Core-****
-	- [16p-0.5mm间距-5cm长度-反向-FPC](https://detail.tmall.com/item.htm?detail_redpacket_pop=true&id=680458377217&ltk2=1750067224011jye1g23u8nodzodf4cqbwg&ns=1&priceTId=213e035a17500671977881818e1d06&query=FPC%2022P%200.5&spm=a21n57.1.hoverItem.4&utparam=%7B%22aplus_abtest%22%3A%229f477038981a766efe59de49bfe14d1d%22%7D&xxc=ad_ztc&sku_properties=148242406%3A56086872)
-- SF32LB52-DevKit-ULP(立创.黄山派)
-	- [22p-0.5mm间距-5cm长度-反向-FPC](https://detail.tmall.com/item.htm?detail_redpacket_pop=true&id=680458377217&ltk2=1750067224011jye1g23u8nodzodf4cqbwg&ns=1&priceTId=213e035a17500671977881818e1d06&query=FPC%2022P%200.5&spm=a21n57.1.hoverItem.4&utparam=%7B%22aplus_abtest%22%3A%229f477038981a766efe59de49bfe14d1d%22%7D&xxc=ad_ztc&skuId=5623637216836)
+	- [16p-0.5mm pitch-5cm length-reverse-FPC](https://detail.tmall.com/item.htm?detail_redpacket_pop=true&id=680458377217&ltk2=1750067224011jye1g23u8nodzodf4cqbwg&ns=1&priceTId=213e035a17500671977881818e1d06&query=FPC%2022P%200.5&spm=a21n57.1.hoverItem.4&utparam=%7B%22aplus_abtest%22%3A%229f477038981a766efe59de49bfe14d1d%22%7D&xxc=ad_ztc&sku_properties=148242406%3A56086872)
+- SF32LB52-DevKit-ULP (Lichuang. Huangshan School)
+	- [22p-0.5mm pitch-5cm length-reverse-FPC](https://detail.tmall.com/item.htm?detail_redpacket_pop=true&id=680458377217&ltk2=1750067224011jye1g23u8nodzodf4cqbwg&ns=1&priceTId=213e035a17500671977881818e1d06&query=FPC%2022P%200.5&spm=a21n57.1.hoverItem.4&utparam=%7B%22aplus_abtest%22%3A%229f477038981a766efe59de49bfe14d1d%22%7D&xxc=ad_ztc&skuId=5623637216836)
 - SF32LB52-DevKit-LCD
-	- [22p-0.5mm间距-5cm长度-反向-FPC](https://detail.tmall.com/item.htm?detail_redpacket_pop=true&id=680458377217&ltk2=1750067224011jye1g23u8nodzodf4cqbwg&ns=1&priceTId=213e035a17500671977881818e1d06&query=FPC%2022P%200.5&spm=a21n57.1.hoverItem.4&utparam=%7B%22aplus_abtest%22%3A%229f477038981a766efe59de49bfe14d1d%22%7D&xxc=ad_ztc&skuId=5623637216836)
+	- [22p-0.5mm pitch-5cm length-reverse-FPC](https://detail.tmall.com/item.htm?detail_redpacket_pop=true&id=680458377217&ltk2=1750067224011jye1g23u8nodzodf4cqbwg&ns=1&priceTId=213e035a17500671977881818e1d06&query=FPC%2022P%200.5&spm=a21n57.1.hoverItem.4&utparam=%7B%22aplus_abtest%22%3A%229f477038981a766efe59de49bfe14d1d%22%7D&xxc=ad_ztc&skuId=5623637216836)
 - SF32LB56-DevKit-LCD
-	- [40p-0.5mm间距-5cm长度-反向-FPC](https://detail.tmall.com/item.htm?detail_redpacket_pop=true&id=680458377217&ltk2=1750067224011jye1g23u8nodzodf4cqbwg&ns=1&priceTId=213e035a17500671977881818e1d06&query=FPC%2022P%200.5&skuId=5791728402036&spm=a21n57.1.hoverItem.4&utparam=%7B%22aplus_abtest%22%3A%229f477038981a766efe59de49bfe14d1d%22%7D&xxc=ad_ztc)
+	- [40p-0.5mm pitch-5cm length-reverse-FPC](https://detail.tmall.com/item.htm?detail_redpacket_pop=true&id=680458377217&ltk2=1750067224011jye1g23u8nodzodf4cqbwg&ns=1&priceTId=213e035a17500671977881818e1d06&query=FPC%2022P%200.5&skuId=5791728402036&spm=a21n57.1.hoverItem.4&utparam=%7B%22aplus_abtest%22%3A%229f477038981a766efe59de49bfe14d1d%22%7D&xxc=ad_ztc)
 - SF32LB58-DevKit-LCD
-	- [40p-0.5mm间距-5cm长度-正向-FPC](http://10.23.10.196:19000/web-file/hardware/files/documentation/FPC_40p_to_1p85-AMOLED-Module%E8%BD%AF%E6%8E%92%E7%BA%BF_2025-07-04.epro?)
+	- [40p-0.5mm pitch-5cm length-forward-FPC](http://10.23.10.196:19000/web-file/hardware/files/documentation/FPC_40p_to_1p85-AMOLED-Module%E8%BD%AF%E6%8E%92%E7%BA%BF_2025-07-04.epro?)
 
-#### 开发板和显示屏安装方式
+#### Installation Methods for Development Boards and Displays
 
 <img src="assets/52-Nano-1p85-install.png" width="80%" align="center" /> 
 
-<div align="center"> SF32LB52-DevKit-Nano开发板安装方式</div>  <br>  <br>  <br>
+<div align="center"> Installation method for SF32LB52-DevKit-Nano development board</div>  <br>  <br>  <br>
 
 <img src="assets/52-Core-1p85-install.png" width="80%" align="center" /> 
 
-<div align="center"> SF32LB52-DevKit-Core-****开发板安装方式</div>  <br>  <br>  <br>
+<div align="center"> Installation method for SF32LB52-DevKit-Core-**** development board</div>  <br>  <br>  <br>
 
 <img src="assets/52-ULP-1p85-install.png" width="80%" align="center" /> 
 
-<div align="center"> SF32LB52-DevKit-ULP(立创.黄山派)开发板安装方式</div>  <br>  <br>  <br>
+<div align="center"> Installation Method for SF32LB52-DevKit-ULP (Lichuang.Huangshan) Development Board</div>  <br>  <br>  <br>
 
 <img src="assets/52-LCD-1p85-install.png" width="60%" align="center" /> 
 
-<div align="center"> SF32LB52-DevKit-LCD开发板安装方式</div>  <br>  <br>  <br>
+<div align="center"> Installation Method for SF32LB52-DevKit-LCD Development Board</div>  <br>  <br>  <br>
 
 <img src="assets/56-LCD-1p85-install.png" width="80%" align="center" /> 
 
-<div align="center"> SF32LB56-DevKit-LCD开发板安装方式</div>  <br>  <br>  <br>
+<div align="center"> Installation Method for SF32LB56-DevKit-LCD Development Board</div>  <br>  <br>  <br>
 
 <img src="assets/58-LCD-1p85-install.png" width="80%" align="center" /> 
 
-<div align="center"> SF32LB58-DevKit-LCD开发板安装方式</div>  <br>  <br>  <br>
+<div align="center"> Installation Method for SF32LB58-DevKit-LCD Development Board</div>  <br>  <br>  <br>
 
-[转接板参考设计资料](https://downloads.sifli.com/hardware/files/documentation/SFLCM1p85-A-390-450-Adapter_V1.0.epro?)
+[Adapter Board Reference Design Data](https://downloads.sifli.com/hardware/files/documentation/SFLCM1p85-A-390-450-Adapter_V1.0.epro?)
 
 ### 4.3inch TFT Module
-（敬请期待）
+(Coming Soon)
 ### 7inch TFT Module
-（敬请期待）
+(Coming Soon)
 ### 8inch TFT Module
-（敬请期待）
-
-
-
-
-
+(Coming Soon)

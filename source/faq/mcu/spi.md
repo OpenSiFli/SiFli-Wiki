@@ -1,3 +1,2 @@
-# 13 SPI相关问题
-## 待完善事项
-
+# 13 SPI Related Issues
+## To Be Completed

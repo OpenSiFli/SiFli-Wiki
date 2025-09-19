@@ -1,33 +1,32 @@
 # 7 SystemView
-## 7.1 SystemView能用来分析什么问题？
-SystemView 是可视化分析工具,随着 MCU 的性能越来越强，嵌入式产品的功能越来越复杂，对于系统的调试和分析提出了新挑战，调试某个功能或问题通常需要花费大量精力，SystemView 是一款帮助用户进行系统调试和分析的强大工具，能够显著缩短开发和调试时间，提高开发效率。<br>  RT-Thread 上提供了 SystemView 工具对系统进行调试和分析。<br> 
-该工具，可以详细的看到每一个线程，每一个中断，占用CPU的时间，特别适合找到占用CPU资源的地方，这里举例，以下两个场合用SystemView定位到的问题：<br> 
-1，LCD显示图像偶尔撕裂，最后用SystemView定位到是存储数据读写Flash的时候，关闭了中断，导致一帧数据因为中断被关闭，分成了2帧来刷屏导致。<br> 
-2，TP的I2C送数被打断了16ms，用SystemView定位是这个16ms是因为LCD控制器LCDC的中断内存在两次送数，导致中断程序持续过长。<br> 	
-具体参考RT-Thread 官网文档：<br> 
-[SystemView 分析工具 (rt-thread.org)]( https://www.rt-thread.org/document/site/#/rt-thread-version/rt-thread-standard/application-note/debug/systemview/an0009-systemview?id=systemview-%e4%bd%bf%e7%94%a8%e6%8c%87%e5%8d%97)：
+## 7.1 What Issues Can SystemView Analyze?
+SystemView is a visualization and analysis tool. As the performance of MCUs continues to improve and the functions of embedded products become increasingly complex, new challenges arise in system debugging and analysis. Debugging a specific function or issue often requires a significant amount of effort. SystemView is a powerful tool that helps users debug and analyze their systems, significantly reducing development and debugging time and improving development efficiency.<br>  RT-Thread provides the SystemView tool for system debugging and analysis.<br> 
+This tool can provide detailed insights into each thread and each interrupt, showing the CPU time they occupy. It is particularly useful for identifying CPU resource bottlenecks. Here are two examples of issues identified using SystemView:<br> 
+1. Occasional tearing in LCD image display. SystemView identified that the issue was caused by the interruption being disabled during Flash read/write operations, leading to a frame of data being split into two frames due to the disabled interrupt.<br> 
+2. The I2C data transmission of the TP was interrupted for 16ms. SystemView identified that this 16ms delay was due to the LCD controller (LCDC) interrupt being active during two data transmissions, causing the interrupt routine to run for an extended period.<br> 
+For more details, refer to the RT-Thread official documentation:<br> 
+[SystemView Analysis Tool (rt-thread.org)](https://www.rt-thread.org/document/site/#/rt-thread-version/rt-thread-standard/application-note/debug/systemview/an0009-systemview?id=systemview-%e4%bd%bf%e7%94%a8%e6%8c%87%e5%8d%97):
 
-## 7.2 SystemView如何启用
-1，SDK的配置：Hcpu的menuconfig→ Third party packages → SystemView: A Segger utility for analysis and trace the RTOS 其他都采用默认配置。<br> 
-2，Hcpu的串口console输入命令： `rtt_show_address`
-会返回，RTT Control Block的地址，如下图：
+## 7.2 How to Enable SystemView
+1. SDK Configuration: Hcpu's menuconfig → Third party packages → SystemView: A Segger utility for analysis and trace the RTOS. Use default settings for all other configurations.<br> 
+2. Enter the command `rtt_show_address` in the Hcpu serial console to get the address of the RTT Control Block, as shown in the following figure:
 <br>![alt text](./assets/systemview001.png)<br> 
-3，打开SystemView.exe软件，菜单->Target->Start Recording, 
+3. Open the SystemView.exe software, go to Menu → Target → Start Recording,
 <br>![alt text](./assets/systemview002.png)<br>  
-4，按如下选择，并且填好步骤2获取的地址。
+4. Select the options and enter the address obtained in step 2.
 <br>![alt text](./assets/systemview003.png)<br>  
-5，Start Recording记录后，就能看到如下的窗口：
+5. After starting the recording, you will see the following window:
 <br>![alt text](./assets/systemview004.png)<br>  
-6，添加Segger打印到SystemView的串口中，可以在SDK的代码中添加如下代码：<br> 
+6. Add Segger print to the SystemView serial port by adding the following code in the SDK:
 ```
 extern void SEGGER_SYSVIEW_Print(const char* s);
- SEGGER_SYSVIEW_Print("A");
+SEGGER_SYSVIEW_Print("A");
 ```
-更多使用，请参考RT-Thread 官网文档或者DOC目录下文档
+For more usage, refer to the RT-Thread official documentation or the documents in the DOC directory.
 
-## 7.3 52X SystemView如何启用
-参考## 7.2的前提下，因为52X默认是UART_DGB，采用SifliUsartServer.exe转的jlink非常慢，没法正常连接SystemView，因此需要把PA18,PA19配置为jlink接口模式，修改如下：<br> 
-1，bsp_pinmux.c文件BSP_PIN_Init函数中，PA18,P19配置为jlink接口<br> 
+## 7.3 How to Enable SystemView on 52X
+Refer to section ## 7.2. For 52X, the default is UART_DGB, and using SifliUsartServer.exe to convert jlink is very slow and cannot connect to SystemView normally. Therefore, PA18 and PA19 need to be configured as jlink interface mode. Modify as follows:<br> 
+1. In the `bsp_pinmux.c` file, in the `BSP_PIN_Init` function, configure PA18 and PA19 as jlink interface:
 ```
 #if 0
     // UART1
@@ -41,13 +40,15 @@ extern void SEGGER_SYSVIEW_Print(const char* s);
     HAL_PIN_SetMode(PAD_PA19, 1, PIN_DIGITAL_IO_PULLDOWN);
 #endif 
 ```
-2，hcpu的log打印也改成jlink的segger打印<br> 
-3，可以直接在编译出的hcpu工程bf0_ap.map文件中，搜索_SEGGER_RTT变量，<br> 
+2. Change the log print to jlink's Segger print in the hcpu.
+3. You can search for the `_SEGGER_RTT` variable in the `bf0_ap.map` file of the compiled hcpu project:
 ```
 _SEGGER_RTT     0x603c3258   Data    168  SEGGER_RTT.o(Jlink_RTT)
 ```
-3， 填入上述查询的_SEGGER_RTT地址0x603c3258，<br> 
-4, 52X连接SystemView死机，原先放在PSRAM上面，跟上位机交互可能会出现psram cache异常，导致死机 <br> 
-`*.o (Jlink_RTT, +First)
- SEGGER_SYSVIEW.o (+RW +ZI)` 把这两个放到sram里。
- <br>![alt text](./assets/systemview005.png)<br> 
+3. Enter the `_SEGGER_RTT` address `0x603c3258` obtained from the above query.
+4. When 52X connects to SystemView, it may crash if the data is placed in PSRAM, as it can cause PSRAM cache anomalies leading to crashes. Place the following in SRAM:
+```
+*.o (Jlink_RTT, +First)
+SEGGER_SYSVIEW.o (+RW +ZI)
+```
+<br>![alt text](./assets/systemview005.png)<br>

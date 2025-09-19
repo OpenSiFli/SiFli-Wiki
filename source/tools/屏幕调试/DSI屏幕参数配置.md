@@ -1,83 +1,84 @@
-# DSI屏幕参数配置
+# DSI Screen Parameter Configuration
 
-相关mipi的基础知识可以参考下面文章，这里不再对MIPI DSI基础知识进行详述。
-- [MIPI扫盲——DSI Command Mode vs Video Mode：](https://blog.csdn.net/justlxy/article/details/115453751)
-- [MIPI DSI-2 协议解析](https://blog.csdn.net/sinat_43629962/article/details/122998924)
+For basic knowledge about MIPI, please refer to the following articles. The basics of MIPI DSI will not be detailed here.
+- [MIPI Primer — DSI Command Mode vs Video Mode:](https://blog.csdn.net/justlxy/article/details/115453751)
+- [MIPI DSI-2 Protocol Analysis](https://blog.csdn.net/sinat_43629962/article/details/122998924)
 
-## 配置参数前的准备
-在配置DSI的参数前，用户需要对自己屏幕模组的参数指标有比较详细的认知，请参考以下列表，确认在配置前已经了解相关的信息。
-- DSI接口Data Lane数量，色彩格式，最高频率
-- DSI接口工作模式，Command模式/Video模式，不同模式需要参考不同的配置流程。
-- 屏幕分辨率，刷新率
-- 对于Command模式，确认屏幕TE的机制，是通过DSI协议，还是通过单独的引脚提供TE信号。  
+## Preparations Before Configuration
+Before configuring the DSI parameters, users need to have a detailed understanding of their screen module's parameters. Please refer to the following list to ensure that you have the necessary information before proceeding with the configuration.
+- Number of DSI interface Data Lanes, color format, and maximum frequency
+- DSI interface operating mode, Command mode/Video mode, and the different configuration procedures required for each mode.
+- Screen resolution and refresh rate
+- For Command mode, confirm the screen TE mechanism, whether it is provided through the DSI protocol or through a separate pin.
 
-在准备好以上信息后，就可以根据DSI接口工作模式进行屏幕参数配置。
-- [Command模式参数配置](#Command_mode_conf)
-- [Video模式参数配置](#Video_mode_conf)
+After preparing the above information, you can configure the screen parameters according to the DSI interface operating mode.
+- [Command Mode Parameter Configuration](#Command_mode_conf)
+- [Video Mode Parameter Configuration](#Video_mode_conf)
 
 
 (Command_mode_conf)=
-## Command模式参数配置
-Command模式下DSI相关可配置的参数主要有：
+## Command Mode Parameter Configuration
+The main configurable parameters for DSI in Command mode include:
 - freq  
-DSI时钟频率
+DSI clock frequency
 - color_mode  
-色彩格式，可以配置RGB888或者RGB565
+Color format, which can be configured as RGB888 or RGB565
 - AutomaticClockLaneControl  
-Clock自动控制，使能后，clock lane在空闲时会进入低功耗状态，这样可以降低接口功耗。
+Clock automatic control, enabling this will put the clock lane into a low-power state when idle, thus reducing interface power consumption.
 - NumberOfLanes  
-DSI Data Lane数量，最高可以支持2 Data Lane
+Number of DSI Data Lanes, up to 2 Data Lanes are supported
 - TearingEffectSource  
-配置DSI的TE来源
+Configure the source of DSI TE
 - TEAcknowledgeRequest  
-配置Enable使能TE功能
+Enable TE functionality by configuring this
 - vsyn_delay_us  
-TE功能触发送数的延迟，该功能只有在TE使能时才有效，配置表示TE信号来之后，到正式发送屏幕数据之间的延迟
+Delay for TE functionality trigger, this function is only effective when TE is enabled, and it configures the delay between the arrival of the TE signal and the actual sending of screen data
 
-如下的源码中，涵盖了DSI Command模式的所有配置，上述提到的配置是需要根据屏幕要求进行更改的，其他配置，也有对应描述，但是不建议进行更改。
+The following source code covers all configurations for DSI Command mode. The configurations mentioned above need to be adjusted according to the screen requirements. Other configurations are also described but are not recommended to be changed.
 ```c
 static LCDC_InitTypeDef lcdc_int_cfg_dsi =
 {
-    .lcd_itf = LCDC_INTF_DSI, /* 选择DSI接口 */
-    .freq = DSI_FREQ_480Mbps, /* 选择DSI接口频率，这里选择480M */
-    .color_mode = LCDC_PIXEL_FORMAT_RGB888,  /* DBI output color format,   should match with .cfg.dsi.CmdCfg.ColorCoding */
+    .lcd_itf = LCDC_INTF_DSI, /* Select DSI interface */
+    .freq = DSI_FREQ_480Mbps, /* Select DSI interface frequency, here 480M is chosen */
+    .color_mode = LCDC_PIXEL_FORMAT_RGB888,  /* DBI output color format, should match with .cfg.dsi.CmdCfg.ColorCoding */
 
     .cfg = {
 
         .dsi = {
 
             .Init = {
-/*  clock lane时钟自动控制，enable后，clock lane会自动进入lp模式来节省功耗，默认关闭，如果需要控制接口功耗，再打开。*/
+/* Clock lane clock automatic control, enable this to automatically put the clock lane into lp mode to save power, default is disabled, enable if you need to control interface power consumption. */
                 .AutomaticClockLaneControl = DSI_AUTO_CLK_LANE_CTRL_ENABLE,
-                .NumberOfLanes = DSI_ONE_DATA_LANE,/* DSI Data Lane数量 */
+                .NumberOfLanes = DSI_ONE_DATA_LANE,/* Number of DSI Data Lanes */
 /*
- lp模式下的时钟分频比，不用做更改。
+ Clock divider ratio in lp mode, no need to change.
  escape clk  = dsi_phy_clk / 2(DDR) / 8 / TXEscapeCkdiv
 */                
                 .TXEscapeCkdiv = 0x4,
             },
+```
 
-            .CmdCfg = {
-                .VirtualChannelID      = 0,/* channel ID, 不用做更改 */
-                .CommandSize           = 0xFFFF, /* 这个值目前没有作用,忽略 */
-/* 配置TE源来自外部还是内部 */                
+.CmdCfg = {
+                .VirtualChannelID      = 0,/* channel ID, no need to change */
+                .CommandSize           = 0xFFFF, /* this value is currently not in use, ignore it */
+/* Configure TE source as external or internal */                
                 .TearingEffectSource   = DSI_TE_EXTERNAL, /* DSI link TE */
                 .TEAcknowledgeRequest  = DSI_TE_ACKNOWLEDGE_ENABLE,  /* Enable TE */
-/* DSI input & output color format，该配置后面会被移除，与之前配置重复 */
+/* DSI input & output color format, this configuration will be removed later as it duplicates previous settings */
                 .ColorCoding           = DSI_RGB888,//DSI input & output color format
             },
-/* 这部分寄存器都是dsi物理层相关配置，不建议用户进行更改 */
+/* These registers are related to the DSI physical layer configuration, and it is not recommended for users to modify them */
             .PhyTimings = {
-                .ClockLaneHS2LPTime = 35,/*  clock lane从hs切换到lp模式需要的时钟周期 */
-                .ClockLaneLP2HSTime = 35, /* clock lane从lp切换到hs模式需要的时钟周期 */
-                .DataLaneHS2LPTime = 35,/* data lane从hs切换到lp模式需要的时钟周期 */
-                .DataLaneLP2HSTime = 35, /* data lane从lp切换到hs模式需要的时钟周期 */
-                .DataLaneMaxReadTime = 0,/*  单次读取所需要的最大时钟周期数，因为现有使用状况下，读取不会发生在发数的阶段，所以该值没有被使用。 */
-                .StopWaitTime = 0, /* stop模式下，发送hs模式切换请求的最小等待时间 */
+                .ClockLaneHS2LPTime = 35,/* clock lane switching from HS to LP mode requires this number of clock cycles */
+                .ClockLaneLP2HSTime = 35, /* clock lane switching from LP to HS mode requires this number of clock cycles */
+                .DataLaneHS2LPTime = 35,/* data lane switching from HS to LP mode requires this number of clock cycles */
+                .DataLaneLP2HSTime = 35, /* data lane switching from LP to HS mode requires this number of clock cycles */
+                .DataLaneMaxReadTime = 0,/* the maximum number of clock cycles required for a single read operation, this value is not used as read operations do not occur during transmission in the current usage scenario */
+                .StopWaitTime = 0, /* the minimum wait time in stop mode before sending an HS mode switch request */
             },
-/* HostTimeouts 这一部分配置主要设计timeout报错，一般用来检测异常情况，方便以后debug，用户不需要修改 */
+/* HostTimeouts configuration mainly involves timeout errors, generally used to detect abnormal situations for easier debugging in the future, users do not need to modify these settings */
             .HostTimeouts = {
-                .TimeoutCkdiv = 1,/* timeout的时钟分频比，timeout debug目前没有打开，没有生效 */
+                .TimeoutCkdiv = 1,/* the clock division ratio for timeout, timeout debugging is currently not enabled, so this setting is not effective */
                 .HighSpeedTransmissionTimeout = 0,
                 .LowPowerReceptionTimeout = 0,
                 .HighSpeedReadTimeout = 0,
@@ -88,25 +89,26 @@ static LCDC_InitTypeDef lcdc_int_cfg_dsi =
                 .BTATimeout = 0,
             },
 
-/*  LPCmd 这里的寄存器定义了command模式下，各种类型的指令对应的发送模式，LP模式发送速度慢，但是可以被逻分抓到，高速模式发送速度快，但常用仪器无法检测。这里建议对于generic接口的command，设置为低速即可，对于dcs的指令，除了longwrite，其他均可以设置为低速，这样便于通过逻分查看波形。这部分允许用户更改，但不太建议改动。*/
+```c
+/*  LPCmd This section defines the register settings for command mode, specifying the transmission modes for various types of commands. LP mode has a slower transmission speed but can be captured by logic analyzers, while high-speed mode has a faster transmission speed but cannot be detected by common instruments. It is recommended to set the commands for the generic interface to low speed. For DCS commands, except for longwrite, all others can be set to low speed, which facilitates waveform viewing through a logic analyzer. This section allows user modifications, but it is not highly recommended to change it. */
             .LPCmd = {
-                .LPGenShortWriteNoP    = DSI_LP_GSW0P_ENABLE,/*  generic接口shortwrite指令无参数发送模式，enable为低速，disable为高速 */
-                .LPGenShortWriteOneP   = DSI_LP_GSW1P_ENABLE,/*  generic接口shortwrite指令单参数发送模式，enable为低速，disable为高速 */
-                .LPGenShortWriteTwoP   = DSI_LP_GSW2P_ENABLE,/*  generic接口shortwrite指令双参数发送模式，enable为低速，disable为高速 */
-                .LPGenShortReadNoP     = DSI_LP_GSR0P_ENABLE,/*  generic接口shortread指令无参数发送模式，enable为低速，disable为高速 */
-                .LPGenShortReadOneP    = DSI_LP_GSR1P_ENABLE,/*   generic接口shortread指令单参数发送模式，enable为低速，disable为高速 */
-                .LPGenShortReadTwoP    = DSI_LP_GSR2P_ENABLE,/*   generic接口shortread指令双参数发送模式，enable为低速，disable为高速 */
-                .LPGenLongWrite        = DSI_LP_GLW_ENABLE, /* generic接口longwrite指令发送模式，enable为低速，disable为高速 */
-                .LPDcsShortWriteNoP    = DSI_LP_DSW0P_ENABLE,/* dcs接口shortwrite指令无参数发送模式，enable为低速，disable为高速 */
-                .LPDcsShortWriteOneP   = DSI_LP_DSW1P_ENABLE, /*  dcs接口shortwrite指令单参数发送模式，enable为低速，disable为高速 */
-                .LPDcsShortReadNoP     = DSI_LP_DSR0P_ENABLE, /* ddcs接口shortread指令无参数发送模式，enable为低速，disable为高速 */
-                .LPDcsLongWrite        = DSI_LP_DLW_DISABLE, /*  dcs接口longwrite指令单参数发送模式，enable为低速，disable为高速 */
-                .LPMaxReadPacket       = DSI_LP_MRDP_ENABLE, /* 设置最大读取包尺寸指令模式发送模式，enable为低速，disable为高速*/
-                .AcknowledgeRequest    = DSI_ACKNOWLEDGE_DISABLE, //disable LCD error reports 使能后允许屏幕端发送应答包，主要用于debug，一般场景下disable即可。
+                .LPGenShortWriteNoP    = DSI_LP_GSW0P_ENABLE,/*  generic interface shortwrite command with no parameters, enable for low speed, disable for high speed */
+                .LPGenShortWriteOneP   = DSI_LP_GSW1P_ENABLE,/*  generic interface shortwrite command with one parameter, enable for low speed, disable for high speed */
+                .LPGenShortWriteTwoP   = DSI_LP_GSW2P_ENABLE,/*  generic interface shortwrite command with two parameters, enable for low speed, disable for high speed */
+                .LPGenShortReadNoP     = DSI_LP_GSR0P_ENABLE,/*  generic interface shortread command with no parameters, enable for low speed, disable for high speed */
+                .LPGenShortReadOneP    = DSI_LP_GSR1P_ENABLE,/*  generic interface shortread command with one parameter, enable for low speed, disable for high speed */
+                .LPGenShortReadTwoP    = DSI_LP_GSR2P_ENABLE,/*  generic interface shortread command with two parameters, enable for low speed, disable for high speed */
+                .LPGenLongWrite        = DSI_LP_GLW_ENABLE, /* generic interface longwrite command, enable for low speed, disable for high speed */
+                .LPDcsShortWriteNoP    = DSI_LP_DSW0P_ENABLE,/*  DCS interface shortwrite command with no parameters, enable for low speed, disable for high speed */
+                .LPDcsShortWriteOneP   = DSI_LP_DSW1P_ENABLE, /*  DCS interface shortwrite command with one parameter, enable for low speed, disable for high speed */
+                .LPDcsShortReadNoP     = DSI_LP_DSR0P_ENABLE, /* DCS interface shortread command with no parameters, enable for low speed, disable for high speed */
+                .LPDcsLongWrite        = DSI_LP_DLW_DISABLE, /*  DCS interface longwrite command, enable for low speed, disable for high speed */
+                .LPMaxReadPacket       = DSI_LP_MRDP_ENABLE, /* set the maximum read packet size command mode, enable for low speed, disable for high speed */
+                .AcknowledgeRequest    = DSI_ACKNOWLEDGE_DISABLE, // disable LCD error reports, enabling this allows the screen to send acknowledgment packets, mainly used for debugging, generally disable in normal scenarios.
             },
 
 
-            .vsyn_delay_us = 0,/* 该配置在使能TEAcknowledgeRequest后，才有意义，用于配置TE信号高电平延时多少us后，再给屏送数 */
+            .vsyn_delay_us = 0,/*  This configuration is meaningful only when TEAcknowledgeRequest is enabled, used to configure the delay in microseconds after the TE signal is high before sending data to the screen */
         },
     },
 };
@@ -114,7 +116,5 @@ static LCDC_InitTypeDef lcdc_int_cfg_dsi =
 ```
 ***
 
-
-
 (Video_mode_conf)=
-## Video模式参数配置
+## Video Mode Configuration Parameters

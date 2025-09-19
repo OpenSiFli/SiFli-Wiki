@@ -1,95 +1,94 @@
 # 2 Jlink
-## 2.1 如何用JLINK RTT打印log信息?
-目前我们默认软件Hcpu的log是从uart1 PA17/PA19(SF32LB555), PA49/51(SF32LB551)输出log<br>
-Lcpu的log是从uart3 输出，<br>
-客户只引出了uart3 PB45/PB46，或者Uart1被占用<br>
-解决方案:<br>
-考虑到uart3是连接到lcpu，后面lcpu也需要输出log，
-可以采用menuconfig改成swd输出log<br>
-Jlink swd打印hcpu的log 修改方法:<br>
-1) 进入到SDK\example\rt_driver\project\ec-lb555目录<br>
-2) menuconfig->Third party packages->选中Segger RTT package
+## 2.1 How to Print Log Information Using JLINK RTT?
+Currently, by default, the log of the Hcpu software is output from uart1 PA17/PA19 (SF32LB555), PA49/51 (SF32LB551)<br>
+The log of the Lcpu is output from uart3,<br>
+The customer only exposed uart3 PB45/PB46, or uart1 is occupied.<br>
+Solution:<br>
+Considering that uart3 is connected to the lcpu, and the lcpu also needs to output logs,
+you can change the configuration to use SWD for log output via menuconfig.<br>
+Method to modify Jlink SWD to print Hcpu logs:<br>
+1) Navigate to the directory SDK\example\rt_driver\project\ec-lb555<br>
+2) menuconfig -> Third party packages -> Select Segger RTT package
  <br>
 ![alt text](./assets/jlink001.png)<br>
-3) menuconfig->RTOS -> RT-Thread Kernel->Kernel Device Object->the devices name for console 改成segger<br>
+3) menuconfig -> RTOS -> RT-Thread Kernel -> Kernel Device Object -> Change the device name for console to segger<br>
 ![alt text](./assets/jlink002.png)<br> 
-4) 连接jlink。
-方法1：打开C:\Program Files (x86)\SEGGER\JLink\jlink.exe -> connect ->? ->s->默认4000khz->连接成功，如下图：<br>
+4) Connect the Jlink.
+Method 1: Open C:\Program Files (x86)\SEGGER\JLink\jlink.exe -> connect ->? -> s -> default 4000kHz -> connection successful, as shown in the following figure:<br>
 ![alt text](./assets/jlink003.png)<br> 
-方法2：打开C:\Program Files (x86)\SEGGER\JLink\JLinkRTTViewer.exe配置和菜单File -> Connect，
-连接成功能看到如下的 LOG: RTT Viewer connected.提示连接成功。<br>
+Method 2: Open C:\Program Files (x86)\SEGGER\JLink\JLinkRTTViewer.exe and configure the menu File -> Connect,
+connection successful will show the following prompt: LOG: RTT Viewer connected.<br>
 ![alt text](./assets/jlink004.png)<br> 
 ![alt text](./assets/jlink005.png)<br>   
-5) 运行Xshell，secureCRT等软件，通过telnet（hostname: 127.0.0.1 port: 19021）连接到jlink RTT viewer，查看日志；支持输出输入，如下图：<br>
+5) Run Xshell, SecureCRT, etc., and connect to the Jlink RTT viewer via telnet (hostname: 127.0.0.1 port: 19021) to view the logs; supports input and output, as shown in the following figure:<br>
 ![alt text](./assets/jlink006.png)<br> 
-**注意** 如果Hcpu从standby醒来或者重启，需要重连jlink RTT viewer. <br>
-F，如果按照如上配置，Segger还是没有打印，可以参考#2.2排查
-## 2.2 Hcpu的log通过Jlink segger打印不出来
-根本原因：<br>
-新版本sdk为了优化内存，Jlink的Control block address： _SEGGER_RTT变量从HPSYS SRAM0x20000000改链接到了内存区域 HPSYS ITCM RAM0x00010000 0x0001FFFF 64*1024
-如下图：<br>
+**Note** If the Hcpu wakes up from standby or restarts, you need to reconnect the Jlink RTT viewer.<br>
+If the above configuration still does not work, refer to #2.2 for troubleshooting.
+## 2.2 Hcpu Log Not Printed via Jlink Segger
+Root cause:<br>
+In the new version of the SDK, to optimize memory, the Jlink Control block address: _SEGGER_RTT variable was moved from HPSYS SRAM 0x20000000 to the memory region HPSYS ITCM RAM 0x00010000 0x0001FFFF 64*1024, as shown in the following figure:<br>
 ![alt text](./assets/jlink007.png)<br>  
-而Jlink默认搜索内存从0x20000000开始，因而搜索不到，连接不成功，<br>
-老版本0.9.7编译后的地址在0x20000000之后，jlink能自动连接搜索到。<br>
-解决方案1: <br>
-J-Link RTT Viewer.exe 内指定地址，该地址可以从map文件中搜索到，如下图：<br>
+By default, Jlink searches memory starting from 0x20000000, so it cannot find the address, and the connection fails.<br>
+In the old version 0.9.7, the compiled address was after 0x20000000, and Jlink could automatically connect and find it.<br>
+Solution 1:<br>
+Specify the address in J-Link RTT Viewer.exe, which can be found in the map file, as shown in the following figure:<br>
 ![alt text](./assets/jlink008.png)<br> 
-解决方案2:<br>
-改用Ozone.exe，Ozone.exe能通过axf文件中找到该地址，如下图，存在SetRTTAddr地址命令：<br>
+Solution 2:<br>
+Use Ozone.exe, which can find the address in the axf file, as shown in the following figure, with the SetRTTAddr address command:<br>
 ![alt text](./assets/jlink008.png)<br>  
-解决方案3:<br>
-做一个JLinkScript的命令，在jlink启动时会自动调用设置或者搜索Control block address范围，如下图命令：<br>
-可以自己进行修改选择：<br>
+Solution 3:<br>
+Create a JLinkScript command to automatically set or search for the Control block address range when Jlink starts, as shown in the following command:<br>
+You can modify and choose as needed:<br>
 ![alt text](./assets/jlink009.png)<br>  
-对应：xml文件修改：<br>
+Corresponding: xml file modification:<br>
 ![alt text](./assets/jlink010.png)<br>  
-JLink.exe，J-Link RTT Viewer.exe ，还是像之前一样自动能连接上，方便很多.<br>
-推荐用rttview.exe和telnet 127.0.0.1查看log的使用！
-文件patch如附件，复制到Jlink对应安装目录：<br>
+JLink.exe, J-Link RTT Viewer.exe, and others can still connect automatically as before, making it much more convenient.<br>
+Recommended to use rttview.exe and telnet 127.0.0.1 to view logs!
+The patch file is attached, copy it to the corresponding Jlink installation directory:<br>
 Program Files (x86).7z
 
-## 2.3 Jlink读写flash的内容，
-1) jlink连接成功后， 用mem32读 ， 用w4写， 用erase 擦写<br>
+## 2.3 Jlink Read and Write Flash Content
+1) After successfully connecting with Jlink, use mem32 to read, w4 to write, and erase to erase and write
 ```
-mem32 0x40014000 1 #读1个32bit的寄存器值
-mem32 0x64000000 10 #读10个byte从flash2地址0x64000000开始，
-w4 0x64000000 0x2f 0x2f 0x2f 0x2f 0x2f 0x2f #写内存或者寄存器值 从flash2地址0x64000000开始， 写入后续的数据
+mem32 0x40014000 1 # read 1 32-bit register value
+mem32 0x64000000 10 # read 10 bytes starting from flash2 address 0x64000000
+w4 0x64000000 0x2f 0x2f 0x2f 0x2f 0x2f 0x2f # write memory or register values starting from flash2 address 0x64000000, write the subsequent data
 ```
-1) 用jflash读写<br>
-跟jlink.exe在一个目录，有一个jflash工具，如下图菜单读取flash内容，
+1) Use jflash to read and write
+In the same directory as jlink.exe, there is a jflash tool, as shown in the menu below to read flash content,
 ![alt text](./assets/jlink011.png)<br>  
-1) savebin命令读取<br>
+1) Use savebin command to read
 ```
 savebin d:\1.bin 0x101b4000 0x100000 
 ```
-如上0x101b4000为内存地址，0x100000为读写内存大小单位为byte
-d，save出来的bin，再烧写回去方法
+As shown above, 0x101b4000 is the memory address, and 0x100000 is the read/write memory size in bytes.
+To save the bin and then reprogram it:
 ```
 loadbin  d:\1.bin 0x101b4000
 ```
-## 2.4 Jlink其他常用命令
-1) halt，go命令<br>
-输入命令h，可以让CPU停下来，查看PC指针所在位置<br>
-输入命令g，可以让CPU继续跑起来，
+## 2.4 Other Common Jlink Commands
+1) halt, go commands
+Entering the command h will stop the CPU and allow you to check the position of the PC pointer
+Entering the command g will resume the CPU's operation,
 ![alt text](./assets/jlink012.png)<br>  
-1) 设置PC指针<br>
-常用于配合 __asm("B ."); 指令来用，当代码中执行到该指令后，会停住，<br>
-如上图，如果此时PC指针在0x10140D28，此时PC指针加2，输入setpc 0x10140D2A， 可以跳过 __asm("B .");指令，继续往下运行。
-1) 其他指令<br>
-erase 0x00000000.0x0000FFFF<br>
-loadbin <filename> <address>-- 下载filename文件到地址<br>
-usb--------连接目标板<br>
-r---------重启日标板<br>
-halt-------停止cpu运行的程序<br>
-loadbin----加载可执行的二进制文件<br>
-g-------跳到代码段地址执行<br>
-s-------单步执行 (调试用)<br>
-setpc-----设置pc寄存器的值(调试用)<br>
-setbp-----设置断点，断点停后可以指令g继续运行<br>
-Regs-------读寄存器组织<br>
-wreg-------写寄存器<br>
-mem--------读内存<br>
-w4--------写内存<br>
-## 2.5 没有SWD口用SiFliUsartServer连接Jlink方法
-52系列之后MCU没有了SWD接口，如果要用Jlink或者Ozone来debug，可以采用SiFliUsartServer.exe工具，Jlink使用方法如下图设置：
-![alt text](./assets/jlink013.png)<br>  
+1) Set the PC pointer
+Often used in conjunction with the __asm("B ."); instruction. When the code executes this instruction, it will pause.
+As shown in the figure, if the PC pointer is at 0x10140D28, adding 2 to the PC pointer and entering setpc 0x10140D2A will skip the __asm("B ."); instruction and continue running.
+1) Other commands
+erase 0x00000000.0x0000FFFF
+loadbin <filename> <address> -- download the filename file to the address
+usb--------connect to the target board
+r---------reset the target board
+halt-------stop the program running on the CPU
+loadbin----load an executable binary file
+g-------jump to the code segment address and execute
+s-------single-step execution (for debugging)
+setpc-----set the value of the PC register (for debugging)
+setbp-----set a breakpoint, after the breakpoint stops, you can continue running with the g command
+Regs-------read the register organization
+wreg-------write to a register
+mem--------read memory
+w4--------write memory
+## 2.5 Connecting Jlink Using SiFliUsartServer Without SWD Port
+After the 52 series, MCUs no longer have an SWD interface. If you want to debug using Jlink or Ozone, you can use the SiFliUsartServer.exe tool. The Jlink usage method is set as shown in the figure below:
+![alt text](./assets/jlink013.png)<br>

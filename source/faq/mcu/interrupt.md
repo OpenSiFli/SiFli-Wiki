@@ -1,16 +1,15 @@
-# 3 中断相关
-## 3.1 中断唤醒standby睡眠的脉冲宽度要求
-如下图，出现概率没法唤醒Lcpu和产生中断。<br>
-根本原因：<br>
-当PB43心率中断脉宽只有99us的时候，该客户standby下用的是RC10K振荡器，频率在8k-10k之间，对应的最大时钟周期为125us，因此该99us脉冲可能存在standby下无法唤醒Lcpu的情况出现。
-解决方案：<br>
-修改外设的寄存器或者固件，中断脉宽要大于时钟周期，RC10K振荡器下脉宽至少大于125us。
+# 3 Interrupt Related
+## 3.1 Pulse Width Requirements for Interrupt Wake-up from Standby Sleep
+As shown in the figure below, there is a probability that the Lcpu cannot be awakened and the interrupt will not be generated.<br>
+Root cause:<br>
+When the heart rate interrupt pulse width on PB43 is only 99us, the customer uses an RC10K oscillator in standby mode, with a frequency range of 8k-10k, corresponding to a maximum clock cycle of 125us. Therefore, there is a possibility that the 99us pulse cannot wake up the Lcpu in standby mode.
+Solution:<br>
+Modify the peripheral registers or firmware to ensure that the interrupt pulse width is greater than the clock cycle. Under the RC10K oscillator, the pulse width should be at least greater than 125us.
 <br>![alt text](./assets/int/int001.png)<br>  
 
-## 3.2 开关总中断函数
+## 3.2 Global Interrupt Control Functions
 ```c
 uint32_t mask;
- mask = rt_hw_interrupt_disable(); /*关中断*/
- rt_hw_interrupt_enable(mask);  /*开中断*/
- ```
-
+mask = rt_hw_interrupt_disable(); /* Disable interrupts */
+rt_hw_interrupt_enable(mask);  /* Enable interrupts */
+```

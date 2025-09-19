@@ -1,4 +1,4 @@
-# 软硬件工具汇总
+# Summary of Software and Hardware Tools
 [Impeller]: https://downloads.sifli.com/tools/Impeller_COMMON.7z
 [GraphicsTool]: https://downloads.sifli.com/tools/GraphicsTool.7z
 [Sifli_EQ]: https://downloads.sifli.com/tools/Sifli_EQ.7z
@@ -6,39 +6,39 @@
 [Sifli_RfTool]: https://downloads.sifli.com/tools/Sifli_RfTool.7z
 ```{important}
 
-思澈科技提供了一系列的软硬件工具，用于方案开发、调试、测试等环节。这些工具包括烧录工具、图形转换工具、存储调试工具、屏幕模组调试等。
+Sifli Technology provides a series of software and hardware tools for development, debugging, and testing. These tools include programming tools, graphics conversion tools, storage debugging tools, and screen module debugging tools.
 
 ```
 
-:::{list-table} 常用工具列表
+:::{list-table} List of Common Tools
 :widths: 15 30 25
 :header-rows: 1
-*   - **名称**
-    - **功能描述**
-    - **下载链接**
+*   - **Name**
+    - **Function Description**
+    - **Download Link**
 *   - Impeller
-    - 产线烧录校准工具
-    - [Impeller工具包][Impeller]
+    - Production programming and calibration tool
+    - [Impeller Tool Package][Impeller]
 *   - Sifli_Trace
-    - Trace抓取工具
-    - [Sifli_Trace工具包][Sifli_Trace]
+    - Trace capture tool
+    - [Sifli_Trace Tool Package][Sifli_Trace]
 *   - Sifli_EQ
-    - 音频EQ调试工具
-    - [Sifli_EQ工具包][Sifli_EQ]
+    - Audio EQ debugging tool
+    - [Sifli_EQ Tool Package][Sifli_EQ]
 *   - Sifli_RfTool
-    - BT/BLE射频测试工具
-    - [Sifli_RfTool工具包][Sifli_RfTool]
+    - BT/BLE RF test tool
+    - [Sifli_RfTool Tool Package][Sifli_RfTool]
 *   - Sifli_UartServer
-    - UART DEBUG转jlink接口工具(56x/52x平台调试)
-    - 集成在上方Sifli_Trace工具中发布
+    - UART DEBUG to J-Link interface tool (for 56x/52x platform debugging)
+    - Integrated in the Sifli_Trace tool package above
 *   - GraphicsTool
-    - 图片/视频转换工具，用于生成思澈平台图形显示素材
-    - [GraphicsTool工具包][GraphicsTool]
+    - Image/video conversion tool for generating Sifli platform graphics display materials
+    - [GraphicsTool Tool Package][GraphicsTool]
 *   - Ozone
-    - Segger公司的在线调试工具 [[使用方法](../faq/tools/ozone.md/)]
+    - Online debugging tool by Segger [[Usage](../faq/tools/ozone.md/)]
     - [Ozone - The J-Link Debugger Windows 64-bit Installer](https://www.segger.cn/downloads/jlink/#Ozone)
 *   - Trace32
-    - Lauterbach公司的离线调试工具 [[使用方法](../faq/tools/trace32.md/)]
+    - Offline debugging tool by Lauterbach [[Usage](../faq/tools/trace32.md/)]
     - [Simulator for ARM/CORTEX/XSCALE
   simarm.zip](https://repo.lauterbach.com/download_demo.html)
 :::

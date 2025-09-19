@@ -1,12 +1,12 @@
-# 开发板
+# Development Boards
 
-## 说明
+## Description
 
-思澈科技有限公司（SiFli）提供了多款开发板，适用于不同的应用场景和需求。本站资料主要面向对外公开销售的开发板，对于内部测试或非公开销售的开发板，请联系您获取开发板的销售人员来获取相关资料。
+SiFli Technology Co., Ltd. (SiFli) provides multiple development boards suitable for different application scenarios and requirements. The materials on this site are primarily for development boards available for public sale. For internal testing or non-publicly sold development boards, please contact your sales representative to obtain the relevant materials.
 
-## 开发板列表
+## Development Board List
 
-### SF32LB52 系列
+### SF32LB52 Series
 
 ````{grid} 1 2 2 3
 :gutter: 3
@@ -16,55 +16,54 @@
 :link: sf32lb52x/SF32LB52-DevKit-LCD.html
 :class-card: board-card
 
-基于SF32LB52模组的开发板，IO口丰富，可通过FPC连接LCD显示屏，适合GUI开发和演示。
+A development board based on the SF32LB52 module, with rich IO ports and an FPC interface for connecting an LCD display, suitable for GUI development and demonstration.
 
-**主要特性：**
-- 集成下载烧录功能
-- 丰富的GPIO接口  
-- 板载充放电和音频
-- 标准FPC接口扩展屏幕
+**Key Features:**
+- Integrated download and programming functionality
+- Rich GPIO interfaces
+- On-board charging and audio
+- Standard FPC interface for screen expansion
 
 +++
-[查看详情 →](sf32lb52x/SF32LB52-DevKit-LCD)
+[View Details →](sf32lb52x/SF32LB52-DevKit-LCD)
 ```
-
 
 ```{grid-item-card} SF32LB52-DevKit-Nano
 :img-top: assets/SF32LB52-DevKit-Nano.png
 :link: sf32lb52x/SF32LB52-DevKit-Nano.html
 :class-card: board-card
 
-小尺寸开发板，基于SF32LB52芯片设计，适合作为核心板或嵌入式应用开发。
+A small-sized development board designed based on the SF32LB52 chip, suitable for use as a core board or for embedded application development.
 
-**主要特性：**
-- 仅21mm x 51mm体积小巧
-- 沉金邮票孔设计方便焊接
-- FPC接口可拓展屏幕
-- 核心器件全集成，可做为核心板
+**Key Features:**
+- Compact size of only 21mm x 51mm
+- Gold-plated tab design for easy soldering
+- FPC interface for screen expansion
+- Fully integrated core components, suitable as a core board
 
 +++
-[查看详情 →](sf32lb52x/SF32LB52-DevKit-Nano)
+[View Details →](sf32lb52x/SF32LB52-DevKit-Nano)
 ```
 
-```{grid-item-card} SF32LB52-黄山派
+```{grid-item-card} SF32LB52-ULP
 :img-top: assets/SF32LB52-DevKit-ULP.png
 :link: sf32lb52x/SF32LB52-黄山派.html
 :class-card: board-card
 
-集成丰富外设，可作为教育和原型开发的理想选择。
+Integrated with rich peripherals, ideal for educational and prototype development.
 
-**主要特性：**
-- 外形紧凑，可作为原型机
-- 外设丰富，配备九轴传感器
-- 丰富示例，零基础入门
-- 完整项目，适合教育和原型开发
+**Key Features:**
+- Compact form factor, suitable as a prototype
+- Rich peripherals, equipped with a 9-axis sensor
+- Abundant examples, suitable for beginners
+- Complete projects, ideal for education and prototype development
 
 +++
-[查看详情 →](sf32lb52x/SF32LB52-黄山派)
+[View Details →](sf32lb52x/SF32LB52-黄山派)
 ```
 ````
 
-### SF32LB56 系列
+### SF32LB56 Series
 
 ````{grid} 1 2 2 3
 :gutter: 3
@@ -74,37 +73,37 @@
 :link: sf32lb56x/SF32LB56-DevKit-LCD.html
 :class-card: board-card
 
-基于SF32LB56模组的高性能LCD开发板
+A high-performance LCD development board based on the SF32LB56 module.
 
-**主要特性：**
-- ✓ 高性能处理器
-- ✓ 大容量存储
-- ✓ 多媒体功能
-- ✓ 高级GUI应用
+**Key Features:**
+- ✓ High-performance processor
+- ✓ Large storage capacity
+- ✓ Multimedia capabilities
+- ✓ Advanced GUI applications
 
 +++
-[查看详情 →](sf32lb56x/SF32LB56-DevKit-LCD)
+[View Details →](sf32lb56x/SF32LB56-DevKit-LCD)
 ```
 ````
 
-### SF32LB58 系列
+### SF32LB58 Series
 
 ````{grid} 1 2 2 3
 :gutter: 3
 
-```{grid-item-card} SF32LB58-DevKit系列
+```{grid-item-card} SF32LB58-DevKit Series
 :class-card: board-card coming-soon
 
-基于SF32LB58芯片的下一代开发板，敬请期待
+The next-generation development board based on the SF32LB58 chip, coming soon.
 
-**主要特性：**
-- ✓ 更强的性能
-- ✓ 更丰富的功能
-- ✓ 更优化的设计
-- ✓ 更广泛的应用
+**Key Features:**
+- ✓ Enhanced performance
+- ✓ Richer functionality
+- ✓ Optimized design
+- ✓ Wider application range
 
 +++
-敬请期待
+Coming Soon
 ```
 ````
 

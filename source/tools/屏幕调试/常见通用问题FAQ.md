@@ -1,95 +1,90 @@
-
 ## FAQ
 
-### 屏幕ID读取失败
-* 检查供电是否正确
-* 检查IO电压是否匹配（我们芯片支持1.8V的IO, 有不少LCD是3.3V)
-* 检查屏幕复位时间是否足够
-* 尝试降低接口频率
-* 检查时序
+### Screen ID Read Failure
+* Check if the power supply is correct
+* Check if the IO voltage matches (our chip supports 1.8V IO, many LCDs are 3.3V)
+* Check if the screen reset time is sufficient
+* Try to reduce the interface frequency
+* Check the timing
 
-### DSI屏幕切换到低速模式
-1.将系统时钟降到48M
-在drv_io.c内，将HAL_RCC_HCPU_ClockSelect(RCC_CLK_MOD_SYS, XXX); XXX就是系统时钟频率，改成RCC_SYSCLK_HXT48（晶体时钟48MHz)
-这是为了降低LCDC往DSI送数的速度
+### DSI Screen Switches to Low-Speed Mode
+1. Reduce the system clock to 48M
+In `drv_io.c`, change `HAL_RCC_HCPU_ClockSelect(RCC_CLK_MOD_SYS, XXX);` where `XXX` is the system clock frequency, to `RCC_SYSCLK_HXT48` (crystal clock 48MHz)
+This is to reduce the speed at which LCDC sends data to DSI
 
-
-2.调整DSI LP 模式的频率到屏幕能支持的范围(一般在6~20Mbps), 
-如下配置时LP模式频率 = 480MHz / 16 / 4 = 7.5Mbps(其中480MHz为freq, 16 为固定值， 4为TXEscapeCkdiv)
+2. Adjust the DSI LP mode frequency to a range supported by the screen (usually 6~20Mbps)
+The configuration below sets the LP mode frequency to 480MHz / 16 / 4 = 7.5Mbps (where 480MHz is the freq, 16 is a fixed value, and 4 is TXEscapeCkdiv)
 ![alt text](../assets/image-45.png)
 
-3.将所有命令都改成LP模式(低速模式)发送
+3. Change all commands to be sent in LP mode (low-speed mode)
 ![alt text](../assets/image-46.png)
 
-### 屏幕不亮
-* 检查ID是否可以读到
-* 先关闭TE，防止TE信号没有导致LCD控制器不送数据
-* 检查送的数据是否是全黑色的
+### Screen Does Not Light Up
+* Check if the ID can be read
+* First, disable TE to prevent the LCD controller from not sending data due to the absence of the TE signal
+* Check if the data being sent is all black
 
-### 屏幕颜色格式的设置
-我们的LCD控制器 可以转换不同格式的framebuffer到LCD输出接口，确保framebuffer和LCD输出两端的配置正确
+### Screen Color Format Settings
+Our LCD controller can convert different formats of framebuffer to the LCD output interface, ensuring that the framebuffer and LCD output configurations are correct
 
-framebuffer的颜色格式设置示例（RGB565格式的framebuffer)
+Example of framebuffer color format settings (RGB565 format framebuffer)
 ![alt text](../assets/image-47.png)
 
-LCD控制器输出的颜色格式示例（DSI输出RGB888)
+Example of LCD controller output color format (DSI output RGB888)
 ![alt text](../assets/image-48.png)
 
-*framebuffer送到LCDC控制器后先转成RGB888格式的数据，然后送给DSI链路控制器再输出RGB888数据
+* The framebuffer is converted to RGB888 format data by the LCDC controller before being sent to the DSI link controller to output RGB888 data
 
-### 屏幕显示花屏
-
-* 检查framebuffer的颜色格式和LCD控制器送出的颜色格式是否正确（参考前面FAQ《屏幕颜色格式的设置》)
-* 检查IC输出的屏幕区域和液晶玻璃的分辨率是否一致，参考《屏驱IC、液晶玻璃、刷新区域、framebuffer的相对位置关系》章节。
+### Screen Displays Garbled
+* Check if the framebuffer color format and the color format sent by the LCD controller are correct (refer to the previous FAQ on "Screen Color Format Settings")
+* Check if the output screen area from the IC matches the resolution of the LCD panel, refer to the section "Relative Position Relationship of Screen Driver IC, LCD Panel, Refresh Area, and Framebuffer"
     ![alt text](../assets/image-49.png)
-* 是否没有送数，显示的默认GRAM数据（改变framebuffer，检查屏幕是否有变化）
+* Check if data is being sent, and if the default GRAM data is being displayed (change the framebuffer and check if the screen changes)
 
-### 屏幕显示（部分）绿色背景
-其中一个实例如下图：
+### Screen Displays (Partially) Green Background
+One example is shown in the following figure:
 ![alt text](../assets/image-50.png)
 
-* 检查设置LCD接受数据区域的偏移是否正确
+* Check if the offset for the area where the LCD accepts data is set correctly
 ![alt text](../assets/image-51.png)
 
-* 检查送的数据是否正确
+* Check if the data being sent is correct
 
-### 对齐要求和屏幕分辨率不符合的死机
-死机原因：
-客户有些屏幕分辨率比如是320x385, 但是他的对齐要求却是2，按照对齐要求分辨率必须都是偶数（比如320x386），上层或者驱动在刷屏时会自动对齐到偶数，导致刷屏区域超过分辨率，就会出现断言。
+### System Hangs Due to Alignment Requirements and Screen Resolution Mismatch
+Reason for the hang:
+Some screens have a resolution like 320x385, but the alignment requirement is 2, meaning the resolution must be even (e.g., 320x386). The upper layer or driver automatically aligns to even numbers during screen refresh, causing the refresh area to exceed the resolution, leading to an assertion.
 
-解决思路：
-	对上还是提供满足对齐要求的分辨率的屏幕，只改动驱动代码。
+Solution approach:
+Provide a screen that meets the alignment requirements, and only modify the driver code.
 
-解决办法：
-* 在Kconfig定义屏幕分辨率时，需要按照对齐后的分辨率配置，虚拟一个满足对齐要求的屏幕。
-    * Kconfig对应的宏是LCD_HOR_RES_MAX 和 LCD_VER_RES_MAX
-    * 比如上面的例子是配成320x386
-* 在LCD驱动的xxxx_SetRegion函数里面，检查送进来的参数是否超过真实的分辨率，咨询屏厂该如何处理。
-    * 有的屏幕是直接截取，比如上面的例子中检查Ypos1，超过385的就直接改成385
-    * 有的屏幕是可以直接刷，也不会覆盖到第一行。
+Solution:
+* When defining the screen resolution in Kconfig, configure it according to the aligned resolution, creating a virtual screen that meets the alignment requirements.
+    * The corresponding macros in Kconfig are `LCD_HOR_RES_MAX` and `LCD_VER_RES_MAX`
+    * For example, in the case above, configure it to 320x386
+* In the `xxxx_SetRegion` function of the LCD driver, check if the parameters being passed exceed the actual resolution, and consult the screen manufacturer on how to handle it.
+    * Some screens directly clip the area, for example, in the example above, check `Ypos1` and change it to 385 if it exceeds 385
+    * Some screens can be directly refreshed without overwriting the first row.
 
-### 上层图形库不动，只换屏幕
-这种问题参考《对齐要求和屏幕分辨率不符合的死机》的做法，只在驱动层进行截取即可，对上还是提供满足要求的屏幕。
+### Upper Layer Graphics Library Unchanged, Only Screen Changed
+For this issue, refer to the solution for "System Hangs Due to Alignment Requirements and Screen Resolution Mismatch," and only perform clipping in the driver layer, providing a screen that meets the requirements to the upper layer.
 
 (lcd-lcdc-coordinates-relationship)=
-### 屏驱IC、液晶玻璃、刷新区域、framebuffer的相对位置关系
+### Relative Position Relationship of Screen Driver IC, LCD Panel, Refresh Area, and Framebuffer
 
 ![alt text](./assets/lcd_lcdc_coordinates_relation.png)
 
-
-
-### 死机
-如下图所示，是比较常见的刷屏超时死机，原因是因为没有等到屏幕的TE信号，而超时死机，超时时间定义在`MAX_LCD_DRAW_TIME`,默认是500ms。
+### System Hangs
+As shown in the figure below, a common screen refresh timeout hang occurs because the TE signal from the screen is not received, leading to a timeout hang. The timeout duration is defined in `MAX_LCD_DRAW_TIME`, which defaults to 500ms.
 
 ![alt text](./assets/drv_lcd_draw_core_timeout.png)
-| 图片内的标号 | 寄存器含义说明|
+| Number in the Image | Register Meaning Explanation |
 | ---- | ---- |
-| 1 | “draw core timeout”  -- 代表的是刷屏没有等到TE，从而超时死机|
-| 2 | STATUS=1 代表LCDC控制器一直处于忙状态（比如等TE信号）， TE=3 只需看bit0， bit0 如果是1代表LCDC在刷屏之前需要等TE信号，0代表不需要等TE信号。 Log里面打印了2遍TE寄存器的值，可以观察这期间TE信号是否有来。 |
-| 3 | CANVAS 的TL, BR是刷新区域的坐标，TL的高16bit是y0, 低16bit是x0; BR的高16bit是y1, 低16bit是x1; 组成刷新区域{x0,y0,x1,y1} |
-| 4 | LAYER0的TL,BR是framebuffer所在的区域左边，格式同上面的CANVAS的TL,BR类似；<br> SRC是framebuffer的数据地址 |
+| 1 | "draw core timeout" -- indicates that the screen refresh did not wait for the TE signal, resulting in a timeout hang |
+| 2 | `STATUS=1` indicates that the LCDC controller is always busy (e.g., waiting for the TE signal), `TE=3` only needs to check bit0, bit0 being 1 indicates that the LCDC needs to wait for the TE signal before refreshing, 0 indicates no need to wait for the TE signal. The log prints the value of the TE register twice, which can be used to observe if the TE signal has arrived during this period. |
+| 3 | `CANVAS`'s `TL` and `BR` are the coordinates of the refresh area, `TL`'s high 16 bits are `y0`, low 16 bits are `x0`; `BR`'s high 16 bits are `y1`, low 16 bits are `x1`; forming the refresh area `{x0,y0,x1,y1}` |
+| 4 | `LAYER0`'s `TL` and `BR` are the coordinates of the framebuffer area, in the same format as `CANVAS`'s `TL` and `BR`; `SRC` is the data address of the framebuffer |
 
-解决办法：
-1. 如果是一开机就出现这个死机，大概率是屏驱有问题，检查屏幕的上电、复位，屏初始化代码等。
-2. 如果是睡眠唤醒出现这个死机，可能是初始化的复位时间不够，或者睡眠时关闭屏幕的流程不符合要求。
-3. 如果刷屏期间突然出现这个死机，可能屏驱不稳定（比如IO电平不匹配、速率太高），或者静电导致屏驱IC死机。
+Solution:
+1. If the hang occurs immediately upon startup, it is likely a screen driver issue. Check the screen power-on, reset, and initialization code.
+2. If the hang occurs during wake-up from sleep, it may be due to insufficient reset time or an incorrect screen shutdown procedure during sleep.
+3. If the hang occurs suddenly during screen refresh, it may be due to an unstable screen driver (e.g., mismatched IO levels, too high speed), or static electricity causing the screen driver IC to hang.

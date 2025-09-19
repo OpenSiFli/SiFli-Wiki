@@ -1,117 +1,114 @@
 # sftool
 
-一个用于SiFli SoC串行工具的命令行实用程序。
+A command-line utility for the SiFli SoC serial tool.
 
-## 简介
+## Introduction
 
-sftool是一个专为SiFli系列SoC（系统芯片）设计的开源工具，用于通过串行接口与芯片进行交互。它支持多种操作，包括向闪存写入数据、重置芯片等功能。
+sftool is an open-source tool specifically designed for the SiFli series of SoCs (System on Chip) to interact with the chip via a serial interface. It supports various operations, including writing data to flash memory and resetting the chip.
 
-## 特性
+## Features
 
-- 支持SF32系列芯片
-- 支持多种存储类型：NOR闪存、NAND闪存和SD卡
-- 可配置的串口参数
-- 可靠的闪存写入功能，支持验证和压缩
-- 灵活的重置选项
-- 自定义连接尝试次数
+- Supports SF32 series chips
+- Supports multiple storage types: NOR flash, NAND flash, and SD card
+- Configurable serial port parameters
+- Reliable flash write functionality with verification and compression support
+- Flexible reset options
+- Customizable connection attempt counts
 
-## 安装
+## Installation
 
+### Download Pre-built
 
-### 下载预构建
-
-可以在GitHub release中下载最新的预构建sftool，我们的命名标准为sftool-v{version}-{target}.zip/tar.xz，请选择适合您系统架构的压缩包下载
+You can download the latest pre-built sftool from the GitHub release. Our naming convention is sftool-v{version}-{target}.zip/tar.xz. Please choose the compressed package suitable for your system architecture.
 
 [GitHub Release](https://github.com/OpenSiFli/sftool/releases)
 
 URL: https://github.com/OpenSiFli/sftool/releases
 
-
-
-### 使用 Cargo 安装
+### Install Using Cargo
 
 ```bash
 cargo install --git https://github.com/OpenSiFli/sftool
 ```
 
-### 从源码编译
+### Build from Source
 
 ```bash
-# 克隆仓库
+# Clone the repository
 git clone https://github.com/OpenSiFli/sftool.git
 cd sftool
 
-# 使用Cargo编译
+# Build using Cargo
 cargo build --release
 
-# 编译后的二进制文件位于
+# The compiled binary is located at
 # ./target/release/sftool
 ```
 
-## 使用方法
+## Usage
 
-### 基本命令格式
+### Basic Command Format
 
 ```bash
-sftool [选项] 命令 [命令选项]
+sftool [options] command [command options]
 ```
 
-### 全局选项
+### Global Options
 
-- `-c, --chip <CHIP>`: 目标芯片类型 (目前支持SF32LB52)
-- `-m, --memory <MEMORY>`: 存储类型 [nor, nand, sd] (默认: nor)
-- `-p, --port <PORT>`: 串行端口设备路径
-- `-b, --baud <BAUD>`: 闪存/读取时使用的串口波特率 (默认: 1000000)
-- `--before <OPERATION>`: 连接芯片前的操作 [no_reset, soft_reset] (默认: no_reset)
-- `--after <OPERATION>`: 工具完成后的操作 [no_reset, soft_reset] (默认: soft_reset)
-- `--connect-attempts <ATTEMPTS>`: 连接尝试次数，负数或0表示无限次 (默认: 7)
-- `--compat` : 兼容模式，如果经常出现超时错误或下载后校验失败，则应打开此选项。
+- `-c, --chip <CHIP>`: Target chip type (currently supports SF32LB52)
+- `-m, --memory <MEMORY>`: Storage type [nor, nand, sd] (default: nor)
+- `-p, --port <PORT>`: Serial port device path
+- `-b, --baud <BAUD>`: Serial port baud rate used for flash/write (default: 1000000)
+- `--before <OPERATION>`: Operation before connecting to the chip [no_reset, soft_reset] (default: no_reset)
+- `--after <OPERATION>`: Operation after the tool completes [no_reset, soft_reset] (default: soft_reset)
+- `--connect-attempts <ATTEMPTS>`: Number of connection attempts, negative or 0 for infinite (default: 7)
+- `--compat` : Compatibility mode, enable this option if you frequently encounter timeout errors or post-download verification failures.
 
-### 写入闪存命令
+### Write Flash Command
 
 ```bash
 # Linux/Mac
-sftool -c SF32LB52 -p /dev/ttyUSB0 write_flash [选项] <文件@地址>...
+sftool -c SF32LB52 -p /dev/ttyUSB0 write_flash [options] <file@address>...
 # Windows
-sftool -c SF32LB52 -p COM9 write_flash [选项] <文件@地址>...
+sftool -c SF32LB52 -p COM9 write_flash [options] <file@address>...
 ```
 
-#### 写入闪存选项
+#### Write Flash Options
 
-- `--verify`: 验证刚写入的闪存数据
-- `-u, --no-compress`: 传输期间禁用数据压缩
-- `-e, --erase-all`: 在编程前擦除所有闪存区域（不仅仅是写入区域）
-- `<文件@地址>`: 二进制文件及其目标地址，如果文件格式包含地址信息，@地址部分是可选的
+- `--verify`: Verify the data just written to flash
+- `-u, --no-compress`: Disable data compression during transfer
+- `-e, --erase-all`: Erase all flash regions before programming (not just the write regions)
+- `<file@address>`: Binary file and its target address, the @address part is optional if the file format contains address information
 
-### 示例
+### Examples
 
 Linux/Mac:
 
 ```bash
-# 写入单个文件到闪存
+# Write a single file to flash
 sftool -c SF32LB52 -p /dev/ttyUSB0 write_flash app.bin@0x12020000
 
-# 写入多个文件到不同地址
+# Write multiple files to different addresses
 sftool -c SF32LB52 -p /dev/ttyUSB0 write_flash bootloader.bin@0x12010000 app.bin@0x12020000 ftab.bin@0x12000000
 
-# 写入并验证
+# Write and verify
 sftool -c SF32LB52 -p /dev/ttyUSB0 write_flash --verify app.bin@0x12020000
 
-# 写入前擦除所有闪存
+# Erase all flash before writing
 sftool -c SF32LB52 -p /dev/ttyUSB0 write_flash -e app.bin@0x12020000
 ```
 
 Windows:
 
 ```bash
-# 写入多个文件到不同地址
+# Write multiple files to different addresses
 sftool -c SF32LB52 -p /dev/ttyUSB0 write_flash bootloader.bin@0x1000 app.bin@0x12010000 ftab.bin@0x12000000
-# 其它同上
+# Others are the same as above
 ```
 
-## 库使用
+## Library Usage
 
-sftool也提供了一个可重用的Rust库 `sftool-lib`，可以集成到其他Rust项目中：
+sftool also provides a reusable Rust library `sftool-lib` that can be integrated into other Rust projects:
 
 ```rust
 use sftool_lib::{SifliTool, SifliToolBase, WriteFlashParams};
@@ -138,11 +135,11 @@ fn main() {
 }
 ```
 
-## 贡献
+## Contribution
 
-欢迎提交问题和Pull Request！
+Pull requests and issues are welcome!
 
-## 项目链接
+## Project Links
 
-- [GitHub仓库](https://github.com/OpenSiFli/sftool)
-- [文档](https://docs.rs/sftool)
+- [GitHub Repository](https://github.com/OpenSiFli/sftool)
+- [Documentation](https://docs.rs/sftool)

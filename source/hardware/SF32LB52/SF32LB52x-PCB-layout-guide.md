@@ -1,244 +1,237 @@
-## PCB设计指导
+## PCB Design Guidelines
 
-### PCB封装设计
+### PCB Package Design
 
-SF32LB52X系列芯片的QFN68L封装尺寸：7mmX7mmx0.85mm；管脚数：68；PIN 间距：0.35mm。 详细尺寸如图5-1所示。
+The QFN68L package dimensions for the SF32LB52X series chips are: 7mm x 7mm x 0.85mm; number of pins: 68; pin pitch: 0.35mm. The detailed dimensions are shown in Figure 5-1.
 
 <img src="assets/52xB/sf32lb52X-B-QFN68L-POD.png" width="80%" align="center" />  
 
-<div align="center"> 图5-1 QFN68L封装尺寸图 </div>
+<div align="center"> Figure 5-1 QFN68L Package Dimensions </div>
 
 
 <img src="assets/52xB/sf32lb52X-B-QFN68L-SHAPE.png" width="80%" align="center" />  
 
-<div align="center"> 图5-2 QFN68L封装形状图 </div>
+<div align="center"> Figure 5-2 QFN68L Package Shape </div>
 
 
 <img src="assets/52xB/sf32lb52X-B-QFN68L-REF.png" width="80%" align="center" />  
 
-<div align="center"> 图5-3 QFN68L封装PCB焊盘设计参考图 </div>
+<div align="center"> Figure 5-3 QFN68L Package PCB Pad Design Reference </div>
 
 
 
-### PCB叠层设计
+### PCB Stackup Design
 
-SF32LB52X系列芯片支持单双面布局，器件可以放到单面，也可以把电容等放到芯片的背面。PCB支持PTH通孔设计，推荐采用4层PTH，推荐参考叠层结构如图5-4所示。
+The SF32LB52X series chips support single and double-sided layouts. Components can be placed on a single side, or capacitors and other components can be placed on the backside of the chip. The PCB supports PTH (Plated Through Hole) design, and a 4-layer PTH is recommended. The recommended stackup structure is shown in Figure 5-4.
 
 <img src="assets/52xB/sf32lb52X-B-PCB-STACK.png" width="80%" align="center" />  
 
-<div align="center"> 图5-4 参考叠层结构图 </div>
+<div align="center"> Figure 5-4 Reference Stackup Structure </div>
 
 
 
-### PCB通用设计规则
+### General PCB Design Rules
 
-PTH 板PCB通用设计规则如图5-5所示。
+General design rules for PTH boards are shown in Figure 5-5.
 
 <img src="assets/52xB/sf32lb52X-B-PCB-RULE.png" width="80%" align="center" />  
 
-<div align="center"> 图5-5 通用设计规则 </div>
+<div align="center"> Figure 5-5 General Design Rules </div>
 
 
 
-### PCB走线扇出
+### PCB Trace Fanout
 
-QFN封装信号扇出，所有管脚全部通过表层扇出，如图5-6所示。
+For QFN package signal fanout, all pins should be fanned out on the surface layer, as shown in Figure 5-6.
 
 <img src="assets/52xB/sf32lb52X-B-PCB-FANOUT.png" width="80%" align="center" />  
 
-<div align="center"> 如图5-6 表层扇出参考图 </div>
+<div align="center"> Figure 5-6 Surface Layer Fanout Reference </div>
 
 
 
-### 时钟接口走线
+### Clock Interface Traces
 
-晶体需摆放在屏蔽罩里面，离PCB板框间距大于1mm,尽量远离发热大的器件，如PA，Charge，PMU等电路器件，距离最好大于5mm以上，避免影响晶体频偏，晶体电路禁布区间距大于0.25mm避免有其它金属和器件，如图5-7所示。
+The crystal should be placed inside the shield, with a distance greater than 1mm from the PCB edge. It should be placed as far as possible from heat-generating components such as PA, Charge, and PMU circuits, with a recommended distance of more than 5mm to avoid affecting the crystal frequency. The crystal circuit should have a clearance of more than 0.25mm to avoid other metals and components, as shown in Figure 5-7.
 
 <img src="assets/52xB/sf32lb52X-B-PCB-CRYSTAL.png" width="80%" align="center" />  
 
-<div align="center"> 图5-7 晶体布局图 </div>
+<div align="center"> Figure 5-7 Crystal Layout </div>
 
-
-48MHz晶体走线建议走表层，长度要求控制在3-10mm区间，线宽0.1mm，必须立体包地处理，并且远离VBAT、DC/DC及高速信号线。48MHz晶体区域下方表层及临层做禁空处理，禁止其它走线从其区域走，如图5-8，5-9，5-10所示。
+For the 48MHz crystal, it is recommended to route the traces on the surface layer, with a length controlled between 3-10mm and a line width of 0.1mm. The traces must be surrounded by a ground plane and should be kept away from VBAT, DC/DC, and high-speed signal lines. The area below the 48MHz crystal on the surface layer and adjacent layers should be kept clear of other traces, as shown in Figures 5-8, 5-9, and 5-10.
 
 <img src="assets/52xB/sf32lb52X-B-PCB-48M-SCH.png" width="80%" align="center" />  
 
-<div align="center"> 图5-8 48MHz晶体原理图 </div>
+<div align="center"> Figure 5-8 48MHz Crystal Schematic </div>
 
 
 <img src="assets/52xB/sf32lb52X-B-PCB-48M-MOD.png" width="80%" align="center" />  
 
-<div align="center"> 图5-9 48MHz晶体走线模型 </div>
+<div align="center"> Figure 5-9 48MHz Crystal Trace Model </div>
 
 
 <img src="assets/52xB/sf32lb52X-B-PCB-48M-ROUTE-REF.png" width="80%" align="center" />  
 
-<div align="center"> 图5-10 48MHz晶体走线参考 </div>
+<div align="center"> Figure 5-10 48MHz Crystal Trace Reference </div>
 
-
-32.768KHz晶体走线建议走表层，长度控制≤10mm，线宽0.1mm。32K_XI/32_XO平行走线间距≥0.15mm，必须立体包地处理。晶体区域下方表层及临层做禁空处理，禁止其它走线从其区域走，如图5-11，5-12，5-13所示。
+For the 32.768KHz crystal, it is recommended to route the traces on the surface layer, with a length controlled to ≤10mm and a line width of 0.1mm. The parallel trace spacing between 32K_XI and 32K_XO should be ≥0.15mm, and the traces must be surrounded by a ground plane. The area below the 32.768KHz crystal on the surface layer and adjacent layers should be kept clear of other traces, as shown in Figures 5-11, 5-12, and 5-13.
 
 <img src="assets/52xB/sf32lb52X-B-PCB-32K-SCH.png" width="80%" align="center" />  
 
-<div align="center"> 图5-11 32.768KHz晶体原理图 </div>
+<div align="center"> Figure 5-11 32.768KHz Crystal Schematic </div>
 
 
 <img src="assets/52xB/sf32lb52X-B-PCB-32K-MOD.png" width="80%" align="center" />  
 
-<div align="center"> 图5-12 32.768KHz晶体走线模型 </div>
+<div align="center"> Figure 5-12 32.768KHz Crystal Trace Model </div>
 
 
 <img src="assets/52xB/sf32lb52X-B-PCB-32K-ROUTE-REF.png" width="80%" align="center" />  
 
-<div align="center"> 图5-13 32.768KHz晶体走线参考 </div>
+<div align="center"> Figure 5-13 32.768KHz Crystal Trace Reference </div>
 
 
 
-### 射频接口走线
+### RF Interface Traces
 
-射频匹配电路要尽量靠近芯片端放置，不要靠近天线端。AVDD_BRF射频电源其滤波电容尽量靠近芯片管脚放置，电容接地管脚打孔直接接主地。RF信号的π型网络的原理图和PCB分别如图5-14，5-15所示。
+The RF matching circuit should be placed as close as possible to the chip end, not near the antenna end. The filter capacitors for the AVDD_BRF RF power supply should be placed as close as possible to the chip pins, with the capacitor ground pins connected directly to the main ground. The schematics and PCB layout for the π-network and power circuit are shown in Figures 5-14 and 5-15.
 
 <img src="assets/52xB/sf32lb52X-B-SCH-RF.png" width="80%" align="center" />  
 
-<div align="center"> 图5-14 π型网络以及电源电路原理图 </div>
+<div align="center"> Figure 5-14 π-Network and Power Circuit Schematic </div>
 
 
 <img src="assets/52xB/sf32lb52X-B-PCB-RF.png" width="80%" align="center" />  
 
-<div align="center"> 图5-15 π型网络以及电源PCB布局 </div>
+<div align="center"> Figure 5-15 π-Network and Power PCB Layout </div>
 
-
-
-射频走线建议走表层，避免打孔穿层影响RF性能，线宽最好大于10mil，需要立体包地处理，避免走锐角和直角。射频线做50欧阻抗控制，两边多打屏蔽地孔，如图5-16, 5-17所示。
+For RF traces, it is recommended to route them on the surface layer to avoid vias that can affect RF performance. The line width should be greater than 10mil, and the traces should be surrounded by a ground plane to avoid sharp and right angles. The RF traces should be impedance-controlled to 50 ohms, with additional ground vias on both sides, as shown in Figures 5-16 and 5-17.
 
 <img src="assets/52xB/sf32lb52X-B-SCH-RF-2.png" width="80%" align="center" />  
 
-<div align="center"> 图5-16 RF信号电路原理图 </div>
-
+<div align="center"> Figure 5-16 RF Signal Circuit Schematic </div>
 
 <img src="assets/52xB/sf32lb52X-B-PCB-RF-ROUTE.png" width="80%" align="center" />  
 
-<div align="center"> 图5-17 RF信号PCB走线图 </div>
+<div align="center"> Figure 5-17 RF Signal PCB Routing </div>
 
 
 
-### 音频接口走线
-AVDD33_AUD是音频的供电管脚，其滤波电容靠近对应管脚放置，这样滤波电容的接地脚可以良好地连接到PCB的主地。MIC_BIAS是给麦克风外设供电的电源输出管脚，其对应滤波电容靠近对应管脚放置。同样AUD_VREF管脚的滤波电容也靠近管脚放置，如图5-18a，5-18b所示。
+### Audio Interface Routing
+AVDD33_AUD is the power supply pin for audio, and its filtering capacitor should be placed close to the corresponding pin so that the ground pin of the filtering capacitor can be well connected to the main ground of the PCB. MIC_BIAS is the power output pin for the microphone peripheral, and its corresponding filtering capacitor should also be placed close to the corresponding pin. Similarly, the filtering capacitor for the AUD_VREF pin should be placed close to the pin, as shown in Figure 5-18a and 5-18b.
 
 <img src="assets/52xB/sf32lb52X-B-SCH-AUDIO-PWR.png" width="80%" align="center" />  
 
-<div align="center"> 图5-18a 音频相关电源滤波电路 </div>
+<div align="center"> Figure 5-18a Audio Power Supply Filtering Circuit </div>
 
 
 <img src="assets/52xB/sf32lb52X-B-PCB-AUDIO-PWR.png" width="80%" align="center" />  
 
-<div align="center"> 图5-18b 音频相关电源滤波电路PCB参考走线 </div>
+<div align="center"> Figure 5-18b PCB Reference Routing for Audio Power Supply Filtering Circuit </div>
 
 
 
-模拟信号输入ADCP管脚，对应电路器件尽量靠近芯片管脚放置，走线线长尽量短，做立体包地处理，远离其它强干扰信号，如图5-19a，5-19b所示。
+The analog signal input ADCP pin should have the corresponding circuit components placed as close to the chip pin as possible, with the trace length kept as short as possible. The area should be shielded with a ground plane and kept away from other strong interference signals, as shown in Figure 5-19a and 5-19b.
 
 <img src="assets/52xB/sf32lb52X-B-SCH-AUDIO-ADC.png" width="80%" align="center" />  
 
-<div align="center"> 图5-19a 模拟音频输入原理图 </div>
+<div align="center"> Figure 5-19a Analog Audio Input Schematic </div>
 
 
 <img src="assets/52xB/sf32lb52X-B-PCB-AUDIO-ADC.png" width="80%" align="center" />  
 
-<div align="center"> 图5-19b 模拟音频输入PCB设计 </div>
+<div align="center"> Figure 5-19b PCB Design for Analog Audio Input </div>
 
 
 
-模拟信号输出DACP/DACN管脚，对应电路器件尽量靠近芯片管脚放置，每一路P/N需要按照差分线形式走线，走线线长尽量短，寄生电容小于10pf，需做立体包地处理，远离其它强干扰信号，如图5-20a，5-20b所示。
+The analog signal output DACP/DACN pins should have the corresponding circuit components placed as close to the chip pin as possible. Each P/N pair should be routed as differential lines with the trace length kept as short as possible, and parasitic capacitance should be less than 10pf. The area should be shielded with a ground plane and kept away from other strong interference signals, as shown in Figure 5-20a and 5-20b.
 
 <img src="assets/52xB/sf32lb52X-B-SCH-AUDIO-DAC.png" width="80%" align="center" />  
 
-<div align="center"> 图5-20a 模拟音频输出原理图 </div>
+<div align="center"> Figure 5-20a Analog Audio Output Schematic </div>
 
 
 <img src="assets/52xB/sf32lb52X-B-PCB-AUDIO-DAC.png" width="80%" align="center" />  
 
-<div align="center"> 图5-20b 模拟音频输出PCB设计 </div>
+<div align="center"> Figure 5-20b PCB Design for Analog Audio Output </div>
 
 
 
-### USB接口走线
+### USB Interface Routing
 
-USB走线PA35(USB DP)/PA36(USB_DN) 必须先过ESD器件管脚，然后再到芯片端，要保证ESD器件接地管脚能良好连接主地。走线需按照差分线形式走，并做90欧差分阻抗控制，且做立体包处理，如图5-21a，5-21b所示。
-
+The USB traces PA35 (USB DP) / PA36 (USB_DN) must first pass through the ESD device pin and then to the chip end, ensuring that the ground pin of the ESD device is well connected to the main ground. The traces should be routed as differential lines with 90 ohm differential impedance control and shielded with a ground plane, as shown in Figure 5-21a and 5-21b.
 
 <img src="assets/52xB/sf32lb52X-B-SCH-USB.png" width="80%" align="center" />  
 
-<div align="center"> 5-21a USB信号原理图 </div>
+<div align="center"> Figure 5-21a USB Signal Schematic </div>
 
 
 <img src="assets/52xB/sf32lb52X-B-PCB-USB.png" width="80%" align="center" />  
 
-<div align="center"> 5-21b USB信号PCB设计 </div>
+<div align="center"> Figure 5-21b USB Signal PCB Design </div>
 
 
-图5-22a为USB信号的元件布局参考图，图5-22b为PCB走线模型。
-
+Figure 5-22a shows the component placement reference for USB signals, and Figure 5-22b shows the PCB routing model.
 
 <img src="assets/52xB/sf32lb52X-B-PCB-USB-LAYOUT.png" width="80%" align="center" />  
 
-<div align="center"> 图5-22a USB信号器件布局参考 </div>
+<div align="center"> Figure 5-22a USB Signal Component Placement Reference </div>
 
 
 <img src="assets/52xB/sf32lb52X-B-PCB-USB-ROUTE.png" width="80%" align="center" />  
 
-<div align="center"> 图5-22b USB信号走线模型 </div>
+<div align="center"> Figure 5-22b USB Signal Routing Model </div>
 
 
 
-### SDIO接口走线
-SDIO信号走线尽量一起走，避免分开走，整个走线长度≤50mm, 组内长度控制≤6mm。SDIO接口时钟信号需立体包地处理，DATA和CMD信号也需要包地处理，如图5-23a，5-23b所示。
+### SDIO Interface Routing
+SDIO signal traces should be routed together as much as possible, avoiding separate routing. The total trace length should be ≤50mm, and the length difference within the group should be controlled to ≤6mm. The SDIO clock signal should be shielded with a ground plane, and the DATA and CMD signals should also be shielded, as shown in Figure 5-23a and 5-23b.
 
 <img src="assets/52xB/sf32lb52X-B-SCH-SDIO.png" width="80%" align="center" />  
 
-<div align="center"> 图5-23a SDIO接口电路图 </div>
+<div align="center"> Figure 5-23a SDIO Interface Circuit Diagram </div>
 
 
 <img src="assets/52xB/sf32lb52X-B-PCB-SDIO.png" width="80%" align="center" />  
 
-<div align="center"> 图5-23b SDIO PCB走线模型 </div>
+<div align="center"> Figure 5-23b SDIO PCB Routing Model </div>
 
 
 
-### DCDC电路走线
-DC-DC电路功率电感和滤波电容必须靠近芯片的管脚放置。BUCK_LX走线尽量短且粗，保证整个DC-DC电路回路电感小；BUCK_FB管脚反馈线不能太细，必须大于0.25mm。所有的DC-DC输出滤波电容接地脚多打过孔连接到主地平面。功率电感区域表层禁止铺铜，临层必须为完整的参考地，避免其它线从电感区域里走线，如图5-24a，5-24b所示。
+### DCDC Circuit Routing
+The power inductor and filtering capacitors of the DC-DC circuit must be placed close to the chip pins. The BUCK_LX trace should be as short and thick as possible to ensure a low inductance loop for the entire DC-DC circuit. The BUCK_FB feedback trace should not be too thin and must be greater than 0.25mm. All DC-DC output filtering capacitors should have multiple vias connecting their ground pins to the main ground plane. The power inductor area should not have copper pour on the top layer, and the adjacent layer must be a complete reference ground to avoid other traces passing through the inductor area, as shown in Figure 5-24a and 5-24b.
 
 <img src="assets/52xB/sf32lb52X-B-SCH-DCDC.png" width="80%" align="center" />  
 
-<div align="center"> 图5-24a DC-DC关键器件电路图 </div>
+<div align="center"> Figure 5-24a Key Components of DC-DC Circuit Diagram </div>
 
 
 <img src="assets/52xB/sf32lb52X-B-PCB-DCDC.png" width="80%" align="center" />  
 
-<div align="center"> 图5-24b DC-DC关键器件PCB布局图 </div>
+<div align="center"> Figure 5-24b PCB Layout for Key Components of DC-DC Circuit </div>
 
 
 
-### 电源供电走线
+### Power Supply Routing
 
-PVDD为芯片内置PMU模块电源输入脚，对应的电容必须靠近管脚放置，走线尽量的粗，不能低于0.4mm，如图5-25所示。
+PVDD is the power input pin for the built-in PMU module of the chip. The corresponding capacitors must be placed close to the pin, and the trace should be as thick as possible, not less than 0.4mm, as shown in Figure 5-25.
 
-<!-- 这里的内容需要A3和B3做区别处理 -->
-<img src="assets/52xB/sf32lb52X-B-PCB-PMU.png" width="80%" align="center" />  
+<!-- The content here needs to be handled differently for A3 and B3 -->
+<img src="assets/52xB/sf32lb52X-B-PCB-PMU.png" width="80%" align="center" />
 
-<div align="center"> 图5-25 PVDD电源走线图 </div>
+<div align="center"> Figure 5-25 PVDD Power Trace Diagram </div>
 
 
 
-AVDD33、VDDIOA、VDD_SIP、AVDD33_AUD和AVDD_BRF等管脚滤波电容靠近对应的管脚放置，其走线宽必须满足输入电流要求，走线尽量短粗，从而减少电源纹波提高系统稳定性。
+The filtering capacitors for the AVDD33, VDDIOA, VDD_SIP, AVDD33_AUD, and AVDD_BRF pins should be placed close to the corresponding pins. The trace width must meet the input current requirements, and the traces should be as short and wide as possible to reduce power ripple and improve system stability.
 
-<!-- A3版本需要增加充电部分内容 -->
+<!-- A3 version needs to add charging content -->
 
-### 其它接口走线
+### Other Interface Traces
 
-管脚配置为GPADC 管脚信号，必须要求立体包地处理，远离其它干扰信号，如电池电量电路，温度检查电路等。
+When the pins are configured as GPADC signal pins, they must be surrounded by a ground plane to minimize interference from other signals, such as the battery level circuit and temperature check circuit.
 
-### EMI&ESD
-- 避免屏蔽罩外面表层长距离走线，特别是时钟、电源等干扰信号尽量走内层，禁止走表层。
-- ESD保护器件必须靠近连接器对应管脚放置，信号走线先过ESD保护器件管脚，避免信号分叉，没过ESD保护管脚。
-- ESD器件接地脚必须保证过孔连接主地，保证地焊盘走线短且粗，减少阻抗提高ESD器件性能。
+### EMI & ESD
+- Avoid long traces on the outer layer of the shield, especially for clock and power signals, which should be routed on inner layers and not on the outer layer.
+- ESD protection devices must be placed close to the corresponding connector pins. The signal traces should pass through the ESD protection device pins first to avoid signal branching before passing through the ESD protection pins.
+- The ground pins of the ESD protection devices must be connected to the main ground via vias, ensuring that the ground plane traces are short and wide to reduce impedance and improve the performance of the ESD protection devices.

@@ -1,41 +1,41 @@
-# 2 定时器相关
-## 2.1 延时函数
-1，HAL层延时函数：（等同于while中指令循环，延时时不会切到其他线程）<br> 
+# 2 Timer-Related
+## 2.1 Delay Functions
+1, HAL layer delay functions: (equivalent to instruction loops in while, the delay will not switch to other threads)<br> 
 ```c
-HAL_Delay(10); /* 延时10ms */
-HAL_Delay_us(10); /* 延时10us */
+HAL_Delay(10); /* Delay 10ms */
+HAL_Delay_us(10); /* Delay 10us */
 ```
-2，RTT接口的延时函数：<br> 
-RTT接口的延时函数执行时，会切换到其他线程，比如ilde线程，当睡眠门限低于延时时长时会进入Standby睡眠<br>
+2, RTT interface delay functions:<br> 
+When the RTT interface delay functions are executed, they will switch to other threads, such as the idle thread. If the sleep threshold is lower than the delay duration, it will enter Standby sleep<br>
 ```c
-rt_thread_delay(100); /* 延时100ms */
+rt_thread_delay(100); /* Delay 100ms */
 ```
-## 2.2 获取时间戳 Tick值和RC10K振荡频率
-1，获取时间戳：<br> 
+## 2.2 Get Timestamp, Tick Value, and RC10K Oscillation Frequency
+1, Get timestamp:<br> 
 ```c
-/* 32768晶体时钟，会1/32768秒，寄存器值加1*/
-/* RC10K时钟，会约1/9000秒，寄存器值加1*/
+/* 32768 crystal clock, the register value increments by 1 every 1/32768 seconds */
+/* RC10K clock, the register value increments by 1 approximately every 1/9000 seconds */
 uint32_t start_time = HAL_GTIMER_READ(); 
 ```
-2，获取1m秒递增的Tick值：<br> 
+2, Get the Tick value that increments every 1ms:<br> 
 ```c
-rt_tick_t start_timer = rt_tick_get(); /* RTT系统函数，1m秒返回值会加1 */
-uint32_t tickstart = HAL_GetTick();  /* HAL层的函数，1m秒返回值会加1 */
+rt_tick_t start_timer = rt_tick_get(); /* RTT system function, the return value increments by 1 every 1ms */
+uint32_t tickstart = HAL_GetTick();  /* HAL layer function, the return value increments by 1 every 1ms */
 ```
-3，获取当下时钟频率：<br> 
+3, Get the current clock frequency:<br> 
 ```c
-/* 32768晶体时钟，会返回32768*/
-/* RC10K时钟，会返回8k-10k之间的值*/
+/* 32768 crystal clock, returns 32768 */
+/* RC10K clock, returns a value between 8k-10k */
 uint32_t mcuOscData = HAL_LPTIM_GetFreq(); 
 ```
-## 2.3 串口查看现有定时器命令
+## 2.3 View Existing Timer Commands via UART
 ```c
 list_timer
 ```
  <br>![alt text](./assets/timer/timer001.png)<br> 
-list_timer的状态说明:<br> 
-第一列"timer"为定时器名字;<br> 
-第二列"periodic"为定时器周期(十六进制，单位ms);<br> 
-第三列"timeout"为下一次定时器到来的时间戳;<br> 
-第四列"flag"为该定时器是否为激活状态，<br> 
-如上图，生效的定时器只有"main"的定时器（延时函数也是一个定时器），唤醒周期为0xbb8（3000ms）。<br> 
+Explanation of `list_timer` status:<br> 
+The first column "timer" is the timer name;<br> 
+The second column "periodic" is the timer period (hexadecimal, unit: ms);<br> 
+The third column "timeout" is the timestamp for the next timer event;<br> 
+The fourth column "flag" indicates whether the timer is active,<br> 
+As shown in the figure, the only active timer is the "main" timer (the delay function is also a timer), with a wake-up period of 0xbb8 (3000ms).<br>

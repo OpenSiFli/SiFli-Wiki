@@ -1,26 +1,26 @@
-# 4 死机现场保存方法
-## 4.1 死机现场保存到FLASH内
-1. menuconfig配置<br>
+# 4 Methods for Saving Crash Dump
+## 4.1 Saving Crash Dump to FLASH
+1. menuconfig Configuration<br>
  `(Top) → RTOS → RT-Thread Components → Utilities → Enable save assert context in flash. ` 
 <br>![alt text](./assets/crash/crash001.png)<br>
 
-2. 空间分配(文件系统)<br>
-在flash_map excel表中配置死机保存所用的空间及分区，以文件方式保存直接SIZE/分区/子目录即可(仅供参考，flash_map excel表，目前仅solution方案支持)，可以自行创建文件存储。
+2. Space Allocation (File System)<br>
+Configure the space and partition for crash dump in the flash_map excel table. For file-based saving, you can directly specify SIZE/partition/subdirectory (for reference, the flash_map excel table is currently supported only by solution schemes). You can also create your own file storage.
 <br>![alt text](./assets/crash/crash002.png)<br>
-在flash_map excel表中配置死机保存所用的空间及分区，可以采用共享buffer的方式，在分区里面填写共享buffer的分区名字，地址/SIZE/分区类型使用下图公式自动获取
+In the flash_map excel table, configure the space and partition for crash dump. You can use a shared buffer by specifying the partition name of the shared buffer in the partition field. The address/SIZE/partition type can be automatically obtained using the formula shown in the following image.
 <br>![alt text](./assets/crash/crash008.png)<br>
 
-3. 数据导出<br>
-终端死机后，会保存数据到配置的位置，在重启后可以用手机APP`SiFli_BLE`导出，SiFli APP的安装包apk和源码可以通过github下载：<br>
+3. Data Export<br>
+After a terminal crash, the data will be saved to the configured location. After rebooting, you can export the data using the `SiFli_BLE` mobile app. The installation package (apk) and source code for the SiFli app can be downloaded from GitHub:<br>
 [SiFli APP Demo Release](https://github.com/OpenSiFli/SiFli_OTA_APP/releases/tag/1.0.10)<br>
 [SiFli_OTA_APP Demo](https://github.com/OpenSiFli/SiFli_OTA_APP)
 
-步骤如下：
+The steps are as follows:
 <br>![alt text](./assets/crash/crash003.png)![alt text](./assets/crash/crash004.png)![alt text](./assets/crash/crash005.png)![alt text](./assets/crash/crash006.png)![alt text](./assets/crash/crash007.png)<br>
 
-4. 数据解析<br>
-导出的文件用如下工具解析，即可直接用trace32工具进行死机现场分析
+4. Data Parsing<br>
+Use the following tool to parse the exported file, and you can then analyze the crash dump using the trace32 tool.
 <br>![alt text](./assets/crash/crash010.png)<br>
 <br>![alt text](./assets/crash/crash009.png)<br>
-分析方法可以参照章节：<br>
-[6.2 用Trace32恢复Hcpu死机现场](../tools/trace32.md#Mark_用Trace32恢复Hcpu死机现场)
+For analysis methods, refer to the section:<br>
+[6.2 Using Trace32 to Restore Hcpu Crash Dump](../tools/trace32.md#Mark_Using_Trace32_to_Restore_Hcpu_Crash_Dump)

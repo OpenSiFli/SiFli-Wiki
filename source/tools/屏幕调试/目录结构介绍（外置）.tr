@@ -1,6 +1,0 @@
-str_cn:主要用于SDK 2.4版本及以后的仓库，推荐使用，把屏驱放置SDK外部运行创建新屏驱的方法,str_en:Mainly used for repositories of SDK version 2.4 and above. It is recommended to use this method of placing the screen driver outside the SDK and creating a new screen driver.
-str_cn:主要用于SDK 2.4版本以后的仓库，主要把屏驱放置SDK外部运行，主要的框架如下,此处以sf32lb52-lcd_n16r8板子，屏幕模组nv3051f屏驱为例,str_en:This is mainly used for repositories after SDK 2.4 version. The screen driver is placed outside the SDK for operation. The main framework is as follows. Here, taking the sf32lb52-lcd_n16r8 board with the screen module nv3051f and screen driver as an example.
-str_cn:屏驱的实现,str_en:The implementation of screen shielding
-str_cn:编译链接文件,str_en:Compile the link file
-str_cn:屏幕模组的menuconfig菜单定义和屏驱IC、触控IC、背光IC的宏定义处,str_en:The menuconfig menu definitions for the screen module and the macro definitions for the screen driver IC, touch IC, and backlight IC
-str_cn:屏幕调试工程, 调用“lcd”和“touch"设备,str_en:Screen debugging project, calling "lcd" and "touch" devices

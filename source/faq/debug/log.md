@@ -1,91 +1,90 @@
-# 1 Log调试
-## 1.1 Hcpu没有log出来
-1，menuconfig→ RTOS → RT-Thread Kernel → Kernel Device Object→uart1配置为uart1
-2，menuconfig → RTOS → RT-Thread Components → Utilities→Enable ulog打开
-TIPS: menuconfig中可以输入 "/" 搜索"ulog"
-3,pinmux.c中UART1的配置是否正确配置为UART1配置，常见的是开启了BSP_ENABLE_QSPI3，如下图：
+# 1 Log Debugging
+## 1.1 Hcpu Not Outputting Log
+1. menuconfig → RTOS → RT-Thread Kernel → Kernel Device Object → Configure uart1 as uart1
+2. menuconfig → RTOS → RT-Thread Components → Utilities → Enable ulog
+TIPS: You can search for "ulog" in menuconfig by entering "/"
+3. Check if UART1 is correctly configured in `pinmux.c` as UART1. A common issue is enabling BSP_ENABLE_QSPI3, as shown in the following figure:
 <br>![alt text](./assets/log/log001.png)<br>    
 
-## 1.2 Lcpu没有log出来
-如下配置后， 依然没有打印，<br>
-  1，menuconfig→ RTOS → RT-Thread Kernel → Kernel Device Object→uart3配置为uart3<br>
-  2，menuconfig → RTOS → RT-Thread Components → Utilities→Enable ulog打开<br>
-  3，确认hcpu中，在menuconfig→ RTOS → RT-Thread Kernel → Kernel Device Object→uart1 这里没有没有配置为uart3，不然会冲突.<br>
-  4, 确认pinmux.c中，PB45,PB46这两个UART3的模式配置正确，默认配置正确，如下：<br>
+## 1.2 Lcpu Not Outputting Log
+After the following configurations, there is still no output:
+  1. menuconfig → RTOS → RT-Thread Kernel → Kernel Device Object → Configure uart3 as uart3
+  2. menuconfig → RTOS → RT-Thread Components → Utilities → Enable ulog
+  3. Ensure that in menuconfig → RTOS → RT-Thread Kernel → Kernel Device Object → uart1, it is not configured as uart3 to avoid conflicts.
+  4. Confirm that the UART3 mode configuration for PB45 and PB46 in `pinmux.c` is correct. The default configuration is correct, as follows:
   ```c
     HAL_PIN_Set(PAD_PB45, USART3_TXD, PIN_NOPULL, 0);           // USART3 TX/SPI3_INT
     HAL_PIN_Set(PAD_PB46, USART3_RXD, PIN_PULLUP, 0);           // USART3 RX
-```	
-其他原因1: <br>
-用的V0.9.9\example\rt_driver\project\ec-lb551工程，ble线程没有开启， 导致Lcpu程序没有加载，<br>
+```
+Other Reason 1:
+Using the V0.9.9\example\rt_driver\project\ec-lb551 project, the BLE thread is not enabled, causing the Lcpu program to not load.
 <br>![alt text](./assets/log/log002.png)<br>       
-解决方案:<br>
-打开ble线程或者单独调用函数lcpu_power_on(); 启动lcpu的代码.<br>
-其他原因2：<br>
+Solution:
+Enable the BLE thread or call the function `lcpu_power_on();` to start the Lcpu code.
+Other Reason 2:
 ```
 example\multicore\ipc_queue\
 example\pm\coremark\
 ```
-这些工程，需要在HCPU的console里发送命令`lcpu on`启动LCPU，启动成功后可以在LCPU的console上看到启动log<br>
-解决方案：<br>
-相应的工程下，有readme.txt文件，可以参考里面的内容发命令打开Lcpu<br>
+For these projects, you need to send the command `lcpu on` in the HCPU console to start the LCPU. After a successful start, you can see the startup log on the LCPU console.
+Solution:
+In the corresponding project, there is a `readme.txt` file. Refer to its content to send the command to start the Lcpu.
 
-## 1.3 代码中打印寄存器方法
-直接地址读操作:
+## 1.3 Methods for Printing Registers in Code
+Direct Address Read Operation:
 ```c
 static uint32_t pinmode19;
-pinmode19= *(volatile uint32_t *)0x4004304c; //读取寄存器0x4004304c的值
-uint32_t reg_printf= *(volatile uint32_t *)0x50016000; //打印寄存器0x50016000的值
-rt_kprintf("0x50016000:0x%x\n",reg_printf);
+pinmode19 = *(volatile uint32_t *)0x4004304c; // Read the value of register 0x4004304c
+uint32_t reg_printf = *(volatile uint32_t *)0x50016000; // Print the value of register 0x50016000
+rt_kprintf("0x50016000:0x%x\n", reg_printf);
 ```
-直接地址写操作：
+Direct Address Write Operation:
 ```c
-#define _WWORD(reg,value) \
+#define _WWORD(reg, value) \
 { \
-    volatile uint32_t * p_reg=(uint32_t *) reg; \
-    *p_reg=value; \
+    volatile uint32_t * p_reg = (uint32_t *) reg; \
+    *p_reg = value; \
 }
-_WWORD(0x40003050,0x200);  //PA01 pinmux寄存器写值0x00000200
+_WWORD(0x40003050, 0x200);  // Write the value 0x00000200 to the PA01 pinmux register
 ```
-寄存器定义读操作：
+Register Definition Read Operation:
 ```c
-rt_kprintf("hwp_hpsys_rcc->CFGR:0x%x\n",hwp_hpsys_rcc->CFGR);
-uint32_t reg_printf= hwp_hpsys_rcc->CFGR; //打印寄存器
-rt_kprintf("hwp_hpsys_rcc->CFGR:0x%x\n",reg_printf);
+rt_kprintf("hwp_hpsys_rcc->CFGR:0x%x\n", hwp_hpsys_rcc->CFGR);
+uint32_t reg_printf = hwp_hpsys_rcc->CFGR; // Print the register value
+rt_kprintf("hwp_hpsys_rcc->CFGR:0x%x\n", reg_printf);
 ```
-寄存器定义写操作：
+Register Definition Write Operation:
 ```c
-hwp_hpsys_rcc->CFGR = 0x40003050;//直接写值
+hwp_hpsys_rcc->CFGR = 0x40003050; // Directly write the value
 MODIFY_REG(hwp_pmuc->LPSYS_SWR, PMUC_LPSYS_SWR_PSW_RET_Msk,
-			MAKE_REG_VAL(1, PMUC_LPSYS_SWR_PSW_RET_Msk, PMUC_LPSYS_SWR_PSW_RET_Pos)); //只修改PMUC_LPSYS_SWR_PSW_RET_Msk的值为1，其他地方不变；
-
+           MAKE_REG_VAL(1, PMUC_LPSYS_SWR_PSW_RET_Msk, PMUC_LPSYS_SWR_PSW_RET_Pos)); // Only modify the value of PMUC_LPSYS_SWR_PSW_RET_Msk to 1, leaving other parts unchanged;
 ```
-## 1.4 Log定位死机方法
-1. 提示对方核crash<br>
-如下的log，提示LCPU crash后，是Hcpu主动触发的Assert，需要看LCPU死机在哪里<br>
+## 1.4 Methods for Locating System Hangs
+1. Indicate that the other core has crashed
+The following log indicates that the Lcpu has crashed, and the Hcpu has triggered an Assert. You need to determine where the Lcpu has hung.
 ```
 07-11 10:31:55:616    [351767] E/mw.sys ISR: LCPU crash
 07-11 10:31:55:617    Assertion failed at function:debug_queue_rx_ind, line number:221 ,(0)
 07-11 10:31:55:617    Previous ISR enable 0
 ```
-**说明**：在双核开发时，当一边cpu已经死机，另一cpu其实是未知的，可能还会持续跑很长一段时间，会导致问题不容易发现，目前软件上设计成了一边cpu出现了已知的assert或者hardfaul的情况下，都会通知对方核，对方核收到后，会触发自身的assert，便于查找问题； 
+**Note**: In dual-core development, when one CPU has hung, the other CPU is in an unknown state and may continue to run for a long time, making it difficult to identify the issue. Currently, the software is designed to notify the other core when one CPU encounters a known assert or hard fault. The other core will then trigger its own assert to facilitate problem identification.
 
-2. Assert行号提示<br>
-如下的log提示了，Assert发生在drv_io.c文件的517行
+2. Assert Line Number Indication<br>
+The following log indicates that the Assert occurred at line 517 of the `drv_io.c` file:
 ```
 07-10 16:41:16:382    [572392] I/drv.lcd lcd_task: HW close
 07-10 16:41:16:385    HAL assertion failed in file:drv_io.c, line number:517 
 07-10 16:41:16:388    Assertion failed at function:HAL_AssertFailed, line number:616 ,(0)
 07-10 16:41:16:389    Previous ISR enable 1
 ```
-对应drv_io.c文件的517行如下图：<br>
-`RT_ASSERT(0);`或者`HAL_ASSERT(s_lcd_power > 0);`括号内值为0（False）时，就会出现死机;<br>
-此处出现死机，代表`s_lcd_power > 0`为假（s_lcd_power没有大于0）
+The corresponding line 517 of the `drv_io.c` file is shown in the following figure:<br>
+`RT_ASSERT(0);` or `HAL_ASSERT(s_lcd_power > 0);` will cause a system crash if the value inside the parentheses is 0 (False);<br>
+A crash at this point indicates that `s_lcd_power > 0` is false (s_lcd_power is not greater than 0)
 <br>![alt text](./assets/log/log003.png)<br>  
 
-3. Log提示死机PC指针信息<br>
-如下Log，在出现hard fault情况下，此时的PC指针因为已经跳转异常中断`HardFault_Handler`或`MemManage_Handler`里面的`rt_hw_mem_manage_exception`或`rt_hw_hard_fault_exception`函数内了，连接上看到的PC指针可能已经不是第一死机现场，此时Log打印出来的PC等一系列地址，就是第一死机现场，可以用于恢复死机第一现场，如下表示死在PC`0x0007ef00`这个地址，可以通过编译出来的对应`*.asm`文件，查看为什么这条指令会死机，通常是访问的内存或者地址不可达，出现异常中断死机。<br> 
-**说明**: 函数`handle_exception`中,变量`saved_stack_frame`、`saved_stack_pointer`和`error_reason`在出现以上异常死机时，也会存储如下Log内死机的堆栈、死机堆栈地址和死机的原因，可以对照源代码数据结构来分析死机原因。
+3. Log Indication of Crash PC Pointer Information<br>
+The following log, in the case of a hard fault, shows that the PC pointer has already jumped to the exception handler `HardFault_Handler` or `MemManage_Handler` inside the `rt_hw_mem_manage_exception` or `rt_hw_hard_fault_exception` function. The PC pointer seen when connected may no longer be the first crash scene. The PC and other addresses printed in the log represent the first crash scene and can be used to recover the initial crash scene. For example, the crash occurred at the address `0x0007ef00`. You can check the corresponding `*.asm` file generated by the compiler to determine why this instruction caused a crash, which is usually due to accessing an invalid memory or address, leading to an exception and a crash.<br> 
+**Note**: In the function `handle_exception`, the variables `saved_stack_frame`, `saved_stack_pointer`, and `error_reason` will also store the stack, stack address, and reason for the crash when the above exceptions occur. These can be used to analyze the cause of the crash by referring to the source code data structures.
 ```
 06-24 15:48:41:031     sp: 0x200195c8
 06-24 15:48:41:037    psr: 0x80000000

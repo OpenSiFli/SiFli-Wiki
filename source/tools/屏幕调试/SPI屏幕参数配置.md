@@ -1,75 +1,73 @@
-# SPI屏幕参数配置
+# SPI Screen Parameter Configuration
 
-## 接口说明
-软件上首先根据SPI接口是否有物理的D/CX线分成2大类：`LCDC_INTF_SPI_DCX_xxx`和`LCDC_INTF_SPI_NODCX_xxx`, 然后再根据批量送数据时（即0x2C/0x3C指令）,用到的数据线分成1~4DATA，最后再根据是否DDR、是否需要PTC辅助，加上DDR, AUX的字样。
+## Interface Description
+In software, SPI interfaces are first categorized into two major types based on whether there is a physical D/CX line: `LCDC_INTF_SPI_DCX_xxx` and `LCDC_INTF_SPI_NODCX_xxx`. Then, they are further classified based on the number of data lines used during bulk data transfer (i.e., 0x2C/0x3C commands), which can be 1~4DATA. Finally, additional labels such as DDR and AUX are added based on whether DDR mode is used and whether PTC assistance is required.
 
-一般来说3线SPI都是指没有物理D/CX线的，4线SPI是有物理D/CX线的。
+Generally, 3-line SPI refers to interfaces without a physical D/CX line, while 4-line SPI has a physical D/CX line.
 
-D/CX线的pinmux 一般都是LCDC_SPI_DIO1。
+The D/CX line pinmux is usually LCDC_SPI_DIO1.
 
-SPI接口的命令读写都是单线模式，只是批量送数时（0x2c/0x3c指令）数据可以支持1~4线并行。
+SPI interface command read and write operations are always in single-line mode, but during bulk data transfer (0x2C/0x3C commands), data can be transferred in parallel using 1~4 lines.
 
-|接口名称| 接口是否有物理的D/CX线| 0x2C/0X3C批量送数并行的数据线数 | 其他 |
-| ---- | ----  | ----  | ----  |
-|    LCDC_INTF_SPI_DCX_1DATA     | 是 | 1 | - |
-|    LCDC_INTF_SPI_DCX_2DATA     | 是 | 2 | - |
-|    LCDC_INTF_SPI_DCX_4DATA     | 是 | 4 | - |
-|    LCDC_INTF_SPI_DCX_4DATA_AUX | 是 | 4 | ramless屏幕 |
-|    LCDC_INTF_SPI_DCX_DDR_4DATA | 是 | 4 | DDR模式 |
-|    LCDC_INTF_SPI_NODCX_1DATA   | 否 | 1 | - |
-|    LCDC_INTF_SPI_NODCX_2DATA   | 否 | 1 | - |
-|    LCDC_INTF_SPI_NODCX_4DATA   | 否 | 1 | - |
+| Interface Name | Physical D/CX Line | Parallel Data Lines for 0x2C/0x3C Bulk Data Transfer | Other |
+| ---- | ---- | ---- | ---- |
+| LCDC_INTF_SPI_DCX_1DATA | Yes | 1 | - |
+| LCDC_INTF_SPI_DCX_2DATA | Yes | 2 | - |
+| LCDC_INTF_SPI_DCX_4DATA | Yes | 4 | - |
+| LCDC_INTF_SPI_DCX_4DATA_AUX | Yes | 4 | Ramless screen |
+| LCDC_INTF_SPI_DCX_DDR_4DATA | Yes | 4 | DDR mode |
+| LCDC_INTF_SPI_NODCX_1DATA | No | 1 | - |
+| LCDC_INTF_SPI_NODCX_2DATA | No | 1 | - |
+| LCDC_INTF_SPI_NODCX_4DATA | No | 1 | - |
 
+## Screen Parameter Configuration Explanation
 
-
-## 屏幕参数配置讲解
-
-### **4线/3线 SPI接口**
+### **4-line/3-line SPI Interface**
 ```c
 static LCDC_InitTypeDef lcdc_int_cfg =
 {
 /*
-    3线SPI模式，批量送数2根数据线
+    3-line SPI mode, 2 data lines for bulk data transfer
 */
     .lcd_itf = LCDC_INTF_SPI_NODCX_2DATA,
-/*  QSPI的clk频率选择，频率为hcpu主频分频后的频率，比如hcpu主频240Mhz，能够得到的频率只能为40/48/60/80,如果设置62Mhz，实际会设置为60Mhz */
+/* QSPI clock frequency selection, the frequency is the result of dividing the hcpu main frequency, for example, if the hcpu main frequency is 240MHz, the available frequencies are 40/48/60/80. If 62MHz is set, it will actually be set to 60MHz */
     .freq = 24000000,
     .color_mode = LCDC_PIXEL_FORMAT_RGB565,
 
     .cfg = {
         .spi = {
-            .dummy_clock = 0, /* 是在QSPI读模式下，配置cmd和data之间空的clk数量，默认为0，不用修改 */
-/* 该选项是为了避免出现图像撕裂，（出现撕裂原因：屏读取RAM数据时，QSPI也在往RAM送数） */
+            .dummy_clock = 0, /* In QSPI read mode, the number of empty clock cycles between cmd and data, default is 0, no need to modify */
+/* This option is to avoid image tearing (cause of tearing: when the screen reads RAM data, QSPI is also writing data to RAM) */
 #ifdef LCD_ST7789P3_VSYNC_ENABLE				
-            .syn_mode = HAL_LCDC_SYNC_VER,/* 启动检查屏送出的TE信号，并同步给RAM送数，打开此配置，如果屏无TE信号输出，会出现无法给RAM送数，出现死机 */
+            .syn_mode = HAL_LCDC_SYNC_VER,/* Enable checking the TE signal from the screen and synchronize data writing to RAM. Enabling this configuration will cause a system hang if the screen does not output a TE signal */
 #else
-			.syn_mode = HAL_LCDC_SYNC_DISABLE,/* 关闭检查屏送出的TE信号，在刚开始调试屏驱动，不考虑撕裂问题时，采用此配置 */
+			.syn_mode = HAL_LCDC_SYNC_DISABLE,/* Disable checking the TE signal from the screen. Use this configuration when debugging the screen driver and not considering tearing issues */
 #endif
 /*
-该配置在选择HAL_LCDC_SYNC_VER后，才有意义，用于配置TE（Vsync）信号来时的信号极性，
-配置为1，TE平常是低电平，TE为高电平时可以给RAM送数 
+This configuration is meaningful only when HAL_LCDC_SYNC_VER is selected. It is used to configure the polarity of the TE (Vsync) signal.
+Set to 1 if TE is normally low and high when data can be written to RAM
 */
             .vsyn_polarity = 0,
-            .vsyn_delay_us = 1000,/* 该配置在选择HAL_LCDC_SYNC_VER后，才有意义，用于配置TE信号高电平延时多少us后，再给RAM送数*/
-            .hsyn_num = 0,/* 该配置在.syn_mode设置为HAL_LCDC_SYNC_VERHOR后才有意义，用于配置TE信号高电平几个clk脉冲后，再给RAM送数 */
+            .vsyn_delay_us = 1000,/* This configuration is meaningful only when HAL_LCDC_SYNC_VER is selected. It is used to configure the delay in microseconds after the TE signal goes high before data is written to RAM */
+            .hsyn_num = 0,/* This configuration is meaningful only when .syn_mode is set to HAL_LCDC_SYNC_VERHOR. It is used to configure the number of clock pulses after the TE signal goes high before data is written to RAM */
 /*
-1. 在QSPI读数据的时候，CMD都会从D0输出，但是读回的数据，不同屏驱IC，会从D0-D3进行输出，为了兼容不同的屏驱IC，才有此配置
-2. 可以配置为0-3，参考屏驱IC的规格书，选择QSPI对应read时从D0 - D3进行读取信号 
+1. During QSPI read operations, CMD is always output from D0, but the read data can be output from D0-D3 depending on the screen driver IC. This configuration is for compatibility with different screen driver ICs.
+2. Can be set to 0-3. Refer to the screen driver IC datasheet to select the appropriate QSPI read signal from D0 - D3
 */            
             .readback_from_Dx = 0,
         },
     },
 };
 ```
-下图是4线TE没有使能的波形图,可以见到TE的波形没有跟SPI的CS下降沿进行对齐
+The following is a waveform diagram for 4-line TE not enabled, showing that the TE waveform is not aligned with the SPI CS falling edge.
 ![alt text](../assets/4SPI_NO_TE.png)
-### **帧率测试方法**
-* 打开HAL_LCDC_SYNC_VER配置，SPI的时序如下图，送屏会跟TE对齐
-- [LCD显示异常分析——撕裂(tear effect)](https://blog.csdn.net/hexiaolong2009/article/details/79319512)
-* 在UI帧率很高的界面下，查看测试TE的频率，就是达到刷屏的帧率数
+### **Frame Rate Testing Method**
+* Enable the HAL_LCDC_SYNC_VER configuration. The SPI timing is as shown in the following diagram, where the screen update is synchronized with TE.
+- [LCD Display Abnormality Analysis — Tearing (tear effect)](https://blog.csdn.net/hexiaolong2009/article/details/79319512)
+* In a UI with a very high frame rate, measure the frequency of the TE signal, which represents the screen refresh rate.
 ![alt text](../assets/QSPI_TE.png)
 ***
-### **QSPI接口**
+### **QSPI Interface**
 
 ```c
 #ifdef LCDC_USE_DDR_QSPI
@@ -82,18 +80,18 @@ static LCDC_InitTypeDef lcdc_int_cfg =
 static LCDC_InitTypeDef lcdc_int_cfg_spi =
 {
  /*
- 1. DDR（qspi的clk双沿送数方式）选择 LCDC_INTF_SPI_DCX_DDR_4DATA
-2. SDR（qspi的clk单沿送数方式）选择 LCDC_INTF_SPI_DCX_4DATA
+ 1. DDR (qspi's clk double-edge data transfer mode) select LCDC_INTF_SPI_DCX_DDR_4DATA
+ 2. SDR (qspi's clk single-edge data transfer mode) select LCDC_INTF_SPI_DCX_4DATA
  */   
     .lcd_itf = QAD_SPI_ITF, //LCDC_INTF_SPI_NODCX_1DATA,
 /*
-1. QSPI的clk频率选择，频率为hcpu主频分频后的频率，比如hcpu主频240Mhz，能够得到的频率只能为40/48/60/80,如果设置62Mhz，实际会设置为60Mhz
-2. DDR模式下，QSPI的clk频率不能设置过高
+1. QSPI's clk frequency selection, the frequency is the frequency after dividing the hcpu main frequency, for example, if the hcpu main frequency is 240MHz, the available frequencies can only be 40/48/60/80. If 62MHz is set, it will actually be set to 60MHz.
+2. The QSPI's clk frequency should not be set too high in DDR mode.
 */    
     .freq = QAD_SPI_ITF_FREQ,
 /*
-1. LCDC_PIXEL_FORMAT_RGB565为常见的RGB565色
-2. LCDC_PIXEL_FORMAT_RGB888为常见的RGB888色
+1. LCDC_PIXEL_FORMAT_RGB565 is the common RGB565 color format.
+2. LCDC_PIXEL_FORMAT_RGB888 is the common RGB888 color format.
 */
 #if LV_COLOR_DEPTH == 24
     .color_mode = LCDC_PIXEL_FORMAT_RGB888,
@@ -103,28 +101,27 @@ static LCDC_InitTypeDef lcdc_int_cfg_spi =
 
     .cfg = {
         .spi = {
-            .dummy_clock = 0, /* 是在QSPI读模式下，配置cmd和data之间空的clk数量，默认为0，不用修改 */
-/* 该选项是为了避免出现图像撕裂，（出现撕裂原因：屏读取RAM数据时，QSPI也在往RAM送数）*/
+            .dummy_clock = 0, /* In QSPI read mode, configure the number of empty clk cycles between cmd and data, default is 0, no need to modify */
+/* This option is to avoid image tearing (cause of tearing: when the screen reads RAM data, QSPI is also writing data to RAM) */
 #ifdef LCD_FT2308_VSYNC_ENABLE
-            .syn_mode = HAL_LCDC_SYNC_VER, /* 启动检查屏送出的TE信号，并同步给RAM送数，打开此配置，如果屏无TE信号输出，会出现无法给RAM送数，出现死机*/
+            .syn_mode = HAL_LCDC_SYNC_VER, /* Enable checking the TE signal sent by the screen and synchronize data writing to RAM. Enabling this configuration, if the screen does not output a TE signal, it will result in inability to write data to RAM, causing a system hang. */
 #else
-            .syn_mode = HAL_LCDC_SYNC_DISABLE, /* 关闭检查屏送出的TE信号，在刚开始调试屏驱动，不考虑撕裂问题时，采用此配置 */
+            .syn_mode = HAL_LCDC_SYNC_DISABLE, /* Disable checking the TE signal sent by the screen. This configuration is used during initial screen driver debugging when tearing is not a concern. */
 #endif
-/* 该配置在选择HAL_LCDC_SYNC_VER后，才有意义，用于配置TE（Vsync）信号来时的信号极性 */
-            .vsyn_polarity = 1, /*  配置1，TE平常是低电平，TE为高电平时可以给RAM送数 */
-            .vsyn_delay_us = 0, /* 该配置在选择HAL_LCDC_SYNC_VER后，才有意义，用于配置TE信号高电平延时多少us后，再给RAM送数 */
-            .hsyn_num = 0, /* 该配置在.syn_mode设置为HAL_LCDC_SYNC_VERHOR后才有意义，用于配置TE信号高电平几个clk脉冲后，再给RAM送数 */
+/* This configuration is meaningful only when HAL_LCDC_SYNC_VER is selected, used to configure the polarity of the TE (Vsync) signal */
+            .vsyn_polarity = 1, /* Configure 1, TE is normally low, and data can be written to RAM when TE is high */
+            .vsyn_delay_us = 0, /* This configuration is meaningful only when HAL_LCDC_SYNC_VER is selected, used to configure the delay in us after the TE signal goes high before writing data to RAM */
+            .hsyn_num = 0, /* This configuration is meaningful only when .syn_mode is set to HAL_LCDC_SYNC_VERHOR, used to configure the number of clk pulses after the TE signal goes high before writing data to RAM */
  /*
- 1. 在QSPI读数据的时候，CMD都会从D0输出，但是读回的数据，不同屏驱IC，会从D0-D3进行输出，为了兼容不同的屏驱IC，才有此配置
-2. 可以配置为0-3，参考屏驱IC的规格书，选择QSPI对应read时从D0 - D3进行读取信号
+ 1. During QSPI data read, CMD is always output from D0, but the read-back data, depending on the screen driver IC, can be output from D0-D3. This configuration is for compatibility with different screen driver ICs.
+ 2. Can be configured from 0-3, refer to the screen driver IC's datasheet to select the corresponding QSPI read signal from D0 - D3.
  */           
-            .readback_from_Dx= 3,       /*!< 0 read back data from D0 (HW SPI support), 1 read back from D1(Software SPI support).*/
+            .readback_from_Dx= 3,       /*!< 0 read back data from D0 (HW SPI support), 1 read back from D1 (Software SPI support).*/
 #ifdef LCDC_USE_DDR_QSPI
-            .flags = SPI_LCD_FLAG_DDR_DUMMY_CLOCK,/* 该标志位是为了适配DDR屏，DDR模式下送完framebuffer后加入几个空clock */
+            .flags = SPI_LCD_FLAG_DDR_DUMMY_CLOCK,/* This flag is for adapting to DDR screens, adding a few empty clocks after sending the framebuffer in DDR mode. */
 #endif /* LCDC_USE_DDR_QSPI */
         },
     },
 
 };
 ```
-

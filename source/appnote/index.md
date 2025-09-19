@@ -1,7 +1,7 @@
-# 应用笔记
+# Application Note
 ```{important}
 
-思澈MCU特定模块使用笔记介绍
+Notes on the use of specific modules in Sich MCUs
 ```
 
 ```{toctree}

@@ -1,63 +1,62 @@
-# 6 ADC相关
-## 6.1 55系列ADC校准原理
-sf32lb55x芯片，为10bit的ADC，为了保证ADC采样精确度;<br> 
-校准原理: <br> 
-芯片出厂时， 会测量每个芯片在1.0V和2.5V的ADC值，写入到flash内factory区，ID为FACTORY_CFG_ID_ADC.;<br> 
-ADC初始化sifli_adc_init时， 会从flash的factory区域，读出这两个值，即变量vol10，vol25， 也就是对应的电压值1.0v和2.5v；<br>  
-通过函数
+# 6 ADC Related
+## 6.1 55 Series ADC Calibration Principle
+The sf32lb55x chip is a 10-bit ADC, and to ensure the accuracy of ADC sampling:
+Calibration principle:
+When the chip is manufactured, the ADC values at 1.0V and 2.5V are measured for each chip and written to the factory area of the flash, with the ID being FACTORY_CFG_ID_ADC.
+During ADC initialization with `sifli_adc_init`, these two values, `vol10` and `vol25`, corresponding to the voltages 1.0V and 2.5V, are read from the factory area of the flash.
+Through the function
 ```c
 sifli_adc_calibration(cfg.vol10, cfg.vol25, vol1, vol2, &off, &rat);
 #define ADC_STANDARD_X3_VOL1           (1000)
 #define ADC_STANDARD_X3_VOL2           (2500)
 ```
-算出对应寄存器的ADC值和电压值之间的一条线性直线；<br> 
-得到该直线的偏移值offset和线性比率ratio， offset 值是计算出来的0V对应的寄存器值；<br> 
+a linear line between the ADC register values and the voltage values is calculated.
+The offset and linear ratio of this line are obtained, where the offset value is the calculated register value corresponding to 0V.
 
-以后ADC读到的值，都是通过这个offset和radio比例得到对应的电压值；<br> 
-**备注:**<br> 
-早期版本采用的1V 2.5V两个采样点作为ADC校验点<br> 
+Subsequently, the values read by the ADC are converted to the corresponding voltage values using this offset and ratio.
+**Note:**
+In early versions, the ADC calibration points were 1V and 2.5V
 ```c
 #define ADC_STANDARD_X3_VOL1           (1000)
 #define ADC_STANDARD_X3_VOL2           (2500)
 ```
-新的版本， 采用的0.3V和0.8V两个采样点作为ADC校验点<br> 
+In the new version, the calibration points are 0.3V and 0.8V
 ```c
 #define ADC_STANDARD_X1_VOL1           (300)
 #define ADC_STANDARD_X1_VOL2           (800)
 ```
-区别0.3V和0.8V两个采样点的校准方法， 这两个校准值最高bit被置1，
-如下:<br> 
+The calibration method using 0.3V and 0.8V sets the highest bit of these calibration values to 1, as follows:
 <br>![alt text](./assets/adc/adc001.png)<br>
 ```c
 if ((cfg.vol10 & (1 << 15)) && (cfg.vol25 & (1 << 15))) // small range, use X1 mode
 ``` 
-对应的sifli_adc_get_mv计算方法， 也会针对两种校准范围adc_range不同， 算法也会不一样;<br> 
+The corresponding `sifli_adc_get_mv` calculation method will differ based on the two calibration ranges, `adc_range`.
 
-在0.3V和0.8V两个采样点的校准方法时， 电压在接近0V和超过1V之后，精准度都不够，另外该模式下，软件寄存器ADC_CFG_RE关闭了GPADC_ADC_CFG_REG1_ANAU_GPADC_ATTN3X模式， 即关闭了内部的分压电阻，因此ADC测试点不能直接接超过1.1V电压，否则可能会烧芯片;<br> 
+When using 0.3V and 0.8V as calibration points, the accuracy is insufficient for voltages close to 0V and above 1V. Additionally, in this mode, the software register `ADC_CFG_RE` disables the `GPADC_ADC_CFG_REG1_ANAU_GPADC_ATTN3X` mode, which turns off the internal voltage divider resistors. Therefore, the ADC test point should not be directly connected to voltages exceeding 1.1V, as it may damage the chip.
  <br>![alt text](./assets/adc/adc002.png)<br>
-在采用1V，2.5V两个采样点作为ADC校验点的校准方式时，会寄存器配置开启GPADC_ADC_CFG_REG1_ANAU_GPADC_ATTN3X模式， 芯片内的分压电阻会被启用，衰减3倍，输入电压即不能超过3.3V<br> 
+When using 1V and 2.5V as calibration points, the `GPADC_ADC_CFG_REG1_ANAU_GPADC_ATTN3X` mode is enabled in the register configuration, which activates the internal voltage divider resistors, attenuating the input voltage by a factor of 3. The input voltage should not exceed 3.3V.
 
-## 6.2 ADC采样Vbat电池电压不准 debug方法
-a，万用表测试采样点电平，目前推荐分压电路为 1M/220k 1%精度的分压电阻;<br> 
-因此采样处电平应该在如下对应电压内，如果不对应，需要确认分压电阻值和精度;<br> 
-(注意:用万用表或者示波器测量采样点电压， 由于有引入设备输入阻抗，会导致30mV的电压跌落)<br> 
-<br>![alt text](./assets/adc/adc003.png)<br> 
-<br>![alt text](./assets/adc/adc004.png)<br> 
-b，上电开机后，睡眠唤醒后，ADC前面300ms左右采样可能不准，如下图:<br> 
-<br>![alt text](./assets/adc/adc005.png)<br> 
-用示波器抓ADC开机时候的采样波形，可以发现ADC波形除了一开始默认高电平外，还有rc电路引起的充放电导致采样要大概350ms后才能平稳。实际应用中需要根据实际情况加延时采样或者过滤前面不稳定的采样值<br> 
-c，还有出现进入standby后，如下的采样点波形:<br> 
-<br>![alt text](./assets/adc/adc006.png)<br> 
-从standby醒来后，采样点如下波形:<br> 
-<br>![alt text](./assets/adc/adc007.png)<br> 
-此处的原因是PB10默认未初始时内部是上拉状态，用作ADC输入，需要pinmux.c中，需要配置为PIN_NOPULL，并且为PIN_ANALOG_INPUT模式;<br> 
-如下图，缺少如下红框这条设置为PIN_ANALOG_INPUT模式，导致如上的PB10内部上拉电阻被使能，
-出现偶尔采样电压很高;<br> 
-<br>![alt text](./assets/adc/adc008.png)<br> 
-d， 55x芯片没有进行过校准;<br> 
-芯片出厂都会校准过，校准后，会在flash的工厂区有ADC校准参数， 具体参考ADC校准原理一章l
-<br> 
-## 6.3 ADC注意事项
-a， 55x采样最大值为1.1V，56x，52x为3.3V，采样电压不能大于该值，否则容易打坏ADC模块<br> 
-b， 56x的log uart打印接外部PC时，使用的外部硬件串口工具参考电平要跟IO电平匹配，否则会影响ADC的采样准度，比如IO电平是3.3v，外部连接的硬件串口工具参考电平为5V，采样出来的adc就会比正常低很多，4V电池有可能检测出来只有3.3V。<br> 
-c, 用万用表量采样点电压，由于引入了电阻，量出来的值一般会比实际值偏小一点点<br> 
+## 6.2 Debugging Methods for Inaccurate Vbat Battery Voltage Sampling
+a. Measure the voltage at the sampling point with a multimeter. The recommended voltage divider circuit uses 1M/220k resistors with 1% precision.
+Therefore, the voltage at the sampling point should fall within the corresponding range. If it does not, verify the resistor values and precision.
+(Note: Measuring the voltage at the sampling point with a multimeter or oscilloscope can introduce an input impedance, causing a 30mV voltage drop.)
+<br>![alt text](./assets/adc/adc003.png)<br>
+<br>![alt text](./assets/adc/adc004.png)<br>
+b. After power-on and wake-up from sleep, the first 300ms of ADC sampling may be inaccurate, as shown in the following figure:
+<br>![alt text](./assets/adc/adc005.png)<br>
+Using an oscilloscope to capture the ADC sampling waveform at startup, you can observe that the ADC waveform, apart from the initial high level, is affected by the RC circuit's charging and discharging, leading to a stabilization period of about 350ms. In practical applications, you may need to add a delay before sampling or filter out the initial unstable samples.
+c. After entering standby, the sampling point waveform may appear as follows:
+<br>![alt text](./assets/adc/adc006.png)<br>
+Upon waking from standby, the sampling point waveform appears as follows:
+<br>![alt text](./assets/adc/adc007.png)<br>
+The reason is that PB10 is internally pulled up by default when not initialized and is used as an ADC input. In `pinmux.c`, it should be configured as `PIN_NOPULL` and set to `PIN_ANALOG_INPUT` mode.
+As shown in the figure, the missing setting in the red box, which should be `PIN_ANALOG_INPUT` mode, causes the internal pull-up resistor of PB10 to be enabled, resulting in occasional high sampling voltages.
+<br>![alt text](./assets/adc/adc008.png)<br>
+d. The 55x chip has not been calibrated.
+All chips are calibrated at the factory, and the ADC calibration parameters are stored in the factory area of the flash. Refer to the ADC calibration principle chapter for more details.
+<br>
+
+## 6.3 ADC Precautions
+a. The maximum sampling voltage for the 55x series is 1.1V, for the 56x and 52x series it is 3.3V. The sampling voltage should not exceed these values, as it can easily damage the ADC module.
+b. When connecting the log UART of the 56x series to an external PC, the reference level of the external hardware serial tool should match the IO level to avoid affecting the accuracy of ADC sampling. For example, if the IO level is 3.3V and the external hardware serial tool's reference level is 5V, the sampled ADC value will be significantly lower than normal, and a 4V battery might be detected as only 3.3V.
+c. When measuring the voltage at the sampling point with a multimeter, the measured value may be slightly lower than the actual value due to the introduction of resistance.

@@ -1,12 +1,12 @@
-# 9 Source Insight相关
+# 9 Source Insight Related
 
-## 9.1 Source Insight部分符号无法解析问题
-现象如下图，函数不能识别，给搜索和查看代码带来不便
+## 9.1 Source Insight Partial Symbol Parsing Issue
+As shown in the figure below, functions cannot be recognized, making code search and browsing inconvenient.
 <br>![alt text](./assets/si001.png)<br>  
-解决方案：<br>
-1，修改source insight安装目录下文件C:\Program Files (x86)\Source Insight 4.0\c.tom
+Solution:<br>
+1. Modify the file c.tom located in the Source Insight installation directory: C:\Program Files (x86)\Source Insight 4.0\c.tom
 <br>![alt text](./assets/si002.png)<br>   
-2，文件结尾增加如下宏定义
+2. Add the following macro definitions at the end of the file
 <br>![alt text](./assets/si003.png)<br>  
 ```c 
 HAL_RETM_BSS_SECT(sect, var) var
@@ -34,8 +34,8 @@ RETM_CODE_SECT(section_name, func) func
 L1_RET_CODE_SECT(section_name, func) func
 ALIGN(v)
 ```
-3，生效方法：<br>
-a, 重启Source Insight，<br>
-b, 菜单 File->Close All 关闭所有文件<br>
-c, 重新解释工程所有文件 <br>
+3. To take effect:<br>
+a. Restart Source Insight,<br>
+b. Close all files via menu: File->Close All<br>
+c. Re-parse all files in the project<br>
 <br>![alt text](./assets/si004.png)<br>  

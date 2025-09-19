@@ -1,31 +1,31 @@
-#### 处理器供电要求
+#### Processor Power Supply Requirements
 
-<div align="center"> 电源供电要求 </div>
+<div align="center"> Power Supply Requirements </div>
 
 ```{table}
 
-|电源管脚| 最小电压(V) | 典型电压(V) | 最大电压(V) | 最大电流(mA) |   详细描述 |
+| Power Pin | Minimum Voltage(V) | Typical Voltage(V) | Maximum Voltage(V) | Maximum Current(mA) | Detailed Description |
 |:--|:--|:--|:--|:--|:----------------------------------------------------|
-|PVDD       |2.97   |3.3        |3.63   |150    |PVDD系统电源输入，接10uF电容 
-|BUCK_LX    |-      |1.25       |-      |50     |BUCK输出脚，接4.7uH电感 
-|BUCK_FB    |-      |1.25       |-      |50     |BUCK反馈和内部电源输入脚，接电感另一端，且外接4.7uF电容 
-|VDD_VOUT1  |-      |1.1        |-      |50     |内部LDO，外接4.7uF电容 
-|VDD_VOUT2  |-      |0.9        |-      |20     |内部LDO，外接4.7uF电容 
-|VDD_RET    |-      |0.9        |-      |1      |内部LDO，外接0.47uF电容 
-|VDD_RTC    |-      |1.1        |-      |1      |内部LDO，外接1uF电容 
-|VDDIOA     |1.71   |1.8/3.3    |3.63   |-      |GPIO电源输入，外接1uF电容 
-|AVDD33     |2.97   |3.3        |3.63   |100    |3.3V模拟电源输入，外接4.7uF电容 
-|AVDD33_AUD |2.97   |3.3        |3.63   |50     |3.3V音频电源输入，外接2.2uF电容  
-|VDD_SIP    |1.71   |1.8/3.3    |3.63   |30     |内部LDO，或者外部电源输入{SUP}`(1)` ，外接1uF电容
-|AVDD_BRF   |2.97   |3.3        |3.63   |100    |模拟电源输入，外接4.7uF电容 
-|MIC_BIAS   |1.4    |-          |2.8    |-      |MIC电源输出，外接1uF电容 
+| PVDD       | 2.97   | 3.3        | 3.63   | 150    | PVDD system power input, connect a 10uF capacitor |
+| BUCK_LX    | -      | 1.25       | -      | 50     | BUCK output pin, connect a 4.7uH inductor |
+| BUCK_FB    | -      | 1.25       | -      | 50     | BUCK feedback and internal power input pin, connect to the other end of the inductor, and an external 4.7uF capacitor |
+| VDD_VOUT1  | -      | 1.1        | -      | 50     | Internal LDO, connect an external 4.7uF capacitor |
+| VDD_VOUT2  | -      | 0.9        | -      | 20     | Internal LDO, connect an external 4.7uF capacitor |
+| VDD_RET    | -      | 0.9        | -      | 1      | Internal LDO, connect an external 0.47uF capacitor |
+| VDD_RTC    | -      | 1.1        | -      | 1      | Internal LDO, connect an external 1uF capacitor |
+| VDDIOA     | 1.71   | 1.8/3.3    | 3.63   | -      | GPIO power input, connect an external 1uF capacitor |
+| AVDD33     | 2.97   | 3.3        | 3.63   | 100    | 3.3V analog power input, connect an external 4.7uF capacitor |
+| AVDD33_AUD | 2.97   | 3.3        | 3.63   | 50     | 3.3V audio power input, connect an external 2.2uF capacitor |
+| VDD_SIP    | 1.71   | 1.8/3.3    | 3.63   | 30     | Internal LDO or external power input{SUP}`(1)` , connect an external 1uF capacitor |
+| AVDD_BRF   | 2.97   | 3.3        | 3.63   | 100    | Analog power input, connect an external 4.7uF capacitor |
+| MIC_BIAS   | 1.4    | -          | 2.8    | -      | MIC power output, connect an external 1uF capacitor |
 ```
 :::{note}
 {SUP}`(1)`
-* SF32LB52BU36，需要外供1.8V或3.3V
-* SF32LB52BU56，需要外供3.3V
-* SF32LB52E/G/JUx6，PVDD=1.8V时，内部LDO无法使用，需要外供1.8V；PVDD=3.3V时，内部LDO直接供电，无需外供
+* SF32LB52BU36, requires external 1.8V or 3.3V
+* SF32LB52BU56, requires external 3.3V
+* SF32LB52E/G/JUx6, when PVDD=1.8V, the internal LDO cannot be used and requires external 1.8V; when PVDD=3.3V, the internal LDO directly supplies power, no external supply is needed
 :::
 :::{important}
-系统使用Hibernate mode时，VDD_SIP供电要关闭，否则合封存储的I/O上会有漏电风险。VDD_SIP的电源控制信号请使用专用的PA21引脚。
+When the system is in Hibernate mode, the VDD_SIP power supply must be turned off to avoid leakage current on the I/O of the integrated storage. The power control signal for VDD_SIP should use the dedicated PA21 pin.
 :::

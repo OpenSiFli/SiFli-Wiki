@@ -1,77 +1,71 @@
-## 基本介绍
+## Basic Introduction
 
-本文的主要目的是帮助开发人员完成基于SF32LB52X系列芯片的手表方案开发。本文重点介绍方案开发过程中的硬件设计相关注意事项，尽可能的减少开发人员工作量，缩短产品的上市周期。
+The main purpose of this document is to assist developers in completing the development of watch solutions based on the SF32LB52X series of chips. This document focuses on hardware design considerations during the development process, aiming to minimize the workload of developers and shorten the product's time to market.
 
-SF32LB52X是一系列用于超低功耗人工智能物联网（AIoT）场景下的高集成度、高性能MCU芯片。芯片采用了基于Arm Cortex-M33 STAR-MC1处理器的大小核架构，集成高性能2D/2.5D图形引擎，人工智能神经网络加速器，双模蓝牙5.3，以及音频CODEC，可广泛用于腕带类可穿戴电子设备、智能移动终端、智能家居等各种应用场景。
+The SF32LB52X is a series of highly integrated, high-performance MCU chips designed for ultra-low power artificial intelligence of things (AIoT) scenarios. The chip features a big.LITTLE architecture based on the Arm Cortex-M33 STAR-MC1 processor, integrated high-performance 2D/2.5D graphics engine, artificial intelligence neural network accelerator, dual-mode Bluetooth 5.3, and audio CODEC. It can be widely used in various applications, including wearable electronic devices, smart mobile terminals, and smart home devices.
 
 :::{attention}
-SF32LB52X是SF32LB52系列的**常规供电版本，供电电压为2.97~3.63V，不支持充电**，具体包含如下型号：\
-SF32LB52BU36，合封1MB QSPI-NOR Flash \
-SF32LB52EUB6，合封4MB OPI-PSRAM \
-SF32LB52GUC6，合封8MB OPI-PSRAM \
-SF32LB52JUD6，合封16MB OPI-PSRAM
+The SF32LB52X is the **standard power supply version of the SF32LB52 series, with a supply voltage of 2.97~3.63V and no support for charging**. It includes the following models:\
+SF32LB52BU36, with 1MB QSPI-NOR Flash \
+SF32LB52EUB6, with 4MB OPI-PSRAM \
+SF32LB52GUC6, with 8MB OPI-PSRAM \
+SF32LB52JUD6, with 16MB OPI-PSRAM
 :::
 
-处理器外设资源如下：
+The processor peripheral resources are as follows:
 
 - 45x GPIO
 - 3x UART
 - 4x I2C
 - 2x GPTIM
 - 2x SPI
-- 1x I2S音频接口
-- 1x SDIO 存储接口
-- 1x PDM音频接口
-- 1x 差分模拟音频输出
-- 1x 单端模拟音频输入
-- 支持单/双/四数据线SPI显示接口，支持串行JDI模式显示接口
-- 支持带GRAM和不带GRAM的两种显示屏
-- 支持UART下载和软件调试
+- 1x I2S audio interface
+- 1x SDIO storage interface
+- 1x PDM audio interface
+- 1x differential analog audio output
+- 1x single-ended analog audio input
+- Support for single, dual, and quad data line SPI display interfaces, and support for serial JDI mode display interfaces
+- Support for displays with and without GRAM
+- Support for UART download and software debugging
 
+## Packaging
 
-## 封装
-
-
-<div align="center"> 封装信息表 </div>
+<div align="center"> Packaging Information Table </div>
 
 ```{table}
 
-|封装名称|尺寸|管脚间距|
+| Package Name | Size | Pin Pitch |
 |:--|:-|:-|
-|QFN68L | 7x7x0.85 mm | 0.35 mm |
+| QFN68L | 7x7x0.85 mm | 0.35 mm |
 ```
-
 
 <img src="assets/52xB/sf32lb52X-B-package-layout.png" width="80%" align="center" />  
 
-<div align="center"> SF32LB52X QFN68L 管脚分布 </div>
+<div align="center"> SF32LB52X QFN68L Pin Distribution </div>
 
+## Typical Application Solution
 
-
-## 典型应用方案
-
-下图是典型的SF32LB52A/52D运动手表组成框图，主要功能有显示、存储、传感器、震动马达和音频输入和输出。
+The following diagram is a typical block diagram of the SF32LB52A/52D sports watch, which includes display, storage, sensors, vibration motor, and audio input and output functions.
 
 <img src="assets/52xB/sf32lb52X-B-watch-app-diagram-52X.png" width="80%" align="center" />  
 
-<div align="center"> SF32LB52B/52E运动手表组成框图 </div>
-
+<div align="center"> SF32LB52B/52E Sports Watch Block Diagram </div>
 
 :::{Note} 
-   - 大小核双CPU架构，同时兼顾高性能和低功耗设计要求
-   - 片内集成充电管理和PMU模块
-   - 支持QSPI接口的TFT或AMOLED显示屏，最高支持512*512分辨率
-   - 支持PWM背光控制
-   - 支持外接QSPI Nor/Nand Flash和SD Nand Flash存储芯片
-   - 支持双模蓝牙5.3
-   - 支持模拟音频输入
-   - 支持模拟音频输出
-   - 支持PWM震动马达控制
-   - 支持SPI/I2C接口的加速度/地磁/陀螺仪传感器
-   - 支持SPI/I2C接口的心率/血氧/心电图/地磁传感器
-   - 支持UART调试打印接口和烧写工具
-   - 支持蓝牙HCI调试接口
-   - 支持产线一拖多程序烧录
-   - 支持产线校准晶体功能
-   - 支持OTA在线升级功能
+   - Big.LITTLE dual-CPU architecture, balancing high performance and low power design requirements
+   - Integrated charging management and PMU module
+   - Support for TFT or AMOLED displays with QSPI interface, up to 512*512 resolution
+   - Support for PWM backlight control
+   - Support for external QSPI Nor/Nand Flash and SD Nand Flash storage chips
+   - Support for dual-mode Bluetooth 5.3
+   - Support for analog audio input
+   - Support for analog audio output
+   - Support for PWM vibration motor control
+   - Support for SPI/I2C interface acceleration/magnetic/gyroscope sensors
+   - Support for SPI/I2C interface heart rate/blood oxygen/EKG/magnetic sensors
+   - Support for UART debugging print interface and programming tools
+   - Support for Bluetooth HCI debugging interface
+   - Support for one-to-many program burning in production lines
+   - Support for crystal calibration in production lines
+   - Support for OTA online upgrade function
 :::

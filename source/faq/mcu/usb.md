@@ -1,20 +1,20 @@
-# 12 USB相关
-## 12.1 USB做device存储
-usb可以用做device存储功能，即设备插入PC之后，可以在PC上看到U盘显示，可以拷贝文件等。<br>
-1，需要在工程下打开menuconfig，如下设置：<br>
-打开usb device功能：<br>
+# 12 USB Related
+## 12.1 USB as Device Storage
+USB can be used as a device storage function, meaning that when the device is inserted into a PC, a USB drive will be displayed on the PC, and files can be copied, etc.<br>
+1. In the project, open `menuconfig` and set the following:<br>
+Enable USB device function:<br>
 <br>![alt text](./assets/usb/usb001.png)<br>   
-打开flash相关支持，使能flash文件系统：
+Enable flash support and enable the flash file system:
 <br>![alt text](./assets/usb/usb002.png)<br>   
-打开USB相关的具体配置：
+Open USB-related specific configurations:
 <br>![alt text](./assets/usb/usb003.png)<br>   
-进行usb详细配置，选择Mass Storage device，并且由于flash1空间小，同时放入code代码，通常选择flash2作为U盘空间
+Perform detailed USB configuration, select Mass Storage device, and since flash1 has limited space and also contains code, flash2 is typically chosen as the USB drive space.
 <br>![alt text](./assets/usb/usb004.png)<br>   
-配置好相关定义之后，编译软件，下载之后，将设备通过usb插口连接pc，开机，需要在PC串口中输入指令：<br>
+After configuring the relevant definitions, compile the software, download it, and connect the device to the PC via the USB port. Upon startup, you need to enter the following commands in the PC serial port:
 ```
-mkfs -t elm flash2    ---格式化
-mountfs -t elm flash2 /  ---挂载
-ls /dev      ---可以查看是否有usb的设备
-mkdir abc    ---如果可以查看到usb设备，通过mkdir建立一个文件夹，可以在pc端看到U盘的图标，并且可以点击进入copy文件
+mkfs -t elm flash2    --- format
+mountfs -t elm flash2 /  --- mount
+ls /dev      --- check if the USB device is present
+mkdir abc    --- if the USB device is detected, create a folder using mkdir, and you can see the USB drive icon on the PC and click to copy files
 ```
-PS：SDK支持device存储功能，需要进行相关配置，还需要客户根据自己的需求调试，有时需要重启之后重新挂载才可以看到U盘。
+PS: The SDK supports the device storage function, but related configurations are required, and customers may need to debug according to their own needs. Sometimes, a reboot and re-mounting are necessary to see the USB drive.

@@ -1,87 +1,88 @@
-# 应用层vs模组驱动层函数对应表
-以下表格是各种应用层的操作（这里的应用层是指rt_device层的调用）对应的底层驱动发生的事情：
+# Application Layer vs. Module Driver Layer Function Correspondence Table
+The following table shows the operations at the application layer (here, the application layer refers to the calls made at the rt_device layer) and the corresponding events that occur at the underlying driver layer:
 
-## 屏幕的应用层操作和对应的底层函数调用
-### 打开屏幕调用流程
-应用层调用函数：
+## Screen Application Layer Operations and Corresponding Lower-Level Function Calls
+### Screen Open Call Flow
+Application layer function call:
 ```c
-rt_device_open(lcd_device, RT_DEVICE_OFLAG_RDWR); //打开屏幕
+rt_device_open(lcd_device, RT_DEVICE_OFLAG_RDWR); // Open the screen
 ```
 
-| 顺序 |  驱动层调用函数 | 函数在文件路径 | 描述 |
+| Order | Driver Layer Function Call | Function in File Path | Description |
 | ----------- | ----------- | ----------- | ----------- |
-| 1 | BSP_LCD_PowerUp(void);  | bsp_lcd_tp.c | 屏幕上电 |
-| 2 | LCD_Init(hlcdc) | nv3051f1.c | 屏驱初始化函数 |
-| 3 | LCD_ReadID(hlcdc) | nv3051f1.c | 屏幕在位检测（开机检测1次） |
+| 1 | BSP_LCD_PowerUp(void);  | bsp_lcd_tp.c | Power up the screen |
+| 2 | LCD_Init(hlcdc) | nv3051f1.c | Screen driver initialization function |
+| 3 | LCD_ReadID(hlcdc) | nv3051f1.c | Screen presence detection (once at startup) |
 
 
-### 关闭屏幕调用流程
-应用层调用函数：
+### Screen Close Call Flow
+Application layer function call:
 ```c
-rt_device_close(lcd_device); //关闭屏幕
+rt_device_close(lcd_device); // Close the screen
 ```
 
-| 顺序 |  驱动层调用函数 | 函数在文件路径 | 描述 |
+| Order | Driver Layer Function Call | Function in File Path | Description |
 | ----------- | ----------- | ----------- | ----------- |
-| 1 | LCD_DisplayOff(hlcdc) | nv3051f1.c | 关闭液晶 |
-| 2 | LCD_SetBrightness(hlcdc, br) | nv3051f1.c | 设置背光亮度为0 |
-| 3 | BSP_LCD_PowerDown(void);  | bsp_lcd_tp.c | 屏幕下电 |
+| 1 | LCD_DisplayOff(hlcdc) | nv3051f1.c | Turn off the LCD |
+| 2 | LCD_SetBrightness(hlcdc, br) | nv3051f1.c | Set the backlight brightness to 0 |
+| 3 | BSP_LCD_PowerDown(void);  | bsp_lcd_tp.c | Power down the screen |
 
 
-### 设置屏幕数据接收区域
-应用层调用函数：
+### Set Screen Data Reception Area
+Application layer function call:
 ```c
-rt_graphix_ops(lcd_device)->set_window(0,0,239,319); //设置起始坐标为{0,0}，高宽为240x320的接收区域
+rt_graphix_ops(lcd_device)->set_window(0,0,239,319); // Set the reception area with start coordinates {0,0} and dimensions 240x320
 ```
 
-| 顺序 |  驱动层调用函数 | 函数在文件路径 | 描述 |
+| Order | Driver Layer Function Call | Function in File Path | Description |
 | ----------- | ----------- | ----------- | ----------- |
-| 1 | LCD_SetRegion(hlcdc, Xpos0, Ypos0, Xpos1, Ypos1) | nv3051f1.c | 设置屏幕接收区域 |
+| 1 | LCD_SetRegion(hlcdc, Xpos0, Ypos0, Xpos1, Ypos1) | nv3051f1.c | Set the screen reception area |
 
-### 推送Framebuffer到屏幕
-应用层调用函数：
+
+### Push Framebuffer to Screen
+Application layer function call:
 ```c
 uint8_t framebuffer[240*320];
-rt_graphix_ops(lcd_device)->draw_rect_async((const char *)&frambuffer, 0,0,239,319); //推送起始坐标为{0,0}，高宽为240x320的Framebuffer到屏幕
+rt_graphix_ops(lcd_device)->draw_rect_async((const char *)&frambuffer, 0,0,239,319); // Push the Framebuffer with start coordinates {0,0} and dimensions 240x320 to the screen
 ```
 
-| 顺序 |  驱动层调用函数 | 函数在文件路径 | 描述 |
+| Order | Driver Layer Function Call | Function in File Path | Description |
 | ----------- | ----------- | ----------- | ----------- |
-| 1 | LCD_WriteMultiplePixels(hlcdc, const uint8_t *RGBCode, Xpos0, Ypos0, Xpos1, Ypos1) | nv3051f1.c | 推送Framebuffer到屏幕 |
+| 1 | LCD_WriteMultiplePixels(hlcdc, const uint8_t *RGBCode, Xpos0, Ypos0, Xpos1, Ypos1) | nv3051f1.c | Push the Framebuffer to the screen |
 
 
-### 设置屏幕亮度
-应用层调用函数：
+### Set Screen Brightness
+Application layer function call:
 ```c
-uint8_t brightness = 100;//背光亮度百分比值
-rt_device_control(lcd_device, RTGRAPHIC_CTRL_SET_BRIGHTNESS, &brightness); //设置背光亮度
+uint8_t brightness = 100;// Backlight brightness percentage value
+rt_device_control(lcd_device, RTGRAPHIC_CTRL_SET_BRIGHTNESS, &brightness); // Set the backlight brightness
 ```
 
-| 顺序 |  驱动层调用函数 | 函数在文件路径 | 描述 |
+| Order | Driver Layer Function Call | Function in File Path | Description |
 | ----------- | ----------- | ----------- | ----------- |
-| 1 | LCD_SetBrightness(hlcdc, br) | nv3051f1.c | 设置背光亮度 |
-| 2 | LCD_DisplayOn(hlcdc) | nv3051f1.c | 打开液晶屏幕 |
+| 1 | LCD_SetBrightness(hlcdc, br) | nv3051f1.c | Set the backlight brightness |
+| 2 | LCD_DisplayOn(hlcdc) | nv3051f1.c | Turn on the LCD screen |
 
 
-### 组合刷屏操作
-组合刷新函数包括了：设置屏幕数据接收区域&推送Framebuffer到屏幕
-应用层调用函数：
+### Combined Screen Refresh Operations
+The combined refresh function includes: setting the screen data reception area and pushing the Framebuffer to the screen
+Application layer function call:
 ```c
 lcd_flush_info_t flush_info = {
     .cmpr_rate = 0,
     .color_format = RTGRAPHIC_PIXEL_FORMAT_RGB565,
     .pixel = framebuffer,
-    .window = {100,100,200,200}，
+    .window = {100,100,200,200},
     .pixel_area = {0,0,240,240},
 };
 err = rt_device_control(p_lcd_dev, SF_GRAPHIC_CTRL_LCDC_FLUSH, &flush_info);
 ```
 
-| 顺序 |  驱动层调用函数 | 函数在文件路径 | 描述 |
+| Order | Driver Layer Function Call | Function in File Path | Description |
 | ----------- | ----------- | ----------- | ----------- |
-| 1 | 自动设置framebuffer的压缩率和颜色格式 | drv_lcd.c | 驱动框架自动完成 |
-| 2 | LCD_SetRegion(hlcdc, Xpos0, Ypos0, Xpos1, Ypos1) | nv3051f1.c | 设置屏幕接收区域 |
-| 3 | LCD_WriteMultiplePixels(hlcdc, const uint8_t *RGBCode, Xpos0, Ypos0, Xpos1, Ypos1) | nv3051f1.c | 推送Framebuffer到屏幕 |
+| 1 | Automatically set the compression rate and color format of the Framebuffer | drv_lcd.c | Automatically completed by the driver framework |
+| 2 | LCD_SetRegion(hlcdc, Xpos0, Ypos0, Xpos1, Ypos1) | nv3051f1.c | Set the screen reception area |
+| 3 | LCD_WriteMultiplePixels(hlcdc, const uint8_t *RGBCode, Xpos0, Ypos0, Xpos1, Ypos1) | nv3051f1.c | Push the Framebuffer to the screen |
 
 
 <br>
@@ -90,32 +91,32 @@ err = rt_device_control(p_lcd_dev, SF_GRAPHIC_CTRL_LCDC_FLUSH, &flush_info);
 <br>
 
 
-## TP的应用层操作和对应的底层函数调用
-### 打开TP设备
+## TP Application Layer Operations and Corresponding Lower-Level Function Calls
+### Open TP Device
 ```c
-rt_device_open(touch_device, RT_DEVICE_FLAG_RDONLY); //打开TP设备
+rt_device_open(touch_device, RT_DEVICE_FLAG_RDONLY); // Open the TP device
 ```
-| 顺序 |  驱动层调用函数 | 函数在文件路径 | 描述 |
+| Order | Driver Layer Function Call | Function in File Path | Description |
 | ----------- | ----------- | ----------- | ----------- |
-| 1 |  BSP_TP_PowerUp | bsp_lcd_tp.c | 触控上电 |
-| 2 | rt_bool_t probe(void) | gt911.c | 触控在位检测（只做1次） |
-| 3 |  rt_err_t init(void) | gt911.c | 触控初始化 |
+| 1 | BSP_TP_PowerUp | bsp_lcd_tp.c | Power up the touch screen |
+| 2 | rt_bool_t probe(void) | gt911.c | Touch presence detection (only once) |
+| 3 | rt_err_t init(void) | gt911.c | Touch initialization |
 
-### 关闭TP设备
+### Close TP Device
 ```c
-rt_device_close(touch_device); //关闭TP设备
+rt_device_close(touch_device); // Close TP device
 ```
-| 顺序 |  驱动层调用函数 | 函数在文件路径 | 描述 |
+| Order | Driver Layer Function Call | Function in File Path | Description |
 | ----------- | ----------- | ----------- | ----------- |
-| 1 |  rt_err_t deinit(void) | gt911.c | 触控去初始化 |
-| 2 |  BSP_TP_PowerUp | bsp_lcd_tp.c | 触控上电 |
+| 1 | rt_err_t deinit(void) | gt911.c | Touch deinitialization |
+| 2 | BSP_TP_PowerUp | bsp_lcd_tp.c | Touch power up |
 
-### 读取TP数据点
+### Read TP Data Points
 ```c
 struct touch_message touch_data;
-rt_device_read(touch_device, 0, &touch_data, 1); //读取TP数据点
+rt_device_read(touch_device, 0, &touch_data, 1); // Read TP data points
 ```
 
-| 顺序 |  驱动层调用函数 | 函数在文件路径 | 描述 |
+| Order | Driver Layer Function Call | Function in File Path | Description |
 | ----------- | ----------- | ----------- | ----------- |
-| 1 |   rt_err_t read_point(touch_msg_t p_msg) | gt911.c | 触控读取数据点 |
+| 1 | rt_err_t read_point(touch_msg_t p_msg) | gt911.c | Touch read data points |

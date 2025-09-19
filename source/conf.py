@@ -46,7 +46,7 @@ templates_path = ['_templates']
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = 'zh_CN'
+language = 'en'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -76,37 +76,31 @@ html_css_files = [
 ]
 html_js_files = [
     'js/baidu.js',
-    'js/chatbot.js',
+    # 'js/chatbot.js',
     'js/custom.js',
     'js/lightbox.js',
 ]
 html_theme_options = {
         "accent_color": "blue",
-        "announcement": """
-            <div style="text-align: center">
-                思澈 Solution 全面开放：一套产品级方案，加速从原型到量产
-                <a href='https://docs.sifli.com/projects/solution/0.introduction/index.html'>Solution文档</a>。
-            </div>
-        """,
     # "globaltoc_expand_depth": ,
         "github_url": "https://github.com/OpenSiFli",
         "nav_links": [
         {
-            "title": "入门指南",
+            "title": "User Guide",
             "url": "docs/index",
         },
         {
-            "title": "API文档",
+            "title": "API Documentation",
             "url": "https://docs.sifli.com/projects/sdk/latest/sf32lb52x/index.html",
             "external": True,
         },
                 {
-            "title": "Solution文档",
+            "title": "Solution Documentation",
             "url": "https://docs.sifli.com/projects/solution/0.introduction/index.html",
             "external": True,
         },
         {
-            "title": "关于我们",
+            "title": "About Us",
             "url": "about/index",
         },
     ],

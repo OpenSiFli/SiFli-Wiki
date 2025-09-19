@@ -1,274 +1,274 @@
-# Flash Chipid 和Type配置指南
+# Flash Chipid and Type Configuration Guide
 
-## 1 快速生成Flash驱动
+## 1 Quick Generation of Flash Driver
 
-### 1.1 视频教程
+### 1.1 Video Tutorials
 
-#### 1.1.1 [快速开始](https://www.bilibili.com/video/BV1i3USY8E3S/)：
+#### 1.1.1 [Quick Start](https://www.bilibili.com/video/BV1i3USY8E3S/)：
 
 https://www.bilibili.com/video/BV1i3USY8E3S/
 
-#### 1.1.2  [Nand全程实操过程](https://www.bilibili.com/video/BV1v3USYbEYy/)：
+#### 1.1.2 [Nand Full Practical Process](https://www.bilibili.com/video/BV1v3USYbEYy/)：
 
 https://www.bilibili.com/video/BV1v3USYbEYy/
 
-#### 1.1.3 视频教程网盘地址
+#### 1.1.3 Video Tutorial Network Disk Address
 
-网盘分享的文件：[sifli_flash_driver_generate](https://pan.baidu.com/s/11dVuuK5giQqTr1hQqZ4OVQ?pwd=1234)
+Network disk shared file: [sifli_flash_driver_generate](https://pan.baidu.com/s/11dVuuK5giQqTr1hQqZ4OVQ?pwd=1234)
 
-链接: https://pan.baidu.com/s/11dVuuK5giQqTr1hQqZ4OVQ?pwd=1234 提取码: 1234
+Link: https://pan.baidu.com/s/11dVuuK5giQqTr1hQqZ4OVQ?pwd=1234 Extraction Code: 1234
 
-### 1.2 UartburnEx.exe工具
+### 1.2 UartburnEx.exe Tool
 
-#### 1.2.1 驱动Bin或者elf修改
+#### 1.2.1 Driver Bin or Elf Modification
 
-下载最新的[Impeller.exe](https://downloads.sifli.com//tools/Impeller_COMMON.7z)工具，里面包含了Flash驱动生成工具UartburnEx.exe<br>
-- Impeller工具中烧录驱动对应关系，查看
-[3.4 Flash下载驱动对应关系](../../faq/peripherals/flash.md/#34Flash下载驱动对应关系)
+Download the latest [Impeller.exe](https://downloads.sifli.com//tools/Impeller_COMMON.7z) tool, which includes the Flash driver generation tool UartburnEx.exe<br>
+- For the correspondence between the Impeller tool and the driver, refer to
+[3.4 Flash Download Driver Correspondence](../../faq/peripherals/flash.md/#34Flash下载驱动对应关系)
 
-填好Flash的chipid和Flash配置参数，填入到UartburnEx.exe如下界面中，如果在下载时，要新增一个IO口或者通过SF30147电源芯片给Flash供电，也可以添加
+Fill in the Flash chipid and Flash configuration parameters into UartburnEx.exe as shown in the following interface. If you need to add a new IO port or power the Flash through the SF30147 power chip during download, you can also add it.
 
 ![alt text](./assets/flash0.png)<br>
 
-#### 1.2.2 用新生成的驱动下载
+#### 1.2.2 Download with the Newly Generated Driver
 
 ![alt text](./assets/flash1.png)<br>
 
 ![alt text](./assets/flash2.png)<br>
 
-#### 1.2.3 SDK代码Chipid添加到对应TYPE
+#### 1.2.3 Add Chipid to Corresponding TYPE in SDK Code
 
-生成的bin或者elf只是提供了Flash的下载，自身代码要读写该Flash，则需要在代码中添加对应的Chipid，再编译Bootloader和用户代码，自身代码才能跑起来
+The generated bin or elf only provides the Flash download. To read and write to the Flash in your own code, you need to add the corresponding Chipid to the code, then compile the Bootloader and user code for the code to run.
 
-##### 1.2.3.1 Nor Flash添加方法
+##### 1.2.3.1 Nor Flash Addition Method
 
-flash_table.c文件中，在对应的Type下面，添加上对应的Chipid
+In the `flash_table.c` file, add the corresponding Chipid under the corresponding Type.
 
 ![alt text](./assets/flash3.png)<br>
 
-##### 1.2.3.2 Nand Flash添加方法
+##### 1.2.3.2 Nand Flash Addition Method
 
-nand_table.c文件中，在对应的Type下面，添加上对应的Chipid
+In the `nand_table.c` file, add the corresponding Chipid under the corresponding Type.
 
 ![alt text](./assets/flash4.png)<br>
 
-## 2 查找ChipID方法
+## 2 Methods to Find ChipID
 
-### 2.1 案例一GSS01GSAX1
+### 2.1 Case One: GSS01GSAX1
 
-以GSS01GSAX1-W8NMI0_Rev_1.1.pdf为例，打开后搜索flash读id通用命令：9fh，如下图，可以查看到9fh读id的时序图，和输出的chipid的顺序
+Using GSS01GSAX1-W8NMI0_Rev_1.1.pdf as an example, open it and search for the generic flash read ID command: 9fh. As shown in the following figure, you can see the timing diagram for reading the ID with 9fh and the order of the output chipid.
 
 ![alt text](./assets/flash5.png)<br>
 
-下面是9fh命令能读到的ID，SPI发送9FH指令后，空8个clk的dummy，会输出0x52，0xca，0x13，
+The ID that can be read with the 9fh command is as follows: After sending the 9FH command via SPI, followed by 8 dummy clock cycles, it outputs 0x52, 0xca, 0x13.
 
-对应到nand_table.c文件的chipid表为：
+Corresponding to the chipid table in the `nand_table.c` file:
 {0x52, 0xCA, 0x13, 0x10, 0x8000000}, //GSS01GSAX1_RDID
 
 ![alt text](./assets/flash6.png)<br>
 
-### 2.2 案例二DS35X2GBXXX
+### 2.2 Case Two: DS35X2GBXXX
 
-东芯公司的这颗9Fh读chipid，在8bit clk的dummy后，只有2个byte chipid，软件默认还是会读3byte，chipid通常会循环发，如果读3个byte，下图1V8的型号，就会收到0xE5, 0xA2, 0XE5,同理如果读5个byte就会收到 0xE5, 0xA2, 0XE5, 0xE5, 0xA2,软件只取前3个byte作为chipid，得到该chipid为：
+For the 9Fh read chipid of the Dongxin company's chip, after 8 dummy clock cycles, only 2 bytes of chipid are output. The software will still read 3 bytes by default, and the chipid will typically be repeated. If reading 3 bytes, for the 1V8 model, it will receive 0xE5, 0xA2, 0XE5. Similarly, if reading 5 bytes, it will receive 0xE5, 0xA2, 0XE5, 0xE5, 0xA2. The software only takes the first 3 bytes as the chipid, resulting in:
 {0xE5, 0xA2, 0XE5, 0x22, 0x10000000}, //DS35M2GBXXX_RDID
 
 ![alt text](./assets/flash7.png)<br>
 
-### 2.3 通过下载打印Chipid
+### 2.3 Download and Print Chipid
 
-用Impeller.exe下载，查看log来查看Chipid，（这里只演示了uart下载获取chipid方法）
+Use Impeller.exe to download and check the log to view the Chipid (this only demonstrates the method of obtaining chipid via UART download).
 
-如下图：选择对应的CPU型号，uart/jlink，速率，nor/nand类别，对应下载地址正确后，返回主界面
+As shown in the following figure: Select the corresponding CPU model, uart/jlink, speed, nor/nand category, and the correct download address, then return to the main interface.
 
 ![alt text](./assets/flash8.png)<br>
 
 ![alt text](./assets/flash9.png)<br>
 
-点击烧录后，查看`Impeller_x.x.x_COMMON\log\channel\20xx_xx_xx\*.txt`刚下载失败过程生成的log，可以读取的Chipid为`{0xc8, 0x82, 0xc8, x, 0xxxxxxxxx},`
+After clicking to burn, view the log generated in the `Impeller_x.x.x_COMMON\log\channel\20xx_xx_xx\*.txt` directory during the download failure process. The readable Chipid is `{0xc8, 0x82, 0xc8, x, 0xxxxxxxxx},`
 
 ![alt text](./assets/flash10.png)<br>
 
-## 3 ChipID列表解释
+## 3 Explanation of ChipID List
 
 ### 3.1 Nor Flash
 
-#### 3.1.1 ID解释
+#### 3.1.1 ID Explanation
 ```c
 typedef struct FLASH_FULL_CHIP_ID
 {
-    uint8_t manufacture_id; /* 厂家型号，同一个厂家都一样的，0x52代表 联和存储 */
-    uint8_t memory_type;  /* 区分同一厂商的不同存储芯片型号 */
-    uint8_t memory_density; /* 区分同一厂商的不同存储芯片型号 */
-uint8_t ext_flags;    //8bit的意义，目前nor flash只用了bit 0，
-// bit 0: nor flash，该bit为1，表示该flash支持DTR（QSPI双沿送数），0：表示不支持，这里置1后，用户代码是否采用DTR模式，由代码选择
-    // bit 1: -  7  nor flash无意义，默认0
-    uint32_t mem_size;  // flash 存储大小，单位（Byte）
+    uint8_t manufacture_id; /* Manufacturer ID, the same for all chips from the same manufacturer, 0x52 represents United Memory */
+    uint8_t memory_type;  /* Distinguishes different memory chip models from the same manufacturer */
+    uint8_t memory_density; /* Distinguishes different memory chip models from the same manufacturer */
+    uint8_t ext_flags;    // 8-bit meaning, currently only bit 0 is used for nor flash,
+    // bit 0: nor flash, this bit is 1 if the flash supports DTR (QSPI dual-edge data transfer), 0 if it does not support it. Setting this bit to 1 allows the user code to choose whether to use DTR mode.
+    // bit 1: -  7  nor flash has no meaning, default is 0
+    uint32_t mem_size;  // Flash storage size, unit (Byte)
 } FLASH_RDID_TYPE_T;
 ```
-**ID示例说明**
+**ID Example Explanation**
 
 `{0x85, 0x20, 0x1a, 1, 0x4000000}, //PY25Q512HB_RDID`
 
-`0x85：`代表Puya公司的芯片
+`0x85:` Represents a chip from Puya company
 
-`0x20：`代表内存类型
+`0x20:` Represents memory type
 
-`0x1a：`代表内存设备ID
+`0x1a:` Represents memory device ID
 
-`1： `代表支持DTR双沿送数
+`1:` Represents support for DTR dual-edge data transfer
 
 ### 3.2 Nand Flash
-#### 3.2.1 ID解释
+#### 3.2.1 ID Explanation
 ```c
 typedef struct FLASH_FULL_CHIP_ID
 
 {
 
-uint8_t manufacture_id; /* 厂家型号，同一个厂家都一样的，0x52代表 联和存储 \*/
+uint8_t manufacture_id; /* Manufacturer ID, the same for the same manufacturer, 0x52 represents United Memory \*/
 
-uint8_t memory_type; /* 区分同一厂商的不同存储芯片型号 \*/
+uint8_t memory_type; /* Distinguishes different memory chip models from the same manufacturer \*/
 
-uint8_t memory_density; /* 区分同一厂商的不同存储芯片型号 \*/
+uint8_t memory_density; /* Distinguishes different memory chip models from the same manufacturer \*/
 
-uint8_t ext_flags; //8bit的意义，目前nand flash只用了bit 1 – bit7，
+uint8_t ext_flags; // 8-bit meaning, currently only bits 1 – bit7 are used for NAND flash,
 
-// bit 0：Nand flash，该bit无意义，该bit 需要设置为0，
+// bit 0: NAND flash, this bit is meaningless, this bit must be set to 0,
 
-// bit 1: nand flash plane 标志位，1：两个plane；0：无双plane（常见）
+// bit 1: NAND flash plane flag, 1: two planes; 0: no dual plane (common)
 
-// bit 2: nand flash page（页）大小标识位, 0： 为常见默认的每个page为2048；1：为每个page为4096
+// bit 2: NAND flash page (page) size flag, 0: common default of 2048 bytes per page; 1: 4096 bytes per page
 
-// bit 3: for NAND flash block（块）大小标识位, 0：为常见的每个block（块）为 64 pages（页）；1 ：为每个每个block（块）为 128 pages（页）
+// bit 3: NAND flash block (block) size flag, 0: common 64 pages (pages) per block; 1: 128 pages (pages) per block
 
-// bit 4~7: for NAND ECC status mode as NAND_ECC_MODE_T, 为ECC标识位
+// bit 4~7: ECC status mode as NAND_ECC_MODE_T, ECC flag
 
-uint32_t mem_size; // flash 存储大小，单位（Byte）
+uint32_t mem_size; // Flash storage size, unit (Byte)
 
 } FLASH_RDID_TYPE_T;
 ```
-**ID示例说明**
+**ID Example Explanation**
 
-Ext_flags的8个bit的含有，比如：
+The 8 bits of `ext_flags`, for example:
 
 `{0xE5, 0x74, 0xE5, 0x22, 0x20000000}, //DS35X4GMXXX_RDID`
 
-`0x22`的二进制为`0b0010 0010`
+`0x22` in binary is `0b0010 0010`
 
-Bit4-7为0b0010，ECC标识位为2，
+Bit4-7 is `0b0010`, ECC flag is 2,
 
-Bit3为0：每个block为64个page，大小为64x2KB=128KB
+Bit3 is 0: each block has 64 pages, size is 64x2KB=128KB
 
-Bit2为0：每个page为2048个byte
+Bit2 is 0: each page is 2048 bytes
 
-Bit1为1：该Flash有2个plane
+Bit1 is 1: this Flash has 2 planes
 
-Bit0为0 ：无意义
+Bit0 is 0: meaningless
 
-#### 3.2.2 是否使用Plane
+#### 3.2.2 Whether to Use Plane
 
-**NAND FLASH中plane的概念**
+**Concept of Plane in NAND FLASH**
 
 ![alt text](./assets/flash11.png)<br>
 
-NAND会利用多Plane设计以提升性能。如上图，一颗NAND分成2个plane，而且2个plane内的block是单双交叉编号的，并且我们可以对每个plane单独操作，实现ping-pong操作以提升性能。所以，我们引入interleave算法，interleave算法指的是，在单个channel下对多个plane进行访问，以提高NAND performance的算法。
+NAND utilizes multi-plane design to enhance performance. As shown in the figure, a NAND chip is divided into 2 planes, and the blocks within the planes are numbered alternately as odd and even. We can operate each plane independently to achieve ping-pong operations, thereby improving performance. Therefore, we introduce the interleave algorithm, which refers to accessing multiple planes under a single channel to enhance NAND performance.
 
-#### 3.2.3 Page大小
+#### 3.2.3 Page Size
 
-NAND FLASH中page（页）block（块）的概念
+Concept of page (page) and block (block) in NAND FLASH
 
-Nand flash中page（页）是读写的最小单位，block（块）是擦除的最小单位。每个Nand地址可以精确到字节（地址编排）但依然以page为最小单位R/W（读写），操作要求page（页）对齐。
+In NAND flash, the page (page) is the smallest unit for read and write operations, while the block (block) is the smallest unit for erase operations. Each NAND address can be precisely addressed to the byte level (addressing), but operations are still performed in page units for read/write (R/W), requiring page alignment.
 
-页（Page）：
+Page (Page):
 
-页是 NAND Flash 存储器中的最小可编程单位，通常大小为 2KB、4KB 或 8KB。
+A page is the smallest programmable unit in a NAND Flash memory, typically 2KB, 4KB, or 8KB in size.
 
-写入数据时，需要先将整个页擦除为0xFF，然后整页数据进行写入；
+When writing data, the entire page must be erased to 0xFF first, and then the entire page of data is written;
 
-读取数据时，可以按页或者按字节进行读取。
+When reading data, data can be read by page or byte.
 
-页是 NAND Flash 存储器中操作的基本单位，写入数据时必须按页的整数倍进行。
+A page is the basic unit of operation in a NAND Flash memory, and data must be written in whole-page multiples.
 
-如下图: 一个page大小为2024(2K) + 64bytes，每个page后面多出来的64byte，通常用用于标识坏块和ECC校验用
+As shown in the figure: a page size is 2048 (2K) + 64 bytes, the additional 64 bytes at the end of each page are typically used for bad block identification and ECC verification.
 
 ![alt text](./assets/flash12.png)<br>
 
-#### 3.2.4 Block大小
+#### 3.2.4 Block Size
 
-块（Block）：
+Block (Block):
 
-块是 NAND Flash 存储器中的最小擦除单元，通常包含多个页。
+A block is the smallest erase unit in a NAND Flash memory, typically containing multiple pages.
 
-块的大小通常为 64KB、128KB 或 256KB，不同型号的 NAND Flash 存储器块大小可能会有所不同。
+The size of a block is usually 64KB, 128KB, or 256KB, and the block size may vary among different NAND Flash memory models.
 
-擦除操作是以块为单位进行的，即将整个块擦除为全 1。
+Erase operations are performed on a block-by-block basis, erasing the entire block to all 1s.
 
-一旦数据存储在一个块中，就无法直接对该块进行单个页的写入或擦除，必须先将整个块擦除后才能写入新数据。
+Once data is stored in a block, individual pages within the block cannot be written or erased directly; the entire block must be erased before new data can be written.
 
-如下图: 一个block大小为64个pages（共64x2K=128K Byte），
+As shown in the figure: a block size is 64 pages (64x2K=128K Byte),
 ![alt text](./assets/flash13.png)<br>
 
-参考文章：
+Reference Article:
 
-NAND Flash 存储器通常以页（Page）和块（Block）的方式组织数据。以下是 NAND Flash 的页与块结构的简要介绍：
-[原文链接](https://blog.csdn.net/gqd0757/article/details/140107931)：https://blog.csdn.net/gqd0757/article/details/140107931
+NAND Flash memory typically organizes data in pages (Page) and blocks (Block). The following is a brief introduction to the page and block structure of NAND Flash:
+[Original Link](https://blog.csdn.net/gqd0757/article/details/140107931): https://blog.csdn.net/gqd0757/article/details/140107931
 
-在实际应用中，为了减少 NAND Flash 存储器的擦写次数并延长寿命，通常会使用嵌入式文件系统（比如 UBIFS、JFFS2、FlashDB 等）来管理 NAND Flash 存储器的页与块。坏块管理和这些文件系统会对数据进行合理分配和管理，减少擦写操作对 NAND Flash 存储器的影响。
+In practical applications, to reduce the number of erase and write operations on NAND Flash memory and extend its lifespan, embedded file systems (such as UBIFS, JFFS2, FlashDB, etc.) are often used to manage the pages and blocks of NAND Flash memory. Bad block management and these file systems allocate and manage data reasonably, reducing the impact of erase and write operations on NAND Flash memory.
 
-也可以采用EMMC存储，EMMC存储就是已经包含Nand读写控制器和Nand flash，Nand控制器包含了坏块管理和擦写均匀操作。
+EMMC storage can also be used, which already includes a NAND read/write controller and NAND flash. The NAND controller includes bad block management and wear-leveling operations.
 
-#### 3.2.5 配置ECC参数
+#### 3.2.5 Configuring ECC Parameters
 
-##### 3.2.5.1 NAND和ECC概念
+##### 3.2.5.1 NAND and ECC Concepts
 
-NAND是一种非易失性存储器芯片，通常用于闪存存储器和SSD（固态硬盘）中。由于其高密度和低成本，NAND存储器广泛应用于各种设备中。然而，由于其物理特性，NAND存储器容易受到位翻转和数据丢失等问题的影响。
+NAND is a type of non-volatile memory chip, commonly used in flash memory and SSDs (Solid State Drives). Due to its high density and low cost, NAND memory is widely used in various devices. However, due to its physical characteristics, NAND memory is susceptible to bit flips and data loss issues.
 
-ECC（Error Correction Code，错误校正码）是一种用于检测和纠正数据传输中错误的编码技术。通过在数据中添加冗余信息，ECC可以帮助识别和纠正数据传输中的错误。常见的ECC算法包括海明码和BCH码等，这些算法可以检测和纠正多个位的错误。
+ECC (Error Correction Code) is a coding technique used to detect and correct errors in data transmission. By adding redundant information to the data, ECC can help identify and correct errors in data transmission. Common ECC algorithms include Hamming codes and BCH codes, which can detect and correct multiple bit errors.
 
-##### 3.2.5.2 ECC原理
+##### 3.2.5.2 ECC Principle
 
-在NAND存储器中，ECC校验通常在存储器控制器硬件中实现。默认是打开的，当数据写入NAND存储器时，控制器会计算数据的ECC校验码，并将其与数据一起存储。当数据被读取时，控制器会再次计算ECC校验码，并将其与存储的校验码进行比较。如果发现差错，ECC校验码可以帮助控制器识别出错误的位，并尝试进行纠正；
+In NAND memory, ECC verification is typically implemented in the memory controller hardware. By default, it is enabled. When data is written to the NAND memory, the controller calculates the ECC checksum and stores it along with the data. When data is read, the controller recalculates the ECC checksum and compares it with the stored checksum. If an error is detected, the ECC checksum helps the controller identify the erroneous bits and attempt to correct them.
 
-##### 3.2.5.3 ECC状态寄存器
+##### 3.2.5.3 ECC Status Register
 
-如下图Nand状态寄存器，
+As shown in the Nand status register,
 
-B0H寄存器bit4：ECC Enable位默认是打开的，
+B0H register bit4: ECC Enable bit is enabled by default,
 
 ![alt text](./assets/flash14.png)<br>
 
-C0H寄存器bit4-6（有些NAND是2bit或者4bit），是ECC状态状态寄存器
+C0H register bit4-6 (some NANDs have 2 bits or 4 bits) is the ECC status register.
 
-QSPI接口从IO读到的数据，是已经纠错过的数据，但读到的数据是否有效，还需要查看C0H寄存器的ECC状态寄存器（每次完整的read操作后，ECC状态寄存器都会更新），如果ECC状态寄存器提示超出ECC可纠正范围，该数据就需要丢弃掉，但是不同NAND的ECC状态寄存器C0H的bit4-6标识不一样，为了适应不同NAND,就需要进行选择。
+The data read from the QSPI interface is already corrected, but whether the read data is valid still needs to be checked by the ECC status register in the C0H register (the ECC status register is updated after each complete read operation). If the ECC status register indicates that the error exceeds the ECC correction range, the data needs to be discarded. However, the bit4-6 of the ECC status register C0H is different for different NANDs, so a selection needs to be made to adapt to different NANDs.
 ```c
 typedef enum __NAND_ECC_STATUS_MODE_
 
 {
 
-BIT2_IN_C0_T1 = 0, // 有2位状态位, bit 4-5：00： ECC无错误; 01：出现1位错误但ECC可纠正，其他：提示超过1bit的错误且不能被ECC纠正
+BIT2_IN_C0_T1 = 0, // 2 status bits, bit 4-5: 00: No ECC error; 01: 1-bit error but ECC can correct, others: More than 1-bit error and ECC cannot correct
 
-BIT2_IN_C0_T2 = 1, // 有2位状态位, bit 4-5：00：ECC无错误，01或11：有错误但ECC可以纠正，10：有错误且ECC不能纠正
+BIT2_IN_C0_T2 = 1, // 2 status bits, bit 4-5: 00: No ECC error; 01 or 11: Error but ECC can correct, 10: Error and ECC cannot correct
 
-BIT3_IN_C0_T1 = 2, // 有3位状态位, bit4-6，000：无错误，001或011或101有错误但ECC可以纠正，010：有超过8bit错误且不能ECC纠正
+BIT3_IN_C0_T1 = 2, // 3 status bits, bit4-6: 000: No error; 001 or 011 or 101: Error but ECC can correct, 010: More than 8-bit error and ECC cannot correct
 
-BIT3_IN_C0_T2 = 3, //有3位状态位, bit4-6，000：无错误， 111：有错误且不能ECC纠正，其它：有错误但ECC可以纠正，
+BIT3_IN_C0_T2 = 3, // 3 status bits, bit4-6: 000: No error; 111: Error and ECC cannot correct, others: Error but ECC can correct
 
-BIT4_IN_C0_T1 = 4, // 有4位状态位, bit4-7，0000：无错误， xx10：有错误且不能ECC纠正，其它：有错误但ECC可以纠正
+BIT4_IN_C0_T1 = 4, // 4 status bits, bit4-7: 0000: No error; xx10: Error and ECC cannot correct, others: Error but ECC can correct
 
-BIT4_IN_C0_T2 = 5, // 有4位状态位, bit4-7，0000：无错误， 大于1000：有错误且不能ECC纠正，其它：有错误但ECC可以纠正
+BIT4_IN_C0_T2 = 5, // 4 status bits, bit4-7: 0000: No error; Greater than 1000: Error and ECC cannot correct, others: Error but ECC can correct
 
-BIT2_IN_C0_T3 = 6 // 有2位状态位, bit 4-5：00：ECC无错误; 01：出现了1-2位错误但ECC可纠正，10：出现了1-2位错误但ECC可纠正，11：有错误且不能被ECC纠正
+BIT2_IN_C0_T3 = 6 // 2 status bits, bit 4-5: 00: No ECC error; 01: 1-2-bit error but ECC can correct, 10: 1-2-bit error but ECC can correct, 11: Error and ECC cannot correct
 
 } NAND_ECC_MODE_T;
 ```
-##### 3.2.5.4  ECC配置例1
+##### 3.2.5.4 ECC Configuration Example 1
 
 ![alt text](./assets/flash15.png)<br>
 
 `{0xE5, 0x74, 0xE5, 0x22, 0x20000000}, //DS35X4GMXXX_RDID`
 
-如上图，C0H有3个bit状态位ECC_S0-S2，符合2的描述（010有错误且不能纠正），ECC参数位在ext_flags中0x22,其中 bit4-7为2。
+As shown in the figure above, C0H has 3 bit status bits ECC_S0-S2, which matches the description in 2 (010 indicates an error that cannot be corrected). The ECC parameter bits are in ext_flags 0x22, where bit4-7 is 2.
 
-##### 3.2.5.5 ECC配置例2
+##### 3.2.5.5 ECC Configuration Example 2
 
 ![alt text](./assets/flash16.png)<br>
 
@@ -276,87 +276,87 @@ BIT2_IN_C0_T3 = 6 // 有2位状态位, bit 4-5：00：ECC无错误; 01：出现�
 
 `{0xc8, 0xd9, 0xc8, 0x10, 0x8000000}, //GD5F1GQ4UxxH_RDID`
 
-如上图，C0H有2个bit状态位ECCS0-S1（ECCSE0-1在F0H寄存器，代码没有处理），符合1的描述（10有错误且不能纠正），ECC参数位在ext_flags中0x10,其中 bit4-7为1。
+As shown in the figure above, C0H has 2 bit status bits ECCS0-S1 (ECCSE0-1 in the F0H register, not handled in the code), which matches the description in 1 (10 indicates an error that cannot be corrected). The ECC parameter bits are in ext_flags 0x10, where bit4-7 is 1.
 
-##### 3.2.5.6  ECC配置例3
+##### 3.2.5.6 ECC Configuration Example 3
 
 ![alt text](./assets/flash18.png)<br>
 
 `{0x0B, 0x11, 0X00, 0x50, 0x8000000}, //XT26G01CXXX_RDID`
 
-如上图，C0H有4个bit状态位`ECCS0-S3`，符合5的描述（大于1000：有错误且不能纠正），ECC参数位在`ext_flags`中0x50,其中 bit4-7为5。
+As shown in the figure above, C0H has 4 bit status bits `ECCS0-S3`, which matches the description in 5 (greater than 1000: Error and ECC cannot correct). The ECC parameter bits are in `ext_flags` 0x50, where bit4-7 is 5.
 
-## 4 Flash Type选择
+## 4 Flash Type Selection
 
 ### 4.1 Nor Flash
 
-#### 4.1.1 DTR概念
+#### 4.1.1 DTR Concept
 
-Flash DTR模式是`Dual Transfer Rate`（双传输速率）的缩写，意味着在时钟信号SCK的双边沿均触发数据传输，可以提高传输效率。DTR模式与`Double Data Rate（DDR）`模式类似，都是双边沿触发，但DDR通常指代的是数据传输速率，而DTR则更侧重于传输速率的概念，
+Flash DTR mode stands for `Dual Transfer Rate`, which means data transfer is triggered on both edges of the clock signal SCK, improving transfer efficiency. DTR mode is similar to `Double Data Rate (DDR)` mode, both of which are edge-triggered, but DDR typically refers to data transfer rate, while DTR focuses more on the transfer rate concept.
 
-**是否支持DTR功能**
+**Whether DTR Function is Supported**
 
-**如下图，搜索EDh，如果能看到如下的DTR 4线IO读命令，表示支持**
+**As shown in the figure below, search for EDh. If you can see the DTR 4-line IO read command, it indicates support.**
 ![alt text](./assets/flash19.png)<br>
 
-#### 4.1.2 QE标志位概念
+#### 4.1.2 QE Flag Concept
 
-QE bit（Quad Enable bit）是Quad Enable的缩写，串行NOR Flash中的一个重要概念，中文称为四线使能。在串行NOR Flash中，QE bit用于控制引脚的功能复用。具体来说，QE bit决定了Pin3和Pin7的功能：当QE bit使能时，这些引脚用于数据传输；当QE bit不使能时，这些引脚则用于WP#（写保护）、HOLD#（保持）等控制功能。
+QE bit (Quad Enable bit) is the abbreviation for Quad Enable, an important concept in serial NOR Flash, also known as quad enable in Chinese. In serial NOR Flash, the QE bit is used to control pin function multiplexing. Specifically, the QE bit determines the functions of Pin3 and Pin7: when the QE bit is enabled, these pins are used for data transfer; when the QE bit is disabled, these pins are used for control functions such as WP# (write protect), HOLD# (hold), etc.
 
-#### 4.1.3 WRSR2寄存器
+#### 4.1.3 WRSR2 Register
 
-WRSR2寄存器是**WR**ite **S**tatus **R**egister 2缩写，不同Nor读写 WRSR2寄存器的方式分为两种，如下：
+WRSR2 register stands for **WR**ite **S**tatus **R**egister 2. There are two ways to read and write the WRSR2 register in different NOR Flash types, as follows:
 
-**Type0** 没有单独31h来写WRSR2寄存器（少数）
+**Type0** does not have a separate 31h command to write the WRSR2 register (a minority)
 
-采用01H写2个byte的方法来写WRSR2寄存器，如下图
+It uses the 01H command to write 2 bytes to the WRSR2 register, as shown in the figure below.
 
 ![alt text](./assets/flash20.png)<br>
 
-**Type1** 有单独的31H来写WRSR2寄存器（占大多数）
+**Type1** has a separate 31H command to write the WRSR2 register (the majority)
 
-**备注**：一部分支持31H命令的Nor也支持01H连续写2个byte的方式操作WRSR2，因此放在Type0或Tpye1都可以；
+**Note**: Some NOR Flash that supports the 31H command also supports the 01H command to write 2 bytes continuously to the WRSR2 register, so it can be placed in either Type0 or Type1;
 
-Datasheet查找方法，搜索31H命令，如果没有31H命令就只能放在Type0，
+To find the method in the datasheet, search for the 31H command. If there is no 31H command, it must be placed in Type0.
 
-如下图type0和type1的区别就只有31H命令
+As shown in the figure below, the only difference between Type0 and Type1 is the 31H command.
 ![alt text](./assets/flash21.png)<br>
 
-如下图BY25Q256FS这颗 01H支持连续写S15-S8（即WRSR2），31H也支持单独写S15-8，放在Type0或Tpye0都可以；
+As shown in the figure below, the BY25Q256FS supports the 01H command to write S15-S8 (i.e., WRSR2) continuously, and the 31H command to write S15-8 individually, so it can be placed in either Type0 or Type1;
 
 ![alt text](./assets/flash22.png)<br>
 
-#### 4.1.4 读OTP的地址MODE
+#### 4.1.4 Address MODE for Reading OTP
 
-TYPE选择中，有提到OTP的命令3byte还是4byte问题，这里做一个简单介绍
+In the TYPE selection, the issue of whether the OTP command is 3 bytes or 4 bytes is mentioned. Here is a brief introduction.
 
-Nor通常提供了大约256byte的Security Registers.寄存器（俗称OTP(One Time Program)区），这个区域其实是可以多次擦写的，但是也能配置为OTP保护起来，用于存储安全或者重要信息，比如蓝牙（网络）地址，设备名，序列号，支付宝加密等信息，
+NOR Flash typically provides about 256 bytes of Security Registers (commonly known as OTP (One Time Program) area). This area can be erased and written multiple times, but it can also be configured as OTP to protect it, used for storing security or important information, such as Bluetooth (network) addresses, device names, serial numbers, Alipay encryption, etc.
 
-在大于128Mbit的nor中，读写也有3byte还是4byte的命令差异（程序中对应命令：SPI_FLASH_CMD_RDSCUR ），如下图：
+In NOR Flash larger than 128Mbit, there is a difference in the 3-byte or 4-byte commands for read and write operations (corresponding command in the program: SPI_FLASH_CMD_RDSCUR), as shown in the figure below:
 
 ![alt text](./assets/flash23.png)<br>
 
 ![alt text](./assets/flash24.png)<br>
 
-#### 4.1.5 NOR之4字节地址模式
+#### 4.1.5 4-Byte Address Mode for NOR
 
-**背景**
+**Background**
 
-容量低于16MB（128Mbit） bytes的 nor，一般使用 3 字节地址模式，即命令格式是cmd + addr[2] + addr[1] + addr[0] + ...
+For NOR flash with a capacity less than 16MB (128Mbit) bytes, a 3-byte address mode is generally used, where the command format is `cmd + addr[2] + addr[1] + addr[0] + ...`.
 
-使用超过16M bytes 的 nor flash，则需要 4 字节地址模式， 即命令格式是 cmd + addr[3] + addr[2] + addr[1] + addr[0] + ...
+For NOR flash with a capacity exceeding 16MB, a 4-byte address mode is required, where the command format is `cmd + addr[3] + addr[2] + addr[1] + addr[0] + ...`.
 
-**原因**
+**Reason**
 
-为什么呢, 因为用 3 个字节表示地址，则其范围是 0x000000 - 0xffffff = 0 - 16M，超过 16M 的地址就无法表示了，那自然就得上 4 字节了，而4字节就能支持从256Mbit到32Gbit了，
+Why is this the case? Because using 3 bytes to represent an address, the range is `0x000000 - 0xffffff = 0 - 16M`, and addresses beyond 16M cannot be represented. Therefore, 4 bytes are needed, which can support from 256Mbit to 32Gbit.
 
-**3字节4字节切换问题**
+**3-Byte to 4-Byte Mode Switching**
 
-超过128Mbit的flash为了兼容原有MCU boot ROM代码，芯片出厂默认是3字节模式(可访问128Mbit内的内容)，然后通过发送B7h命令进入4字节模式，发送E9h也能退出4字节模式。
+For flash memory exceeding 128Mbit, to maintain compatibility with existing MCU boot ROM code, the chip is set to 3-byte mode by default (allowing access to content within 128Mbit). The B7h command can be sent to enter 4-byte mode, and the E9h command can be sent to exit 4-byte mode.
 
-**有无4字节模式命令6Ch**
+**4-Byte Mode Command 6Ch**
 
-**有些nor厂商，并没有6Ch专门的4四节地址命令，在3字节地址模式下，用6Bh，四字节地址下还是用6Bh命令，这样命令就会有差异，TYPE就会不一样，如下**
+**Some NOR manufacturers do not have a dedicated 6Ch command for 4-byte addressing. In 3-byte address mode, they use 6Bh, and in 4-byte address mode, they still use 6Bh. This results in command differences, and the TYPE will be different, as shown below:**
 
 ![alt text](./assets/flash25.png)<br>
 
@@ -364,7 +364,7 @@ Nor通常提供了大约256byte的Security Registers.寄存器（俗称OTP(One T
 
 ![alt text](./assets/flash27.png)<br>
 
-#### 4.1.6 每个TYPE的介绍
+#### 4.1.6 Description of Each TYPE
 ```c
 typedef enum
 
@@ -386,89 +386,86 @@ NOR_CMD_TABLE_CNT
 
 } FLASH_CMD_TABLE_ID_T;
 ```
-| NOR_TYPE0 | 128Mbit以及以下，支持DTR,无31h命令写WRSR2寄存器 |
+| NOR_TYPE0 | 128Mbit and below, supports DTR, no 31h command to write WRSR2 register |
 | --- | --- |
-| NOR_TYPE1 | 128Mbit以及以下，支持DTR，有31h命令写WRSR2寄存器 |
-| NOR_TYPE2 | 256Mbit以及以上，支持DTR, 有单独的6Ch命令来4字节操作, OTP 支持 4Byte地址访问 |
-| NOR_TYPE3 | 256Mbit以及以上，不支持DTR, 无单独的6Ch命令来4字节操作,3字节或4字节地址都由6Bh命令来操作，OTP 只支持 3Byte地址访问 |
-| NOR_TYPE4 | 256Mbit以及以上，不支持DTR, 有单独的6Ch命令来4字节操作, OTP 支持 4Byte地址访问 |
-| NOR_TYPE5 | 256Mbit以及以上，不支持DTR, MXIC flash这个TYPE差异比较大 |
+| NOR_TYPE1 | 128Mbit and below, supports DTR, has 31h command to write WRSR2 register |
+| NOR_TYPE2 | 256Mbit and above, supports DTR, has a dedicated 6Ch command for 4-byte operation, OTP supports 4-byte address access |
+| NOR_TYPE3 | 256Mbit and above, does not support DTR, no dedicated 6Ch command for 4-byte operation, 3-byte or 4-byte addresses are both operated by 6Bh command, OTP only supports 3-byte address access |
+| NOR_TYPE4 | 256Mbit and above, does not support DTR, has a dedicated 6Ch command for 4-byte operation, OTP supports 4-byte address access |
+| NOR_TYPE5 | 256Mbit and above, does not support DTR, MXIC flash has significant differences in this TYPE |
 
-#### 4.1.7 TYPE选择流程图
+#### 4.1.7 TYPE Selection Flowchart
 
 ![alt text](./assets/flash28.png)<br>
 
-### 4.2 Nand Flash
+### 4.2 NAND Flash
 
-#### 4.2.1 QE标志位概念
+#### 4.2.1 Concept of QE Flag
 
-QE bit（Quad Enable bit）是Quad Enable的缩写，串行NOR Flash中的一个重要概念，中文称为四线使能。在串行NOR Flash中，QE bit用于控制引脚的功能复用。具体来说，QE bit决定了Pin3和Pin7的功能：当QE bit使能时，这些引脚用于数据传输；当QE bit不使能时，这些引脚则用于WP#（写保护）、HOLD#（保持）等控制功能**。**
+QE bit (Quad Enable bit) is the abbreviation for Quad Enable, an important concept in serial NOR Flash, which is referred to as quad enable in Chinese. In serial NOR Flash, the QE bit is used to control the multiplexing of pin functions. Specifically, the QE bit determines the functions of Pin3 and Pin7: when the QE bit is enabled, these pins are used for data transfer; when the QE bit is disabled, these pins are used for WP# (write protect), HOLD# (hold), and other control functions.
 
-很多NAND默认只支持4线模式，并没有QE标注位，不需要从单线切四线的动作，
+Many NANDs default to only supporting 4-line mode and do not have a QE flag, so there is no need to switch from single-line to quad-line mode.
 
-**QE标志位怎么查**
+**How to Check the QE Flag**
 
-直接datasheet搜索QE，或者搜索B0h（有些nand叫做Bxh寄存器）特征寄存器，查看是否存在QE标志位，如下图，就是带QE标志位，请选择带QE标志位的TYPE，如果搜索不到就是不需要QE切换
+Directly search the datasheet for "QE" or search for the B0h (or Bxh register) characteristic register to check if the QE flag exists. The following figure shows a QE flag, so choose a TYPE with the QE flag. If it cannot be found, it means no QE switching is required.
 
 ![alt text](./assets/flash29.png)<br>
 
-#### 4.2.2 EBh命令概念
+#### 4.2.2 Concept of EBh Command
 
-EBh和6Bh都是快速4线读命令，差异在于EBh命令送的page地址也是4线方式，会更快，不过有些NAND并不支持，如下是6Bh命令，可以直接datasheet搜索EBh命令，如果没有，就是不支持
+Both EBh and 6Bh are fast 4-line read commands, but the difference is that the page address sent by the EBh command is also in 4-line mode, which is faster. However, some NANDs do not support this. The following is the 6Bh command. You can directly search the datasheet for the EBh command; if it is not found, it is not supported.
 
 ![alt text](./assets/flash30.png)<br>
 
-在TYPE判别的时候，会看EBh这个指令后面的有几个dummy，这里介绍如何区分：
+When determining the TYPE, the number of dummies following the EBh command is checked. Here is how to distinguish them:
 
-4个Dummy方式如下图，在发完16bit的page地址后，紧跟的4个Dummy时钟，
+4 Dummy mode is shown in the following figure, where 4 dummy clocks follow the 16-bit page address.
 
 ![alt text](./assets/flash31.png)<br>
 
-2个Dummy方式如下图：发完16个bit的page地址后只跟了2个dummy时钟
+2 Dummy mode is shown in the following figure, where only 2 dummy clocks follow the 16-bit page address.
 
 ![alt text](./assets/flash32.png)<br>
 
-#### 4.2.3 NAND连续的概念
+#### 4.2.3 Concept of NAND Continuous Read
 
-Nand buff读和连续读的概念，如下图，这颗支持buffer read和continuous read方式
+The concepts of buffer read and continuous read in NAND are shown in the following figure. This device supports buffer read and continuous read modes.
 
 ![alt text](./assets/flash33.png)<br>
 
-**Buff读的概念**
+**Buffer Read Concept**
 
-在从QSPI NAND中读数据时，是需要分为两步
+When reading data from QSPI NAND, it is divided into two steps:
 
-第一步Page Data Read (13h)，将数据从cell中读取到data buffer中。此时nand会读取cell数据，并计算ecc，进行纠错。如果cell中发生了位翻转，那么经过ecc纠错后写到data buffer中的就已经是正确的数据了
+1. Page Data Read (13h): Data is read from the cell to the data buffer. At this point, the NAND reads the cell data, calculates the ECC, and performs error correction. If a bit flip occurs in the cell, the corrected data is written to the data buffer.
+2. Read Data (6Bh or EBh): Data is read from the data buffer.
 
-第二步，Read Data (6Bh或EBh)，将数据从data buffer中读出来。
+It can be seen that the data buffer is a necessary path for read and write operations.
 
-可以看到，data buffer是读写的必经之路。
+**Continuous Read Concept**
 
-**连续读的概念**
+Buffer read can only read one page per command. To read the next page, the above two steps need to be repeated.
 
-Buff读只能一个命令读一个page，读下一个page则需继续上面两步，
+Some NAND manufacturers have introduced continuous read. When the BUF=0 flag is 0, the device is in continuous read mode, and data is output continuously.
 
-这时有些Nand公司推出了连续读，
+The data will start from the first byte of the data buffer and automatically increment to the next higher address. When the data buffer of a page is read, the first byte of the next page will immediately follow and continue to output the data of the next page until the entire NAND is read. Therefore, it is possible to read the entire NAND using a single read command.
 
-当BUF=0标志位为0时，设备处于连续读取模式，数据输出
-
-将从data buffer的第一个字节开始，并自动递增到下一个更高的地址。当一个page的data buffer读完后，下一个page的第一个字节的数据将紧随其后继续输出下一个page的数据，直到读完整个NAND。因此可以达到使用单个读指令读取整个NAND,
-
-判读是否支持连续读功能，可以搜索 Continuous Read，或者查看6Bh命令，是否有如下图这样的表述，BUF=1(该标志位是表示是否使用连续读功能)
+To determine whether continuous read functionality is supported, search for "Continuous Read" or check the 6Bh command to see if it has the following description: BUF=1 (this flag indicates whether the continuous read function is used)
 
 ![alt text](./assets/flash34.png)<br>
 
-#### 4.2.4 每个TPYE介绍
+#### 4.2.4 Introduction to Each TYPE
 ```c
 typedef enum
 
 {
 
-NAND_TYPE0 = 0, // normal type, base on winbond w25n01gw, with NON-BUF, NO QE, EB with 4 dummy
+NAND_TYPE0 = 0, // normal type, based on winbond w25n01gw, with NON-BUF, NO QE, EB with 4 dummy
 
 NAND_TYPE1, // based on XT26G01D, BUF, QE, EB, EB with 2 dummy
 
-NAND_TYPE2, // based on ds35x1gaxxx, BUF , QE, NO EB
+NAND_TYPE2, // based on ds35x1gaxxx, BUF, QE, NO EB
 
 NAND_TYPE3, // based on tc58cyg0s3hraij, BUF, NO QE, NO EB
 
@@ -480,82 +477,82 @@ NAND_CMD_TABLE_CNT
 
 } NAND_CMD_TABLE_ID_T;
 ```
-| NAND_TYPE0 | 支持连续读模式，没有QE标志位，EBh命令后面跟4个空dummy时钟 |
+| NAND_TYPE0 | Supports continuous read mode, no QE flag, 4 dummy clocks after the EBh command |
 | --- | --- |
-| NAND_TYPE1 | 带QE标志位，EBh命令后面跟2个空dummy时钟 |
-| NAND_TYPE2 | 带QE标志位，无EBh命令 |
-| NAND_TYPE3 | 无QE标志位，无EBh命令 |
-| NAND_TYPE4 | 无QE标志位，EBh命令后面跟4个空dummy时钟 |
-| NAND_TYPE5 | 带QE标志位，EBh命令后面跟4个空dummy时钟 |
+| NAND_TYPE1 | With QE flag, 2 dummy clocks after the EBh command |
+| NAND_TYPE2 | With QE flag, no EBh command |
+| NAND_TYPE3 | No QE flag, no EBh command |
+| NAND_TYPE4 | No QE flag, 4 dummy clocks after the EBh command |
+| NAND_TYPE5 | With QE flag, 4 dummy clocks after the EBh command |
 
-#### 4.2.5 TYPE选择流程图
+#### 4.2.5 TYPE Selection Flowchart
 
 ![alt text](./assets/flash35.png)<br>
 
-## 5 常见问题
+## 5 Common Issues
 
-### 5.1 Flash下载的原理
+### 5.1 Flash Download Principles
 
-#### 5.1.1 Uart下载
+#### 5.1.1 Uart Download
 
-通过Uart接口，把对应的Flash烧录bin，比如ram_patch_52X_NAND.bin加载52这颗MCU的RAM中指定地址，然后跳转到该RAM地址，再执行烧录外部Nor或者Nand Flash的操作代码。
+Through the Uart interface, the corresponding Flash bin, such as ram_patch_52X_NAND.bin, is loaded into the specified address in the RAM of the 52 MCU, then the program jumps to that RAM address and executes the code to program the external Nor or Nand Flash.
 
-#### 5.1.2 Jlink下载
+#### 5.1.2 Jlink Download
 
-当Jlink通过SWD接口连接上MCU，并命令行执行：
+When Jlink connects to the MCU via the SWD interface and the following command is executed in the command line:
 
-Loadbin d:\1.bin 0x62000000这个命令时，Jlink.exe会从JLinkDevices.xml配置里面根据对应的0x62000000地址，选择Devices/SiFli/SF32LB52X_EXT_NAND2.elf加载到52这颗MCU的RAM中，调用elf文件中对应的烧录接口进行烧录。
+Loadbin d:\1.bin 0x62000000, Jlink.exe will select the Devices/SiFli/SF32LB52X_EXT_NAND2.elf file from the JLinkDevices.xml configuration based on the 0x62000000 address, load it into the RAM of the 52 MCU, and call the corresponding programming interface in the elf file to perform the programming.
 
 ![alt text](./assets/flash36.png)<br>
 
-### 5.2 Uart下载过程Log分析
+### 5.2 Uart Download Process Log Analysis
 
-#### 5.2.1 ChipID读不到
+#### 5.2.1 ChipID Not Readable
 
-如下图用Impeller.exe下载，查看log来查看Chipid，（这里只演示了uart下载获取chipid方法），发现Chipid读不到
+As shown in the following figure, using Impeller.exe to download and check the log to view the Chipid (this only demonstrates the method of obtaining the Chipid via Uart download), it is found that the Chipid cannot be read.
 
 ![alt text](./assets/flash37.png)<br>
 
-**常见原因：**
+**Common Causes:**
 
-1. Flash供电没有或者供电电压不符，特别留意1.8V和3.3V两种Flash的差异
-2. Flash焊接不良或者焊反了
-3. 烧录失败后，测量Flash的供电没有的话，排除硬件问题后，常见就是烧录驱动中Flash的供电没有打开，需要在生成工具中配置对应的Flash供电打开方式（如果供电不是默认供电的话），
+1. Flash power supply is missing or the power supply voltage is incorrect, especially note the difference between 1.8V and 3.3V Flash.
+2. Poor soldering or incorrect orientation of the Flash.
+3. After a failed programming, if the Flash power supply is not detected, after ruling out hardware issues, the common cause is that the Flash power supply is not turned on in the programming driver. The corresponding Flash power supply method needs to be configured in the generation tool (if the power supply is not the default).
 
-#### 5.2.2 烧录BIN没有跑起来
+#### 5.2.2 BIN Not Running
 
-见5.1章节Flash的烧录原理介绍
+See the introduction to Flash programming principles in Chapter 5.1.
 
-见下面的打印
+See the following printout:
 ```
-16:18:48:151 uart COM19 open success //这个提示表示下载的串口19打开成功了，
+16:18:48:151 uart COM19 open success // This indicates that the serial port 19 for downloading has been successfully opened.
 
-16:18:54:499 DownLoadUart() fail //这个表示烧录BIN，没有通过Uart成功下载到MCU的RAM中运行起来
+16:18:54:499 DownLoadUart() fail // This indicates that the BIN failed to be successfully downloaded to the RAM of the MCU via Uart and did not run.
 
 16:18:54:499 FINAL_FAIL 500bf
 ```
 ![alt text](./assets/flash38.png)<br>
 
-**常见原因：**
+**Common Causes:**
 
-1. MCU供电异常，MCU没有跑起来
-2. MCU跑在用户程序中，但是对应的Uart口或者Jlink不通或者MCU死机
+1. Abnormal power supply to the MCU, the MCU is not running.
+2. The MCU is running in the user program, but the corresponding Uart port or Jlink is not communicating or the MCU is in a deadlock.
 
-解决方案：
+Solutions:
 
-让MCU进入Boot模式，串口上确认看到了进入Boot模式的打印
+Enter the Boot mode of the MCU and confirm on the serial port that the Boot mode entry message is printed.
 
-1）55，56，58系列MCU，有专门的Boot_Mode脚，拉高后进入boot模式的打印如下：
+1) For the 55, 56, 58 series MCUs, there is a dedicated Boot_Mode pin. Pulling it high will enter the Boot mode, as shown in the following printout:
 
 ![alt text](./assets/flash39.png)<br>
 
-2）52系列芯片，没有专门的Boot_Mode脚，在上电后3秒输入命令，可以进入boot模式，对应的打印如下：
+2) For the 52 series chips, there is no dedicated Boot_Mode pin. Entering the Boot mode can be done by inputting a command within 3 seconds after power-on, as shown in the following printout:
 
 ![alt text](./assets/flash40.png)<br>
 
-#### 5.2.3 Log提示校验失败
+#### 5.2.3 Log Indicates Verification Failure
 
-如下的Log
+See the following log:
 ```
 ![alt text](./assets/flash41.png)<br>
 
@@ -569,17 +566,18 @@ V: 0xa80ad8a1 vs 0x63bd755c, TIMR:0xff DCR:0x3c00000
 
 Fail
 ```
-**常见原因**
+**Common Causes**
 
-1. 芯片D2-D3焊接不良<br>
-因为读取Flash ID只需要D0-D1数据线，能读到ID不代表所有IO都接触好，所以在能读取到ID但出现校验失败时，如果Flash芯片不是SMT机贴的情况下，特别要检查D2-D3是否焊接或者接触正常（常发生在手动焊接或者Flash插座接触不良）<br>
-2. QSPI的走线太长或者飞线导致的干扰导致个别bit错误<br>
+1. Poor soldering of D2-D3 pins<br>
+Since reading the Flash ID only requires the D0-D1 data lines, being able to read the ID does not necessarily mean all IOs are well connected. Therefore, if the ID can be read but verification fails, it is particularly important to check whether D2-D3 are properly soldered or connected (common in manual soldering or poor Flash socket contact).<br>
+2. Interference caused by long QSPI traces or flying wires leading to individual bit errors.<br>
 
-#### 5.2.4 Uart串口端收到乱码
+#### 5.2.4 Uart Serial Port Receives Garbled Data
 
 ![alt text](./assets/flash42.png)<br>
 ```
 msh >B
+```
 
 19:19:36:961 downloadfile: D:\bin\ec_lb567_weilaijing\ER_IROM1.bin addr: 0x64080000 len: 3459652 Byte
 
@@ -595,17 +593,17 @@ msh >B
 
 19:19:41:808 FINAL_FAIL 500bf
 ```
-如上图：下载过程RX收到乱码
+As shown in the figure above: During the download process, RX received garbled data
 
-**常见原因**
+**Common Causes**
 
-1）下载过程中机器出现重启
+1) The machine restarted during the download process
 
-### 5.3 QSPI Flash频率问题
+### 5.3 QSPI Flash Frequency Issues
 
-默认Flash读写QSPI CLK的频率推荐为60Mhz左右，有些Nor/Nand规格书上写的支持频率到108Mhz以及以上，频率高，优点是数据读写加快，缺点是对PCB走线要求高，也会带来更多的EMI干扰，尤其是SDK代码打开DRT双沿CLK采样后，对走线要求更高。
+The default QSPI CLK frequency for Flash read and write operations is recommended to be around 60MHz. Some Nor/Nand datasheets specify support for frequencies up to 108MHz and higher. Higher frequencies have the advantage of faster data read and write, but they also require higher PCB trace standards and can introduce more EMI interference. This is especially true when the SDK code enables DRT dual-edge CLK sampling, which further increases the trace requirements.
 
-修改Flash CLK的方法，通常在对应项目的bsp_init.c文件HAL_PreInit函数内，取决于Flash连接的哪个MPI接口，时钟源用的哪个，分频系数为多少，如下，如果要提高，就是把mpi2_div从5改成4，即变成了288Mhz/4 = 72Mhz，修改后，也可以通过串口命令sysinfo来查看CLK时钟变化
+To modify the Flash CLK, you typically need to adjust the `HAL_PreInit` function in the `bsp_init.c` file of the corresponding project. This depends on which MPI interface the Flash is connected to, which clock source is used, and the division factor. For example, to increase the frequency, you can change `mpi2_div` from 5 to 4, resulting in 288MHz/4 = 72MHz. After making the change, you can also use the serial command `sysinfo` to check the CLK frequency changes.
 ```c
 HAL_RCC_HCPU_EnableDLL2(288000000);
 
@@ -615,6 +613,6 @@ HAL_RCC_HCPU_ClockSelect(RCC_CLK_MOD_FLASH2, RCC_CLK_FLASH_DLL2);
 ```
 ![alt text](./assets/flash43.png)<br>
 
-### 5.4 Nand Page/Block问题
+### 5.4 Nand Page/Block Issues
 
-章节3.2.2和3.2.3中有提到大容量的Nand的Page和Block也有增大的趋势，在APP应用程序上对Flash进行管理时，也要考虑对应Page/Block的操作方法。
+As mentioned in sections 3.2.2 and 3.2.3, the Page and Block sizes of large-capacity Nand are also increasing. When managing Flash in the APP application, you should also consider the corresponding Page/Block operation methods.

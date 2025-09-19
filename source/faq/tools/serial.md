@@ -1,2 +1,2 @@
-# 8 串口
-## 待完善事项
+# 8 Serial Port
+## To-Do Items

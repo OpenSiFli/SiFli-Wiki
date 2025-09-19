@@ -1,16 +1,16 @@
-# 最佳实践
+# Best Practices
 
 ```{important}
 
-最佳实践是思澈芯片在一些应用场景下的相对成熟的解决方案，旨在帮助客户更快地实现产品开发和应用。
+Best practices are relatively mature solutions for specific application scenarios using Sichip's chips, aimed at helping customers achieve faster product development and application.
 
 ```
 
-## 目前方案列表
+## Current Solution List
 
-### AI小智
+### AI XiaoZhi
 
-AI小智是思澈芯片的AI语音助手解决方案，提供了语音识别、语音合成等功能，适用于智能家居、智能音箱等应用场景。
+AI XiaoZhi is Sichip's AI voice assistant solution, providing functions such as speech recognition and speech synthesis. It is suitable for applications in smart homes, smart speakers, and more.
 
 ```{toctree}
 :hidden:

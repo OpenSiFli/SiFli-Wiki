@@ -1,212 +1,209 @@
-#### 处理器BUCK电感选择要求
+#### Processor BUCK Inductor Selection Requirements
 
-**功率电感关键参数**
+**Key Parameters of Power Inductor**
 :::{important}
-L(电感值) = 4.7uH ± 20%，DCR(直流阻抗) ≦ 0.4 ohm，Isat(饱和电流) ≧ 450mA。
+L (Inductance) = 4.7uH ± 20%, DCR (DC Resistance) ≦ 0.4 ohm, Isat (Saturation Current) ≧ 450mA.
 :::
-#### 如何降低待机功耗
+#### How to Reduce Standby Power Consumption
 
-为了满足手表产品的长续航要求，建议硬件设计上利用负载开关对各个功能模块进行动态电源管理；如果是常开的模块或通路，选择合适的器件以降低静态电流。
+To meet the long battery life requirements of watch products, it is recommended to use load switches for dynamic power management of various functional modules in hardware design; if the module or path is always on, select appropriate components to reduce the static current.
 
-设计时要注意控制电源开关的GPIO管脚的硬件默认状态，同时增加M级阻值的上下拉电阻，保证负载开关默认关闭。
+When designing, pay attention to the hardware default state of the GPIO pins controlling the power switches, and add pull-up or pull-down resistors with M-level resistance to ensure that the load switches are off by default.
 
-电源器件选型上，LDO和Load Switch 芯片要选择静态电流Iq和关断电流Istb都小的器件，特别是常开的电源芯片一定要关注下Iq参数。
+In the selection of power components, choose LDO and Load Switch chips with low static current Iq and low shutdown current Istb, especially for always-on power chips, pay attention to the Iq parameter.
 
-### 处理器工作模式及唤醒源
+### Processor Operating Modes and Wake-up Sources
 
 <div align="center"> CPU Mode Table </div>
 
 ```{table}
 
-|工作模式|CPU |外设  |SRAM |IO   |LPTIM |唤醒源 |唤醒时间 |
+|Operating Mode|CPU |Peripherals |SRAM |IO |LPTIM |Wake-up Source |Wake-up Time |
 |:--|:-------|:----|:----|:----|:---- |:---- |:----   |
-|Active |Run |Run |可访问 |可翻转 |Run |- |- |
-|Sleep |Stop |Run |可访问 |可翻转 |Run |任意中断 |<0.5us |
-|DeepSleep |Stop |Stop |不可访问，全保留 |电平保持 |Run |RTC，唤醒IO，GPIO，LPTIM，蓝牙 |250us |
-|Standby |Reset |Reset |不可访问，全保留 |电平保持 |Run |RTC，唤醒IO，LPTIM，蓝牙 |1ms |
-|Hibernate |Reset |Reset |不可访问，不保留 |高阻 |Reset |RTC，唤醒IO |>2ms |
+|Active |Run |Run |Accessible |Flippable |Run |- |- |
+|Sleep |Stop |Run |Accessible |Flippable |Run |Any Interrupt |<0.5us |
+|DeepSleep |Stop |Stop |Not Accessible, Fully Retained |Level Held |Run |RTC, Wake-up IO, GPIO, LPTIM, Bluetooth |250us |
+|Standby |Reset |Reset |Not Accessible, Fully Retained |Level Held |Run |RTC, Wake-up IO, LPTIM, Bluetooth |1ms |
+|Hibernate |Reset |Reset |Not Accessible, Not Retained |High Impedance |Reset |RTC, Wake-up IO |>2ms |
 ```
 
-<div align="center"> Interrupt wake up source Table </div>
+<div align="center"> Interrupt Wake-up Source Table </div>
 
 ```{table}
 
-|中断源|管脚   |详细描述  |
+|Interrupt Source|Pin |Detailed Description |
 |:--|:-------|:--------|
-|LWKUP_PIN0 |PA24 |中断信号0 |
-|LWKUP_PIN1 |PA25 |中断信号1 |
-|LWKUP_PIN2 |PA26 |中断信号2 |
-|LWKUP_PIN3 |PA27 |中断信号3 |
-|LWKUP_PIN10 |PA34 |中断信号10 |
-|LWKUP_PIN11 |PA35 |中断信号11 |
-|LWKUP_PIN12 |PA36 |中断信号12 |
-|LWKUP_PIN13 |PA37 |中断信号13 |
-|LWKUP_PIN14 |PA38 |中断信号14 |
-|LWKUP_PIN15 |PA39 |中断信号15 |
-|LWKUP_PIN16 |PA40 |中断信号16 |
-|LWKUP_PIN17 |PA41 |中断信号17 |
-|LWKUP_PIN18 |PA42 |中断信号18 |
-|LWKUP_PIN19 |PA43 |中断信号19 |
-|LWKUP_PIN20 |PA44 |中断信号20 |
-
+|LWKUP_PIN0 |PA24 |Interrupt Signal 0 |
+|LWKUP_PIN1 |PA25 |Interrupt Signal 1 |
+|LWKUP_PIN2 |PA26 |Interrupt Signal 2 |
+|LWKUP_PIN3 |PA27 |Interrupt Signal 3 |
+|LWKUP_PIN10 |PA34 |Interrupt Signal 10 |
+|LWKUP_PIN11 |PA35 |Interrupt Signal 11 |
+|LWKUP_PIN12 |PA36 |Interrupt Signal 12 |
+|LWKUP_PIN13 |PA37 |Interrupt Signal 13 |
+|LWKUP_PIN14 |PA38 |Interrupt Signal 14 |
+|LWKUP_PIN15 |PA39 |Interrupt Signal 15 |
+|LWKUP_PIN16 |PA40 |Interrupt Signal 16 |
+|LWKUP_PIN17 |PA41 |Interrupt Signal 17 |
+|LWKUP_PIN18 |PA42 |Interrupt Signal 18 |
+|LWKUP_PIN19 |PA43 |Interrupt Signal 19 |
+|LWKUP_PIN20 |PA44 |Interrupt Signal 20 |
 ```
 
-### 时钟
-芯片需要外部提供2个时钟源，48MHz主晶体和32.768KHz RTC晶体，晶体的具体规格要求和选型如下：
+### Clock
+The chip requires two external clock sources, a 48MHz main crystal and a 32.768KHz RTC crystal. The specific specifications and selection criteria for the crystals are as follows:
 
 :::{important}
 
-<div align="center"> 晶体规格要求 </div>
+<div align="center"> Crystal Specifications </div>
 
 ```{table}
 
-|晶体|晶体规格要求   |详细描述  |
+|Crystal|Crystal Specifications |Detailed Description |
 |:--|:-------|:--------|
-|48MHz |CL≦12pF（推荐值7pF）△F/F0≦±10ppmESR≦30 ohms（推荐值22ohms）|晶振功耗和CL,ESR相关,CL和ESR越小功耗越低，为了最佳功耗性能，建议采用推荐值CL≦7pF，ESR≦22 ohms.晶体旁边预留并联匹配电容,当CL<9pF时，无需焊接电容|
-|32.768KHz |CL≦12.5pF（推荐值7pF）△F/F0≦±20ppm ESR≦80k ohms（推荐值38Kohms）|晶振功耗和CL,ESR相关,CL和ESR越小功耗越低，为了最佳功耗性能，建议采用推荐值CL≦9pF，ESR≦40K ohms.晶体旁边预留并联匹配电容,当CL<12.5pF时，无需焊接电容|
+|48MHz |CL≦12pF (Recommended 7pF) △F/F0≦±10ppm ESR≦30 ohms (Recommended 22ohms)|Crystal power consumption is related to CL and ESR. The smaller the CL and ESR, the lower the power consumption. For optimal power performance, it is recommended to use CL≦7pF and ESR≦22 ohms. Reserve parallel matching capacitors next to the crystal. When CL<9pF, no capacitors need to be soldered.|
+|32.768KHz |CL≦12.5pF (Recommended 7pF) △F/F0≦±20ppm ESR≦80k ohms (Recommended 38Kohms)|Crystal power consumption is related to CL and ESR. The smaller the CL and ESR, the lower the power consumption. For optimal power performance, it is recommended to use CL≦9pF and ESR≦40K ohms. Reserve parallel matching capacitors next to the crystal. When CL<12.5pF, no capacitors need to be soldered.|
 ```
 
-<div align="center"> 推荐晶体列表 </div>
+<div align="center"> Recommended Crystal List </div>
 
 ```{table}
 
-|型号|厂家   |参数  |
+|Model|Manufacturer |Parameters |
 |:---|:-------|:--------|
-|E1SB48E001G00E  |Hosonic     |F0 = 48.000000MHz，△F/F0 = -6 ~ 8 ppm，CL = 8.8 pF，ESR = 22 ohms Max TOPR = -30 ~ 85℃，Package =（2016 公制）|
-|ETST00327000LE  |Hosonic     |F0 = 32.768KHz，△F/F0 = -20 ~ 20 ppm，CL = 7 pF，ESR = 70K ohms Max TOPR = -40 ~ 85℃，Package =（3215 公制）|
-|SX20Y048000B31T-8.8  |TKD    |F0 = 48.000000MHz，△F/F0 = -10 ~ 10 ppm，CL = 8.8 pF，ESR = 40 ohms Max TOPR = -20 ~ 75℃，Package =（2016 公制）|
-|SF32K32768D71T01  |TKD       |F0 = 32.768KHz，△F/F0 = -20 ~ 20 ppm，CL = 7 pF，ESR = 70K ohms Max TOPR = -40 ~ 85℃，Package =（3215 公制）|
+|E1SB48E001G00E  |Hosonic     |F0 = 48.000000MHz, △F/F0 = -6 ~ 8 ppm, CL = 8.8 pF, ESR = 22 ohms Max TOPR = -30 ~ 85℃, Package = (2016 Metric)|
+|ETST00327000LE  |Hosonic     |F0 = 32.768KHz, △F/F0 = -20 ~ 20 ppm, CL = 7 pF, ESR = 70K ohms Max TOPR = -40 ~ 85℃, Package = (3215 Metric)|
+|SX20Y048000B31T-8.8  |TKD    |F0 = 48.000000MHz, △F/F0 = -10 ~ 10 ppm, CL = 8.8 pF, ESR = 40 ohms Max TOPR = -20 ~ 75℃, Package = (2016 Metric)|
+|SF32K32768D71T01  |TKD       |F0 = 32.768KHz, △F/F0 = -20 ~ 20 ppm, CL = 7 pF, ESR = 70K ohms Max TOPR = -40 ~ 85℃, Package = (3215 Metric)|
 ```
 :::
 
-### 射频
+### RF
 
-射频走线要求为50ohms特征阻抗。如果天线是匹配好的，射频上无需再增加额外器件。设计时建议预留π型匹配网络用来杂散滤波或天线匹配。
+The RF trace requirement is a 50ohms characteristic impedance. If the antenna is already matched, no additional components are needed on the RF path. It is recommended to reserve a π-type matching network for stray filtering or antenna matching during design.
 
 <img src="assets/52xB/sf32lb52X-B-rf-diagram.png" width="80%" align="center" />  
 
-<div align="center"> 射频电路图 </div>
+<div align="center"> RF Circuit Diagram </div>
 
+### Display
 
+The chip supports 3-Line SPI, 4-Line SPI, Dual Data SPI, Quad Data SPI, and Serial JDI interfaces. It supports 16.7M-colors (RGB888), 262K-colors (RGB666), 65K-colors (RGB565), and 8-color (RGB111) color depth modes. It supports a maximum resolution of 512RGBx512.
 
-### 显示
+#### SPI/QSPI Display Interface
 
-芯片支持3-Line SPI、4-Line SPI、Dual data SPI、Quad data SPI和串行JDI 接口。支持16.7M-colors（RGB888）、262K-colors（RGB666）、65K-colors（RGB565）和 8-color（RGB111）Color depth模式。最高支持512RGBx512分辨率。
+The chip supports 3/4-wire SPI and Quad-SPI interfaces to connect to LCD displays. The signal descriptions are as follows:
 
-#### SPI/QSPI显示接口
-
-芯片支持 3/4-wire SPI和Quad-SPI 接口来连接LCD显示屏，各信号描述如下表所示。
-
-<div align="center"> SPI/QSPI 信号连接方式 </div>
+<div align="center"> SPI/QSPI Signal Connection Methods </div>
 
 ```{table}
 
-|spi信号|管脚   |详细描述  |
+|spi signal|Pin   |Detailed Description  |
 |:--|:-------|:--------|
-|CSx |PA03 |使能信号 |
-|WRx_SCL |PA04 |时钟信号 |
-|DCx |PA06 |4-wire SPI 模式下的数据/命令信号Quad-SPI 模式下的数据1  |
-|SDI_RDx |PA05 |3/4-wire SPI 模式下的数据输入信号Quad-SPI 模式下的数据0  |
-|SDO |PA05 |3/4-wire SPI 模式下的数据输出信号请和SDI_RDX短接到一起 |
-|D[0] |PA07 |Quad-SPI 模式下的数据2 |
-|D[1] |PA08 |Quad-SPI 模式下的数据3 |
-|RESET |PA00 |复位显示屏信号 |
+|CSx |PA03 |Enable signal |
+|WRx_SCL |PA04 |Clock signal |
+|DCx |PA06 |Data/command signal in 4-wire SPI mode, Data1 in Quad-SPI mode  |
+|SDI_RDx |PA05 |Data input signal in 3/4-wire SPI mode, Data0 in Quad-SPI mode  |
+|SDO |PA05 |Data output signal in 3/4-wire SPI mode, please short to SDI_RDX |
+|D[0] |PA07 |Data2 in Quad-SPI mode |
+|D[1] |PA08 |Data3 in Quad-SPI mode |
+|RESET |PA00 |Reset display signal |
 |TE |PA02 |Tearing effect to MCU frame signal |
 ```
 
-#### JDI显示接口
+#### JDI Display Interface
 
-芯片支持并行JDI接口来连接LCD显示屏，如下表所示。
+The chip supports a parallel JDI interface to connect to an LCD display, as shown in the table below.
 
-<div align="center"> 并行JDI屏信号连接方式 </div>
+<div align="center"> Parallel JDI Screen Signal Connection Method </div>
 
 ```{table}
 
-|spi信号|管脚   |详细描述  |
+|spi signal|Pin   |Detailed Description  |
 |:--|:-------|:--------|
-|CSx |PA03 |使能信号 |
-|WRx_SCL |PA04 |时钟信号 |
-|DCx |PA06 |4-wire SPI 模式下的数据/命令信号Quad-SPI 模式下的数据1  |
-|SDI_RDx |PA05 |3/4-wire SPI 模式下的数据输入信号Quad-SPI 模式下的数据0  |
-|SDO |PA05 |3/4-wire SPI 模式下的数据输出信号请和SDI_RDX短接到一起 |
-|D[0] |PA07 |Quad-SPI 模式下的数据2 |
-|D[1] |PA08 |Quad-SPI 模式下的数据3 |
-|RESET |PA00 |复位显示屏信号 |
+|CSx |PA03 |Enable signal |
+|WRx_SCL |PA04 |Clock signal |
+|DCx |PA06 |Data/command signal in 4-wire SPI mode, Data1 in Quad-SPI mode  |
+|SDI_RDx |PA05 |Data input signal in 3/4-wire SPI mode, Data0 in Quad-SPI mode  |
+|SDO |PA05 |Data output signal in 3/4-wire SPI mode, please short to SDI_RDX |
+|D[0] |PA07 |Data2 in Quad-SPI mode |
+|D[1] |PA08 |Data3 in Quad-SPI mode |
+|RESET |PA00 |Reset display signal |
 |TE |PA02 |Tearing effect to MCU frame signal |
 ```
 
-#### 触摸和背光接口
+#### Touch and Backlight Interface
 
-芯片支持I2C格式的触摸屏控制接口和触摸状态中断输入，同时支持1路PWM信号来控制背光电源的使能和亮度，如下表所示。
+The chip supports an I2C format touch screen control interface and touch status interrupt input, and also supports one PWM signal to control the enable and brightness of the backlight power, as shown in the table below.
 
-<div align="center"> 触摸和背光控制连接方式 </div>
+<div align="center"> Touch and Backlight Control Connection Method </div>
 
 ```{table}
 
-|spi信号|管脚   |详细描述  |
+|spi signal|Pin   |Detailed Description  |
 |:--|:-------|:--------|
-|CSx |PA03 |使能信号 |
-|WRx_SCL |PA04 |时钟信号 |
-|DCx |PA06 |4-wire SPI 模式下的数据/命令信号Quad-SPI 模式下的数据1  |
-|SDI_RDx |PA05 |3/4-wire SPI 模式下的数据输入信号Quad-SPI 模式下的数据0  |
-|SDO |PA05 |3/4-wire SPI 模式下的数据输出信号请和SDI_RDX短接到一起 |
-|D[0] |PA07 |Quad-SPI 模式下的数据2 |
-|D[1] |PA08 |Quad-SPI 模式下的数据3 |
-|RESET |PA00 |复位显示屏信号 |
+|CSx |PA03 |Enable signal |
+|WRx_SCL |PA04 |Clock signal |
+|DCx |PA06 |Data/command signal in 4-wire SPI mode, Data1 in Quad-SPI mode  |
+|SDI_RDx |PA05 |Data input signal in 3/4-wire SPI mode, Data0 in Quad-SPI mode  |
+|SDO |PA05 |Data output signal in 3/4-wire SPI mode, please short to SDI_RDX |
+|D[0] |PA07 |Data2 in Quad-SPI mode |
+|D[1] |PA08 |Data3 in Quad-SPI mode |
+|RESET |PA00 |Reset display signal |
 |TE |PA02 |Tearing effect to MCU frame signal |
 ```
 
-### 存储
-#### 存储器连接接口描述
-芯片支持外挂SPI Nor Flash、SPI NAND Flash、SD NAND Flash和eMMC 四种存储介质。
+### Storage
+#### Storage Interface Description
+The chip supports four types of storage media: external SPI Nor Flash, SPI NAND Flash, SD NAND Flash, and eMMC.
 
-<div align="center"> SPI Nor/Nand Flash信号连接 </div>
+<div align="center"> SPI Nor/Nand Flash Signal Connection </div>
 
 ```{table}
 
-|spi信号|管脚   |详细描述  |
+|spi signal|Pin   |Detailed Description  |
 |:--|:-------|:--------|
-|CSx |PA03 |使能信号 |
-|WRx_SCL |PA04 |时钟信号 |
-|DCx |PA06 |4-wire SPI 模式下的数据/命令信号Quad-SPI 模式下的数据1  |
-|SDI_RDx |PA05 |3/4-wire SPI 模式下的数据输入信号Quad-SPI 模式下的数据0  |
-|SDO |PA05 |3/4-wire SPI 模式下的数据输出信号请和SDI_RDX短接到一起 |
-|D[0] |PA07 |Quad-SPI 模式下的数据2 |
-|D[1] |PA08 |Quad-SPI 模式下的数据3 |
-|RESET |PA00 |复位显示屏信号 |
+|CSx |PA03 |Enable signal |
+|WRx_SCL |PA04 |Clock signal |
+|DCx |PA06 |Data/command signal in 4-wire SPI mode, Data1 in Quad-SPI mode  |
+|SDI_RDx |PA05 |Data input signal in 3/4-wire SPI mode, Data0 in Quad-SPI mode  |
+|SDO |PA05 |Data output signal in 3/4-wire SPI mode, please short to SDI_RDX |
+|D[0] |PA07 |Data2 in Quad-SPI mode |
+|D[1] |PA08 |Data3 in Quad-SPI mode |
+|RESET |PA00 |Reset display signal |
 |TE |PA02 |Tearing effect to MCU frame signal |
 ```
 
-<div align="center"> SD Nand Flash和eMMC信号连接 </div>
+<div align="center"> SD Nand Flash and eMMC Signal Connection </div>
 
 ```{table}
 
-|spi信号|管脚   |详细描述  |
+|spi signal|Pin   |Detailed Description  |
 |:--|:-------|:--------|
-|CSx |PA03 |使能信号 |
-|WRx_SCL |PA04 |时钟信号 |
-|DCx |PA06 |4-wire SPI 模式下的数据/命令信号Quad-SPI 模式下的数据1  |
-|SDI_RDx |PA05 |3/4-wire SPI 模式下的数据输入信号Quad-SPI 模式下的数据0  |
-|SDO |PA05 |3/4-wire SPI 模式下的数据输出信号请和SDI_RDX短接到一起 |
-|D[0] |PA07 |Quad-SPI 模式下的数据2 |
-|D[1] |PA08 |Quad-SPI 模式下的数据3 |
-|RESET |PA00 |复位显示屏信号 |
+|CSx |PA03 |Enable signal |
+|WRx_SCL |PA04 |Clock signal |
+|DCx |PA06 |Data/command signal in 4-wire SPI mode, Data1 in Quad-SPI mode  |
+|SDI_RDx |PA05 |Data input signal in 3/4-wire SPI mode, Data0 in Quad-SPI mode  |
+|SDO |PA05 |Data output signal in 3/4-wire SPI mode, please short to SDI_RDX |
+|D[0] |PA07 |Data2 in Quad-SPI mode |
+|D[1] |PA08 |Data3 in Quad-SPI mode |
+|RESET |PA00 |Reset display signal |
 |TE |PA02 |Tearing effect to MCU frame signal |
 ```
 
 
-#### 启动设置
+#### Boot Configuration
 
-芯片支持内部合封Spi Nor Flash、外挂Spi Nor Flash、外挂Spi Nand Flash、外挂SD Nand Flash和外挂eMMC启动。其中：
-- SF32LB52AUx6 内部合封有flash，默认从内部合封flash启动
-- SF32LB52D/F/HUx6 内部合封psram，必须从外挂的存储介质启动
+The chip supports booting from internal integrated Spi Nor Flash, external Spi Nor Flash, external Spi Nand Flash, external SD Nand Flash, and external eMMC. Among these:
+- SF32LB52AUx6 has an internal integrated flash and boots from the internal integrated flash by default
+- SF32LB52D/F/HUx6 has an internal integrated psram and must boot from an external storage medium
 
 
-<div align="center"> 启动选项设置 </div>
+<div align="center"> Boot Option Configuration </div>
 
 ```{table}
 
-|Bootstrap[1] (PA13) |Bootstrap[0] (PA17)    |Boot From ext memory  |
+|Bootstrap[1] (PA13) |Bootstrap[0] (PA17)    |Boot From External Memory  |
 |:----:|:----:|:---|
 |L |L |Spi Nor Flash  |
 |L |H |Spi Nand Flash |
@@ -214,114 +211,94 @@ L(电感值) = 4.7uH ± 20%，DCR(直流阻抗) ≦ 0.4 ohm，Isat(饱和电流)
 |H |H |eMMC           |
 ```
 
-#### 启动存储介质电源控制
-芯片支持对启动存储介质的电源开关控制，以降低关机功耗。电源开关的使能管脚必须使用PA21来控制，开关的使能电平要求是[高打开，低关闭]。
+#### Boot Storage Medium Power Control
+The chip supports power switch control for the boot storage medium to reduce power consumption during shutdown. The power switch enable pin must use PA21 to control, and the enable level requirement is [high to open, low to close].
 
 :::{important}
-- SF32LB52AUx6 内部合封有flash，请给VDD_SIP加电源开关。
-- SF32LB52D/F/HUx6 内部合封psram，如果PVDD=3.3V，且VDD_SIP使用内部LDO供电，VDD_SIP可以不加电源开关；如果PVDD=1.8V，VDD_SIP要加电源开关。
-- 外供存储介质的电源独立于VDD_SIP，单独增加电源开关。
-- **所有和启动有关的存储器的电源开关的使能脚必须用PA21控制。**
+- SF32LB52AUx6 has an internal flash, please add a power switch to VDD_SIP.
+- SF32LB52D/F/HUx6 has an internal PSRAM. If PVDD=3.3V and VDD_SIP is powered by the internal LDO, a power switch for VDD_SIP is not required; if PVDD=1.8V, a power switch for VDD_SIP is required.
+- The power supply for external storage media is independent of VDD_SIP and should have a separate power switch.
+- **The enable pin of all power switches related to booting must be controlled by PA21.**
 :::
 
-### 按键
-#### 开关机按键
-芯片的PA34支持长按复位功能，可以设计成按键，实现开关机+长按复位功能。PA34的长按复位功能要求高电平有效，所以设计成默认下拉为低，按键按下后电平为高，如{numref}`图 {number} <sf32lb52X-B-PWKEY>`所示。
+### Buttons
+#### Power On/Off Button
+The PA34 pin of the chip supports long-press reset functionality and can be designed as a button to achieve power on/off and long-press reset functions. The long-press reset function requires a high level to be effective, so it is designed to be pulled low by default, and the level becomes high when the button is pressed, as shown in {numref}`图 {number} <sf32lb52X-B-PWKEY>`.
 
 <img src="assets/52xB/sf32lb52X-B-PWKEY.png" width="80%" align="center" />  
 
-<div align="center"> 开关机按键电路图 </div>
+<div align="center"> Power On/Off Button Circuit Diagram </div>
 
+#### General GPIO Button
 
-#### 普通GPIO按键
+#### Mechanical Knob Button
 
-#### 机械旋钮按键
-
-
-### 振动马达
-
-芯片支持PWM输出来控制振动马达。
-
+### Vibration Motor
+The chip supports PWM output to control the vibration motor.
 
 <img src="assets/52xB/sf32lb52X-B-VIB.png" width="80%" align="center" />  
 
-<div align="center"> 振动马达电路图 </div>
+<div align="center"> Vibration Motor Circuit Diagram </div>
 
+### Audio Interface
+The audio-related interfaces of the chip are shown in Table 4-16. The audio interface signals have the following characteristics:
+1. Supports one single-ended ADC input, connected to an external analog MIC, with a coupling capacitor of at least 2.2uF, and the power supply for the analog MIC is connected to the MIC_BIAS power output pin of the chip.
+2. Supports one differential DAC output, connected to an external analog audio PA. The DAC output traces should be routed as differential lines with proper ground shielding, and the following should be noted: Trace Capacitance < 10pF, Length < 2cm.
 
-### 音频接口
-
-芯片的音频相关接口，如表4-16所示，音频接口信号有以下特点：
-1.	支持一路单端ADC输入，外接模拟MIC，中间需要加容值至少2.2uF的隔直电容，模拟MIC的电源接芯片MIC_BIAS电源输出脚；
-2.	支持一路差分DAC输出，外接模拟音频PA， DAC输出的走线，按照差分线走线，做好包地屏蔽处理，还需要注意：Trace Capacitor < 10pF, Length < 2cm。
-
-<div align="center"> 音频信号连接方式 </div>
+<div align="center"> Audio Signal Connection Method </div>
 
 ```{table}
 
-|音频信号 |管脚   |详细描述 |
+|Audio Signal |Pin   |Detailed Description |
 |:---|:---|:---|
-|BIAS |MIC_BIAS |麦克风电源       |
-|AU_ADC1P |ADCP |单端模拟MIC输入  |
-|AU_DAC1P |DACP |差分模拟输出P    |
-|AU_DAC1N |DACN |差分模拟输出N    |
+|BIAS |MIC_BIAS |Microphone Power       |
+|AU_ADC1P |ADCP |Single-ended Analog MIC Input  |
+|AU_DAC1P |DACP |Differential Analog Output P    |
+|AU_DAC1N |DACN |Differential Analog Output N    |
 ```
 
-模拟MEMS MIC推荐电路如{numref}`图 {number} <sf32lb52X-B-MEMS-MIC>`所示，模拟ECM MIC 单端推荐电路如{numref}`图 {number} <sf32lb52X-B-ECM-MIC>`所示，其中MEMS_MIC_ADC_IN和ECM_MIC_ADC_IN连接到SF32LB52X的ADCP输入管脚。
-
+The recommended circuit for an analog MEMS MIC is shown in {numref}`图 {number} <sf32lb52X-B-MEMS-MIC>`, and the recommended circuit for an analog ECM MIC is shown in {numref}`图 {number} <sf32lb52X-B-ECM-MIC>`. The MEMS_MIC_ADC_IN and ECM_MIC_ADC_IN are connected to the ADCP input pin of the SF32LB52X.
 
 <img src="assets/52xB/sf32lb52X-B-MEMS-MIC.png" width="80%" align="center" />  
 
-<div align="center"> 模拟MEMS MIC单端输入电路图 </div>
-
+<div align="center"> Analog MEMS MIC Single-ended Input Circuit Diagram </div>
 
 <img src="assets/52xB/sf32lb52X-B-ECM-MIC.png" width="80%" align="center" />  
 
-<div align="center"> 模拟ECM单端输入电路图 </div>
+<div align="center"> Analog ECM Single-ended Input Circuit Diagram </div>
 
-
-模拟音频输出推荐电路如{numref}`图 {number} <sf32lb52X-B-DAC-PA>`所示，注意虚线框内的差分低通滤波器要靠近芯片端放置。
-
+The recommended circuit for analog audio output is shown in {numref}`图 {number} <sf32lb52X-B-DAC-PA>`. Note that the differential low-pass filter within the dashed line should be placed close to the chip.
 
 <img src="assets/52xB/sf32lb52X-B-DAC-PA.png" width="80%" align="center" />  
 
-<div align="center"> 模拟音频PA电路图 </div>
+<div align="center"> Analog Audio PA Circuit Diagram </div>
 
+### Sensors
+The chip supports heart rate, acceleration, and magnetic sensors. The power supply for the sensors should use a Load Switch with a low Iq for power control.
 
+### UART and I2C Pin Configuration
+The chip supports arbitrary pin mapping for UART and I2C functions, and all PA interfaces can be mapped to UART or I2C function pins.
 
-### 传感器
+### GPTIM Pin Configuration
+The chip supports arbitrary pin mapping for GPTIM functions, and all PA interfaces can be mapped to GPTIM function pins.
 
-芯片支持心率、加速度和地磁等传感器。传感器的供电电源，选择Iq比较小的Load Switch来进行电源的开关控制。
+### Debug and Download Interface
+The chip supports the DBG_UART interface for downloading and debugging, connected to a PC via a UART-to-USB dongle with a 3.3V interface. The chip can output debug information through the DBG_UART. For more details, refer to Table `{number} <sf32lb52x-B-P-JDI-LCD-table>`.
 
-### UART和I2C管脚设置
-
-芯片支持任意管脚UART和I2C功能映射，所有的PA接口都可以映射成UART或I2C功能管脚。
-
-### GPTIM管脚设置
-
-芯片支持任意管脚GPTIM功能映射，所有的PA接口都可以映射成GPTIM功能管脚。
-
-### 调试和下载接口
-
-芯片支持DBG_UART接口用于下载和调试，通过3.3V接口的UART转USB Dongle板接PC机。芯片可以通过DBG_UART进行调试信息输出，具体请参考表`{number} <sf32lb52x-B-P-JDI-LCD-table>`
-
-<div align="center"> 调试口连接方式 </div>
+<div align="center"> Debug Port Connection Method </div>
 
 ```{table}
 
-|DBG信号 |管脚   |详细描述 |
+|DBG Signal |Pin   |Detailed Description |
 |:---|:---|:---|
-|DBG_UART_RXD |PA18 |Debug UART 接收 |
-|DBG_UART_TXD |PA19 |Debug UART 发送 |
+|DBG_UART_RXD |PA18 |Debug UART Receive |
+|DBG_UART_TXD |PA19 |Debug UART Transmit |
 ```
 
-### 产线烧录和晶体校准
+### Production Programming and Crystal Calibration
+Sichip Technology provides an offline programmer to complete the production programming and crystal calibration. When designing the hardware, please ensure that at least the following test points are reserved: PVDD, GND, AVDD33, DB_UART_RXD, DB_UART_RXD, PA01.
 
-思澈科技提供脱机下载器来完成产线程序的烧录和晶体校准，硬件设计时，请注意至少预留测试点：PVDD、GND、AVDD33、DB_UART_RXD、DB_UART_RXD，PA01。
+For detailed programming and crystal calibration, refer to the “**_Offline Programmer User Guide.pdf_**” document, which is included in the development package.
 
-详细的烧录和晶体校准见“**_脱机下载器使用指南.pdf”文档，包含在开发资料包中。
-
-
-
-### 原理图和PCB图纸检查列表
-
-见“**_Schematic checklist_**.xlsx”和“**_PCB checklist_**.xlsx”文档，包含在开发资料包中。
+### Schematic and PCB Drawing Checklists
+Refer to the “**_Schematic checklist_**.xlsx” and “**_PCB checklist_**.xlsx” documents, which are included in the development package.

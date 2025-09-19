@@ -1,73 +1,73 @@
-# 1 GPIO相关
-## 1.1 GPIO操作和调试方法
-### 1.1.1 RTT driver层操作方法
-思澈系列MCU为双核架构，Hcpu包含了PA口，Lcpu包含了PB口，58,56系列还包含了低功耗IO：PBR口<br>
-为了便于RTT操作系统统一操作GPIO口，目前PA,PB口，以及PBR口在RTThread操作系统的pin设备操作上，采用统一GPIO编排方式：<br>
-PA01即对应1, PA78对应78，<br>
-PB口加上96，即PB0对应96，PB1对应97, PB40对应136<br>
-PBR0口加上160，即PBR0对应160,PBR1,对应161, PBR2对应162<br>
+# 1 GPIO Related
+## 1.1 GPIO Operation and Debugging Methods
+### 1.1.1 RTT Driver Layer Operation Methods
+The SiChes series MCUs have a dual-core architecture, where Hcpu includes the PA port, and Lcpu includes the PB port. The 58,56 series also include low-power IO: the PBR port.<br>
+To facilitate unified GPIO operations in the RTT operating system, the PA, PB, and PBR ports in the RTThread operating system's pin device operations are currently arranged in a unified GPIO manner:<br>
+PA01 corresponds to 1, PA78 corresponds to 78,<br>
+PB ports are offset by 96, so PB0 corresponds to 96, PB1 corresponds to 97, PB40 corresponds to 136<br>
+PBR0 ports are offset by 160, so PBR0 corresponds to 160, PBR1 corresponds to 161, PBR2 corresponds to 162<br>
 
-PA,PB,PBR可以采用函数GET_PIN或者GET_PIN_2获取pin号，<br>
-GET_PIN函数的第一个参数是0，1，2，分别对应PBR，GPIO1(PA)和GPIO2(PB)，  <br>
-例如<br>
+PA, PB, and PBR can be obtained using the `GET_PIN` or `GET_PIN_2` functions,<br>
+The first parameter of the `GET_PIN` function is 0, 1, 2, corresponding to PBR, GPIO1 (PA), and GPIO2 (PB), respectively,<br>
+For example<br>
 ```
-pin_numble=GET_PIN(0, 0)；//PBR0 对应值为160
-PBR1就是GET_PIN(0, 1)=161，
-PB1就是GET_PIN(2, 1)=97，
-PA1就是GET_PIN(1, 1)=1
+pin_number = GET_PIN(0, 0); // PBR0 corresponds to 160
+PBR1 is GET_PIN(0, 1) = 161,
+PB1 is GET_PIN(2, 1) = 97,
+PA1 is GET_PIN(1, 1) = 1
 ```
-GET_PIN_2的第一个参数是hwp_pbr，hwp_gpio1，hwp_gpio2,<br>
+The first parameter of `GET_PIN_2` is `hwp_pbr`, `hwp_gpio1`, `hwp_gpio2`,<br>
 ```c
-pin_numble=GET_PIN_2(hwp_pbr,1);  //PBR1 值为161
-pin_numble=GET_PIN_2(hwp_gpio2,1); //PB1 值为97
-pin_numble=GET_PIN_2(hwp_gpio1,1); //PA1 值为1
+pin_number = GET_PIN_2(hwp_pbr, 1);  // PBR1 value is 161
+pin_number = GET_PIN_2(hwp_gpio2, 1); // PB1 value is 97
+pin_number = GET_PIN_2(hwp_gpio1, 1); // PA1 value is 1
 ```
-通过统一GPIO编排之后，就可以按照通用接口操作IO，操作代码如下：<br>
+After unifying the GPIO arrangement, the IO can be operated using a generic interface. The operation code is as follows:<br>
 ```c
-rt_pin_mode(160, PIN_MODE_OUTPUT);  /* 配置PBR0输出 */
-rt_pin_write(160, PIN_LOW);  /* PBR0输出低电平 */
-rt_pin_mode(160, PIN_MODE_INPUT_PULLUP); /* 配置PBR0为输入口，注意此处配置上下拉，目前代码没有生效，需用HAL函数配置 */
-if (1 == rt_pin_read(160)) /* 读PBR0状态 */
+rt_pin_mode(160, PIN_MODE_OUTPUT);  /* Configure PBR0 as output */
+rt_pin_write(160, PIN_LOW);  /* PBR0 outputs low level */
+rt_pin_mode(160, PIN_MODE_INPUT_PULLUP); /* Configure PBR0 as input, note that the pull-up/pull-down configuration is not effective in the current code, and must be configured using HAL functions */
+if (1 == rt_pin_read(160)) /* Read PBR0 status */
 //
-rt_pin_mode(78, PIN_MODE_OUTPUT);  /* 配置PA78输出 */
-rt_pin_write(78, 0);/* PA78 输出低 */
+rt_pin_mode(78, PIN_MODE_OUTPUT);  /* Configure PA78 as output */
+rt_pin_write(78, 0); /* PA78 outputs low */
 //
-rt_pin_mode(79, PIN_MODE_INPUT_PULLUP);/* 配置PA79为输入口，注意此处配置上下拉，目前代码没有生效，需用HAL函数配置 */
-if (1 == rt_pin_read(79)) /* 读PA79状态 */
+rt_pin_mode(79, PIN_MODE_INPUT_PULLUP); /* Configure PA79 as input, note that the pull-up/pull-down configuration is not effective in the current code, and must be configured using HAL functions */
+if (1 == rt_pin_read(79)) /* Read PA79 status */
 ```
-配置为中断输入方式：
-```C
-rt_pin_mode(144, PIN_MODE_INPUT_PULLUP);//配置PB48为输入口（48+96=144），注意此处配置上下拉，目前代码没有生效，需用HAL函数配置
-curr_state = rt_pin_read(144); /* 读 PB48口状态 */
-rt_pin_attach_irq(144, PIN_IRQ_MODE_FALLING, chsc5816tp_irq_handler, RT_NULL);/*配置为下降沿触发，中断函数为chsc5816tp_irq_handler */
-rt_pin_irq_enable(144, 1);/* 启动 PB48 GPIO中断*/
+Configure as interrupt input:
+```c
+rt_pin_mode(144, PIN_MODE_INPUT_PULLUP); // Configure PB48 as input (48 + 96 = 144), note that the pull-up/pull-down configuration is not effective in the current code, and must be configured using HAL functions
+curr_state = rt_pin_read(144); /* Read PB48 status */
+rt_pin_attach_irq(144, PIN_IRQ_MODE_FALLING, chsc5816tp_irq_handler, RT_NULL); /* Configure as falling edge trigger, interrupt function is chsc5816tp_irq_handler */
+rt_pin_irq_enable(144, 1); /* Enable PB48 GPIO interrupt */
 //
-rt_pin_mode(160,PIN_MODE_INPUT); //配置PBR0为输入模式，注意此处配置上下拉，目前代码没有生效，需用HAL函数配置
-rt_pin_attach_irq(160,PIN_IRQ_MODE_FALLING,(void*)bt5376a_wakeup_event_handle, (void*)(rt_uint32_t)160); //配置为下降沿中断和中断处理函数bt5376a_wakeup_event_handle
-rt_pin_irq_enable(160,1); //使能中断
+rt_pin_mode(160, PIN_MODE_INPUT); // Configure PBR0 as input, note that the pull-up/pull-down configuration is not effective in the current code, and must be configured using HAL functions
+rt_pin_attach_irq(160, PIN_IRQ_MODE_FALLING, (void*)bt5376a_wakeup_event_handle, (void*)(rt_uint32_t)160); // Configure as falling edge interrupt and interrupt handler function bt5376a_wakeup_event_handle
+rt_pin_irq_enable(160, 1); // Enable interrupt
 ```
 
-**注意：**<br>
-1，DRV层函数不能修改GPIO的Funtion，需要用HAL层函数，默认在芯片上电或者standby醒来过程中，pin初始化BSP_PIN_Init函数内设置;<br>
-2，Hcpu可以完全操作Lcpu的资源，包括PB口，但是Lcpu不能直接读写PA口，否则会出现Hardfault;<br>
-3，采用pin的设备读写操作前，需要rt_pin_mode先设置mode，hal层设置了输入输出也不行;<br>
-4，采用RTT层操作GPIO，进入Standby休眠后，IO状态已经做了自动备份和恢复，备份函数`pm_pin_backup();`恢复函数`pm_pin_restore();`,执行`HAL_HPAON_DISABLE_PAD();`后，此时操作GPIO，GPIO对外输出电平也会保持不变，执行`HAL_HPAON_ENABLE_PAD();`后，GPIO和pinmux的寄存器配置就会输出到外部GPIO；Deep休眠GPIO状态会保持，不会变;<br>
-5，RTT层的GPIO操作，也可以参考RTT官网:<br> [PIN设备 (rt-thread.org)](https://www.rt-thread.org/document/site/#/)：
-<br>![alt text](./assets/gpio/gpio001.png)<br> 
+**Note:**
+1. DRV layer functions cannot modify the GPIO function; HAL layer functions must be used. By default, the pin initialization is set in the `BSP_PIN_Init` function during chip power-on or wake-up from standby;<br>
+2. Hcpu can fully operate Lcpu's resources, including the PB port, but Lcpu cannot directly read or write the PA port, otherwise a Hardfault will occur;<br>
+3. Before performing device read/write operations on a pin, the mode must be set using `rt_pin_mode`. Setting the input/output mode using the HAL layer is also not effective;<br>
+4. When using RTT layer to operate GPIO, the IO state is automatically backed up and restored after entering Standby sleep. The backup function is `pm_pin_backup();` and the restore function is `pm_pin_restore();`. After executing `HAL_HPAON_DISABLE_PAD();`, the GPIO output level will remain unchanged when operating the GPIO. After executing `HAL_HPAON_ENABLE_PAD();`, the GPIO and pinmux register configurations will be output to the external GPIO. The GPIO state will be maintained during deep sleep and will not change;<br>
+5. For more information on RTT layer GPIO operations, refer to the RTT official website:<br> [PIN Device (rt-thread.org)](https://www.rt-thread.org/document/site/#/):
+<br>![alt text](./assets/gpio/gpio001.png)<br>
 
-### 1.1.2 HAL层操作方法
-在RTT操作系统还没起来时，比如drv_io.c的底层可以直接调用HAL接口的GPIO函数读写GPIO口<br>
-* PA/PB口操作方法：<br>
-设置PA/PB功能和上下拉函数，PA/PB需用一个参数来区分：<br>
+### 1.1.2 HAL Layer Operation Methods
+When the RTT operating system is not yet up and running, for example, the underlying layer of `drv_io.c` can directly call the HAL interface's GPIO functions to read and write GPIO ports<br>
+* PA/PB Port Operation Methods:<br>
+Set the PA/PB function and pull-up/pull-down settings, PA/PB need to be distinguished by a parameter:<br>
 ```c
-HAL_PIN_Set(PAD_PA03,GPIO_A3,PIN_NOPULL, 1); //设置PA03为GPIO模式，无上下拉
+HAL_PIN_Set(PAD_PA03, GPIO_A3, PIN_NOPULL, 1); // Set PA03 to GPIO mode, no pull-up/pull-down
 ```
-输出高低：<br>
+Output high/low:<br>
 ```c
-BSP_GPIO_Set(3, 0, 1); //PA03输出低
-BSP_GPIO_Set(3, 0, 0); //PB03输出低
+BSP_GPIO_Set(3, 0, 1); // PA03 outputs low
+BSP_GPIO_Set(3, 0, 0); // PB03 outputs low
 ```
-GPIO配置为输入输出方式，PA24配置为输入模式如下图：<br>
+Configure GPIO as input/output, PA24 is configured as input mode as shown in the figure below:<br>
 ```c
 GPIO_InitTypeDef GPIO_InitStruct;           
 GPIO_InitStruct.Mode = GPIO_MODE_INPUT;                
@@ -75,41 +75,40 @@ GPIO_InitStruct.Pin = 24;
 GPIO_InitStruct.Pull = GPIO_NOPULL;         
 HAL_GPIO_Init(hwp_gpio1, &GPIO_InitStruct); 
 ```
-读取IO数值:<br>
+Read IO value:<br>
 ```c
 int value;
-value = HAL_GPIO_ReadPin((GPIO_TypeDef *)hwp_gpio1, 48); //读PA48的值：
-value = HAL_GPIO_ReadPin((GPIO_TypeDef *)hwp_gpio2, 48); //读PB48的值：
+value = HAL_GPIO_ReadPin((GPIO_TypeDef *)hwp_gpio1, 48); // Read the value of PA48:
+value = HAL_GPIO_ReadPin((GPIO_TypeDef *)hwp_gpio2, 48); // Read the value of PB48:
 ```
-**注意:**<br> 
-1，HAL层操作GPIO，要参数来区分hcpu和lcpu，因此不能再用DRV层把PB48 当作96+48来操作；<br>
-2，HAL层操作GPIO，进入Standby休眠后，IO状态已经做了自动备份和恢复，备份函数`pm_pin_backup();`恢复函数`pm_pin_restore();`,执行后`HAL_HPAON_DISABLE_PAD();`后GPIO对外输出电平会保持不变，执行`HAL_HPAON_ENABLE_PAD();`后，GPIO和pinmux的寄存器就会输出到外部GPIO；<br>
+**Note:**<br> 
+1. When operating GPIO at the HAL layer, parameters are needed to distinguish between hcpu and lcpu, so the DRV layer cannot be used to operate PB48 as 96+48;<br>
+2. When operating GPIO at the HAL layer, after entering Standby sleep mode, the IO state is automatically backed up and restored. The backup function is `pm_pin_backup();` and the restore function is `pm_pin_restore();`. After executing `HAL_HPAON_DISABLE_PAD();`, the GPIO output level will remain unchanged. After executing `HAL_HPAON_ENABLE_PAD();`, the GPIO and pinmux registers will be output to the external GPIO;<br>
 
-
-* PBR口操作方法：<br>
+* PBR Port Operation Methods:<br>
 ```c
-HAL_PBR_ConfigMode(2,1);//配置PBR2为输出模式，第1个参数0对应PBR0, 2对应PBR2；第2个参数，1为输出，0位输入；
-HAL_PBR_WritePin(2,1); //配置PBR2输出高
-value=HAL_PBR_ReadPin(0); //读取PBR0的值，返回0或者1，返回值少于1表示有错误，比如输入pin为无效值
-HAL_PIN_Set_Analog(PAD_PBR1, 0); //设置PBR1为模拟输入，对外为高阻态
-HAL_PIN_Set(PAD_PBR1, PBR_GPO, PIN_NOPULL, 0); //配置PBR1为GPIO模式 
+HAL_PBR_ConfigMode(2, 1); // Configure PBR2 as output mode, the first parameter 0 corresponds to PBR0, 2 corresponds to PBR2; the second parameter, 1 for output, 0 for input;
+HAL_PBR_WritePin(2, 1); // Configure PBR2 to output high
+value = HAL_PBR_ReadPin(0); // Read the value of PBR0, returns 0 or 1, a return value less than 1 indicates an error, such as an invalid input pin
+HAL_PIN_Set_Analog(PAD_PBR1, 0); // Set PBR1 to analog input, high impedance state externally
+HAL_PIN_Set(PAD_PBR1, PBR_GPO, PIN_NOPULL, 0); // Configure PBR1 to GPIO mode
 ```
-具体各个IO支持哪些function，查看文件`bf0_pin_const.c中pin_pad_func_hcpu`或者硬件文档SF32LB5XX_Pin config_X.xlsx<br>
+For specific functions supported by each IO, refer to the file `bf0_pin_const.c` in `pin_pad_func_hcpu` or the hardware documentation `SF32LB5XX_Pin config_X.xlsx`<br>
 <br>![alt text](./assets/gpio/gpio012.png)<br>   
 
-**注意:**<br>
-PBR0默认是在PWR_REQ模式上，这个模式是硬件自动控制输出电平的高和低，LCPU醒的时候输出高，睡的时候输出低, 所以当有的板子用这个PIN控制大核PSRAM或者NOR的供电时，就要FORCE输出高了，以免小核睡了后，PSRAM掉电，操作如下:<br>
+**Note:**<br>
+PBR0 is by default in PWR_REQ mode, where the hardware automatically controls the output level high and low. When the LCPU is awake, it outputs high, and when it is sleeping, it outputs low. Therefore, when some boards use this PIN to control the power supply of the large core PSRAM or NOR, it needs to be forced to output high to prevent the PSRAM from losing power when the small core is sleeping. The operation is as follows:<br>
 HAL_PBR0_FORCE1_ENABLE();
 
-### 1.1.3 寄存器操作GPIO方法
-下面是直接操作GPIO寄存器PA24输出高、低、翻转：（需预先配置好GPIO输出状态），寄存器含义参照芯片手册<br>
+### 1.1.3 Register Operation GPIO Method
+Below is the direct operation of GPIO register PA24 to output high, low, and toggle (the GPIO output state must be configured in advance), refer to the chip manual for register meanings<br>
 ```c
 #define PM_DEBUG_PIN_HIGH()      ((GPIO1_TypeDef *)hwp_gpio1)->DOSR0 |= (1UL << 24)//PA00 - PA31
 #define PM_DEBUG_PIN_LOW()       ((GPIO1_TypeDef *)hwp_gpio1)->DOCR0 |= (1UL << 24)
 #define PM_DEBUG_PIN_TOGGLE()    ((GPIO1_TypeDef *)hwp_gpio1)->DOR0  ^= (1UL << 24)
 ```
-下面是寄存器操作IO初始化和读写操作的示例：<br>
-pin_test为测试程序：<br>
+Below is an example of register operation for IO initialization and read/write operations:<br>
+`pin_test` is the test program:<br>
 ```c
 #ifdef SOC_BF0_HCPU
 #define PA_HIGH(port) (port > 31) ? (((GPIO1_TypeDef *)hwp_gpio1)->DOR1 |= (1UL << (port-32))) : (((GPIO1_TypeDef *)hwp_gpio1)->DOR0 |= (1UL << port))
@@ -145,54 +144,56 @@ pin_test为测试程序：<br>
                 }                                               \
                 while (0)
 #endif
+```
 
+```c
 int pin_test(int argc, char **argv)
 {
     char i;
-    uint8_t pin,value;
-     if (argc > 1)
-     {
+    uint8_t pin, value;
+    if (argc > 1)
+    {
         pin = strtoul(argv[3], 0, 10);
         value = strtoul(argv[4], 0, 10);
-        rt_kprintf("pin:%d,value:%d,\n",pin,value);
+        rt_kprintf("pin:%d,value:%d,\n", pin, value);
         if ((strcmp("pa", argv[1]) == 0) || (strcmp("PA", argv[1]) == 0))
         {
             if (strcmp("-w", argv[2]) == 0)
             {
-                if(value == 1)
+                if (value == 1)
                 {
                     PA_HIGH(pin);
-                    rt_kprintf("PA%d set high\n",pin);
+                    rt_kprintf("PA%d set high\n", pin);
                 }
-                else if(value == 0)
+                else if (value == 0)
                 {
                     PA_LOW(pin);
-                    rt_kprintf("PA%d set low\n",pin);
+                    rt_kprintf("PA%d set low\n", pin);
                 }
-                else 
+                else
                 {
                     PA_TOGGLE(pin);
-                    rt_kprintf("PA%d toggle\n",pin);
+                    rt_kprintf("PA%d toggle\n", pin);
                 }
             }
             else if (strcmp("-r", argv[2]) == 0)
             {
-                if(PA_VALUE(pin))
-                    rt_kprintf("PA%d is high, %x\n",pin,PA_VALUE(pin));
+                if (PA_VALUE(pin))
+                    rt_kprintf("PA%d is high, %x\n", pin, PA_VALUE(pin));
                 else
-                    rt_kprintf("PA%d is low, %x\n",pin,PA_VALUE(pin));
+                    rt_kprintf("PA%d is low, %x\n", pin, PA_VALUE(pin));
             }
             else if (strcmp("-init", argv[2]) == 0)
             {
-                if(value == 0)
+                if (value == 0)
                 {
-                    PA_INIT(pin,GPIO_MODE_INPUT);
-                    rt_kprintf("PA%d INIT set input\n",pin);
+                    PA_INIT(pin, GPIO_MODE_INPUT);
+                    rt_kprintf("PA%d INIT set input\n", pin);
                 }
                 else
                 {
-                    PA_INIT(pin,GPIO_MODE_OUTPUT);
-                    rt_kprintf("PA%d INIT set output\n",pin);
+                    PA_INIT(pin, GPIO_MODE_OUTPUT);
+                    rt_kprintf("PA%d INIT set output\n", pin);
                 }
             }
         }
@@ -201,246 +202,249 @@ int pin_test(int argc, char **argv)
         {
             if (strcmp("-w", argv[2]) == 0)
             {
-                if(value == 1)
+                if (value == 1)
                 {
                     PB_HIGH(pin);
-                    rt_kprintf("PB%d set high\n",pin);
+                    rt_kprintf("PB%d set high\n", pin);
                 }
-                else if(value == 0)
+                else if (value == 0)
                 {
                     PB_LOW(pin);
-                    rt_kprintf("PB%d set low\n",pin);
+                    rt_kprintf("PB%d set low\n", pin);
                 }
-                else 
+                else
                 {
                     PB_TOGGLE(pin);
-                    rt_kprintf("PA%d toggle\n",pin);
+                    rt_kprintf("PA%d toggle\n", pin);
                 }
             }
             else if (strcmp("-r", argv[2]) == 0)
             {
-                if(PB_VALUE(pin))
-                    rt_kprintf("PB%d is high, %x\n",pin,PB_VALUE(pin));
+                if (PB_VALUE(pin))
+                    rt_kprintf("PB%d is high, %x\n", pin, PB_VALUE(pin));
                 else
-                    rt_kprintf("PB%d is low, %x\n",pin,PB_VALUE(pin));
+                    rt_kprintf("PB%d is low, %x\n", pin, PB_VALUE(pin));
             }
             else if (strcmp("-init", argv[2]) == 0)
             {
-                if(value == 0)
+                if (value == 0)
                 {
-                    PB_INIT(pin,GPIO_MODE_INPUT);
-                    rt_kprintf("PB%d INIT set input\n",pin);
+                    PB_INIT(pin, GPIO_MODE_INPUT);
+                    rt_kprintf("PB%d INIT set input\n", pin);
                 }
                 else
                 {
-                    PB_INIT(pin,GPIO_MODE_OUTPUT);
-                    rt_kprintf("PB%d INIT set output\n",pin);
+                    PB_INIT(pin, GPIO_MODE_OUTPUT);
+                    rt_kprintf("PB%d INIT set output\n", pin);
                 }
             }
         }
-#endif         
-     }
-     else
-     {
-         rt_kprintf("example:\npin_test pa -init 29 0  #set PA29 to input \n");
-         rt_kprintf("pin_test pa -init 29 1  #set PA29 to output\n");
-         rt_kprintf("pin_test pa -w 29 1  #write PA29 to high level\n");
-         rt_kprintf("pin_test pa -w 29 0  #write PA29 to low level\n");
-         rt_kprintf("pin_test pa -r 29  #read PA29\n");
-         rt_kprintf("pin_test pb -init 29 1  #set PB29 to output\n");
-     }
-     return 0;
+#endif
+    }
+    else
+    {
+        rt_kprintf("example:\npin_test pa -init 29 0  #set PA29 to input \n");
+        rt_kprintf("pin_test pa -init 29 1  #set PA29 to output\n");
+        rt_kprintf("pin_test pa -w 29 1  #write PA29 to high level\n");
+        rt_kprintf("pin_test pa -w 29 0  #write PA29 to low level\n");
+        rt_kprintf("pin_test pa -r 29  #read PA29\n");
+        rt_kprintf("pin_test pb -init 29 1  #set PB29 to output\n");
+    }
+    return 0;
 }
+```
 
-MSH_CMD_EXPORT(pin_test, forward pin_test command); /* 导出到 msh 命令列表中 */
+MSH_CMD_EXPORT(pin_test, forward pin_test command); /* Export to msh command list */
 #endif
 
 ```
-调用方法：<br>
+Call method:<br>
 ```c
-PA_INIT(29,GPIO_MODE_OUTPUT); //PA29初始化为输出口
-PA_HIGH(29);//PA29输出高
-PA_TOGGLE(29);//PA29电平翻转
-PA_INIT(33,GPIO_MODE_INPUT);//PA33配置为输入口
-uint8_t value = PA_VALUE(33);//读取PA33,值非0代表高，0代表低电平
-PB_INIT(2,GPIO_MODE_OUTPUT); //PB02初始化为输出口
+PA_INIT(29,GPIO_MODE_OUTPUT); // Initialize PA29 as output
+PA_HIGH(29); // Set PA29 high
+PA_TOGGLE(29); // Toggle PA29
+PA_INIT(33,GPIO_MODE_INPUT); // Configure PA33 as input
+uint8_t value = PA_VALUE(33); // Read PA33, non-zero value represents high, 0 represents low level
+PB_INIT(2,GPIO_MODE_OUTPUT); // Initialize PB02 as output
 ```
 
-### 1.1.4 GPIO调试方法
-* 方法1：<br>
-采用串口finsh命令，对应实现函数为：`int cmd_pin(int argc, char **argv)`
-Hcpu/Lcpu打开finsh功能后（Hcpu默认已打开），在串口console平台， 可以采用pin命令行来查看gpio状态，让GPIO输出高或低电平，比如:
+### 1.1.4 GPIO Debugging Methods
+* Method 1:<br>
+Use the serial finsh command, the corresponding implementation function is: `int cmd_pin(int argc, char **argv)`
+After Hcpu/Lcpu enable the finsh function (Hcpu is enabled by default), in the serial console platform, you can use the pin command line to check the GPIO status, set GPIO to high or low level, for example:
 ```
-pin //查看命令提示
-pin status all //查看所有GPIO状态.
-pin status 120 //查看120-96=24 PB24的状态41
-pin mode 120 0 //设置PB24为输出mode
-pin write 78 1 //设置PA78输出高
-pin mux 106 2 //设置106-96=10 PB10为功能2 I2C4_SDA功能
-pin status 160 //160-160=0 获取PBR0状态
+pin // Check command prompt
+pin status all // Check the status of all GPIOs
+pin status 120 // Check the status of PB24 (120-96=24)
+pin mode 120 0 // Set PB24 to output mode
+pin write 78 1 // Set PA78 to high
+pin mux 106 2 // Set PB10 (106-96=10) to function 2 I2C4_SDA
+pin status 160 // Get the status of PBR0 (160-160=0)
 ```
 <br>![alt text](./assets/gpio/gpio002.png)<br>  
 
-* 方法2：<br>
-采用Ozone，Jlink等工具连到MCU，读取pinmux和gpio寄存器，跟用户手册对比，是否配置正确；<br>
-* pinmux寄存器地址对应方法：<br>
-`register.h`中PA口对应`PINMUX1_BASE或hwp_pinmux1`，PB口对应`PINMUX2_BASE或者hwp_pinmux2`，<br>
-例如PA03的pinmux寄存器地址为：`hwp_pinmux1->PAD_PA03`<br>
-* gpio寄存器地址对应方法：<br>
-PA口`GPIO1_BASE或hwp_gpio1`，PB口对应`GPIO2_BASE或hwp_gpio2`
-PBR口IO(PBR) 的输入使能、输出使能、上下拉电阻等功能可以通过 RTC 的 PBRxR 寄存器配置，比如PBR0地址为`hwp_rtc->BKP0R`
+* Method 2:<br>
+Use tools like Ozone, Jlink to connect to the MCU, read the pinmux and GPIO registers, and compare with the user manual to check if the configuration is correct;<br>
+* Pinmux register address mapping:<br>
+In `register.h`, PA port corresponds to `PINMUX1_BASE` or `hwp_pinmux1`, PB port corresponds to `PINMUX2_BASE` or `hwp_pinmux2`,<br>
+For example, the pinmux register address for PA03 is: `hwp_pinmux1->PAD_PA03`<br>
+* GPIO register address mapping:<br>
+PA port corresponds to `GPIO1_BASE` or `hwp_gpio1`, PB port corresponds to `GPIO2_BASE` or `hwp_gpio2`
+The input enable, output enable, pull-up/pull-down resistors, etc., of the PBR port IO (PBR) can be configured through the RTC's PBRxR registers, for example, the address of PBR0 is `hwp_rtc->BKP0R`
 
 
-## 1.2 55X系列 PA口在睡眠唤醒后会有电平波动
-    HCPU PA口睡眠唤醒后会先恢复到芯片默认的上下拉，如下图: <br>
+## 1.2 55X Series PA Port Level Fluctuation After Sleep and Wake-Up
+    After HCPU PA port wakes up from sleep, it will first restore to the default pull-up/pull-down of the chip, as shown in the following figure: <br>
 <br>![alt text](./assets/gpio/gpio003.png)<br>  
-这个时候用户程序还没有跑起来， 然后再执行代码pinmux.c文件BSP_IO_Init里面设置的值，<br>
-所以HCPU GPIO如果睡眠的时候电平与默认上下拉不一致，唤醒后有可能存在10ms左右的跳变；<br>
-LCPU PB口睡眠唤醒后，唤醒前的值可以一直保存到BSP_IO_Init函数执行，所以只要在BSP_IO_Init设置好GPIO口状态，LCPU GPIO 的值睡眠是可以保持的.<br>
-比如 PA03你想开机后一直保持高电平，但由于PA03默认是下拉的，所以睡眠唤醒后会有10ms左右的低电平，再实际使用中，你需要找个默认是上拉的脚来替换PA03，比如PA10.<br>
+At this point, the user program has not yet started running, and then the values set in the `pinmux.c` file `BSP_IO_Init` will be executed,
+Therefore, if the level of the HCPU GPIO is inconsistent with the default pull-up/pull-down during sleep, there may be a level transition of about 10ms after wake-up;<br>
+For the LCPU PB port, the value before wake-up can be retained until the `BSP_IO_Init` function is executed, so as long as the GPIO port state is set in `BSP_IO_Init`, the value of the LCPU GPIO can be maintained during sleep.<br>
+For example, if you want PA03 to remain high after power-on, but PA03 is default pull-down, there will be a low level of about 10ms after wake-up. In actual use, you should find a pin with default pull-up to replace PA03, such as PA10.<br>
 
-**备注:** <br>
-56X,52X系列PA口不存在此问题
+**Note:** <br>
+The 56X, 52X series PA ports do not have this issue.
 
-## 1.3 TP的驱动 IRQ中断怎么配置
-1，Menuconfig配置 <br>
-配置完， 会在rtconfig.h中生成: <br>
+## 1.3 How to Configure the TP Driver IRQ Interrupt
+1, Menuconfig Configuration <br>
+After configuration, the following will be generated in `rtconfig.h`: <br>
 ```c
 #define TOUCH_IRQ_PIN 79
 ```
 <br>![alt text](./assets/gpio/gpio004.png)<br>  
-2，pinmux.c中，需要确认该IO口的模式和上下拉状态：<br>
+2, In `pinmux.c`, you need to confirm the mode and pull-up/pull-down status of the IO port:<br>
 ```c
-HAL_PIN_Set(PAD_PA79, GPIO_A79, PIN_NOPULL, 1); // GPIO模式，无上拉，
+HAL_PIN_Set(PAD_PA79, GPIO_A79, PIN_NOPULL, 1); // GPIO mode, no pull-up
 ```
-3，在drv_touch.c会用到该定义，驱动可以直接使用drv_touch.c中两个函数：<br>
+3, In `drv_touch.c`, the driver can directly use the two functions:<br>
 ```c
     rt_touch_irq_pin_attach(PIN_IRQ_MODE_FALLING, cst816_irq_handler, NULL);
     rt_touch_irq_pin_enable(1);
 ```
-或者自己在初始化函数中定义该中断：<br>
+Or you can define the interrupt in the initialization function:<br>
 ```c
-    rt_pin_mode(TOUCH_IRQ_PIN, PIN_MODE_INPUT); //配置为input
-    rt_pin_attach_irq(TOUCH_IRQ_PIN, PIN_IRQ_MODE_FALLING, (void *) cst816_irq_handler,(void *)(rt_uint32_t)TOUCH_IRQ_PIN);//配置下降沿中断和中断回调函数
-    rt_pin_irq_enable(TOUCH_IRQ_PIN, 1); //使能中断
+    rt_pin_mode(TOUCH_IRQ_PIN, PIN_MODE_INPUT); // Configure as input
+    rt_pin_attach_irq(TOUCH_IRQ_PIN, PIN_IRQ_MODE_FALLING, (void *) cst816_irq_handler, (void *)(rt_uint32_t)TOUCH_IRQ_PIN); // Configure falling edge interrupt and interrupt callback function
+    rt_pin_irq_enable(TOUCH_IRQ_PIN, 1); // Enable interrupt
 ```
-4，Hcpu的串口输入命令：pin status 79 确认该配置是否正确。<br>
+4, Hcpu serial input command: `pin status 79` to confirm the configuration is correct.<br>
 
-## 1.4 如何detach touch irq
-在touch驱动deinit函数中，在detach irq之前，需要先关闭该pin的中断：<br>
+## 1.4 How to Detach Touch IRQ
+In the touch driver deinit function, before detaching the irq, the interrupt of the pin needs to be disabled first:
 ```c
 static rt_err_t deinit(void)
 {
-    rt_pin_irq_enable(TOUCH_IRQ_PIN, 0); //disable irq
+    rt_pin_irq_enable(TOUCH_IRQ_PIN, 0); // disable irq
     rt_pin_detach_irq(TOUCH_IRQ_PIN);
 ...
 ```
-## 1.5 为什么PA55口为默认下拉口PD，但是上电我不做任何操作，PA55测试为高电平?
-根本原因: 客户的OTA代码中， 有对PA55进行拉高操作.<br>
-让客户在用户程序pinmux.c中，添加`__asm("B .");`断点命令，<br>
-<br>![alt text](./assets/gpio/gpio005.png)<br>   
-测试PA55口，为高，
+
+## 1.5 Why is PA55, which is set as a default pull-down PD, high when I power on without any operation?
+The root cause: In the customer's OTA code, there is an operation to pull PA55 high.
+Ask the customer to add the breakpoint command `__asm("B .");` in the user program `pinmux.c`,
+![alt text](./assets/gpio/gpio005.png)  
+Test PA55, it is high,
 ```
-mem32 0x50000038 20 读了相应的寄存器，有输出高的操作，
+mem32 0x50000038 20 read the corresponding register, there is an operation to output high,
 ```
-jlink输入r，让芯片复位，<br>
-在读寄存器值恢复正常， PA55电平也正常，<br>
-由于用户程序是从0x10060000开始跑的， 复位后 是从0x10020000 OTA的代码开始跑， 然后跳到用户的0x1006000的代码， 而OTA代码drv_io.c中操作了，PA55，导致该现象.
-<a name="16_55系列MCU复用USB的PA01"></a>
-## 1.6 55系列MCU复用USB的PA01/PA03漏电风险
-通常情况下，建议客户不使用PA01，<br>
-由于PA01，PA03是复用USB口功能， PA01，PA03当作GPIO使用时， 要特别谨慎；<br>
-1， PA01内部在active，light_sleep模式下存在18K的下拉电阻，输出高电平，否则存在漏电，standby，deep_sleep模式下18k下拉电阻不生效.<br>
-2，在standby模式下， PA01，PA03输出电平不一致， 会出现通过USB电路，出现漏电流，
-具体而言，当满足以下条件时会存在漏电约20uA: <br>
-a，进入standby睡眠 <br>
-b，PA01和PA03配置电平不一致(其中一个输出高或上拉，另一个输出低或下拉)。该漏电大小是不确定的值，可能随板子或环境变化有差异。<br>
-c，消除漏电的补丁方案：当进入睡眠时，使两个IO的电平一致，或至少将其中一个置为高阻状态(无上下拉)。<br>
-d，细节上有一些补充：1. PA01的下拉电阻在standby和deep_sleep模式下反而不会漏电，是在active或light_sleep的时候才漏 2. 高阻不仅是我们的配置，也要板子上没有上下拉，<br>
-可以采用下面方式输出高阻态:<br>
+Input `r` in JLink to reset the chip,
+After reading the register value, it returns to normal, and the PA55 level also returns to normal,
+Since the user program starts running from 0x10060000, after reset, it starts running from 0x10020000, which is the OTA code, then jumps to the user's 0x1006000 code, and the OTA code `drv_io.c` operates PA55, causing this phenomenon.
+<a name="16_55 series MCU multiplexing USB on PA01"></a>
+## 1.6 55 Series MCU Multiplexing USB on PA01/PA03 Leakage Risk
+In general, it is recommended that customers do not use PA01,
+Since PA01 and PA03 are multiplexed for USB functionality, when used as GPIO, extra caution is required;
+1. PA01 has an internal 18K pull-down resistor in active and light_sleep modes, which outputs a high level; otherwise, there is a risk of leakage. The 18K pull-down resistor does not take effect in standby and deep_sleep modes.
+2. In standby mode, the output levels of PA01 and PA03 are inconsistent, which can cause leakage through the USB circuit.
+Specifically, leakage of about 20uA will occur when the following conditions are met:
+a. Enter standby sleep
+b. PA01 and PA03 are configured with inconsistent levels (one outputs high or pull-up, the other outputs low or pull-down). The leakage current is an uncertain value and may vary with the board or environment.
+c. Patch to eliminate leakage: When entering sleep, make the levels of the two IOs consistent, or at least set one to a high-impedance state (no pull-up or pull-down).
+d. Some additional details: 1. The pull-down resistor of PA01 does not leak in standby and deep_sleep modes, but only in active or light_sleep modes. 2. High impedance not only involves our configuration but also requires no pull-up or pull-down on the board.
+You can use the following method to output a high-impedance state:
 ```c
-HAL_PIN_Set_Analog(PAD_PA01,1); /* 模拟输入为Func10，关断GPIO输出，输入使能IE关闭，即为高阻态 */
+HAL_PIN_Set_Analog(PAD_PA01,1); /* Analog input is Func10, GPIO output is disabled, and input enable IE is off, i.e., high-impedance state */
 HAL_PIN_Set_Analog(PAD_PA03,1);
 ```
-## 1.7 55系列MCU-PB47/PB48配置32768时钟输出
 
-使用前，需确认MCU这边贴了32768晶体，并关闭了`#define LXT_DISABLE 1`<br>
-另外需要修改两点：
-1，使能标志位，以PB47为例：<br>
+## 1.7 55 Series MCU - PB47/PB48 Configuration for 32768 Clock Output
+
+Before use, ensure that a 32768 crystal is mounted on the MCU and that `#define LXT_DISABLE 1` is disabled.
+Additionally, two modifications are required:
+1. Enable the flag, for example, for PB47:
 ```c
-     #define LPSYS_AON_DBGMUX_PB47_SEL_LPCLK  (0x1UL << LPSYS_AON_DBGMUX_PB47_SEL_Pos)
-        MODIFY_REG(hwp_lpsys_aon->DBGMUX,LPSYS_AON_DBGMUX_PB47_SEL_Msk,LPSYS_AON_DBGMUX_PB47_SEL_LPCLK);
+#define LPSYS_AON_DBGMUX_PB47_SEL_LPCLK  (0x1UL << LPSYS_AON_DBGMUX_PB47_SEL_Pos)
+MODIFY_REG(hwp_lpsys_aon->DBGMUX, LPSYS_AON_DBGMUX_PB47_SEL_Msk, LPSYS_AON_DBGMUX_PB47_SEL_LPCLK);
 ```
- 2，如果需要睡眠的时候保持32k输出，需要屏蔽如下截图部分。<br>
-    因为如果LPSYS_AON_ANACR_PB_AON_ISO置1，唤醒管脚PB43~PB48睡眠时就能保持电平，但代价就是不能输出32k或者lptim3控制的波形。屏蔽后PB43~PB48这几个唤醒管脚睡眠期间不能保持电平，所以不能用作GPIO输出管脚 
-<br>![alt text](./assets/gpio/gpio006.png)<br>      
-3，需要注意：<br>
-因为步骤2，PB为了输出32k关闭了standy下IO保持功能， 因此PB口的唤醒脚PB43-48在standby模式下，由于内部上下拉不再生效，外部要必须给确定电平或者视外部连接设为输出高或者低，防止standby模式下PB43-PB48漏电。
+2. If you need to maintain the 32k output during sleep, you need to disable the part shown in the screenshot below.
+   Because if `LPSYS_AON_ANACR_PB_AON_ISO` is set to 1, the wake-up pins PB43~PB48 will maintain their levels during sleep, but the cost is that 32k or lptim3-controlled waveforms cannot be output. After disabling, the wake-up pins PB43~PB48 will not maintain their levels during sleep, so they cannot be used as GPIO output pins.
+![alt text](./assets/gpio/gpio006.png)  
+3. Note:
+   Because step 2 disables the IO retention function during standby for PB, the wake-up pins PB43-48 will not have internal pull-up or pull-down during standby. Therefore, the external circuit must provide a definite level or set the output high or low to prevent leakage of PB43-PB48 during standby.
 
-## 1.8 增加PB25为按键KEY2 
-1，Lcpu中 menuconfig  → Sifli middleware → Enable button library 设置按键个数为2<br>
-2，Lcpu中 menuconfig  → Select board peripherals → Key config 设置KEY2对应GPIO为121（96+25）
-<br>![alt text](./assets/gpio/gpio007.png)<br>   
-3，Lcpu中 menuconfig  → Sifli middleware → Enable button library 设置按键个数为2<br>
-4，Lcpu中 menuconfig  → Select board peripherals → Key config 设置KEY2对应GPIO为121（96+25）<br>
-5，Lcpu中，在sensor_service.c 函数init_pin中配置KEY2的初始化和唤醒源
-<br>![alt text](./assets/gpio/gpio008.png)<br>   
-6，Hcpu中，在watch_demo.c函数init_pin中配置KEY2的消息订阅
-<br>![alt text](./assets/gpio/gpio009.png)<br>  
+## 1.8 Add PB25 as Key2
+1. In Lcpu, `menuconfig` → `Sifli middleware` → `Enable button library` set the number of buttons to 2
+2. In Lcpu, `menuconfig` → `Select board peripherals` → `Key config` set KEY2 to correspond to GPIO 121 (96+25)
+![alt text](./assets/gpio/gpio007.png)  
+3. In Lcpu, `menuconfig` → `Sifli middleware` → `Enable button library` set the number of buttons to 2
+4. In Lcpu, `menuconfig` → `Select board peripherals` → `Key config` set KEY2 to correspond to GPIO 121 (96+25)
+5. In Lcpu, in the `sensor_service.c` function `init_pin`, configure the initialization and wake-up source for KEY2
+![alt text](./assets/gpio/gpio008.png)  
+6. In Hcpu, in the `watch_demo.c` function `init_pin`, configure the message subscription for KEY2
+![alt text](./assets/gpio/gpio009.png)  
 
-## 1.9 提高GPIO驱动能力 
-DS0,DS1位都置1，驱动能力最强<br>
+## 1.9 Increase GPIO Drive Capability
+Set both DS0 and DS1 bits to 1 for the strongest drive capability
 ```c
-HAL_PIN_Set_DS0(PAD_PA10,1,1); //PA10 DS0置1
-HAL_PIN_Set_DS1(PAD_PA10,1,1); //PA10 DS1置1
-HAL_PIN_Set_DS1(PAD_PB16,0,1); //PB16 DS1置1
+HAL_PIN_Set_DS0(PAD_PA10,1,1); // Set DS0 of PA10 to 1
+HAL_PIN_Set_DS1(PAD_PA10,1,1); // Set DS1 of PA10 to 1
+HAL_PIN_Set_DS1(PAD_PB16,0,1); // Set DS1 of PB16 to 1
 ```
 
-## 1.10 GPIO配置为高阻模式
-如下，设置该IO为模拟输入态，该IO口对外即为高阻态<br>
+## 1.10 GPIO Configuration as High-Z Mode
+As follows, set the IO to analog input mode, which makes the IO pin high-impedance externally.<br>
 ```c
-HAL_PIN_Set_Analog(PAD_PA17, 1); //PA17 设置为模拟输入，对外高阻
-HAL_PIN_Set_Analog(PAD_PB27, 0);  //PB27 设置为模拟输入，对外高阻
+HAL_PIN_Set_Analog(PAD_PA17, 1); // PA17 set to analog input, high-impedance externally
+HAL_PIN_Set_Analog(PAD_PB27, 0);  // PB27 set to analog input, high-impedance externally
 ```
-从高阻态恢复为原IO状态，如下：<br>
+To restore the IO from high-impedance mode to its original state, as follows:<br>
 ```c
 HAL_PIN_Set(PAD_PA17, GPIO_A17, PIN_NOPULL, 1);
 HAL_PIN_Set(PAD_PB27, GPIO_B27, PIN_NOPULL, 0);
-HAL_PIN_SetMode(PAD_PA17, 1, PIN_DIGITAL_IO_PULLDOWN);  //sdk版本v2.2.0后，不再需要
-HAL_PIN_SetMode(PAD_PB27, 0, PIN_DIGITAL_IO_PULLUP); //sdk版本v2.2.0后，不再需要
+HAL_PIN_SetMode(PAD_PA17, 1, PIN_DIGITAL_IO_PULLDOWN);  // Not required after SDK version v2.2.0
+HAL_PIN_SetMode(PAD_PB27, 0, PIN_DIGITAL_IO_PULLUP); // Not required after SDK version v2.2.0
 ```
-HAL_PIN_Set_Analog会把IO的IE位置0，如果只调用的HAL_PIN_Set函数配置，该函数不会操作IE位，此时输入不能用，需要IO恢复成输入口使用，还需调用HAL_PIN_SetMode函数配置，把IE为恢复为1(sdk版本v2.2.0后，不再需要)。<br>
+`HAL_PIN_Set_Analog` sets the IO's IE bit to 0. If only the `HAL_PIN_Set` function is called for configuration, this function does not operate the IE bit, so the input cannot be used. To restore the IO to an input state, the `HAL_PIN_SetMode` function must be called to set the IE bit back to 1 (not required after SDK version v2.2.0).<br>
 
-**注意：**<br>
-sdk版本v2.2.0后，在HAL_PIN_Set函数中，已经添加IE恢复为1操作，不需要再多添加HAL_PIN_SetMode函数
+**Note:**<br>
+After SDK version v2.2.0, the `HAL_PIN_Set` function has added the operation to set the IE bit back to 1, so the `HAL_PIN_SetMode` function is no longer needed.
 
-## 1.11 52X PA22/PA23 32K晶体复用IO, I2C无法输出波形问题
-原因：<br>52X，其他IO的IE默认是1，而32k的两个IO是IE为默认为0，<br>
-默认的流程，HAL_PIN_Set函数，不会把IE置1，而PA22,23这两个IO，而默认IE是0，所以不能输出波形
+## 1.11 52X PA22/PA23 32K Crystal Multiplexed IO, I2C Cannot Output Waveform Issue
+Reason:<br>For 52X, the default IE bit for other IOs is 1, while the IE bit for the two 32K IOs is 0 by default,<br>
+By default, the `HAL_PIN_Set` function does not set the IE bit to 1, and since the IE bit for PA22 and PA23 is 0 by default, they cannot output a waveform.
 <br>![alt text](./assets/gpio/gpio010.png)<br>   
-解决方法：<br>
-添加HAL_PIN_SetMode函数把IO设置为正常IO后，IE位会置1，I2C可以正常输出。
+Solution:<br>
+Add the `HAL_PIN_SetMode` function to set the IO to a normal IO, which will set the IE bit to 1, allowing I2C to output normally.
 <br>![alt text](./assets/gpio/gpio011.png)<br>  
 
-**注意：**<br>
-56X的PA55,PA56两个32K IO的IE位默认位1，不存在此问题。<br>
-sdk版本v2.2.0后，在HAL_PIN_Set函数中，已经添加IE恢复为1操作，不需要再多添加HAL_PIN_SetMode函数
+**Note:**<br>
+For 56X, the IE bit for PA55 and PA56, the two 32K IOs, is 1 by default, so this issue does not exist.<br>
+After SDK version v2.2.0, the `HAL_PIN_Set` function has added the operation to set the IE bit back to 1, so the `HAL_PIN_SetMode` function is no longer needed.
 
-## 1.12 PAXX_I2C_UART和PAXX_TIM配置方法
-55，58系列MCU，每个IO都是固定的I2C,UART,PWM输出口，从56，52系列后的MCU，为了增加IO的灵活性，如下图，变成了灵活配置：
+## 1.12 PAXX_I2C_UART and PAXX_TIM Configuration Methods
+For the 55 and 58 series MCUs, each IO is a fixed I2C, UART, or PWM output port. Starting from the 56 and 52 series MCUs, to increase the flexibility of the IOs, as shown in the following figure, the configuration has become more flexible:
 <br>![alt text](./assets/gpio/gpio013.png)<br>  
-因为在HPSYS_CFG，LPSYS_CFG引入了I2CX_PINR，USART1_PINR，GPTIMX_PINR寄存器，如下图:
+This is because the I2CX_PINR, USART1_PINR, and GPTIMX_PINR registers have been introduced in HPSYS_CFG and LPSYS_CFG, as shown in the following figure:
 <br>![alt text](./assets/gpio/gpio014.png)<br> 
-如上图寄存器内描述：对应的I2C1，I2C2都可以配置到PA00-PA78上来输出，具体PA口可以配置哪几路I2C，UART，TIMER输出，取决于HCPU拥有哪几路I2C，UART和TIMER，注意不能把LCPU才拥有的（例如I2C5,UART5)配置到PA口，同理不能把HCPU才拥有的（例如I2C1，UART1)配置到LCPU的PB口上，详细HCPU拥有哪几路资源，可以查看芯片用户手册，代码中hpsys_cfg.h中HPSYS_CFG_TypeDef，lpsys_cfg.h中LPSYS_CFG_TypeDef，都可以查看到对应的寄存器，另外bf0_pin_const.h文件中MCU可以配置的功能都有列出，如下图：
+As described in the above register, I2C1 and I2C2 can be configured to output on PA00-PA78. The specific PA ports that can be configured for I2C, UART, and TIMER outputs depend on which I2C, UART, and TIMER channels the HCPU has. Note that you cannot configure channels that only the LCPU has (e.g., I2C5, UART5) to the PA port, and similarly, you cannot configure channels that only the HCPU has (e.g., I2C1, UART1) to the PB port of the LCPU. For detailed information on which resources the HCPU has, refer to the chip user manual, the `HPSYS_CFG_TypeDef` in `hpsys_cfg.h`, and the `LPSYS_CFG_TypeDef` in `lpsys_cfg.h`. Additionally, the `bf0_pin_const.h` file lists all the functions that the MCU can configure, as shown in the following figure:
 <br>![alt text](./assets/gpio/gpio015.png)<br>  
-例如，正确的配置（举例为56系列MCU）:
+For example, correct configuration (example for the 56 series MCU):
 ```c
 HAL_PIN_Set(PAD_PA32, USART1_RXD, PIN_PULLUP, 1);
 HAL_PIN_Set(PAD_PA32, I2C1_SCL, PIN_PULLUP, 1);
-HAL_PIN_Set(PAD_PA42, GPTIM2_CH4, PIN_NOPULL, 1);//GPTIM2_CH1-GPTIM2_CH4都可以，GPTIM2_CH5不行，因为没有此配置，详情查看对应芯片手册的寄存器:hwp_hpsys_cfg->GPTIM2_PINR
+HAL_PIN_Set(PAD_PA42, GPTIM2_CH4, PIN_NOPULL, 1);// GPTIM2_CH1-GPTIM2_CH4 are all valid, GPTIM2_CH5 is not, refer to the corresponding register in the chip manual: hwp_hpsys_cfg->GPTIM2_PINR
 ```
-错误的配置:
+Incorrect configuration:
 ```c
-HAL_PIN_Set(PAD_PA42,USART4_TXD,PIN_NOPULL, 1);//错误，UART4在Lcpu上，不能配置到Hcpu的PA口
-HAL_PIN_Set(PAD_PB37,GPTIM2_CH4,PIN_NOPULL, 0);//错误，GPTIM2在Hcpu上，不能配置到Lcpu的PB口
-
+HAL_PIN_Set(PAD_PA42, USART4_TXD, PIN_NOPULL, 1);// Incorrect, UART4 is on the Lcpu, cannot be configured to the Hcpu's PA port
+HAL_PIN_Set(PAD_PB37, GPTIM2_CH4, PIN_NOPULL, 0);// Incorrect, GPTIM2 is on the Hcpu, cannot be configured to the Lcpu's PB port
+```

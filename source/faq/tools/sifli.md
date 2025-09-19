@@ -1,34 +1,34 @@
 # 5 SiFli
-## 5.1 Impeller下载提示失败，是哪里没配置好吗？
+## 5.1 Impeller Download Prompt Failure, Is There Any Configuration Missing?
 ![alt text](./assets/sifli001.png)<br>
-根本原因: 16M flash， ER_IROM3指定了地址超出16Mflash0x00000-0xFFFFFF的地址范围，<br> 
-解决方案: 1， SDK中watchdemo裁剪为16M flash的方法，如下图:<br> 
+Root Cause: 16M flash, the address specified for ER_IROM3 exceeds the 16M flash address range 0x00000-0xFFFFFF,<br> 
+Solution: 1, Trim the watchdemo in the SDK to fit 16M flash as shown in the following figure:<br> 
 ![alt text](./assets/sifli002.png)<br> 
-编译出来后， 地址下载地址从hex文件格式中查找，如下图:<br> 
+After compilation, find the download address from the hex file format as shown in the following figure:<br> 
 ![alt text](./assets/sifli003.png)<br> 
-## 5.2 solution双击butterfli.exe打不开编译工具
-a、打开PC或者笔记本的显示设置，将百分比设置为100%。（一些其他的分辨率百分比大小也可以，但需要保证butterfli.exe的页面显示正常）<br> 
+## 5.2 Solution: Double-Clicking butterfli.exe Fails to Open the Compilation Tool
+a、Open the display settings on your PC or laptop and set the percentage to 100%. (Other resolution percentages may also work, but ensure that the butterfli.exe interface displays correctly)<br> 
 ![alt text](./assets/sifli004.png)<br> 
-b、确保在显示---高级缩放设置中打开如下选项，否则会出现页面大小有变化，但是一些工具打开显示大小不变的情况，butterfli.exe可能仍然打不开：<br> 
+b、Ensure that the following option is enabled in Display --- Advanced Scaling Settings, otherwise, the page size may change, but some tools may still display at the original size, and butterfli.exe may still fail to open:<br> 
 ![alt text](./assets/sifli005.png)<br> 
-c、正常的butterfli.exe工具界面显示如下，如果有显示错乱，请调整分辨率以及显示百分比。<br> 
+c、The normal butterfli.exe tool interface should look like the following. If there are display issues, adjust the resolution and display percentage.<br> 
 ![alt text](./assets/sifli006.png)<br> 
-## 5.3  console finsh shell命令，如何用regop读写寄存器值?
+## 5.3 How to Use regop to Read and Write Register Values in the Console finsh Shell?
 ```
-regop unlock 0000 # 先需要解锁
-regop read 40070018 2  # 16进制不能带0x前缀
+regop unlock 0000 # Need to unlock first
+regop read 40070018 2  # Hexadecimal values should not have the 0x prefix
 regop read 4007001c 1
-regop write 40007100 200 # 16进制不能带0x前缀
+regop write 40007100 200 # Hexadecimal values should not have the 0x prefix
 ```
-## 5.4 查看48M晶体是否校准过频偏的方法
-1，在hcpu的串口命令行输入：crystal_get命令，如果返回一个非0或者0xFF值，证明板子已经经过校准，如下图：<br> 
+## 5.4 Method to Check if the 48M Crystal Has Been Calibrated
+1, In the hcpu serial command line, input the `crystal_get` command. If it returns a non-zero or non-0xFF value, it indicates that the board has been calibrated, as shown in the following figure:<br> 
 <br>![alt text](./assets/sifli007.png)<br>
-没校准过的，返回如下：<br> 
+If it has not been calibrated, it returns the following:<br> 
 ```
 msh />crystal_get
 FACTORY_CFG_ID_CRYSTAL read fail with 0
 ```
-对应代码：
+Corresponding code:
 ```c
 int32_t crystal_get(int32_t argc, char **argv)
 {
@@ -50,30 +50,30 @@ int32_t crystal_get(int32_t argc, char **argv)
 }
 MSH_CMD_EXPORT(crystal_get, crystal_get);
 ```
-2,56x系列solution代码使用otp_factory_read读取所有otp分区数据,如下图：<br> 
+2, For the 56x series solution code, use `otp_factory_read` to read all OTP partition data, as shown in the following figure:<br> 
 ![alt text](./assets/sifli008.png)<br> 
 
 
-## 5.5 生成Source Insight工程文件list方法
-1，SDK v1.1.3之后，增加了 `scons --target=si `命令，可以生成一个只参与编译的文件列表`si_filelist.txt`文件<br> 
-在需要指定 `--board=em-lb525` 这样编译的命令中，需要添加board参数，命令如下：<br> 
+## 5.5 Method to Generate a Source Insight Project File List
+1, After SDK v1.1.3, the `scons --target=si` command was added to generate a file list `si_filelist.txt` that only participates in compilation<br> 
+In the compilation command that specifies `--board=em-lb525`, the board parameter needs to be added, as follows:<br> 
 ```
 scons --target=si 
 scons --board=em-lb525 --target=si 
 ```
-2，SourceInsight工具新建工程后，可以选择`菜单：project -> Add and Remove Project Files ->Add from list... `导入生成的`si_filelist.txt`进入工程，便于查看代码<br> 
+2, After creating a new project in SourceInsight, you can choose `Menu: Project -> Add and Remove Project Files -> Add from list...` to import the generated `si_filelist.txt` into the project for easier code viewing<br> 
 ![alt text](./assets/sifli009.png)<br> 
 <a name="5655X查看芯片工厂校准区OTP"></a>
-## 5.6 55X查看芯片工厂校准区OTP/Flash数据方法
-1，可以用于查看ADC，晶体是否校准，是否被覆盖，以及序列号，蓝牙地址，名字等等。<br> 
-下面是操作方法：<br> 
+## 5.6 Method to View 55X Chip Factory Calibration Area OTP/Flash Data
+1, This can be used to check if the ADC and crystal have been calibrated, if they have been overwritten, and to view the serial number, Bluetooth address, name, etc.<br> 
+Below are the steps:<br> 
 otp_debug_0922.7z<br> 
-a, 确保jlink可以正常连接到sifli的机器，如果不行，把MODE拉高，再复位机器。<br> 
-b，运行otp_debug_0922.7z中test.bat批处理命令，会进行烧录factory_cali.bin的文件到RAM中，并跳转到该RAM地址进行运行，不影响原flash程序。<br> 
-c，运行JLinkRTTViewer.exe，连接方式选择Auto Detection，输入help有返回命令，然后就可以输入命令读取芯片OTP的数据。<br> 
-d，otp_read 0 1 /*该命令读取所有的OTP*/<br> 
+a, Ensure that JLink can connect to the sifli machine. If not, pull MODE high and reset the machine.<br> 
+b, Run the test.bat batch command in otp_debug_0922.7z. This will program the factory_cali.bin file to RAM and jump to the RAM address to run, without affecting the original flash program.<br> 
+c, Run JLinkRTTViewer.exe, select Auto Detection for the connection method, and input `help` to see the commands. Then you can input commands to read the chip OTP data.<br> 
+d, `otp_read 0 1` /* This command reads all OTP data */<br>
 
-参考如下操作流程：<br> 
+Please follow the operation procedure below:<br> 
 ```
 00> Serial:c2,Chip:1,Package:0,Rev:80
 00>  \ | /
@@ -133,14 +133,14 @@ d，otp_read 0 1 /*该命令读取所有的OTP*/<br>
 00> 0xff  0xff  0xff  0xff  
 00> ULOG_WARN: trace loss 97,521
 ```
-2，OTP数据解读：<br>
-OTP里面的数据是按照‌TLV格式（Tag-Length-Value）存放的，即对应ID+LEN+DATA存放。<br> 
-‌TLV格式（Tag-Length-Value）是一种常用的数据序列化格式，主要用于数据包或消息的有效载荷编码。‌TLV格式将数据划分为三个主要部分：Tag（标签）、Length（长度）和Value（值）。<br> 
-a，ID占用一个字节，在头文件里面定义好了ID；LEN占用一个字节，也就限制了一个ID的内容不能超过255字节；
-DATA是实际的数据，按照ID自己定义的数据格式存放，OTP不关心实际数据。 <br> 
-各个ID是紧密排放，没有其他同步字，所以查询的时候必然是从头开始，一个ID一个ID的查找。<br> 
-b，修改已经存在的ID数据时，首先要从头开始查找，找到对应的ID，检测长度，如果新设置的长度与之前长度一致，则数据保存到同样位置，
-如果长度有变化，则后面的ID数据向前移动，然后将修改的ID放到最后。<br> 
+2, OTP Data Interpretation:<br>
+The data in OTP is stored in TLV format (Tag-Length-Value), which means it is stored as ID + LEN + DATA.<br> 
+The TLV format (Tag-Length-Value) is a common data serialization format, primarily used for encoding the payload of data packets or messages. The TLV format divides data into three main parts: Tag (label), Length (length), and Value (value).<br> 
+a, The ID occupies one byte and is defined in the header file; LEN also occupies one byte, which limits the content of an ID to no more than 255 bytes;
+DATA is the actual data, stored in the format defined by the ID, and OTP does not care about the actual data. <br> 
+Each ID is tightly packed without any synchronization bytes, so queries must start from the beginning and search for each ID one by one.<br> 
+b, When modifying existing ID data, you must start from the beginning, find the corresponding ID, check the length, and if the new length is the same as the previous length, the data is saved in the same position.
+If the length changes, the subsequent ID data is moved forward, and the modified ID is placed at the end.<br> 
 ```c
 #define FACTORY_CFG_ID_INVALID          0       /*!< Invalid ID */
 #define FACTORY_CFG_ID_MAC              1       /*!< BLE MAC address */
@@ -158,34 +158,34 @@ b，修改已经存在的ID数据时，首先要从头开始查找，找到对�
 #define FACTORY_CFG_ID_ALIPAY_DS        13      /*!< for alipay device secret code*/
 #define FACTORY_CFG_ID_UNINIT           0xFF    /*!< Uninitialized ID */
 ```
-如下图的解析:<br> 
-红框内ID: 0x06为FACTORY_CFG_ID_VBUCK， 数据长度0x04为数据长度，紧跟的0x0d，0x6b，0x05，0x06为数据。<br> 
-蓝框内ID为0x04，对应为ADC校准数据，芯片出厂前ATE已保存，ID为0x09是产线第二次校准电池保存（下图无此项），计算电池电压时，两个组合来用。<br> 
-绿框内ID为0x03，为晶体校准数据。<br> 
+The following is the interpretation of the figure:<br> 
+The red box ID: 0x06 is FACTORY_CFG_ID_VBUCK, the data length 0x04 is the length of the data, and the following 0x0d, 0x6b, 0x05, 0x06 are the data.<br> 
+The blue box ID is 0x04, corresponding to ADC calibration data, which is saved by ATE before the chip leaves the factory. ID 0x09 is the battery calibration data saved during the second calibration on the production line (not shown in the figure), and these two are used together when calculating the battery voltage.<br> 
+The green box ID is 0x03, which is the crystal calibration data.<br> 
 ![alt text](./assets/sifli010.png)<br>  
-下面是一例出现问题的OTP数据：<br> 
-如下图：即只有ID=0x07的数据，其他ADC校准和晶体校准数据都被覆盖了。<br> 
+The following is an example of problematic OTP data:<br> 
+As shown in the figure, only the data with ID=0x07 is present, and the other ADC calibration and crystal calibration data have been overwritten.<br> 
 ![alt text](./assets/sifli011.png)<br>   
-## 5.7 52X芯片查看芯片是否校准的方法
-PMU的AON_BG寄存器，会在软件初始化时从EFUSE读取值更新该寄存器，如果该寄存器不是默认值0x18，这可以认为该芯片已经校准，具体方法如下：<br> 
-1，正常开机后，代码执行到BSP_System_Efuse_Config();<br> 
-2,  jlink.exe命令`mem32 0x500ca000 20`<br> 
-查看对应的0x24寄存器值：<br> 
-如下，对应0x500ca024寄存器为0x39，不是默认0x18，证明已经校准<br> 
+## 5.7 Method to Check if the 52X Chip is Calibrated
+The AON_BG register of the PMU will be updated from the EFUSE during software initialization. If this register is not the default value 0x18, it can be considered that the chip has been calibrated. The specific method is as follows:<br> 
+1, After normal startup, the code executes to BSP_System_Efuse_Config();<br> 
+2, Use the jlink.exe command `mem32 0x500ca000 20`<br> 
+Check the value of the 0x24 register:<br> 
+As shown below, the 0x500ca024 register is 0x39, which is not the default 0x18, proving that it has been calibrated.<br> 
 ![alt text](./assets/sifli012.png)<br>   
 ![alt text](./assets/sifli013.png)<br>   
-<a name="Mark_Dump内存方法"></a>
-## 5.8 Dump内存方法
-## 5.8.1 52x，56x用串口dump内存现场方法
-打开`sdk\tools\crash_dump_analyser\script`目录，执行AssertDumpUart.exe，选择对应保存bin的路径，内存配置，芯片型号（支持52x，56x），串口号，点击导出，开始保存内存内容为bin文件，
+<a name="Mark_Dump Memory Method"></a>
+## 5.8 Dump Memory Method
+## 5.8.1 Method to Dump Memory via Serial Port for 52x, 56x
+Open the `sdk\tools\crash_dump_analyser\script` directory, execute AssertDumpUart.exe, select the path to save the bin file, memory configuration, chip model (supports 52x, 56x), serial port, click export, and start saving the memory content as a bin file,
 ![alt text](./assets/sifli014.png)<br>   
-提示成功后，把生成的所有*.bin，*.txt, 和编译生成的axf文件放在一个目录，然后用Trace32工具进行解析。
-## 5.8.2 55x，56x，58x，用jlink dump内存方法；
-打开`sdk\tools\crash_dump_analyser\script`目录，如下图*.bat就是对应的dump批处理命令，可以文本编辑器打开看看内部具体执行操作。
+After a successful prompt, place all generated *.bin, *.txt, and the axf file generated by the compilation in one directory, then use the Trace32 tool for analysis.
+## 5.8.2 Method to Dump Memory via JLink for 55x, 56x, 58x
+Open the `sdk\tools\crash_dump_analyser\script` directory, as shown in the figure, the *.bat files are the corresponding dump batch commands, which can be opened with a text editor to see the specific operations.
 ![alt text](./assets/sifli015.png)<br>   
-这个3个批处理都是用的jlink进行dump，在保证jlink可以联通设备的情况下，就可以执行对应需要dump的内存的*.bat文件，比如：save_ram_55x.bat打开后内容如下：
+These three batch files all use jlink for dumping. When jlink can connect to the device, the corresponding *.bat file for the memory to be dumped can be executed, for example: save_ram_55x.bat opens to the following content:
 ```
 JLink.exe -Device CORTEX-M33 -CommanderScript sf32lb55x.jlink >log.txt
 ```
-连接jlink后，会调用sf32lb55x.jlink（可以打开查看和编辑命令）内的一连串命令保存寄存器和内存为bin的操作，然后dump过程的log会保存在log.txt内，如果dump失败，可以打开查看失败原因。<br> 
-完成后，会在*.bat的目录下生成`*.bin，*.txt文件`，把生成的所有`*.bin，*.txt`, 和编译生成的`hcpu/lcpu/bootloade`r的axf文件放在一个目录，然后用Trace32工具进行解析。
+After connecting jlink, it will call a series of commands in sf32lb55x.jlink (which can be opened and edited) to save the registers and memory as bin files, and the log of the dump process will be saved in log.txt. If the dump fails, the failure reason can be checked by opening log.txt.<br> 
+After completion, the `*.bin, *.txt` files will be generated in the directory of the *.bat file. Place all `*.bin, *.txt`, and the axf files generated by the compilation of `hcpu/lcpu/bootloader` in one directory, then use the Trace32 tool for analysis.
