@@ -139,7 +139,7 @@ html_context = {
     "source_type": "github",
     "source_user": "OpenSiFli",
     "source_repo": "SiFli-Wiki",
-    "source_version": "main",  # Optional
+    "source_version": "en",  # Optional
     "source_docs_path": "/source/",  # Optional
 }
 
