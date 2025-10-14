@@ -2,7 +2,7 @@
 
 ## Description
 
-SiFli Technology Co., Ltd. (SiFli) provides multiple development boards suitable for different application scenarios and requirements. The materials on this site are primarily for development boards available for public sale. For internal testing or non-publicly sold development boards, please contact your sales representative to obtain the relevant materials.
+SiFli Technology Co., Ltd. provides multiple development boards suitable for different application scenarios and requirements. The materials on this site are primarily for development boards that are publicly available for sale. For internal testing or non-publicly sold development boards, please contact your sales representative to obtain the relevant materials.
 
 ## Development Board List
 
@@ -33,11 +33,11 @@ A development board based on the SF32LB52 module, with rich IO ports and an FPC 
 :link: sf32lb52x/SF32LB52-DevKit-Nano.html
 :class-card: board-card
 
-A small-sized development board designed based on the SF32LB52 chip, suitable for use as a core board or for embedded application development.
+A small-sized development board designed based on the SF32LB52 chip, suitable for core board or embedded application development.
 
 **Key Features:**
-- Compact size of only 21mm x 51mm
-- Gold-plated tab design for easy soldering
+- Compact size: only 21mm x 51mm
+- Gold-plated stamp hole design for easy soldering
 - FPC interface for screen expansion
 - Fully integrated core components, suitable as a core board
 
@@ -45,18 +45,18 @@ A small-sized development board designed based on the SF32LB52 chip, suitable fo
 [View Details →](sf32lb52x/SF32LB52-DevKit-Nano)
 ```
 
-```{grid-item-card} SF32LB52-ULP
+```{grid-item-card} SF32LB52-Huangshan
 :img-top: assets/SF32LB52-DevKit-ULP.png
 :link: sf32lb52x/SF32LB52-黄山派.html
 :class-card: board-card
 
-Integrated with rich peripherals, ideal for educational and prototype development.
+Integrated with rich peripherals, ideal for education and prototype development.
 
 **Key Features:**
 - Compact form factor, suitable as a prototype
 - Rich peripherals, equipped with a 9-axis sensor
 - Abundant examples, suitable for beginners
-- Complete projects, ideal for education and prototype development
+- Complete projects, suitable for education and prototype development
 
 +++
 [View Details →](sf32lb52x/SF32LB52-黄山派)
@@ -73,12 +73,12 @@ Integrated with rich peripherals, ideal for educational and prototype developmen
 :link: sf32lb56x/SF32LB56-DevKit-LCD.html
 :class-card: board-card
 
-A high-performance LCD development board based on the SF32LB56 module.
+A high-performance LCD development board based on the SF32LB56 module
 
 **Key Features:**
 - ✓ High-performance processor
 - ✓ Large storage capacity
-- ✓ Multimedia capabilities
+- ✓ Multimedia functionality
 - ✓ Advanced GUI applications
 
 +++
@@ -94,7 +94,7 @@ A high-performance LCD development board based on the SF32LB56 module.
 ```{grid-item-card} SF32LB58-DevKit Series
 :class-card: board-card coming-soon
 
-The next-generation development board based on the SF32LB58 chip, coming soon.
+Next-generation development boards based on the SF32LB58 chip
 
 **Key Features:**
 - ✓ Enhanced performance
@@ -103,7 +103,7 @@ The next-generation development board based on the SF32LB58 chip, coming soon.
 - ✓ Wider application range
 
 +++
-Coming Soon
+[View Details →](sf32lb58x/SF32LB58-DevKit-LCD)
 ```
 ````
 
