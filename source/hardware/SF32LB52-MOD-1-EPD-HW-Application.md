@@ -20,6 +20,8 @@ SF32LB52-MOD-1系列模组，采用3边LCC半孔和底部LGA焊盘，板载PCBA�
 <img src="assets/MOD/52x/SF32LB52-MOD-1_PINOUT.svg" width="100%" align="center" /> 
 <br> <br>
 
+详细模组的管脚信息请参考模组规格书。
+
 ### 模组尺寸图
 
 <img src="assets/MOD/52x/SF32-52MOD-POD.png" width="100%" align="center" /> 
@@ -271,8 +273,6 @@ EPD显示接口，信号并行走线时，尽量满足3W原则，避免信号线
 
 ## 参考资料
 
-[DS5203-SF32LB52-MOD-1技术规格书]()
+[DS5203-SF32LB52-MOD-1技术规格书](/source/silicon/index.md)
 
-[SF32-OED-6'-EPD开源硬件资料]()
-
-[**返回**](/adaptors/显示屏转接板)
+[SF32-OED-6'-EPD开源硬件资料](https://oshwhub.com/sifli/sf32-oed-6-epd-v110)
