@@ -276,3 +276,5 @@ EPD显示接口，信号并行走线时，尽量满足3W原则，避免信号线
 [DS5203-SF32LB52-MOD-1技术规格书](/source/silicon/index.md)
 
 [SF32-OED-6'-EPD开源硬件资料](https://oshwhub.com/sifli/sf32-oed-6-epd-v110)
+
+[SiFli EPD_Reader开源软件](https://github.com/OpenSiFli/EPD_Reader)
