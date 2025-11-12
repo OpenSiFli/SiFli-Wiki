@@ -52,10 +52,6 @@ jobs:
           # 切换到 main-repo 目录进行后续操作
           cd main-repo
       
-      - name: compress png
-        run: |
-          cd main-repo
-          python3 ./tools/compress_png.py
 
       - name: Archive documentation
         uses: actions/upload-artifact@v4
