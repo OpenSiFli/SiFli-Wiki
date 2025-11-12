@@ -110,11 +110,70 @@ static LCDC_InitTypeDef lcdc_int_cfg_dsi =
         },
     },
 };
-#endif /* BSP_LCDC_USING_DSI */
 ```
-***
 
-
+---
 
 (Video_mode_conf)=
+
 ## Video模式参数配置
+
+Video模式下大部分参数与command模式相同，主要增加了`VidCfg`的配置以及关闭了TE配置，相同部分不再赘述，下面的代码只列出了Video模式下和Command模式有差异的部分，其他地方都用`...`省略：
+
+```c
+static LCDC_InitTypeDef lcdc_int_cfg_dsi =
+{
+    .lcd_itf = LCDC_INTF_DSI_VIDEO, /* 选择DSI Video接口 */
+    
+    ...
+
+    .cfg = {
+
+        .dsi = {
+
+            ...
+
+            .CmdCfg = {
+                .VirtualChannelID      = 0,/* channel ID, 不用做更改 */
+                .CommandSize           = 0xFFFF, /* 这个值目前没有作用,忽略 */
+                
+                /* Video模式没有TE，需要关闭TE，source选DSI link TE */                
+                .TearingEffectSource   = DSI_TE_DSILINK, /* DSI link TE */
+                .TEAcknowledgeRequest  = DSI_TE_ACKNOWLEDGE_DISABLE,  /* 关闭 TE */
+            },
+
+            ...
+
+
+            //.vsyn_delay_us = 0,  /* Video模式下该参数无作用，可省略 */
+
+
+            /*  Video模式特有的参数配置  */
+            .VidCfg = {
+                .Mode = DSI_VID_MODE_NB_EVENTS, //暂时只支持NoneBurst Event 模式
+
+                .VS_width      = 4,    //Vsync信号里面有几个Hsync信号
+                .HS_width      = 15,   //Hsync信号里面有几个DPI的PCLK信号
+
+                .VBP = 16,              //Back Porch的行数
+                .VAH = LCD_HOR_RES_MAX,  //有效数据行数
+                .VFP = 20,              //Front Porch的行数
+
+                .HBP = 15,              //Back Porch的列数
+                .HAW = LCD_VER_RES_MAX, //有效数据的列数
+                .HFP = 15,              //Front Porch的列数
+
+                .interrupt_line_num = 1, //默认保持1
+            },
+        },
+    },
+};
+```
+
+:::{note}
+
+    1. Video模式下在执行`HAL_LCDC_Init`之后会保持command模式，用于配置屏驱IC, 当通过`HAL_LCDC_SendLayerData(_IT)`接口启动刷屏后，才会切换到Video模式
+
+    2. Video模式下对应DPI的PCLK频率的公式大概是这样的:`DSI_CLK = PCLK * bpp / NumOfDsiLane`.  例如屏幕要求DPI频率大于28MHz, 使用16bit位深, 2个DSI数据线, 那么至少需要DSI的频率是 28*16/2=224MHz
+
+:::

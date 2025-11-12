@@ -28,7 +28,7 @@ SF32LB52x - 锂电池供电版本
       
       **模组文档**
       
-      * SF32LB52-MOD-1模组规格书（`中文 <https://downloads.sifli.com/silicon/DS5203-SF32LB52-MOD-1%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p2.pdf>`__ ）
+      * SF32LB52-MOD-1模组规格书（`中文 <https://downloads.sifli.com/user%20manual/DS5203-SF32LB52-MOD-1%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p3.pdf>`__ ）
     
       **开发板文档**
 
@@ -62,7 +62,7 @@ SF32LB52X - 3.3V供电版本
       **芯片文档**
       
       * 芯片简介（`中文 <https://downloads.sifli.com/user%20manual/PB5202-SF32LB52X-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V0p1.pdf>`__ | `English <https://downloads.sifli.com/user%20manual/PB5202-SF32LB52X-Product%20Brief%20V0p1.pdf>`__）
-      * 芯片规格书（`中文 <https://downloads.sifli.com/user%20manual/DS5202-SF32LB52X-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p2p3.pdf>`__ | `English <https://downloads.sifli.com/user%20manual/DS5202-SF32LB52X-Datasheet%20V0p2p3.pdf>`__）
+      * 芯片规格书（`中文 <https://downloads.sifli.com/user%20manual/DS5202-SF32LB52X-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p2p5.pdf>`__ | `English <https://downloads.sifli.com/user%20manual/DS5202-SF32LB52X-Datasheet%20V0p2p5.pdf>`__）
       * 用户手册（`中文 <https://downloads.sifli.com/user%20manual/UM5201-SF32LB52x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V0p8p5.pdf>`__ | `English <https://downloads.sifli.com/user%20manual/UM5201-SF32LB52x-User%20Manual%20V0p8p4.pdf>`__）
       * 硬件设计指南（`设计指南 <https://wiki.sifli.com/hardware/SF32LB52B-E-G-J-HW-Application.html>`__）
       
@@ -102,7 +102,7 @@ SF32LB58x 系列
       * 用户手册（`中文 <https://downloads.sifli.com/user%20manual/UM5801-SF32LB58x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V0p2.pdf>`__ | English ）
       **模组文档**
       
-      * SF32LB58-MOD模组规格书（`中文 <https://downloads.sifli.com/silicon/DS5802-SF32LB58-MOD%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p1.pdf>`__ | English）
+      * SF32LB58-MOD模组规格书（`中文 <https://downloads.sifli.com/user%20manual/DS5802-SF32LB58-MOD%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p1.pdf>`__ | English）
 
    .. grid-item-card:: 软件文档
       :class-card: software-docs
@@ -130,7 +130,7 @@ SF32LB56x 系列
       
       **模组文档**
       
-      * SF32LB56-MOD模组规格书（`中文 <https://downloads.sifli.com/silicon/DS5602-SF32LB56-MOD%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p2.pdf>`__ | English）
+      * SF32LB56-MOD模组规格书（`中文 <https://downloads.sifli.com/user%20manual/DS5602-SF32LB56-MOD%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p2.pdf>`__ | English）
 
    .. grid-item-card:: 软件文档
       :class-card: software-docs

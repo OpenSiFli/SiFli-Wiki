@@ -160,7 +160,9 @@ SF32LB56xV系列芯片电源管脚外接电容推荐值如表4-2所示。
 | VDD_RTC          | 1uF           | 靠近管脚的地方至少放置1颗1uF电容.              |
 | AVDD_BRF         | 4.7uF         | 靠近管脚的地方至少放置1颗4.7uF电容.            |
 | AVDD33_ANA       | 4.7uF         | 靠近管脚的地方至少放置1颗4.7uF电容.            |
+| GPADC_VREFP      | 4.7uF         | 靠近管脚的地方至少放置1颗4.7uF颗电容.          |
 | AVDD33_AUD       | 4.7uF         | 靠近管脚的地方至少放置1颗4.7uF颗电容.          |
+| AUD_VREF         | 1uF           | 靠近管脚的地方至少放置1颗1uF颗电容.            |
 | MIC_BIAS         | 1uF           | 靠近管脚的地方至少放置1颗1uF电容.              |
 | VDDIOA           | 1uF           | 靠近管脚的地方至少放置1颗1uF电容.              |
 | VDDIOA2          | 1uF           | 靠近管脚的地方至少放置1颗1uF电容.              |
@@ -300,6 +302,16 @@ SF32LB56xV系列芯片HCPU和LCPU都支持表4-4中的多种工作模式。
 | Hibernate pin | Reset | Reset | 数据不保留                        | 高阻     | Reset | 按键                                      | > 2ms            |
 ```
 
+:::{attention}
+- 使用Standby mode作为关机：
+  * 由于GPIO的电平可以保持，VDDIOSA和VDDIOSB可以常供电，合封的存储器IO上不会漏电。
+  * 需要将MPI1,MPI2上的存储设备设置为低功耗模式来降低功耗。
+- 使用Hibernate mode作为关机：
+  * 由于GPIO的电平无法保持，VDDIOSA和VDDIOSB的供电需要关闭，避免合封存储器的IO上漏电。
+  * VDDIOSA和VDDIOSB的供电开关的控制信号使用PBR0。
+- VDDIOSC需要常供电，进入Hibernate mode前使NOR Flash进入deep power down mode。
+:::
+
 如表4-5所示，全系列芯片支持14个可唤醒中断源，可以唤醒大核或小核CPU。
 
 <div align="center"> 表4-5 可唤醒中断源列表 </div>
@@ -403,17 +415,17 @@ SF32LB56xV系列芯片支持 3/4-wire SPI和Quad-SPI 接口来连接LCD显示屏
 
 ```{table}
 :align: center
-| SPI信号      | I/O  | 详细描述                                                  |
-| ------- | ---- | --------------------------------------------------------- |
+| SPI信号      | I/O  | 详细描述                                             |
+| ------- | ---- | -------------------------------------------------------- |
 | CSX     | PA36 | 使能信号                                                  |
 | WRX_SCL | PA37 | 时钟信号                                                  |
-| DCX     | PA39 | 4-wire SPI 模式下的数据/命令信号  Quad-SPI 模式下的数据1  |
-| SDI_RDX | PA38 | 3/4-wire SPI 模式下的数据输入信号  Quad-SPI 模式下的数据0 |
-| SDO     | PA38 | 3/4-wire SPI 模式下的数据输出信号  请和SDI_RDX短接到一起  |
+| DCX     | PA39 | 4-wire SPI 模式下的数据/命令信号  Quad-SPI 模式下的数据1    |
+| SDI_RDX | PA38 | 3/4-wire SPI 模式下的数据输入信号  Quad-SPI 模式下的数据0   |
+| SDO     | PA38 | 3/4-wire SPI 模式下的数据输出信号  请和SDI_RDX短接到一起    |
 | D[0]    | PA40 | Quad-SPI 模式下的数据2                                    |
 | D[1]    | PA41 | Quad-SPI 模式下的数据3                                    |
 | REST    | PA43 | 复位显示屏信号                                            |
-| TE      | PA33 | Tearing effect to MCU frame signal                        |
+| TE      | PA33 | Tearing effect to MCU frame signal                       |
 ```
 
 #### MCU8080显示接口
@@ -431,7 +443,7 @@ SF32LB56xV系列芯片支持 MCU8080 接口来连接LCD显示屏，如表4-10所
 | DCX     | PA39 | Display  data / command selection   |
 | RDX     | PA38 | Reads  strobe signal to write data  |
 | D[0]    | PA40 | Data 0                              |
-| D[1]    | PA1  | Data 1                              |
+| D[1]    | PA41 | Data 1                              |
 | D[2]    | PA28 | Data 2                              |
 | D[3]    | PA29 | Data 3                              |
 | D[4]    | PA30 | Data 4                              |
@@ -461,7 +473,7 @@ SF32LB56xV系列芯片支持DPI接口来连接LCD显示屏，如表4-11所示。
 | R0      | PA14 | 像素信号                               |
 | R1      | PA13 | 像素信号                               |
 | R2      | PA16 | 像素信号                               |
-| R3      | PA15 | 像素信号                               |
+| R3      | PA24 | 像素信号                               |
 | R4      | PA19 | 像素信号                               |
 | R5      | PA21 | 像素信号                               |
 | R6      | PA23 | 像素信号                               |
@@ -718,16 +730,18 @@ SF32LB56xV系列芯片支持任意管脚GPTIM功能映射，所有的PA接口都
 
 SF32LB56xV系列芯片支持Arm®标准的SWD调试接口，可以连接到EDA工具上进行单步运行调试。如图4-18所示，连接SEEGER® J-Link® 工具时需要把调试工具的电源修改为外置接口输入，通过SF32LB56xV电路板给J-Link工具供电。
 
-SF32LB56xV系列有1路SWD进行调试信息输出，具体请参考表4-20。
+SF32LB56xV系列有1路SWD进行调试信息输出，有1路默认的UART口用来下载和打印log，具体请参考表4-20。
 
 <div align="center"> 表4-20 调试口连接方式 </div>
 
 ```{table}
 :align: center
-| SWD信号 | 管脚 | 详细描述      |
-| ------- | ---- | ------------- |
-| SWCLK   | PB15 | JLINK时钟信号 |
-| SWDIO   | PB13 | JLINK数据信号 |
+| 信号         | 管脚 | 详细描述                       |
+| ----------- | ---- | ----------------------------- |
+| SWCLK       | PB15 | JLINK时钟信号，调试接口         |
+| SWDIO       | PB13 | JLINK数据信号，调试接口         |
+| UART4_RXD   | PB16 | 串口接收信号，下载和打印log接口  |
+| UART4_TXD   | PB17 | 串口发送信号，下载和打印log接口  |
 ```
 
 <img src="assets/56xV/sf32lb56xV-SCH-SWD.png" width="80%" align="center" /> 
