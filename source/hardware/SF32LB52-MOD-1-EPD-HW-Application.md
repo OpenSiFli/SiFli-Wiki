@@ -13,7 +13,7 @@ SF32LB52-MOD-1-A128R16 | SF32LB527UD6 | 128MB SPI-Nand | 16MB OPI-PSRAM | -40~85
 
 ## SF32LB52-MOD-1模组封装
 
-SF32LB52-MOD-1系列模组，采用3边LCC半孔和底部LGA焊盘，板载PCBA蓝牙天线的设计，尺寸：18*27.9*3.1mm。
+SF32LB52-MOD-1系列模组，采用3边LCC半孔和底部LGA焊盘，板载PCBA蓝牙天线的设计，尺寸：18 x 27.9 x 3.1mm。
 
 ### 模组管脚布局
 
