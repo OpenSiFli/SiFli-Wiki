@@ -22,6 +22,7 @@ SF32LB52-MOD-1系列模组，采用3边LCC半孔和底部LGA焊盘，板载PCBA�
 ### 模组管脚布局
 
 <img src="assets/MOD/52x/SF32LB52-MOD-1_PINOUT.svg" width="100%" align="center" /> 
+
 <br> <br>
 
 详细模组的管脚信息请参考模组规格书。
@@ -29,6 +30,7 @@ SF32LB52-MOD-1系列模组，采用3边LCC半孔和底部LGA焊盘，板载PCBA�
 ### 模组尺寸图
 
 <img src="assets/MOD/52x/SF32-52MOD-POD.png" width="100%" align="center" /> 
+
 <br> <br>
 
 ## 墨水屏介绍
@@ -38,12 +40,14 @@ SF32LB52-MOD-1系列模组，采用3边LCC半孔和底部LGA焊盘，板载PCBA�
 - 并口屏，内部没有集成TCON显示控制模块，需要MCU直接发送特定TCON控制时序来刷新墨水屏。
 
 <img src="assets/MOD/52x/SF32-52MOD-EDP-Panel-diagram.png" width="100%" align="center" /> 
+
 <br> <br>
 SF32LB52-MOD-1模组的CPU集成了墨水屏的TCON控制模块，可以直接驱动`x8`数据位宽的并口墨水屏。
 
 ## 典型墨水屏方案应用框图
 
 <img src="assets/MOD/52x/SF32-52MOD-EDP-Diagram.png" width="100%" align="center" /> 
+
 <br> <br>
 
 ## 原理图设计指导
@@ -136,6 +140,7 @@ SPI串口墨水屏可以输出booster pwm信号`GDR`来产生`VGH`和`VGL`。
 如下图所示，由`GDR`和`RESE`来产生`VGH`和`VGL`，元器件的具体值请参考屏幕规格书的要求。
 
 <img src="assets/MOD/52x/SF32-52MOD-EDP-SPI-VGH_L.png" width="100%" align="center" /> 
+
 <br> <br>
 
 #### 并口屏电源
@@ -146,10 +151,12 @@ SPI串口墨水屏可以输出booster pwm信号`GDR`来产生`VGH`和`VGL`。
 
 参考上电时序：
 <img src="assets/MOD/52x/SF32-52MOD-EDP-PWRON.png" width="100%" align="center" /> 
+
 <br> <br>
 
 参考下电时序：
 <img src="assets/MOD/52x/SF32-52MOD-EDP-PWROFF.png" width="100%" align="center" /> 
+
 <br> <br>
 
 各种型号的墨水屏偏置电源的上下电时序可能不尽相同，设计时以实际屏的规格书要求为准。
@@ -163,11 +170,13 @@ SPI串口墨水屏可以输出booster pwm信号`GDR`来产生`VGH`和`VGL`。
 
 TPS6518x的典型应用原理图：
 <img src="assets/MOD/52x/SF32-52MOD-EDP-TPS65185.png" width="100%" align="center" /> 
+
 <br> <br>
 TPS6518x需要最多7个IO(SDA、SCL、INT、WAKEUP、PWRUP、VCOM_CTRL和PWR_GOOD)，最少5个IO(SDA、SCL、WAKEUP、PWRUP和VCOM_CTRL)和模组相连。
 
 FP9931的典型应用原理图：
 <img src="assets/MOD/52x/SF32-52MOD-EDP-FP9931.png" width="100%" align="center" /> 
+
 <br> <br>
 FP9931需要最少3个IO(SDA、SCL、和EN)和模组相连。
 
@@ -194,6 +203,7 @@ SY7636A的接线方法和FP9931类似。
 <br> <br>
 
 <img src="assets/MOD/52x/SF32-52MOD-EDP-TF.png" width="80%" align="center" /> 
+
 <br> <br>
 
 ### 按键
@@ -204,12 +214,14 @@ SY7636A的接线方法和FP9931类似。
 - GPADC按键功能，要求输入电压要大于2.1V，各按键值之间电压不能有重叠，值本身的范围大于100mV。
 
 <img src="assets/MOD/52x/SF32-52MOD-EDP-KEY.png" width="80%" align="center" /> 
+
 <br> <br>
 
 ### 传感器
 传感器采用I2C接口连接，CPU轮询方式来获取数据，省去中断信号。
 
 <img src="assets/MOD/52x/SF32-52MOD-EDP-SENSOR.png" width="80%" align="center" /> 
+
 <br> <br>
 
 ### 音频
@@ -218,6 +230,7 @@ SY7636A的接线方法和FP9931类似。
 - 音频输出需要外加功率放大器。
 
 <img src="assets/MOD/52x/SF32-52MOD-EDP-AUDIO.png" width="80%" align="center" /> 
+
 <br> <br>
 
 ### 调试和下载
@@ -239,6 +252,7 @@ SY7636A的接线方法和FP9931类似。
 下图为推荐的PCB封装尺寸，单位mm。
 
 <img src="assets/MOD/52x/SF32-52MOD-DECAL.png" width="100%" align="center" /> 
+
 <br> <br>
 
 ### PCB叠层设计
@@ -254,11 +268,13 @@ SY7636A的接线方法和FP9931类似。
 建议将模组天线区域伸出板边，馈点靠近底板板边位置。
 
 <img src="assets/MOD/52x/SF32-52MOD-EDP-PCB1.png" width="800%" align="center" /> 
+
 <br> <br>
 
 如果天线无法伸出板边，请保证给PCB天线一个足够大的净空区域(严禁铺铜、走线、摆放元件)，该净空区域建议至少 15mm，PCB天线下方区域的底板请切割掉，以尽可能地减少底板板材对PCB天线的影响。馈点还是尽量靠近板边位置，如图下图所示，馈点在模组的右侧，画出了建议的净空区。
 
 <img src="assets/MOD/52x/SF32-52MOD-EDP-PCB2.png" width="100%" align="center" /> 
+
 <br> <br>
 
 涉及整机设计时，请注意考虑外壳对天线的影响，并进行RF验证。
