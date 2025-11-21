@@ -31,7 +31,7 @@
 [英文规格书52x-vbat]: https://downloads.sifli.com/user%20manual/DS5201-SF32LB52x-Datasheet%20V2p5p3.pdf
 [中文简介52x-vbat]: https://downloads.sifli.com/user%20manual/PB5201-SF32LB52x-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B.pdf
 [英文简介52x-vbat]: https://downloads.sifli.com/user%20manual/PB5201-SF32LB52x-Product%20Brief.pdf
-[中文用户手册52x]: https://downloads.sifli.com/user%20manual/UM5201-SF32LB52x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V0p8p5.pdf
+[中文用户手册52x]: https://downloads.sifli.com/user%20manual/UM5201-SF32LB52x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V0p8p8.pdf
 [英文用户手册52x]: https://downloads.sifli.com/user%20manual/UM5201-SF32LB52x-User%20Manual%20V0p8p4.pdf
 
 
