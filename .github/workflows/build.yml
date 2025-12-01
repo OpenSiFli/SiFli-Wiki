@@ -52,6 +52,19 @@ jobs:
           # 切换到 main-repo 目录进行后续操作
           cd main-repo
       
+      - name: Copy custom HTML to build directory
+        run: |
+          # 1. 确认源文件存在（调试用，可选）
+          ls -l main-repo/  # 查看 main-repo 下的文件，确认 lcd_frequency.html 存在
+          
+          # 2. 创建目标文件夹（注意是 main-repo/build 下的路径）
+          mkdir -p main-repo/build/tools/屏幕调试
+          
+          # 3. 复制文件（源：main-repo/lcd_frequency.html；目标：main-repo/build/tools/屏幕调试/）
+          cp main-repo/lcd_frequency.html main-repo/build/tools/屏幕调试/
+          
+          # 4. 验证是否复制成功（调试用，可选）
+          ls -l main-repo/build/tools/屏幕调试/      
       - name: compress png
         run: |
           cd main-repo
