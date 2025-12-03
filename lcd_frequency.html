@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LCD帧率计算器</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      padding: 20px; /* 增加页面内边距，避免小屏幕内容溢出 */
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 500px;
+      width: 100%;
+      background: rgba(20, 20, 30, 0.85);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(100, 150, 255, 0.3);
+      transition: transform 0.3s ease;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      max-height: 90vh; /* 增加最大高度，避免内容被容器截断 */
+      overflow-y: auto;
+    }
+
+    /* 隐藏滚动条 */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+
+    .container:hover {
+      transform: translateY(-5px);
+    }
+
+    h2 {
+      text-align: center;
+      color: #fff;
+      margin-top: 0;
+      font-weight: 600;
+      font-size: 26px;
+      text-shadow: 0 0 10px rgba(100, 200, 255, 0.8);
+    }
+
+    p.desc {
+      text-align: center;
+      color: #aaa;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 16px 0 6px;
+      font-weight: 500;
+      color: #aaccff;
+      font-size: 15px;
+    }
+
+    input[type="number"], select {
+      width: 100%;
+      padding: 12px 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(100, 150, 255, 0.4);
+      border-radius: 10px;
+      font-size: 16px;
+      color: white;
+      outline: none;
+      transition: all 0.3s ease;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0  0 24 24' fill='none' stroke='%2366ccff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 16px;
+    }
+
+    input[type="number"]:focus, select:focus {
+      border-color: #66ccff;
+      box-shadow: 0 0 15px rgba(102, 204, 255, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: linear-gradient(45deg, #00c3ff, #007acc);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(45deg, #007acc, #005a99);
+      transform: scale(1.03);
+      box-shadow: 0 5px 20px rgba(0, 122, 204, 0.4);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background: rgba(0, 128, 0, 0.3);
+      border-left: 5px solid #00ff88;
+      border-radius: 10px;
+      font-size: 17px;
+      color: #bfefff;
+      line-height: 2; /* 进一步增加行高，确保两行不重叠 */
+      opacity: 0;
+      max-height: 0; /* 关键：用max-height控制显示/隐藏动画 */
+      overflow: hidden;
+      transition: all 0.5s ease;
+      text-align: center;
+      width: 100%; /* 确保宽度100%，内容不溢出 */
+    }
+
+    .result.show {
+      opacity: 1;
+      max-height: 200px; /* 足够容纳两行内容的高度 */
+      padding-top: 16px;
+      padding-bottom: 16px;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #88aaff;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    .field-group { display: none; }
+    .field-group.active { display: block; }
+
+    @media (max-width: 520px) {
+      .container {
+        padding: 20px;
+        max-height: 95vh; /* 小屏幕增加容器高度 */
+      }
+      h2 {
+        font-size: 22px;
+      }
+      .result {
+        font-size: 15px;
+        max-height: none; /* 小屏幕取消最大高度限制 */
+      }
+    }
+
+    select option {
+      background-color: #1a1a2e;
+      color: #ffffff;
+      padding: 10px 15px;
+      font-size: 16px;
+      border-bottom: 1px solid rgba(100, 150, 255, 0.2);
+    }
+
+    select option:hover {
+      background-color: #2a2a4a;
+      color: #66ccff;
+    }
+
+    select option:checked {
+      background-color: #007acc;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<!-- 背景 Canvas -->
+<canvas id="background-canvas"></canvas>
+
+<!-- 主容器 -->
+<div class="container">
+  <h2>🌌 LCD帧率计算器</h2>
+  <p class="desc">选择接口类型，输入参数计算帧率</p>
+
+  <!-- 接口类型选择 -->
+  <label>📱 接口类型
+    <select id="interface-type" onchange="switchMode()">
+      <option value="qspi">QSPI 接口</option>
+      <option value="dsi_video">DSI Video 接口</option>
+      <option value="dpi">DPI 接口</option>
+      <option value="dbi">DBI 8bit 接口</option>
+    </select>
+  </label>
+
+  <!-- QSPI 模式 -->
+  <div id="qspi-fields" class="field-group active">
+    <label>📏 分辨率宽度(像素)
+      <input type="number" id="A3" placeholder="例如：800">
+    </label>
+    <label>📐 分辨率高度(像素)
+      <input type="number" id="B3" placeholder="例如：480">
+    </label>
+    <label>🎨 颜色位深
+      <input type="number" id="C3" placeholder="RGB565填16，RGB888填24">
+    </label>
+    <label>⚡ 接口频率 (Hz)
+      <input type="number" id="D3" placeholder="例如：100000000">
+    </label>
+    <label>🔁 DDR模式
+      <input type="number" id="E3" placeholder="单倍填1，DDR填2">
+    </label>
+  </div>
+
+  <!-- DSI Video 模式 -->
+  <div id="dsi_video-fields" class="field-group">
+    <label>📏 分辨率宽度(HAW)
+      <input type="number" id="dsi_width" placeholder="例如：800">
+    </label>
+    <label>↔️ HSYNC+HBP+HFP
+      <input type="number" id="dsi_hsync_total" placeholder="水平总周期">
+    </label>
+    <label>📐 分辨率高度(VAH)
+      <input type="number" id="dsi_height" placeholder="例如：480">
+    </label>
+    <label>↕️ VSYNC+VBP+VFP
+      <input type="number" id="dsi_vsync_total" placeholder="垂直总周期">
+    </label>
+    <label>🎨 颜色位深
+      <input type="number" id="dsi_bpp" placeholder="RGB565填16，RGB888填24">
+    </label>
+    <label>📡 单Lane带宽 (Mbps)
+      <input type="number" id="dsi_lane_speed" placeholder="如800">
+    </label>
+    <label>🔗 Lane数量
+      <input type="number" id="dsi_lane_count" placeholder="如2">
+    </label>
+  </div>
+
+  <!-- DPI 模式 -->
+  <div id="dpi-fields" class="field-group">
+    <label>📏 分辨率宽度(HAW)
+      <input type="number" id="dpi_width" placeholder="例如：800">
+    </label>
+    <label>↔️ HSYNC+HBP+HFP
+      <input type="number" id="dpi_hsync_total" placeholder="水平总周期">
+    </label>
+    <label>📐 分辨率高度(VAH)
+      <input type="number" id="dpi_height" placeholder="例如：480">
+    </label>
+    <label>↕️ VSYNC+VBP+VFP
+      <input type="number" id="dpi_vsync_total" placeholder="垂直总周期">
+    </label>
+    <label>⚙️ DPI PCLK (MHz)
+      <input type="number" id="dpi_pclk" placeholder="如60">
+    </label>
+  </div>
+
+  <!-- DBI 模式 -->
+  <div id="dbi-fields" class="field-group">
+    <label>📏 分辨率宽度
+      <input type="number" id="dbi_width" placeholder="例如：240">
+    </label>
+    <label>📐 分辨率高度
+      <input type="number" id="dbi_height" placeholder="例如：320">
+    </label>
+    <label>🎨 颜色位深
+      <input type="number" id="dbi_bpp" placeholder="RGB565填16，RGB888填24">
+    </label>
+    <label>⚡ 接口频率 (Hz)
+      <input type="number" id="dbi_freq" placeholder="如10000000">
+    </label>
+  </div>
+
+  <button onclick="calculate()">✨ 开始计算</button>
+
+  <!-- 结果显示区域：确保容器无额外限制 -->
+  <div style="width: 100%;">
+    <div class="result" id="result"></div>
+  </div>
+</div>
+
+<script>
+  // === 粒子背景动画 ===
+  const canvas = document.getElementById('background-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  let particles = [];
+  const numParticles = 80;
+
+  for (let i = 0; i < numParticles; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 1.5 + 0.5,
+      vx: Math.random() * 0.5 - 0.25,
+      vy: Math.random() * 0.5 - 0.25,
+      alpha: Math.random() * 0.5 + 0.5
+    });
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 150) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(100, 200, 255, ${0.2 * (1 - distance / 150)})`;
+          ctx.lineWidth = 0.5;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+
+      particles[i].x += particles[i].vx;
+      particles[i].y += particles[i].vy;
+
+      if (particles[i].x < 0 || particles[i].x > canvas.width) particles[i].vx *= -1;
+      if (particles[i].y < 0 || particles[i].y > canvas.height) particles[i].vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(particles[i].x, particles[i].y, particles[i].radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(100, 200, 255, ${particles[i].alpha})`;
+      ctx.fill();
+    }
+
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+
+  // === 切换接口模式 ===
+  function switchMode() {
+    const mode = document.getElementById("interface-type").value;
+    document.querySelectorAll('.field-group').forEach(group => {
+      group.classList.remove('active');
+    });
+    document.getElementById(`${mode}-fields`).classList.add('active');
+  }
+
+  // === 计算函数 ===
+  function calculate() {
+    const mode = document.getElementById("interface-type").value;
+    let frameRate = 0;
+
+    try {
+      switch (mode) {
+        case "qspi":
+          const A = parseFloat(document.getElementById('A3').value);
+          const B = parseFloat(document.getElementById('B3').value);
+          const C = parseFloat(document.getElementById('C3').value);
+          const D = parseFloat(document.getElementById('D3').value);
+          const E = parseFloat(document.getElementById('E3').value);
+          if (![A, B, C, D, E].every(v => !isNaN(v) && v > 0)) throw "QSPI 参数不完整";
+          frameRate = (D * 4 * E) / (A * B * C);
+          break;
+
+        case "dsi_video":
+          const w1 = parseFloat(document.getElementById('dsi_width').value);
+          const ht = parseFloat(document.getElementById('dsi_hsync_total').value);
+          const h1 = parseFloat(document.getElementById('dsi_height').value);
+          const vt = parseFloat(document.getElementById('dsi_vsync_total').value);
+          const bpp1 = parseFloat(document.getElementById('dsi_bpp').value);
+          const laneSpeed = parseFloat(document.getElementById('dsi_lane_speed').value);
+          const laneCount = parseFloat(document.getElementById('dsi_lane_count').value);
+          if (![w1, ht, h1, vt, bpp1, laneSpeed, laneCount].every(v => !isNaN(v) && v > 0)) throw "DSI Video 参数不完整";
+          const totalBandwidth = laneSpeed * laneCount * 0.9;
+          const pixelsPerFrame = (ht + w1) * (vt + h1);
+          frameRate = (totalBandwidth * 1_000_000 / 8) / (pixelsPerFrame * (bpp1 / 8));
+          break;
+
+        case "dpi":
+          const w2 = parseFloat(document.getElementById('dpi_width').value);
+          const ht2 = parseFloat(document.getElementById('dpi_hsync_total').value);
+          const h2 = parseFloat(document.getElementById('dpi_height').value);
+          const vt2 = parseFloat(document.getElementById('dpi_vsync_total').value);
+          const pclk = parseFloat(document.getElementById('dpi_pclk').value);
+          if (![w2, ht2, h2, vt2, pclk].every(v => !isNaN(v) && v > 0)) throw "DPI 参数不完整";
+          const pixelsPerFrameDPI = (ht2 + w2) * (vt2 + h2);
+          frameRate = (pclk * 1_000_000) / pixelsPerFrameDPI;
+          break;
+
+        case "dbi":
+          const w3 = parseFloat(document.getElementById('dbi_width').value);
+          const h3 = parseFloat(document.getElementById('dbi_height').value);
+          const bpp3 = parseFloat(document.getElementById('dbi_bpp').value);
+          const freq = parseFloat(document.getElementById('dbi_freq').value);
+          if (![w3, h3, bpp3, freq].every(v => !isNaN(v) && v > 0)) throw "DBI 参数不完整";
+          frameRate = (freq * 8) / (w3 * h3 * bpp3);
+          break;
+
+        default:
+          throw "未知模式";
+      }
+    } catch (e) {
+      showError(e.toString());
+      return;
+    }
+
+    const refreshTime = 1000 / frameRate;
+
+    const resultEl = document.getElementById('result');
+    // 确保内容结构为两行独立块级元素
+    resultEl.innerHTML = `
+      <div style="margin: 8px 0;"><strong>📊 刷屏帧率：</strong> ${frameRate.toFixed(2)} <span style="color:#66ccff;font-weight:600;">FPS</span></div>
+      <div style="margin: 8px 0;"><strong>⏱️ 刷屏时间：</strong> ${refreshTime.toFixed(2)} <span style="color:#66ccff;font-weight:600;">ms</span></div>
+    `;
+    resultEl.className = 'result show';
+  }
+
+  function showError(msg) {
+    const resultEl = document.getElementById('result');
+    resultEl.innerHTML = `<strong style="color:#ff6b6b;">❌ ${msg}</strong>`;
+    resultEl.className = 'result show';
+  }
+
+  // 支持回车计算
+  document.querySelectorAll('input').forEach(input => {
+    input.addEventListener('keypress', e => {
+      if (e.key === 'Enter') calculate();
+    });
+  });
+
+  window.onload = () => {
+    document.getElementById('A3').focus();
+  };
+</script>
+</body>
+</html>
