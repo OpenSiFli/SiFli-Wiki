@@ -227,15 +227,15 @@ SF32LB52-DevKit-LCD的开发板，如何快速设置开发环境，请参考软�
 |3  | PA_07   | MIPI-DBI(8080) B0，QSPI D2，LCD接口信号 
 |4  | PA_08   | MIPI-DBI(8080) B1，QSPI D3，LCD接口信号 
 |5  | PA_37   | MIPI-DBI(8080) B2，LCD接口信号 
-|6  | PB_39   | MIPI-DBI(8080) B3，LCD接口信号 
-|7  | PB_40   | MIPI-DBI(8080) B4，LCD接口信号 
+|6  | PA_39   | MIPI-DBI(8080) B3，LCD接口信号 
+|7  | PA_40   | MIPI-DBI(8080) B4，LCD接口信号 
 |8  | PA_41   | MIPI-DBI(8080) B5，LCD接口信号  
 |9  | PA_42   | MIPI-DBI(8080) B6，LCD接口信号 
 |10 | PA_43   | MIPI-DBI(8080) B7，LCD接口信号                 
 |11 | PA_02   | MIPI-DBI(8080) TE，QSPI TE，LCD接口信号                   
 |12 | PA_00   | LCD Reset，LCD接口信号 
 |13 | PA_04   | MIPI-DBI(8080) WRx，QSPI CLK，SPI CLK，LCD接口信号 
-|14 | PB_05   | MIPI-DBI(8080) RDx，QSPI D0，SPI SDI，LCD接口信号         
+|14 | PA_05   | MIPI-DBI(8080) RDx，QSPI D0，SPI SDI，LCD接口信号         
 |15 | PA_03   | MIPI-DBI(8080) CSx，QSPI CS，SPI CS，LCD接口信号             
 |16 | PA_06   | MIPI-DBI(8080) DCx，QSPI D1，SPI DC，LCD接口信号 
 |17 | VDD_3V3 | 3.3V电源输出 

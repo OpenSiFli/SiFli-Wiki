@@ -111,6 +111,7 @@
 ```{toctree}
 :hidden:
 
+devkit_guide
 sf32lb52x/SF32LB52-DevKit-LCD
 sf32lb52x/SF-DevKit-LCM-Adapter
 <!-- sf32lb52x/SF32LB52-DevKit-LCD-Adapter -->
