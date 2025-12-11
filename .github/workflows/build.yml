@@ -65,10 +65,7 @@ jobs:
           
           # 4. 验证是否复制成功（调试用，可选）
           ls -l main-repo/build/tools/屏幕调试/      
-      - name: compress png
-        run: |
-          cd main-repo
-          python3 ./tools/compress_png.py
+
 
       - name: Archive documentation
         uses: actions/upload-artifact@v4
