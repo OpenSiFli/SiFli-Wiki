@@ -15,7 +15,7 @@ style.textContent = `
     /* 聊天按钮 */
     #dify-chatbot-bubble-button {
         position: fixed !important;
-        bottom: 1.5rem !important;
+        bottom: 4rem !important;
         right: 1.5rem !important;
         top: unset !important;
         left: unset !important;
