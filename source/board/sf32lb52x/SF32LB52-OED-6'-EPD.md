@@ -8,7 +8,7 @@ SF32LB52-OED-6'-EPD是一款基于SF32LB52-MOD-1模组的电子墨水屏开发�
 
 <div align="center"> 开发板实物正面照 </div>  <br>  <br>
 
-<img src="assets/SF32LB52-OED-6'-EPD_Back_Look.png" width="80%" align="center" /> 
+<img src="assets/SF32LB52-OED-6'-EPD_Back_look.png" width="80%" align="center" /> 
 
 <div align="center"> 开发板实物背面照 </div>  <br>  <br>
 
