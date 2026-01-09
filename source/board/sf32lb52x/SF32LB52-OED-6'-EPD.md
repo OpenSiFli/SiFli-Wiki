@@ -311,7 +311,7 @@ USB-TypeC的VBUS只是用来充电，不能给板子直接供电运行。
 2.  软件开发模式
 - 去掉BOOT项，上电，开机后进入串口log打印模式，便进入软件调试模式。
 
-**具体请参考&emsp;[固件烧录工具 Impeller](烧录工具)**
+**具体请参考&emsp;[固件烧录工具 Impeller](https://wiki.sifli.com/tools/%E7%83%A7%E5%BD%95%E5%B7%A5%E5%85%B7.html)**
 
 ### 充电及电池选型
 
