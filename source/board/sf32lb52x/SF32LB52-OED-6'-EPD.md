@@ -333,7 +333,7 @@ USB-TypeC的VBUS只是用来充电，不能给板子直接供电运行。
 
 ## 样品获取
 
-[墨水屏开发板超低功耗电子书电子桌牌](https://item.taobao.com/item.htm?abbucket=9&id=982738503582&mi_id=0000pDNIjo0Pj_29fkc7ifmF6Y_pBCqY3EgQwpwU71DKMNE&ns=1&skuId=6110372370746&spm=a21n57.1.hoverItem.1&utparam=%7B%22aplus_abtest%22%3A%223c87588d55ca363f5f070236babd24db%22%7D&xxc=taobaoSearch)
+[墨水屏开发板超低功耗电子书电子桌牌](https://item.taobao.com/item.htm?id=982738503582)
 
 ## 相关文档
 
