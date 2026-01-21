@@ -5,38 +5,38 @@
 后缀为数字0、3、5、7的芯片，属于SF32LB52x系列,使用锂电池供电，支持USB充电。
 
 [硬件设计指南](/hardware/SF32LB520-3-5-7-HW-Application)&nbsp;&nbsp;
-[硬件设计自检查列表]()
+[硬件设计自检查列表](https://downloads.sifli.com/hardware/files/documentation/SF32LB52%20Schematic%26PCB%20checklist_V1.0_20260121.xlsx)
 
 ## SF32LB52X系列
 后缀为字母B、E、G、J的芯片，属于SF32LB52X系列,使用3.3V电源供电。
 后缀为字母D的芯片，属于SF32LB52X系列,使用1.8V电源供电。
 
 [硬件设计指南](/hardware/SF32LB52B-E-G-J-HW-Application)&nbsp;&nbsp;
-[硬件设计自检查列表]()
+[硬件设计自检查列表](https://downloads.sifli.com/hardware/files/documentation/SF32LB52%20Schematic%26PCB%20checklist_V1.0_20260121.xlsx)
 
 ## SF32LB56xU系列
 
 后缀为U的为QFN68L封装
 
 [硬件设计指南](/hardware/SF32LB56xU-HW-Application)&nbsp;&nbsp;
-[硬件设计自检查列表]()
+[硬件设计自检查列表](https://downloads.sifli.com/hardware/files/documentation/SF32LB56x%20Schematic%26PCB%20checklist_V1.0_20260121.xlsx)
 
 ## SF32LB56xV系列
 
 后缀为V的是BGA封装，引脚更多
 
 [硬件设计指南](/hardware/SF32LB56xV-HW-Application)&nbsp;&nbsp;
-[硬件设计自检查列表]()
+[硬件设计自检查列表](https://downloads.sifli.com/hardware/files/documentation/SF32LB56x%20Schematic%26PCB%20checklist_V1.0_20260121.xlsx)
 
 ## SF32LB58x系列
 
 [硬件设计指南](/hardware/SF32LB58x-HW-Application)&nbsp;&nbsp;
-[硬件设计自检查列表]()
+[硬件设计自检查列表](https://downloads.sifli.com/hardware/files/documentation/SF32LB58x%20Schematic%26PCB%20checklist_V1.0_20260121.xlsx)
 
 ## SF32LB55x系列
 
 [硬件设计指南](/hardware/SF32LB55x-HW-Application)&nbsp;&nbsp;
-[硬件设计自检查列表]()
+[硬件设计自检查列表](https://downloads.sifli.com/hardware/files/documentation/SF32LB55x%20Schematic%26PCB%20checklist_V1.0_20260121.xlsx)
 
 ## SiFli物料认证表
 
