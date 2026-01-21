@@ -379,32 +379,32 @@ SF32LB55x系列芯片支持2路 SDIO 接口来连接 eMMC或Micro SD设备，信
 
 ```{table}
 :align: center
-| Flash 信号 | QFN68 | BGA125 |BGA145/169 | 详细描述                                    |
-| ---------- | ----- | ------ | --------- | ------------------------------------------- |
-| CLK        | -     | PA60   | PA34      | Clock input                                 |
-| CMD        | -     | PA61   | PA36      | Command input                               |
-| DATA0      | -     | PA63   | PA28      | Data 0                                      |
-| DATA1      | -     | PA65   | PA29      | Data 1                                      |
-| DATA2      | -     | PA66   | PA30      | Data 2                                      |
-| DATA3      | -     | PA68   | PA31      | Data 3                                      |
+| Flash 信号 | QFN68   | BGA125 |BGA145/169 | 详细描述                                    |
+| ---------- | ------- | ------ | --------- | ------------------------------------------- |
+| CLK        | GPIO10  | PA60   | PA34      | Clock input                                 |
+| CMD        | GPIO9   | PA61   | PA36      | Command input                               |
+| DATA0      | GPIO8   | PA63   | PA28      | Data 0                                      |
+| DATA1      | GPIO7   | PA65   | PA29      | Data 1                                      |
+| DATA2      | GPIO6   | PA66   | PA30      | Data 2                                      |
+| DATA3      | GPIO5   | PA68   | PA31      | Data 3                                      |
 ```
 
 <div align="center"> 表3-13 SDIO1 8bit信号连接 </div>
 
 ```{table}
 :align: center
-| Flash 信号 | QFN68 | BGA125 |BGA145/169 | 详细描述                                    |
-| ---------- | ----- | ------ | --------- | ------------------------------------------- |
-| CLK        | -     | -      | PA34      | Clock input                                 |
-| CMD        | -     | -      | PA36      | Command input                               |
-| DATA0      | -     | -      | PA28      | Data 0                                      |
-| DATA1      | -     | -      | PA29      | Data 1                                      |
-| DATA2      | -     | -      | PA30      | Data 2                                      |
-| DATA3      | -     | -      | PA31      | Data 3                                      |
-| DATA4      | -     | -      | PA47      | Data 4                                      |
-| DATA5      | -     | -      | PA49      | Data 5                                      |
-| DATA6      | -     | -      | PA51      | Data 6                                      |
-| DATA7      | -     | -      | PA55      | Data 7                                      |
+| Flash 信号 | QFN68   | BGA125 |BGA145/169 | 详细描述                                    |
+| ---------- | ------- | ------ | --------- | ------------------------------------------- |
+| CLK        | GPIO10  | -      | PA34      | Clock input                                 |
+| CMD        | GPIO9   | -      | PA36      | Command input                               |
+| DATA0      | GPIO8   | -      | PA28      | Data 0                                      |
+| DATA1      | GPIO7   | -      | PA29      | Data 1                                      |
+| DATA2      | GPIO6   | -      | PA30      | Data 2                                      |
+| DATA3      | GPIO5   | -      | PA31      | Data 3                                      |
+| DATA4      | GPIO15  | -      | PA47      | Data 4                                      |
+| DATA5      | GPIO14  | -      | PA49      | Data 5                                      |
+| DATA6      | GPIO13  | -      | PA51      | Data 6                                      |
+| DATA7      | GPIO12  | -      | PA55      | Data 7                                      |
 ```
 
 <div align="center"> 表3-14 SDIO2 4bit信号连接 </div>
@@ -414,11 +414,11 @@ SF32LB55x系列芯片支持2路 SDIO 接口来连接 eMMC或Micro SD设备，信
 | Flash 信号 | QFN68  |BGA125/145/169 | 详细描述                                    |
 | ---------- | ------ | ------------- | ------------------------------------------- |
 | CLK        | GPIO17 | PA44          | Clock input                                 |
-| CMD        | GPIO17 | PA45          | Command input                               |
-| DATA0      | GPIO17 | PA47          | Data 0                                      |
-| DATA1      | GPIO17 | PA49          | Data 1                                      |
-| DATA2      | GPIO17 | PA51          | Data 2                                      |
-| DATA3      | GPIO17 | PA55          | Data 3                                      |
+| CMD        | GPIO16 | PA45          | Command input                               |
+| DATA0      | GPIO15 | PA47          | Data 0                                      |
+| DATA1      | GPIO14 | PA49          | Data 1                                      |
+| DATA2      | GPIO13 | PA51          | Data 2                                      |
+| DATA3      | GPIO12 | PA55          | Data 3                                      |
 ```
 
 详细的物料认证信息，请参考：
@@ -467,7 +467,7 @@ SF32LB55x系列芯片支持 3/4-wire SPI和Quad-SPI 接口来连接LCD显示屏�
 | ------- | ------ | ------ | ---------- | --------------------------------------------------------- |
 | CSX     | GPIO22 | PA31   | PB33       | 使能信号                                                  |
 | WRX_SCL | GPIO23 | PA20   | PB32       | 时钟信号                                                  |
-| DCX     | GPIO30 | PA36   | PB36       | 4-wire SPI 模式下的数据/命令信号  Quad-SPI 模式下的数据1   |
+| DCX     | GPIO20 | PA36   | PB36       | 4-wire SPI 模式下的数据/命令信号  Quad-SPI 模式下的数据1   |
 | SDI_RDX | GPIO21 | PA34   | PB35       | 3/4-wire SPI 模式下的数据输入信号  Quad-SPI 模式下的数据0  |
 | SDO     | GPIO21 | PA34   | PB35       | 3/4-wire SPI 模式下的数据输出信号  请和SDI_RDX短接到一起   |
 | D[0]    | GPIO19 | PA38   | PB37       | Quad-SPI 模式下的数据2                                    |
