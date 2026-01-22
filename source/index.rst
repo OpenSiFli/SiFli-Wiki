@@ -39,7 +39,8 @@
     :hidden:
 
     docs/index
-    docs/docs
+    .. docs/docs
+    silicon/product-index
 
 
 
@@ -47,9 +48,12 @@
     :caption: 软件开发
     :hidden:
 
-    SDK文档  <https://docs.sifli.com/projects/sdk/latest/sf32lb52x/index.html>
+    SDK 编程指南  <https://docs.sifli.com/projects/sdk/latest/sf32lb52x/index.html>
+    API 文档 <https://docs.sifli.com/projects/sdk/latest/sf32lb52x/api/index.html>
+    Solution 编程指南 <https://docs.sifli.com/projects/solution/0.introduction/index.html>
     faq/index
     appnote/index
+    application/index
 
 .. toctree::
     :caption: 硬件开发
@@ -59,6 +63,7 @@
     silicon/index
     hardware/index
     board/index
+    module/index
 
 .. toctree::
     :caption: 软件工具

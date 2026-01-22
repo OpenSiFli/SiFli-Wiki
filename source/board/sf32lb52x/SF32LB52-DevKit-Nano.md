@@ -277,15 +277,14 @@ SF32LB52-DevKit-Nano是基于思澈科技SF32LB52BU56/SF32LB52JUD6芯片的开�
 
 ## 5. 样品获取
 
-联系思澈科技的FAE，获取开发板。
-- [芯板坊](https://shop599532105.taobao.com/)
-- [findboard](https://findboard.tmall.com/index.htm?spm=a1z10.1-b-s.w5002-25221334624.2.55277c93jgSpbu)
-- [我爱开发板](https://shop580004668.taobao.com/index.htm?spm=a1z10.1-c-s.w5002-21838939070.2.668378e4fyt7U6)
+零售样品与小批量可直接在[淘宝](https://sifli.taobao.com/)购买，批量客户可发邮件到sales@sifli.com或淘宝找客服获取销售联系方式。
+参与开源可以免费申请样品，可加入QQ群674699679进行交流。
+
 
 ## 6. 相关文档
 
-- [SF32LB52x芯片技术规格书](https://downloads.sifli.com/silicon/DS0052-SF32LB52x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V2p4.pdf?)
-- [SF32LB52x用户手册](https://downloads.sifli.com/silicon/UM0052-SF32LB52x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V0p3.pdf?)
+- [SF32LB52x芯片技术规格书](https://wiki.sifli.com/silicon/index.html)
+- [SF32LB52x用户手册](https://wiki.sifli.com/silicon/index.html)
 - [SF32LB52-DevKit-Nano设计图纸](https://downloads.sifli.com/hardware/files/documentation/SF32LB52-DevKit-Nano_V1.0.0.zip?)
 - [SF32LB52-DevKit-LCD转接板制作指南](SF32LB52-DevKit-LCD-Adapter)
 

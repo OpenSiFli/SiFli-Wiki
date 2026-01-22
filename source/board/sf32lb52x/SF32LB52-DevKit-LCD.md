@@ -227,15 +227,15 @@ SF32LB52-DevKit-LCD的开发板，如何快速设置开发环境，请参考软�
 |3  | PA_07   | MIPI-DBI(8080) B0，QSPI D2，LCD接口信号 
 |4  | PA_08   | MIPI-DBI(8080) B1，QSPI D3，LCD接口信号 
 |5  | PA_37   | MIPI-DBI(8080) B2，LCD接口信号 
-|6  | PB_39   | MIPI-DBI(8080) B3，LCD接口信号 
-|7  | PB_40   | MIPI-DBI(8080) B4，LCD接口信号 
+|6  | PA_39   | MIPI-DBI(8080) B3，LCD接口信号 
+|7  | PA_40   | MIPI-DBI(8080) B4，LCD接口信号 
 |8  | PA_41   | MIPI-DBI(8080) B5，LCD接口信号  
 |9  | PA_42   | MIPI-DBI(8080) B6，LCD接口信号 
 |10 | PA_43   | MIPI-DBI(8080) B7，LCD接口信号                 
 |11 | PA_02   | MIPI-DBI(8080) TE，QSPI TE，LCD接口信号                   
 |12 | PA_00   | LCD Reset，LCD接口信号 
 |13 | PA_04   | MIPI-DBI(8080) WRx，QSPI CLK，SPI CLK，LCD接口信号 
-|14 | PB_05   | MIPI-DBI(8080) RDx，QSPI D0，SPI SDI，LCD接口信号         
+|14 | PA_05   | MIPI-DBI(8080) RDx，QSPI D0，SPI SDI，LCD接口信号         
 |15 | PA_03   | MIPI-DBI(8080) CSx，QSPI CS，SPI CS，LCD接口信号             
 |16 | PA_06   | MIPI-DBI(8080) DCx，QSPI D1，SPI DC，LCD接口信号 
 |17 | VDD_3V3 | 3.3V电源输出 
@@ -284,13 +284,14 @@ SF32LB52-DevKit-LCD开发板集成MEMS MIC和音频功放芯片。
 
 ## 样品获取
 
-联系思澈科技的FAE，获取开发板。
+零售样品与小批量可直接在[淘宝](https://sifli.taobao.com/)购买，批量客户可发邮件到sales@sifli.com或淘宝找客服获取销售联系方式。
+参与开源可以免费申请样品，可加入QQ群674699679进行交流。
 
 ## 相关文档
 
-- [SF32LB52x芯片技术规格书](https://downloads.sifli.com/silicon/DS0052-SF32LB52x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V2p4.pdf?)
-- [SF32LB52x用户手册](https://downloads.sifli.com/silicon/UM0052-SF32LB52x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V0p3.pdf?)
-- [SF32LB52-MOD-1技术规格书](https://downloads.sifli.com/silicon/DS5203-SF32LB52-MOD-1%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p1.pdf?)
+- [SF32LB52x芯片技术规格书](https://wiki.sifli.com/silicon/index.html)
+- [SF32LB52x用户手册](https://wiki.sifli.com/silicon/index.html)
+- [SF32LB52-MOD-1技术规格书](https://wiki.sifli.com/silicon/index.html)
 - [SF32LB52-MOD-1设计图纸](https://downloads.sifli.com/hardware/files/documentation/SF32LB52-MOD-1-V1.0.0.zip?)
 - [SF32LB52-DevKit-LCD设计图纸](https://downloads.sifli.com/hardware/files/documentation/SF32LB52-DevKit-LCD_V1.2.0.zip?)
 - [SF32LB52-DevKit-LCD转接板制作指南](SF32LB52-DevKit-LCD-Adapter)

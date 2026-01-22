@@ -84,7 +84,7 @@ ROM|64KB|0x0000_0000|0x0000_FFFF
     2020 - 2022 Copyright by SiFli team
    msh >
 ```
-在boot_mode下，用于验证uart下载时，也可以输入help命令验证串口是否通的，如下操作：
+在boot_mode下，进行uart下载前，可以输入help命令验证串口是否通的，如下操作：
 ```
    Serial:c2,Chip:2,Package:0,Rev:0
     \ | /
@@ -129,7 +129,7 @@ enter boot mode flow success!!!
 `SFBL`这条log，不依赖于软件，如果没有此log，请查串口连接和MCU工作条件是否已经满足<br>
 
 ## 10.6 52 PA34长按复位时间修改
-58，56，52系列MCU都支持长按电源按键 (PWRKEY) 复位；如果芯片的电源按键 PB54（58系列）， PB32 （56系列），PA32（52系列）持续高电平超过10秒，会发生PWRKEY复位，将除RTC与IWDT以外的所有模块复位。通过PMUC寄存器WSR的`PWRKEY`标志可以查询是否发生过PWRKEY复位，通过PMUC寄存器WCR的`PWRKEY`可以清除该标志。<br> 
+58，56，52系列MCU都支持长按电源按键 (PWRKEY) 复位；如果芯片的电源按键 PB54（58系列）， PB32 （56系列），PA34（52系列）持续高电平超过10秒，会发生PWRKEY复位，将除RTC与IWDT以外的所有模块复位。通过PMUC寄存器WSR的`PWRKEY`标志可以查询是否发生过PWRKEY复位，通过PMUC寄存器WCR的`PWRKEY`可以清除该标志。<br> 
 其中52系列可以修改长按按复位时间（58，56无此寄存器，不支持修改），`PWRKEY_HARD_RESET_TIME`默认参数10为10秒，可按照需要进行修改，内部采用RC32计数，并不依赖外部32768晶体时钟，另外按键的极性不能修改；
 ```c
 #ifndef PWRKEY_HARD_RESET_TIME

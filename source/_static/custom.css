@@ -3,5 +3,322 @@ html[data-accent-color='blue'] {
 }
 
 html.light {
-    --sy-c-link:var(--accent-9)
+    --sy-c-link: var(--accent-9)
+}
+
+.hardware-docs .sd-card {
+    border-left: 4px solid #28a745;
+    background: linear-gradient(135deg, #f8fff9 0%, #ffffff 100%);
+}
+
+.software-docs .sd-card {
+    border-left: 4px solid #007bff;
+    background: linear-gradient(135deg, #f0f8ff 0%, #ffffff 100%);
+}
+
+.support-container {
+    margin-top: 40px;
+}
+
+.support-container .sd-card {
+    text-align: center;
+    padding: 30px 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.support-container .sd-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* 产品系列标题样式 */
+.product-index h2 {
+    color: #2c3e50;
+    border-bottom: 3px solid var(--accent-9);
+    padding-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+
+.product-index h3 {
+    color: #34495e;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+/* 链接样式优化 */
+.sd-card ul li a {
+    text-decoration: none;
+    color: var(--accent-9);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.sd-card ul li a:hover {
+    color: #1a9bc8;
+    text-decoration: underline;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .product-search-container {
+        padding: 15px;
+    }
+
+    .search-filters {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .product-series-container {
+        padding: 15px;
+        margin-bottom: 25px;
+    }
+
+    .support-container .sd-card {
+        padding: 20px 15px;
+    }
+}
+
+/* 卡片内容样式 */
+.sd-card h4 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.sd-card ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.sd-card ul li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+/* 特殊标记样式 */
+.sd-card ul li strong {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* 开发板卡片样式 */
+.board-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    border: 1px solid #e1e4e8 !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.board-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    border-color: var(--accent-9) !important;
+}
+
+.board-card .sd-card-img-top {
+    height: 200px !important;
+    object-fit: contain !important;
+    background: #f6f8fa !important;
+    padding: 2px !important;
+    border-radius: 8px 8px 0 0 !important;
+}
+
+.board-card .sd-card-body {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+}
+
+.board-card .sd-card-title {
+    font-size: 1.2em !important;
+    font-weight: 600 !important;
+    color: #24292e !important;
+    margin-bottom: 12px !important;
+}
+
+.board-card .sd-card-text {
+    color: #586069 !important;
+    font-size: 0.9em !important;
+    line-height: 1.5 !important;
+    margin-bottom: 15px !important;
+}
+
+.board-card ul {
+    margin-bottom: 20px !important;
+    padding-left: 0 !important;
+    list-style: none !important;
+}
+
+.board-card ul li {
+    color: #586069 !important;
+    font-size: 0.85em !important;
+    padding: 3px 0 !important;
+    position: relative !important;
+    padding-left: 20px !important;
+    margin-bottom: 4px !important;
+}
+
+.board-card ul li:before {
+    content: "✓" !important;
+    color: #28a745 !important;
+    position: absolute !important;
+    left: 0 !important;
+    font-weight: bold !important;
+    font-size: 0.9em !important;
+}
+
+.board-card .sd-card-footer {
+    padding-top: 0 !important;
+    border-top: none !important;
+    background: transparent !important;
+}
+
+.board-card .sd-card-footer a {
+    display: inline-block !important;
+    background: var(--accent-9) !important;
+    color: white !important;
+    padding: 8px 16px !important;
+    text-decoration: none !important;
+    border-radius: 4px !important;
+    font-size: 0.9em !important;
+    font-weight: 500 !important;
+    transition: background-color 0.2s ease !important;
+}
+
+.board-card .sd-card-footer a:hover {
+    background: #1a9bc8 !important;
+    color: white !important;
+    text-decoration: none !important;
+}
+
+/* 即将推出的卡片样式 */
+.board-card.coming-soon {
+    opacity: 0.7 !important;
+}
+
+.board-card.coming-soon .sd-card-img-top {
+    background: #f6f8fa !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #586069 !important;
+    font-size: 1.1em !important;
+    font-weight: 500 !important;
+}
+
+.board-card.coming-soon .sd-card-footer span {
+    display: inline-block !important;
+    background: #6c757d !important;
+    color: white !important;
+    padding: 8px 16px !important;
+    border-radius: 4px !important;
+    font-size: 0.9em !important;
+    font-weight: 500 !important;
+    cursor: not-allowed !important;
+}
+
+.sy-foot-feedback {
+    font-size: 1.0rem;
+}
+
+.sy-foot-feedback a {
+    font-weight: 600;
+}
+
+.sy-foot-feedback a:hover {
+    text-decoration: underline;
+}
+
+
+#feedback-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #e24329;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    z-index: 9999;
+}
+
+#feedback-popup {
+    max-width: 420px;
+    width: 90vw;
+    min-width: 260px;
+    min-height: 430px;
+    box-sizing: border-box;
+    padding: 24px 18px 16px 18px;
+    background: #f6f8fa;
+    border-radius: 8px;
+    border: 2px solid #b3b3b3;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.18);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    display: none;
+    overflow: auto;
+}
+
+
+#feedback-popup input,
+#feedback-popup textarea {
+    width: 100%;
+    box-sizing: border-box;
+    background: #fff;
+}
+
+#feedback-popup .feedback-actions {
+    margin-top: 18px;
+    text-align: right;
+}
+
+#feedback-popup .feedback-actions button {
+    min-width: 72px;
+    padding: 7px 18px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+#feedback-popup #feedback-cancel {
+    background: #e0e3e8;
+    color: #333;
+}
+
+#feedback-popup #feedback-cancel:hover {
+    background: #d0d3d8;
+}
+
+#feedback-popup #feedback-submit {
+    background: #3477f5;
+    color: #fff;
+}
+
+#feedback-popup #feedback-submit:hover {
+    background: #2457c5;
+}
+
+@media (max-width: 500px) {
+    #feedback-popup {
+        max-width: 98vw;
+        padding: 12px 4vw 12px 4vw;
+        min-height: 0;
+    }
+
+    #feedback-popup .flex-row {
+        flex-direction: column;
+        gap: 8px !important;
+    }
 }

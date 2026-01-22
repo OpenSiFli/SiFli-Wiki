@@ -1,0 +1,13 @@
+str_cn:附录,str_en:LCD Frame Rate Calculator
+str_cn:使用LCD帧率计算器来计算屏幕刷新率,str_en:Use the LCD frame rate calculator to calculate the screen refresh rate
+str_cn:<a href="lcd_frequency.html" target="_blank">点击此处打开LCD帧率计算器</a>,str_en:<a href="lcd_frequency.html" target="_blank"> Click here to open LCD frame rate calculator </a>
+str_cn:该计算器可以帮助您,str_en:This calculator can help you
+str_cn:计算LCD屏幕的刷新率(FPS),str_en:Calculate the LCD screen refresh rate (FPS)
+str_cn:计算每次刷新所需的时间(ms),str_en:Calculate the time required for each refresh (ms)
+str_cn:使用时需要输入以下参数,str_en:The following parameters are required
+str_cn:分辨率宽度（像素）,str_en:Resolution width (pixels)
+str_cn:分辨率高度（像素）,str_en:Resolution height (pixels)
+str_cn:颜色位深（RGB565为16位，RGB888为24位）,str_en:Color bit depth (16 bits for RGB565, 24 bits for RGB888)
+str_cn:接口频率(Hz),str_en:Interface frequency (Hz)
+str_cn:DDR模式（单倍速率填1，双倍速率填2）,str_en:DDR mode (fill 1 for single-speed, 2 for double-speed)
+

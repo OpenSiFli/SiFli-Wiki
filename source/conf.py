@@ -72,35 +72,37 @@ html_favicon = './_static/logo_favicon.png'
 
 html_css_files = [
     'custom.css',
+    'lightbox.css',
 ]
 html_js_files = [
     'js/baidu.js',
     'js/chatbot.js',
     'js/custom.js',
+    'js/lightbox.js',
 ]
 html_theme_options = {
         "accent_color": "blue",
         "announcement": """
             <div style="text-align: center">
-                SF32LB52芯片黄山派已发布，欢迎访问
-                <a href='https://lckfb.com/activities/lckfb-hspi-sf32lb52-ulp/you-hui'>思澈&立创黄山派</a>。
+                思澈 Solution 全面开放：一套产品级方案，加速从原型到量产
+                <a href='https://docs.sifli.com/projects/solution/0.introduction/index.html'>Solution文档</a>。
             </div>
         """,
     # "globaltoc_expand_depth": ,
         "github_url": "https://github.com/OpenSiFli",
         "nav_links": [
         {
-            "title": "用户指南",
+            "title": "入门指南",
             "url": "docs/index",
         },
         {
-            "title": "示例",
-            "url": "https://docs.sifli.com/projects/sdk/v2.3/sf32lb52x/example/hal/index.html",
+            "title": "API文档",
+            "url": "https://docs.sifli.com/projects/sdk/latest/sf32lb52x/index.html",
             "external": True,
         },
-        {
-            "title": "API文档",
-            "url": "https://docs.sifli.com/projects/sdk/v2.3/sf32lb52x/api/index.html",
+                {
+            "title": "Solution文档",
+            "url": "https://docs.sifli.com/projects/solution/0.introduction/index.html",
             "external": True,
         },
         {
@@ -139,7 +141,12 @@ html_context = {
     "languages": [
         ("English", "/en/%s.html", "en"),
         ("中文", "/%s.html", "zh"),
-    ]
+    ],
+    "source_type": "github",
+    "source_user": "OpenSiFli",
+    "source_repo": "SiFli-Wiki",
+    "source_version": "main",  # Optional
+    "source_docs_path": "/source/",  # Optional
 }
 
 def setup(app):

@@ -8,3 +8,4 @@ build/
 wiki/
 # Virtual environment
 .venv/
+venv/

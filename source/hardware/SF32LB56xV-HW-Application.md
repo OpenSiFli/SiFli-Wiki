@@ -42,7 +42,7 @@ SF32LB56xV的封装信息如表2-1所示。
 <div align="center"> 表2-1  封装信息列表  </div>
 
 ```{table}
-
+:align: center
 | 封装名称 | 尺寸            | 管脚间距 | 球直径 |
 | -------- | --------------- | -------- | ------ |
 | WBBGA175 | 6.5x6.1x0.94 mm | 0.4 mm   | 0.25mm |
@@ -123,7 +123,7 @@ SF32LB56xV供电规格：
 <div align="center"> 表4-1  PMU 供电规格 </div>
 
 ```{table}
-
+:align: center
 | PMU电源管脚      | 最小电压(V) | 典型电压(V) | 最大电压(V) | 最大电流(mA) | 详细描述                                                  |
 | :--------------- | :---------: | :---------: | :---------: | :----------: | :-------------------------------------------------------- |
 | PVDD             |    1.71     |     1.8     |     3.6     |     100      | PVDD 电源输入                                             |
@@ -139,10 +139,9 @@ SF32LB56xV供电规格：
 | VDDIOA           |    1.71     |     1.8     |    3.45     |      -       | PA12-PA78 I/O电源输入                                     |
 | VDDIOA2          |    1.71     |     1.8     |    3.45     |      -       | PA0-PA11 I/O电源输入                                      |
 | VDDIOB           |    1.71     |     1.8     |    3.45     |      -       | PB I/O电源输入                                            |
-| VDDIOSA          |    1.71     |     1.8     |    3.45     |      -       | SIPA电源输入                                              |
-| VDDIOSB          |    1.71     |     1.8     |    3.45     |      -       | SIPB电源输
-入    
-| VDDIOSC          |    1.71     |     1.8     |    3.45     |      -       | SIPC电源输入                                             |                                        
+| VDDIOSA          |    1.71     |     1.8     |    1.98     |      -       | SIPA电源输入                                              |
+| VDDIOSB          |    1.71     |     1.8     |    1.98     |      -       | SIPB电源输入    
+| VDDIOSC          |    1.71     |     1.8     |    1.98     |      -       | SIPC电源输入 |                                        
 ```
 
 SF32LB56xV系列芯片电源管脚外接电容推荐值如表4-2所示。
@@ -150,7 +149,7 @@ SF32LB56xV系列芯片电源管脚外接电容推荐值如表4-2所示。
 <div align="center"> 表4-2 电容推荐值 </div>
 
 ```{table}
-
+:align: center
 | 电源管脚         | 电容          | 详细描述                                       |
 | ---------------- | ------------- | ---------------------------------------------- |
 | PVDD             | 0.1uF + 10uF  | 靠近管脚的地方至少放置10uF和0.1uF  共2颗电容.  |
@@ -161,7 +160,9 @@ SF32LB56xV系列芯片电源管脚外接电容推荐值如表4-2所示。
 | VDD_RTC          | 1uF           | 靠近管脚的地方至少放置1颗1uF电容.              |
 | AVDD_BRF         | 4.7uF         | 靠近管脚的地方至少放置1颗4.7uF电容.            |
 | AVDD33_ANA       | 4.7uF         | 靠近管脚的地方至少放置1颗4.7uF电容.            |
+| GPADC_VREFP      | 4.7uF         | 靠近管脚的地方至少放置1颗4.7uF颗电容.          |
 | AVDD33_AUD       | 4.7uF         | 靠近管脚的地方至少放置1颗4.7uF颗电容.          |
+| AUD_VREF         | 1uF           | 靠近管脚的地方至少放置1颗1uF颗电容.            |
 | MIC_BIAS         | 1uF           | 靠近管脚的地方至少放置1颗1uF电容.              |
 | VDDIOA           | 1uF           | 靠近管脚的地方至少放置1颗1uF电容.              |
 | VDDIOA2          | 1uF           | 靠近管脚的地方至少放置1颗1uF电容.              |
@@ -182,7 +183,7 @@ SF32LB56XV可以通过TWI接口和SF30147C通讯。SF30147C的各路电源输出
 <div align="center"> 表4-3 SF30147C电源分配表 </div>
 
 ```{table}
-
+:align: center
 | SF30147C  电源管脚 | 最小电压(V) | 最大电压(V) | 最大电流(mA) | 详细描述                                                     |
 | ------------------ | ----------- | ----------- | ------------ | ------------------------------------------------------------ |
 | VBUCK              | 1.8         | 1.8         | 500          | SF32LB56xV的PVDD，VDDIOA，VDDIOA2，VDDIOB，VDDIOSA，VDDIOSB，VDDIOSC，AVDD_BRF等1.8V电源输入 |
@@ -288,7 +289,7 @@ SF32LB56xV系列芯片HCPU和LCPU都支持表4-4中的多种工作模式。
 <div align="center"> 表4-4 CPU工作模式列表 </div>
 
 ```{table}
-
+:align: center
 | 工作模式      | CPU   | 外设  | SRAM                              | IO       | LPTIM | 唤醒源                                    | 唤醒时间         |
 | ------------- | ----- | ----- | --------------------------------- | -------- | ----- | ----------------------------------------- | ---------------- |
 | Active        | Run   | Run   | 可访问                            | 可翻转   | Run   |                                           |                  |
@@ -301,12 +302,22 @@ SF32LB56xV系列芯片HCPU和LCPU都支持表4-4中的多种工作模式。
 | Hibernate pin | Reset | Reset | 数据不保留                        | 高阻     | Reset | 按键                                      | > 2ms            |
 ```
 
+:::{attention}
+- 使用Standby mode作为关机：
+  * 由于GPIO的电平可以保持，VDDIOSA和VDDIOSB可以常供电，合封的存储器IO上不会漏电。
+  * 需要将MPI1,MPI2上的存储设备设置为低功耗模式来降低功耗。
+- 使用Hibernate mode作为关机：
+  * 由于GPIO的电平无法保持，VDDIOSA和VDDIOSB的供电需要关闭，避免合封存储器的IO上漏电。
+  * VDDIOSA和VDDIOSB的供电开关的控制信号使用PBR0。
+- VDDIOSC需要常供电，进入Hibernate mode前使NOR Flash进入deep power down mode。
+:::
+
 如表4-5所示，全系列芯片支持14个可唤醒中断源，可以唤醒大核或小核CPU。
 
 <div align="center"> 表4-5 可唤醒中断源列表 </div>
 
 ```{table}
-
+:align: center
 | 中断源     | 管脚 | 详细描述   |
 | ---------- | ---- | ---------- |
 | WKUP_PIN0  | PB32 | 中断信号0  |
@@ -335,11 +346,11 @@ SF32LB56xV系列芯片需要外部提供2个时钟源，48MHz主晶体和32.768K
 <div align="center"> 表4-6 晶体规格要求 </div>
 
 ```{table}
-
-| 晶体      | 晶体规格要求                                                 | 详细描述                                                     |
-| --------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 48MHz     | CL≦12pF（推荐值7pF）  △F/F0≦±10ppm  ESR≦30 ohms（推荐值22ohms） | 晶振功耗和CL,ESR相关,CL和ESR越小功耗越低，为了最佳功耗性能，建议采用推荐值CL≦7pF，ESR≦22 ohms.  晶体旁边预留并联匹配电容,当CL<9pF时，无需焊接电容. |
-| 32.768KHz | CL≦12.5pF（推荐值7pF）  △F/F0≦±20ppm  ESR≦80k ohms（推荐值38Kohms） | 晶振功耗和CL,ESR相关,CL和ESR越小功耗越低，为了最佳功耗性能，建议采用推荐值CL≦9pF，ESR≦40K ohms.  晶体旁边预留并联匹配电容,当CL<12.5pF时，无需焊接电容. |
+:align: center
+|晶体|晶体规格要求   |详细描述  |
+|:--|:-------|:--------|
+|48MHz |7pF≦CL≦12pF（推荐值8.8pF） △F/F0≦±10ppm ESR≦30 ohms（推荐值22ohms）|晶振功耗和CL,ESR相关,CL和ESR越小功耗越低，为了最佳功耗性能，建议采用CL和ESR在要求范围内相对较小值的物料。晶体旁边预留并联匹配电容,当CL<12pF时，无需焊接电容|
+|32.768KHz |CL≦12.5pF（推荐值7pF）△F/F0≦±20ppm ESR≦80k ohms（推荐值38Kohms）|晶振功耗和CL,ESR相关,CL和ESR越小功耗越低，为了最佳功耗性能，建议采用CL和ESR在要求范围内相对较小值的物料。晶体旁边预留并联匹配电容,当CL<12.5pF时，无需焊接电容|
 ```
 
 **晶体推荐**
@@ -347,7 +358,7 @@ SF32LB56xV系列芯片需要外部提供2个时钟源，48MHz主晶体和32.768K
 <div align="center"> 表4-7 推荐晶体列表 </div>
 
 ```{table}
-
+:align: center
 | 型号                | 厂家    | 参数                                                         |
 | ------------------- | ------- | ------------------------------------------------------------ |
 | E1SB48E001G00E      | Hosonic | F0 = 48.000000MHz，△F/F0 = -6 ~ 8 ppm，  CL = 8.8 pF，ESR =  22 ohms Max  TOPR  = -30 ~ 85℃，Package =（2016 公制） |
@@ -358,6 +369,9 @@ SF32LB56xV系列芯片需要外部提供2个时钟源，48MHz主晶体和32.768K
 注：SX20Y048000B31T-8.8的ESR略大，静态功耗也会略大些。
    PCB走线时，在晶体下面至少挖掉第二层的GND铜来减少时钟信号上的寄生负载电容。
 :::
+
+详细的物料认证信息，请参考：
+[SIFLI-MCU-AVL-认证表](index)
 
 ### 射频
 
@@ -381,7 +395,7 @@ SF32LB56xV系列芯片支持3-Line SPI、4-Line SPI、Dual data SPI、Quad data 
 <div align="center"> 表4-8 LCD driver支持列表 </div>
 
 ```{table}
-
+:align: center
 | 型号     | 厂家       | 分辨率  | 类型   | 接口                                                         |
 | -------- | ---------- | ------- | ------ | ------------------------------------------------------------ |
 | RM69090  | Raydium    | 368*448 | Amoled | 3-Line SPI，4-Line  SPI，Dual data SPI，  Quad data SPI，MIPI-DSI |
@@ -400,18 +414,18 @@ SF32LB56xV系列芯片支持 3/4-wire SPI和Quad-SPI 接口来连接LCD显示屏
 <div align="center"> 表4-9 SPI/QSPI屏信号连接方式 </div>
 
 ```{table}
-
-| SPI信号      | I/O  | 详细描述                                                  |
-| ------- | ---- | --------------------------------------------------------- |
+:align: center
+| SPI信号      | I/O  | 详细描述                                             |
+| ------- | ---- | -------------------------------------------------------- |
 | CSX     | PA36 | 使能信号                                                  |
 | WRX_SCL | PA37 | 时钟信号                                                  |
-| DCX     | PA39 | 4-wire SPI 模式下的数据/命令信号  Quad-SPI 模式下的数据1  |
-| SDI_RDX | PA38 | 3/4-wire SPI 模式下的数据输入信号  Quad-SPI 模式下的数据0 |
-| SDO     | PA38 | 3/4-wire SPI 模式下的数据输出信号  请和SDI_RDX短接到一起  |
+| DCX     | PA39 | 4-wire SPI 模式下的数据/命令信号  Quad-SPI 模式下的数据1    |
+| SDI_RDX | PA38 | 3/4-wire SPI 模式下的数据输入信号  Quad-SPI 模式下的数据0   |
+| SDO     | PA38 | 3/4-wire SPI 模式下的数据输出信号  请和SDI_RDX短接到一起    |
 | D[0]    | PA40 | Quad-SPI 模式下的数据2                                    |
 | D[1]    | PA41 | Quad-SPI 模式下的数据3                                    |
 | REST    | PA43 | 复位显示屏信号                                            |
-| TE      | PA33 | Tearing effect to MCU frame signal                        |
+| TE      | PA33 | Tearing effect to MCU frame signal                       |
 ```
 
 #### MCU8080显示接口
@@ -421,7 +435,7 @@ SF32LB56xV系列芯片支持 MCU8080 接口来连接LCD显示屏，如表4-10所
 <div align="center"> 表4-10 MCU8080屏信号连接方式 </div>
 
 ```{table}
-
+:align: center
 | MCU8080信号 | I/O  | 详细描述                            |
 | :------ | :--- | :---------------------------------- |
 | CSX     | PA36 | Chip  select                        |
@@ -429,7 +443,7 @@ SF32LB56xV系列芯片支持 MCU8080 接口来连接LCD显示屏，如表4-10所
 | DCX     | PA39 | Display  data / command selection   |
 | RDX     | PA38 | Reads  strobe signal to write data  |
 | D[0]    | PA40 | Data 0                              |
-| D[1]    | PA1  | Data 1                              |
+| D[1]    | PA41 | Data 1                              |
 | D[2]    | PA28 | Data 2                              |
 | D[3]    | PA29 | Data 3                              |
 | D[4]    | PA30 | Data 4                              |
@@ -447,7 +461,7 @@ SF32LB56xV系列芯片支持DPI接口来连接LCD显示屏，如表4-11所示。
 <div align="center"> 表4-11 DPI屏信号连接方式 </div>
 
 ```{table}
-
+:align: center
 | DPI信号 | I/O  | 详细描述                               |
 | ------- | ---- | -------------------------------------- |
 | CLK     | PA45 | 时钟信号                               |
@@ -459,7 +473,7 @@ SF32LB56xV系列芯片支持DPI接口来连接LCD显示屏，如表4-11所示。
 | R0      | PA14 | 像素信号                               |
 | R1      | PA13 | 像素信号                               |
 | R2      | PA16 | 像素信号                               |
-| R3      | PA15 | 像素信号                               |
+| R3      | PA24 | 像素信号                               |
 | R4      | PA19 | 像素信号                               |
 | R5      | PA21 | 像素信号                               |
 | R6      | PA23 | 像素信号                               |
@@ -489,7 +503,7 @@ SF32LB56xV系列芯片支持并行和串行JDI接口来连接LCD显示屏，并�
 <div align="center"> 表4-12 并行JDI屏信号连接方式 </div>
 
 ```{table}
-
+:align: center
 | JDI信号      | I/O  | 详细描述                                                     |
 | ------------ | ---- | ------------------------------------------------------------ |
 | JDI_VCK      | PA41 | Shift clock for the vertical driver                          |
@@ -511,7 +525,7 @@ SF32LB56xV系列芯片支持并行和串行JDI接口来连接LCD显示屏，并�
 <div align="center"> 表4-13 串行JDI屏信号连接方式 </div>
 
 ```{table}
-
+:align: center
 | JDI信号      | 管脚 | 详细描述                         |
 | ------------ | ---- | -------------------------------- |
 | JDI_SCS      | PA39 | Chip Select Signal               |
@@ -528,7 +542,7 @@ SF32LB56xV系列芯片支持I2C格式的触摸屏控制接口和触摸状态中�
 <div align="center"> 表4-14 触摸和背光控制连接方式 </div>
 
 ```{table}
-
+:align: center
 | 触摸屏和背光信号 | 管脚 | 详细描述                   |
 | ---------------- | ---- | -------------------------- |
 | Interrupt        | PA50 | 触摸状态中断信号（可唤醒） |
@@ -549,7 +563,7 @@ MPI的信号定义如表4-15所示，SD的信号定义如表4-16所示，eMMC的
 <div align="center"> 表4-15 SPI Nor/Nand Flash信号连接 </div>
 
 ```{table}
-
+:align: center
 | Flash 信号 | I/O信号 | 详细描述                                    |
 | ---------- | ------- | ------------------------------------------- |
 | CS#        | PA06    | Chip select, active low.                    |
@@ -566,7 +580,7 @@ SPI NAND Flash的Hold#管脚需要通过10K电阻上拉到SPI NAND Flash的供�
 <div align="center"> 表4-16 SD Nand Flash信号连接 </div>
 
 ```{table}
-
+:align: center
 | Flash 信号 | I/O信号 | 详细描述 |
 | ---------- | ------- | -------- |
 | SD2_CMD    | PA09    | 命令信号 |
@@ -580,7 +594,7 @@ SPI NAND Flash的Hold#管脚需要通过10K电阻上拉到SPI NAND Flash的供�
 <div align="center"> 表4-17 eMMC信号连接 </div>
 
 ```{table}
-
+:align: center
 | eMMC 信号 | I/O信号 | 详细描述 |
 | --------- | ------- | -------- |
 | SD1_CMD   | PA27    | 命令信号 |
@@ -604,7 +618,7 @@ SF32LB56xV系列芯片支持功能按键输入以及旋钮信号输入，按键�
 <div align="center"> 表4-18 光追踪传感器信号连接 </div>
 
 ```{table}
-
+:align: center
 | I2C信号 | I/O  | 详细描述                 |
 | ------- | ---- | ------------------------ |
 | SDA     | PA18 | 光追踪传感器I2C 数据信号 |
@@ -632,6 +646,11 @@ SF32LB56xV系列芯片支持多路PWM输出，可以用做振动马达的驱动�
 
 <div align="center"> 图4-12 振动马达电路示意图 </div>  <br>  <br>  <br>
 
+:::{important}
+如果软件打开了`#define BSP PM FREQ SCALING 1`的HCPU主频降频功能宏定义,HCPU进入idle线程后，主频会变低，相对应Hcpu的PA口的PWM频率也会变化，
+所以推荐使用PB接口来输出PWM信号。
+:::
+
 ### 音频接口
 
 SF32LB56xV系列芯片的音频相关接口，如表4-19所示，音频接口信号有以下特点：
@@ -642,7 +661,7 @@ SF32LB56xV系列芯片的音频相关接口，如表4-19所示，音频接口信
 <div align="center"> 表4-19 音频信号连接方式 </div>
 
 ```{table}
-
+:align: center
 | 音频信号  | I/O  | 详细描述               |
 | --------- | ---- | ---------------------- |
 | AU_ADC1P  | ADCP | 差分P或单端模拟MIC输入 |
@@ -711,16 +730,18 @@ SF32LB56xV系列芯片支持任意管脚GPTIM功能映射，所有的PA接口都
 
 SF32LB56xV系列芯片支持Arm®标准的SWD调试接口，可以连接到EDA工具上进行单步运行调试。如图4-18所示，连接SEEGER® J-Link® 工具时需要把调试工具的电源修改为外置接口输入，通过SF32LB56xV电路板给J-Link工具供电。
 
-SF32LB56xV系列有1路SWD进行调试信息输出，具体请参考表4-20。
+SF32LB56xV系列有1路SWD进行调试信息输出，有1路默认的UART口用来下载和打印log，具体请参考表4-20。
 
 <div align="center"> 表4-20 调试口连接方式 </div>
 
 ```{table}
-
-| SWD信号 | 管脚 | 详细描述      |
-| ------- | ---- | ------------- |
-| SWCLK   | PB15 | JLINK时钟信号 |
-| SWDIO   | PB13 | JLINK数据信号 |
+:align: center
+| 信号         | 管脚 | 详细描述                       |
+| ----------- | ---- | ----------------------------- |
+| SWCLK       | PB15 | JLINK时钟信号，调试接口         |
+| SWDIO       | PB13 | JLINK数据信号，调试接口         |
+| UART4_RXD   | PB16 | 串口接收信号，下载和打印log接口  |
+| UART4_TXD   | PB17 | 串口发送信号，下载和打印log接口  |
 ```
 
 <img src="assets/56xV/sf32lb56xV-SCH-SWD.png" width="80%" align="center" /> 
@@ -1015,5 +1036,5 @@ TVS 管接地脚尽量避免走长线再连接到地，如图5-35所示。
 | 版本  | 日期   | 发布说明  |
 | ----- | ------ | --------- |
 | 0.0.1 | 9/2022 | Draft版本 |
-
-
+|       |        |           |
+|       |        |           |

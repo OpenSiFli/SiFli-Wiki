@@ -51,7 +51,7 @@ SF32LB527UD6，合封16MB OPI-PSRAM
 ```
 
 
-<img src="assets/52xA/SF32LB52x-A-package-layout.png" width="80%" align="center" />  
+<img src="assets/52xA/sf32lb52x-A-package-layout.png" width="80%" align="center" />  
 
 <div align="center"> 图2-1 QFN68L管脚分布 </div>  <br> <br> <br>
 
@@ -273,11 +273,11 @@ SF32LB52x VBUS管脚输入电压范围：4.5V ~ 5.5V，所以只能选择下面�
 <div align="center"> 表4-6 晶体规格要求 </div>
 
 ```{table}
-
+:align: center
 |晶体|晶体规格要求   |详细描述  |
 |:--|:-------|:--------|
-|48MHz |CL≦12pF（推荐值7pF）△F/F0≦±10ppmESR≦30 ohms（推荐值22ohms）|晶振功耗和CL,ESR相关,CL和ESR越小功耗越低，为了最佳功耗性能，建议采用推荐值CL≦7pF，ESR≦22 ohms.晶体旁边预留并联匹配电容,当CL<9pF时，无需焊接电容|
-|32.768KHz |CL≦12.5pF（推荐值7pF）△F/F0≦±20ppm ESR≦80k ohms（推荐值38Kohms）|晶振功耗和CL,ESR相关,CL和ESR越小功耗越低，为了最佳功耗性能，建议采用推荐值CL≦9pF，ESR≦40K ohms.晶体旁边预留并联匹配电容,当CL<12.5pF时，无需焊接电容|
+|48MHz |7pF≦CL≦12pF（推荐值8.8pF） △F/F0≦±10ppm ESR≦30 ohms（推荐值22ohms）|晶振功耗和CL,ESR相关,CL和ESR越小功耗越低，为了最佳功耗性能，建议采用CL和ESR在要求范围内相对较小值的物料。晶体旁边预留并联匹配电容,当CL<12pF时，无需焊接电容|
+|32.768KHz |CL≦12.5pF（推荐值7pF）△F/F0≦±20ppm ESR≦80k ohms（推荐值38Kohms）|晶振功耗和CL,ESR相关,CL和ESR越小功耗越低，为了最佳功耗性能，建议采用CL和ESR在要求范围内相对较小值的物料。晶体旁边预留并联匹配电容,当CL<12.5pF时，无需焊接电容|
 ```
 
 <div align="center"> 表4-7 推荐晶体列表 </div>
@@ -296,6 +296,9 @@ SF32LB52x VBUS管脚输入电压范围：4.5V ~ 5.5V，所以只能选择下面�
 PCB走线时，在晶体下面至少挖掉第二层的GND铜来减少时钟信号上的寄生负载电容。
 **
 :::
+
+详细的物料认证信息，请参考：
+[SIFLI-MCU-AVL-认证表](index)
 
 ### 射频
 

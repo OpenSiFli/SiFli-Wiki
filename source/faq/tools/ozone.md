@@ -91,5 +91,7 @@ Ozone连接后，并使能Project.SetOSPlugin("RtThreadOSPlugin");的现场如�
 在烧录的bin的路径不是本地编译的情况下，用Ozone进行Debug，会提示File not find，无法定位到相应的c源代码，从而无法进行逐条跟踪定位问题。<br>
 ![alt text](./assets/ozone012.png)<br>     
 解决方法：<br>
-鼠标右键该文件，Locate File到对应文件，就能定位到该c源文件，也可以采用
-Project.AddPathSubstitute命令重定位路径，实际是需要参考Qzone的手册<br>
+单个文件找不到：鼠标右键该文件，Locate File到对应文件，就能定位到该c源文件<br>
+批量文件基地址不对：使用Project.AddPathSubstitute命令重定位路径,比如将elf种的linux路径替换成windows的<br>
+ ![alt text](./assets/Ozone_substitute.png)
+

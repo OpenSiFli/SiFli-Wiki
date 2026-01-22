@@ -11,7 +11,7 @@ c:\Keil_v5\ARM\ARMCC\bin\fromelf.exe hcpu.axf --text -c >hcpu.asm
 c:\Keil_v5\ARM\ARMCC\bin\fromelf.exe --bin --output=./lcpuaxf.bin ./lcpu.axf
 ```
 ## 1.2 支持的编译器和版本
-Keil， 推荐版本:
+Keil，`armclang --version` 推荐版本:
 ![alt text](./assets/compile001.png)<br>
 GCC，推荐版本: 
 ![alt text](./assets/compile002.png)<br>

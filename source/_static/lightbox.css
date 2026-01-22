@@ -1,0 +1,117 @@
+/* Lightweight lightbox styles for Sphinx pages */
+:root {
+  --sf-lb-backdrop: rgba(0, 0, 0, 0.72);
+  --sf-lb-caption-bg: rgba(0, 0, 0, 0.55);
+  --sf-lb-caption-fg: #fff;
+}
+
+body.sf-lightbox-open {
+  overflow: hidden;
+}
+
+#sf-lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999; /* above most themes */
+  display: none;
+}
+
+#sf-lightbox-overlay.is-open {
+  display: block;
+}
+
+#sf-lightbox-overlay .sf-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--sf-lb-backdrop);
+  backdrop-filter: blur(1px);
+}
+
+#sf-lightbox-overlay .sf-lightbox-figure {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  justify-items: center;
+  padding: 4vh 4vw;
+}
+
+#sf-lightbox-overlay .sf-lightbox-img {
+  max-width: 100%;
+  max-height: 80vh;
+  box-shadow: 0 10px 30px rgba(0,0,0,.55);
+  border-radius: 6px;
+  background: #111;
+  transition: transform .12s ease-out;
+  cursor: zoom-out;
+}
+
+#sf-lightbox-overlay .sf-lightbox-caption {
+  margin-top: 1rem;
+  max-width: 100%;
+  padding: .4rem .6rem;
+  border-radius: 4px;
+  background: var(--sf-lb-caption-bg);
+  color: var(--sf-lb-caption-fg);
+  font-size: .9rem;
+}
+
+#sf-lightbox-overlay .sf-lightbox-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: rgba(0,0,0,.45);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  width: 34px;
+  height: 34px;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* Toolbar */
+#sf-lightbox-overlay .sf-lightbox-toolbar {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  display: inline-flex;
+  gap: 8px;
+  background: rgba(0,0,0,.35);
+  padding: 6px 8px;
+  border-radius: 8px;
+  backdrop-filter: blur(2px);
+}
+#sf-lightbox-overlay .sf-lb-btn {
+  min-width: 36px;
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 6px;
+  background: rgba(30,30,30,.7);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+#sf-lightbox-overlay .sf-lb-btn:hover {
+  background: rgba(45,45,45,.85);
+}
+
+/* Hand cursor when zoomed & panning */
+.sf-lightbox-img.is-zoomed {
+  cursor: grab;
+}
+.sf-lightbox-img.is-zoomed.is-panning {
+  cursor: grabbing;
+}
+
+/* Optional: hover zoom hint */
+img:not(.no-lightbox) {
+  transition: transform .15s ease-out;
+}
+img:not(.no-lightbox):hover {
+  transform: translateZ(0) scale(1.01);
+}
