@@ -58,6 +58,7 @@ SF32LB52B-E-G-J-HW-Application
 SF32LB56xU-HW-Application
 SF32LB56xV-HW-Application
 SF32LB58x-HW-Application
+SF32-auto-download
 SF32LB55x-HW-Application
 SF32LB52-MOD-1-EPD-HW-Application
 
