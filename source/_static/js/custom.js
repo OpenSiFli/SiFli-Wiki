@@ -38,9 +38,10 @@
     }
     
     // 如果浏览器语言是英文，但当前在中文页面
-    if (langCode === 'en' && !isEnglishPage && currentPath !== '/') {
+    if (langCode === 'en' && !isEnglishPage) {
         // 构建英文页面URL（添加 /en/ 前缀）
-        var englishPath = '/en' + currentPath;
+        // 如果是首页，跳转到 /en/，否则添加 /en 前缀
+        var englishPath = currentPath === '/' ? '/en/' : '/en' + currentPath;
         console.log('检测到英文浏览器 + 中文页面，准备跳转到:', englishPath);
         // 标记已处理过跳转
         sessionStorage.setItem('languageRedirected', 'true');
@@ -48,8 +49,8 @@
         return;
     }
     
-    // 如果到达这里，说明语言匹配或是首页，标记为已处理
-    console.log('语言已匹配或首页，无需跳转');
+    // 如果到达这里，说明语言匹配，标记为已处理
+    console.log('语言已匹配，无需跳转');
     sessionStorage.setItem('languageRedirected', 'true');
     console.log('=== 语言自动跳转脚本执行完成 ===');
 })();
