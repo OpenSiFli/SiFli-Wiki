@@ -177,3 +177,8 @@ static LCDC_InitTypeDef lcdc_int_cfg_dsi =
     2. Video模式下对应DPI的PCLK频率的公式大概是这样的:`DSI_CLK = PCLK * bpp / NumOfDsiLane`.  例如屏幕要求DPI频率大于28MHz, 使用16bit位深, 2个DSI数据线, 那么至少需要DSI的频率是 28*16/2=224MHz
 
 :::
+
+### Video模式的屏幕调试顺序
+1. 先确认配置参数正确, 如DSI频率, data lane的数量(58x最多2线), 目前只支持NoneBurst Event模式等
+2. 初始化屏幕的命令正确, 并且能通过屏幕自测命令点亮屏幕(记得打开背光)
+3. 如果能显示图像, 但是图像混乱/错乱, 请咨询我们的FAE.
