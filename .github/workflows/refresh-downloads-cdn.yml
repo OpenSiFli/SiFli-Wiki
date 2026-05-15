@@ -1,0 +1,61 @@
+name: Refresh Downloads CDN Cache
+
+on:
+  schedule:
+    # Run daily at 02:17 Beijing time to keep CDN delay below 24 hours.
+    - cron: '17 18 * * *'
+  workflow_dispatch:
+    inputs:
+      purge_paths:
+        description: 'Optional CDN paths, separated by spaces, commas, or new lines. Encode spaces as %20.'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: refresh-downloads-cdn-cache
+  cancel-in-progress: false
+
+jobs:
+  refresh-downloads-cdn:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install TCCLI
+        run: |
+          python -m pip install --upgrade pip
+          pip install tccli
+
+      - name: Purge downloads CDN cache
+        env:
+          TENCENTCLOUD_SECRET_ID: ${{ secrets.COS_DOCS_SECRET_ID }}
+          TENCENTCLOUD_SECRET_KEY: ${{ secrets.COS_DOCS_SECRET_KEY }}
+          TENCENTCLOUD_REGION: ${{ secrets.COS_DOCS_REGION }}
+          DEFAULT_PURGE_PATHS: |
+            https://downloads.sifli.com/docs/user%20manual/SF32LB52x/
+            https://downloads.sifli.com/docs/user%20manual/SF32LB55x/
+            https://downloads.sifli.com/docs/user%20manual/SF32LB56x/
+            https://downloads.sifli.com/docs/user%20manual/SF32LB58x/
+            https://downloads.sifli.com/hardware/files/documentation/
+            https://downloads.sifli.com/silicon/
+            https://downloads.sifli.com/tools/
+            https://downloads.sifli.com/user%20manual/
+          INPUT_PURGE_PATHS: ${{ github.event.inputs.purge_paths }}
+        run: |
+          : "${TENCENTCLOUD_SECRET_ID:?COS_DOCS_SECRET_ID secret is required}"
+          : "${TENCENTCLOUD_SECRET_KEY:?COS_DOCS_SECRET_KEY secret is required}"
+          : "${TENCENTCLOUD_REGION:?COS_DOCS_REGION secret is required}"
+
+          paths="${INPUT_PURGE_PATHS:-$DEFAULT_PURGE_PATHS}"
+          mapfile -t purge_paths < <(printf '%s\n' "$paths" | tr ',' '\n' | xargs -n1 printf '%s\n')
+
+          printf 'Submitting CDN purge for:\n'
+          printf '  %s\n' "${purge_paths[@]}"
+          tccli cdn PurgePathCache --cli-unfold-argument --Paths "${purge_paths[@]}" --FlushType flush
+          echo 'CDN purge request submitted successfully.'
