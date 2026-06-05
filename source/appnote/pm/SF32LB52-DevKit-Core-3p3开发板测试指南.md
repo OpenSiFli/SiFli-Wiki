@@ -23,8 +23,11 @@ Core 开发板为面向商业化客户和专业用户的标准开发板。该开
 #### 烧录步骤
 设备工作及烧录前需进行如下跳线：
 
-<img width="260" height="480" alt="image" src="https://github.com/user-attachments/assets/b866e04c-bc5c-4ae3-87df-c17d2e50b73e" />
+```{figure} assets/52_Core01.png
 
+:scale: 70%
+
+```
 
 1） ①、②、③跳线帽短接3v3，④跳线帽短接1v8
 
@@ -35,17 +38,20 @@ Core 开发板为面向商业化客户和专业用户的标准开发板。该开
 4） 使用Impeller工具开始烧录
 
 
-```{figure} assets/烧录流程_3.png
+```{figure} assets/52_Core02.png
 
 :scale: 70%
+
 ```
-\
+
 上图中步骤1）的参数设置页面具体设置如下图：
-```{figure} assets/烧录流程_4.png
+
+```{figure} assets/52_Core03.png
 
 :scale: 70%
+
 ```
-\
+
 5）下载成功后，即可继续下面的测试流程进行配置，然后重新上电正常启动；
 
 ## 四、拉距测试
@@ -56,7 +62,11 @@ Core 开发板为面向商业化客户和专业用户的标准开发板。该开
 
 Core板支持两种天线选择，板载陶瓷天线和外接天线。
 
-<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/427289a9-db5b-4813-bfa1-0da7712a20fe" />
+```{figure} assets/52_Core04.png
+
+:scale: 70%
+
+```
 
 1）①为板载陶瓷天线，②为外接天线预留焊盘，③为0欧电阻
 
@@ -64,8 +74,11 @@ Core板支持两种天线选择，板载陶瓷天线和外接天线。
 
 3）当③的0欧电阻如下图焊接时，使用的是焊接的外接天线
 
-<img width="645" height="555" alt="image" src="https://github.com/user-attachments/assets/b96b013e-4a39-4e58-a196-e0a6f42b68eb" />
+```{figure} assets/52_Core05.png
 
+:scale: 70%
+
+```
 4） 注意：中间焊盘为信号（RF），左右两边为GND
 
 ### 2.跳线配置
@@ -95,8 +108,11 @@ Core板支持两种天线选择，板载陶瓷天线和外接天线。
 
 19db 蓝牙接收模式（左） 蓝牙发射模式（右）
 
-图
+```{figure} assets/52_Core06.png
 
+:scale: 70%
+
+```
 
 #### 功率选择：
 
@@ -127,11 +143,21 @@ Core板支持两种天线选择，板载陶瓷天线和外接天线。
 #### 16db功率选择示例：
 发射端：
 - 跳线接PA24
-  图
-  
+- 
+```{figure} assets/52_Core07.png
+
+:scale: 70%
+
+```
 接收端：
 - 跳线接PA27、PA24
- 图 
+- 
+```{figure} assets/52_Core08.png
+
+:scale: 70%
+
+```
+
 ### 3.LED状态（PA32）
 可以根据LED状态板子的模式以及板子连接状态。
 
