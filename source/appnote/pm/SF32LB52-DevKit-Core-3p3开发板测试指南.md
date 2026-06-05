@@ -1,6 +1,7 @@
 # SF32LB52-DevKit-Core-3p3开发板测试指南
 
 ## 一、简介
+
 Core 开发板为面向商业化客户和专业用户的标准开发板。该开发板随板预置一套标准固件，且同步上线配套资料，帮助客户在不修改代码、不重新编译的情况下，快速完成蓝牙射频性能、发射功率、接收灵敏度和功耗数据验证。
 
 ## 二、固件获取
@@ -8,9 +9,9 @@ Core 开发板为面向商业化客户和专业用户的标准开发板。该开
 固件获取路径为：
 
 ## 三、固件烧录
-[Impeller]: https://downloads.sifli.com/tools/Impeller/Impeller_latest.7z
-[Impeller使用说明]: https://wiki.sifli.com/tools/%E7%83%A7%E5%BD%95%E5%B7%A5%E5%85%B7.html
+
 ### 1. 烧录工具（Impeller）
+
 工具获取： [Impeller工具包][Impeller]
 
 烧录工具使用说明：[Impeller使用说明][Impeller使用说明]
@@ -22,11 +23,10 @@ Core 开发板为面向商业化客户和专业用户的标准开发板。该开
 软件环境：Windows系统+Impeller工具+固件包；
 
 #### 烧录步骤
+
 设备工作及烧录前需进行如下跳线：
 
-<img src="assets/52_Core01.png" width="50%" high="50%" align="center" /> 
-
-
+<img src="assets/52_Core01.png" width="35%" high="35%" align="center" />
 
 1） ①、②、③跳线帽短接3v3，④跳线帽短接1v8
 
@@ -36,12 +36,11 @@ Core 开发板为面向商业化客户和专业用户的标准开发板。该开
 
 4） 使用Impeller工具开始烧录
 
-
-<img src="assets/52_Core02.png" width="70%" high="50%" align="center" /> 
+<img src="assets/52_Core02.png" width="70%" high="50%" align="center" />
 
 上图中步骤1）的参数设置页面具体设置如下图：
 
-<img src="assets/52_Core03.png" width="70%" high="50%" align="center" /> 
+<img src="assets/52_Core03.png" width="70%" high="50%" align="center" />
 
 5）下载成功后，即可继续下面的测试流程进行配置，然后重新上电正常启动；
 
@@ -55,7 +54,7 @@ Core 开发板为面向商业化客户和专业用户的标准开发板。该开
 
 Core板支持两种天线选择，板载陶瓷天线和外接天线。
 
-<img src="assets/52_Core04.png" width="50%" high="50%" align="center" /> 
+<img src="assets/52_Core04.png" width="50%" high="50%" align="center" />
 
 1）①为板载陶瓷天线，②为外接天线预留焊盘，③为0欧电阻
 
@@ -63,7 +62,7 @@ Core板支持两种天线选择，板载陶瓷天线和外接天线。
 
 3）当③的0欧电阻如下图焊接时，使用的是焊接的外接天线
 
-<img src="assets/52_Core05.png" width="50%" high="50%" align="center" /> 
+<img src="assets/52_Core05.png" width="50%" high="50%" align="center" />
 
 4） 注意：中间焊盘为信号（RF），左右两边为GND
 
@@ -82,19 +81,19 @@ Core板支持两种天线选择，板载陶瓷天线和外接天线。
 
 ```
 
-```{table} 模式选择
+```{table}
 :name: 模式选择
 
 |	PA27状态          	   |   设备模式  |
 |:-----------------------|:-----------|
-| 低电平    | TX(发射端,主动扫描连接)    
+| 低电平    | TX(发射端,主动扫描连接)  
 | 高电平    | RX(接收端,广播等待连接)
 
 ```
 
 19db 蓝牙接收模式（左） 蓝牙发射模式（右）
 
-<img src="assets/52_Core06.png" width="50%" high="50%" align="center" /> 
+<img src="assets/52_Core06.png" width="50%" high="50%" align="center" />
 
 #### 功率选择：
 
@@ -102,17 +101,16 @@ Core板支持两种天线选择，板载陶瓷天线和外接天线。
 
 2、当需要选择其他发射功率时需要断开设备电源，进行跳线配置，上电重启后设备加载配置好的发射功率。
 
-```{table} 功率选择
+```{table}
 :name: 功率选择
 
 |	拉高的引脚           	   |   发射功率（dBm）  |
 |:-----------------------|:-----------|
-| PA26    | 10           
+| PA26    | 10         
 | PA25    | 13
 | PA24    | 16
 
 ```
-
 
 ```{important}
 
@@ -121,30 +119,32 @@ Core板支持两种天线选择，板载陶瓷天线和外接天线。
 
 ```
 
-
 #### 16db功率选择示例：
+
 发射端：
+
 - 跳线接PA24
 
-<img src="assets/52_Core07.png" width="50%" high="50%" align="center" /> 
+<img src="assets/52_Core07.png" width="50%" high="50%" align="center" />
 
 接收端：
+
 - 跳线接PA27、PA24
 
-<img src="assets/52_Core08.png" width="50%" high="50%" align="center" /> 
+<img src="assets/52_Core08.png" width="50%" high="50%" align="center" />
 
 ### 3.LED状态（PA32）
-可以根据LED状态板子的模式以及板子连接状态。
 
+可以根据LED状态板子的模式以及板子连接状态。
 
 #### TX 板
 
-```{table} TX 板 LED
+```{table}
 :name: TX 板 LED
 
 |	LED 行为         	   |  含义  |
 |:-----------------------|:-----------|
-| 每秒两次脉冲   | 未连接,正在扫描寻找 RX       
+| 每秒两次脉冲   | 未连接,正在扫描寻找 RX     
 | 1Hz呼吸灯      | 已找到RX，待连接
 | 常亮          | 已连接
 
@@ -152,26 +152,30 @@ Core板支持两种天线选择，板载陶瓷天线和外接天线。
 
 #### RX 板
 
-```{table} RX 板 LED
+```{table}
 :name: RX 板 LED
 
 |	LED 行为         	   |  含义  |
 |:-----------------------|:-----------|
-| 每秒一次脉冲   | 未连接 / 已断开      
+| 每秒一次脉冲   | 未连接 / 已断开    
 | 常亮          | 已连接
 
 ```
+
 ### 4.连接与重连行为
+
 #### 初次连接
 
 - RX 以名称 SIFLI_RANGE 广播，无需操作。
 - TX 上电即开始扫描。匹配到 RX 后，TX将进入待连接状态（此时 LED 灯为呼吸）按板载 KEY1 键进行连接。连接时，按 KEY1 断开。断开后自动继续扫描。
+
 #### 自动重连
 
 - 任一方断开 → RX 自动重新广播，TX 自动重新扫描。
 - 多对板同场时，TX 总是连 RSSI 最强的 RX(2 秒窗口内累计选择)。
 
 ### 5.日志解析（模式确认）
+
 启动后约 2-3 秒内会打印:
 
 ```
@@ -182,13 +186,11 @@ Core板支持两种天线选择，板载陶瓷天线和外接天线。
 
 BLE 协议栈初始化后会打印:
 
-
 ```
 [xxxx] I/range_io mbox: Override BT TX power -> 19dBm
 ```
+
 该行确认功率已经下发到 BLE 控制器
 
-
-
-
-
+[Impeller]: https://downloads.sifli.com/tools/Impeller/Impeller_latest.7z
+[Impeller使用说明]: https://wiki.sifli.com/tools/%E7%83%A7%E5%BD%95%E5%B7%A5%E5%85%B7.html
