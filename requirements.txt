@@ -1,7 +1,9 @@
 Sphinx==8.2.3
 sphinx_design==0.6.1
 myst_parser==4.0.1
-shibuya==2025.4.25
+shibuya==2026.1.9
+Pygments==2.20.0
+Pillow==12.2.0
 sphinx_copybutton==0.5.2
 sphinx_sitemap== 2.6.0
 openai==1.81.0

@@ -66,6 +66,11 @@ jobs:
           # 4. 验证是否复制成功（调试用，可选）
           ls -l main-repo/build/tools/屏幕调试/      
 
+      - name: Losslessly optimize PNG images
+        run: |
+          cd main-repo
+          python tools/compress_png.py ./build
+
 
       - name: Archive documentation
         uses: actions/upload-artifact@v4
