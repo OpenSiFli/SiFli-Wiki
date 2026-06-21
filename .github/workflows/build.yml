@@ -36,7 +36,7 @@ jobs:
       - name: Losslessly optimize PNG images
         run: |
           cd main-repo
-          python tools/compress_png.py ./build
+          python tools/compress_png.py --jobs 2 ./build
 
 
       - name: Archive documentation
@@ -53,7 +53,7 @@ jobs:
 
       - name: Configure COSCMD
         run: |
-          coscmd config -a ${{ secrets.COS_DOCS_SECRET_ID }} -s ${{ secrets.COS_DOCS_SECRET_KEY }} -b ${{ secrets.COS_DOCS_BUCKET }} -r ${{ secrets.COS_DOCS_REGION }}
+          coscmd config -a ${{ secrets.COS_DOCS_SECRET_ID }} -s ${{ secrets.COS_DOCS_SECRET_KEY }} -b ${{ secrets.COS_DOCS_BUCKET }} -r ${{ secrets.COS_DOCS_REGION }} -m 20
 
       - name: Upload to COS
         run: |
