@@ -2,16 +2,21 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SPHINX_BUILD="${SPHINX_BUILD:-$ROOT_DIR/venv/bin/sphinx-build}"
 
-if [[ ! -x "$SPHINX_BUILD" ]]; then
-  echo "sphinx-build not found: $SPHINX_BUILD" >&2
-  echo "Set SPHINX_BUILD=/path/to/sphinx-build or create the local venv first." >&2
+if [[ -n "${SPHINX_BUILD:-}" ]]; then
+  SPHINX_CMD=("$SPHINX_BUILD")
+elif [[ -x "$ROOT_DIR/venv/bin/sphinx-build" ]]; then
+  SPHINX_CMD=("$ROOT_DIR/venv/bin/sphinx-build")
+elif command -v sphinx-build >/dev/null 2>&1; then
+  SPHINX_CMD=("$(command -v sphinx-build)")
+else
+  echo "sphinx-build not found." >&2
+  echo "Install the Python requirements, set SPHINX_BUILD=/path/to/sphinx-build, or create the local venv first." >&2
   exit 1
 fi
 
-"$SPHINX_BUILD" -b html "$ROOT_DIR/source/zh_CN" "$ROOT_DIR/build" -E
-"$SPHINX_BUILD" -b html "$ROOT_DIR/source/en" "$ROOT_DIR/build/en" -E
+"${SPHINX_CMD[@]}" -b html "$ROOT_DIR/source/zh_CN" "$ROOT_DIR/build" -E
+"${SPHINX_CMD[@]}" -b html "$ROOT_DIR/source/en" "$ROOT_DIR/build/en" -E
 
 if [[ -f "$ROOT_DIR/lcd_frequency.html" ]]; then
   mkdir -p "$ROOT_DIR/build/tools/屏幕调试" "$ROOT_DIR/build/en/tools/屏幕调试"

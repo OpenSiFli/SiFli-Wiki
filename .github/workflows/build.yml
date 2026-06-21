@@ -4,67 +4,34 @@ on:
   push:
     branches:
       - main
-      - en
   workflow_dispatch:  # 允许手动触发
 
 jobs:
   build-docs:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main branch (Chinese)
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: main
           path: main-repo
 
-      - name: Checkout en branch (English)
-        uses: actions/checkout@v4
-        with:
-          ref: en
-          path: en-repo
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.12'
           cache: 'pip'
+          cache-dependency-path: main-repo/requirements.txt
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           if [ -f main-repo/requirements.txt ]; then pip install -r main-repo/requirements.txt; fi
 
-      - name: Build Chinese documentation
+      - name: Build bilingual documentation
         run: |
           cd main-repo
-          sphinx-build -b html ./source ./build -E
-
-      - name: Build English documentation
-        run: |
-          cd en-repo
-          sphinx-build -b html ./source ./build -E
-
-      - name: Merge English docs into Chinese
-        run: |
-          # 将英文版本复制到中文版本的 en 目录
-          mkdir -p main-repo/build/en
-          cp -r en-repo/build/* main-repo/build/en/
-          # 切换到 main-repo 目录进行后续操作
-          cd main-repo
-      
-      - name: Copy custom HTML to build directory
-        run: |
-          # 1. 确认源文件存在（调试用，可选）
-          ls -l main-repo/  # 查看 main-repo 下的文件，确认 lcd_frequency.html 存在
-          
-          # 2. 创建目标文件夹（注意是 main-repo/build 下的路径）
-          mkdir -p main-repo/build/tools/屏幕调试
-          
-          # 3. 复制文件（源：main-repo/lcd_frequency.html；目标：main-repo/build/tools/屏幕调试/）
-          cp main-repo/lcd_frequency.html main-repo/build/tools/屏幕调试/
-          
-          # 4. 验证是否复制成功（调试用，可选）
-          ls -l main-repo/build/tools/屏幕调试/      
+          scripts/build_parallel_docs.sh
 
       - name: Losslessly optimize PNG images
         run: |
