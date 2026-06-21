@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+DOCTREE_DIR="$ROOT_DIR/.sphinx-doctrees"
 
 if [[ -n "${SPHINX_BUILD:-}" ]]; then
   SPHINX_CMD=("$SPHINX_BUILD")
@@ -15,8 +16,13 @@ else
   exit 1
 fi
 
-"${SPHINX_CMD[@]}" -b html "$ROOT_DIR/source/zh_CN" "$ROOT_DIR/build" -E
-"${SPHINX_CMD[@]}" -b html "$ROOT_DIR/source/en" "$ROOT_DIR/build/en" -E
+rm -rf "$ROOT_DIR/build" "$DOCTREE_DIR"
+mkdir -p "$ROOT_DIR/build" "$DOCTREE_DIR"
+
+"${SPHINX_CMD[@]}" -b html -d "$DOCTREE_DIR/zh_CN" "$ROOT_DIR/source/zh_CN" "$ROOT_DIR/build" -E
+"${SPHINX_CMD[@]}" -b html -d "$DOCTREE_DIR/en" "$ROOT_DIR/source/en" "$ROOT_DIR/build/en" -E
+
+find "$ROOT_DIR/build" -name ".buildinfo" -delete
 
 if [[ -f "$ROOT_DIR/lcd_frequency.html" ]]; then
   mkdir -p "$ROOT_DIR/build/tools/屏幕调试" "$ROOT_DIR/build/en/tools/屏幕调试"

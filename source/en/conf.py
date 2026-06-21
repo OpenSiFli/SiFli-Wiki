@@ -18,6 +18,8 @@ exclude_patterns = []
 
 html_theme = 'shibuya'
 numfig = True
+html_copy_source = False
+html_show_sourcelink = False
 html_static_path = ['../_static']
 html_logo = '../_static/logo_white.png'
 html_favicon = '../_static/logo_favicon.png'
