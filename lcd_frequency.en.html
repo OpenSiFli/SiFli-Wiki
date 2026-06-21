@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LCD Frame Rate Calculator</title>
+  <!-- Local Poppins fonts. -->
+  <style>
+    @font-face {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('../../_static/fonts/poppins/Poppins-Regular-latin.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url('../../_static/fonts/poppins/Poppins-Medium-latin.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 600;
+      font-display: swap;
+      src: url('../../_static/fonts/poppins/Poppins-SemiBold-latin.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url('../../_static/fonts/poppins/Poppins-Bold-latin.woff2') format('woff2');
+    }
+  </style>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      padding: 20px;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 500px;
+      width: 100%;
+      background: rgba(20, 20, 30, 0.85);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(100, 150, 255, 0.3);
+      transition: transform 0.3s ease;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    /* Hide the scrollbar. */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+
+    .container:hover {
+      transform: translateY(-5px);
+    }
+
+    h2 {
+      text-align: center;
+      color: #fff;
+      margin-top: 0;
+      font-weight: 600;
+      font-size: 26px;
+      text-shadow: 0 0 10px rgba(100, 200, 255, 0.8);
+    }
+
+    p.desc {
+      text-align: center;
+      color: #aaa;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 16px 0 6px;
+      font-weight: 500;
+      color: #aaccff;
+      font-size: 15px;
+    }
+
+    input[type="number"], select {
+      width: 100%;
+      padding: 12px 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(100, 150, 255, 0.4);
+      border-radius: 10px;
+      font-size: 16px;
+      color: white;
+      outline: none;
+      transition: all 0.3s ease;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0  0 24 24' fill='none' stroke='%2366ccff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 16px;
+    }
+
+    input[type="number"]:focus, select:focus {
+      border-color: #66ccff;
+      box-shadow: 0 0 15px rgba(102, 204, 255, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: linear-gradient(45deg, #00c3ff, #007acc);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(45deg, #007acc, #005a99);
+      transform: scale(1.03);
+      box-shadow: 0 5px 20px rgba(0, 122, 204, 0.4);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background: rgba(0, 128, 0, 0.3);
+      border-left: 5px solid #00ff88;
+      border-radius: 10px;
+      font-size: 17px;
+      color: #bfefff;
+      line-height: 2;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.5s ease;
+      text-align: center;
+      width: 100%;
+    }
+
+    .result.show {
+      opacity: 1;
+      max-height: 200px;
+      padding-top: 16px;
+      padding-bottom: 16px;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #88aaff;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    .field-group { display: none; }
+    .field-group.active { display: block; }
+
+    @media (max-width: 520px) {
+      .container {
+        padding: 20px;
+        max-height: 95vh;
+      }
+      h2 {
+        font-size: 22px;
+      }
+      .result {
+        font-size: 15px;
+        max-height: none;
+      }
+    }
+
+    select option {
+      background-color: #1a1a2e;
+      color: #ffffff;
+      padding: 10px 15px;
+      font-size: 16px;
+      border-bottom: 1px solid rgba(100, 150, 255, 0.2);
+    }
+
+    select option:hover {
+      background-color: #2a2a4a;
+      color: #66ccff;
+    }
+
+    select option:checked {
+      background-color: #007acc;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Background canvas -->
+<canvas id="background-canvas"></canvas>
+
+<!-- Main container -->
+<div class="container">
+  <h2>LCD Frame Rate Calculator</h2>
+  <p class="desc">Select an interface type and enter parameters to calculate the frame rate.</p>
+
+  <!-- Interface type selector -->
+  <label>Interface Type
+    <select id="interface-type" onchange="switchMode()">
+      <option value="qspi">QSPI Interface</option>
+      <option value="dsi_video">DSI Video Interface</option>
+      <option value="dpi">DPI Interface</option>
+      <option value="dbi">DBI 8-bit Interface</option>
+    </select>
+  </label>
+
+  <!-- QSPI mode -->
+  <div id="qspi-fields" class="field-group active">
+    <label>Resolution Width (pixels)
+      <input type="number" id="A3" placeholder="Example: 800">
+    </label>
+    <label>Resolution Height (pixels)
+      <input type="number" id="B3" placeholder="Example: 480">
+    </label>
+    <label>Color Depth
+      <input type="number" id="C3" placeholder="Enter 16 for RGB565 or 24 for RGB888">
+    </label>
+    <label>Interface Frequency (Hz)
+      <input type="number" id="D3" placeholder="Example: 100000000">
+    </label>
+    <label>DDR Mode
+      <input type="number" id="E3" placeholder="Enter 1 for SDR or 2 for DDR">
+    </label>
+  </div>
+
+  <!-- DSI Video mode -->
+  <div id="dsi_video-fields" class="field-group">
+    <label>Resolution Width (HAW)
+      <input type="number" id="dsi_width" placeholder="Example: 800">
+    </label>
+    <label>↔️ HSYNC+HBP+HFP
+      <input type="number" id="dsi_hsync_total" placeholder="Horizontal total period">
+    </label>
+    <label>Resolution Height (VAH)
+      <input type="number" id="dsi_height" placeholder="Example: 480">
+    </label>
+    <label>↕️ VSYNC+VBP+VFP
+      <input type="number" id="dsi_vsync_total" placeholder="Vertical total period">
+    </label>
+    <label>Color Depth
+      <input type="number" id="dsi_bpp" placeholder="Enter 16 for RGB565 or 24 for RGB888">
+    </label>
+    <label>Bandwidth per Lane (Mbps)
+      <input type="number" id="dsi_lane_speed" placeholder="Example: 800">
+    </label>
+    <label>Lane Count
+      <input type="number" id="dsi_lane_count" placeholder="Example: 2">
+    </label>
+  </div>
+
+  <!-- DPI mode -->
+  <div id="dpi-fields" class="field-group">
+    <label>Resolution Width (HAW)
+      <input type="number" id="dpi_width" placeholder="Example: 800">
+    </label>
+    <label>↔️ HSYNC+HBP+HFP
+      <input type="number" id="dpi_hsync_total" placeholder="Horizontal total period">
+    </label>
+    <label>Resolution Height (VAH)
+      <input type="number" id="dpi_height" placeholder="Example: 480">
+    </label>
+    <label>↕️ VSYNC+VBP+VFP
+      <input type="number" id="dpi_vsync_total" placeholder="Vertical total period">
+    </label>
+    <label>⚙️ DPI PCLK (MHz)
+      <input type="number" id="dpi_pclk" placeholder="Example: 60">
+    </label>
+  </div>
+
+  <!-- DBI mode -->
+  <div id="dbi-fields" class="field-group">
+    <label>Resolution Width
+      <input type="number" id="dbi_width" placeholder="Example: 240">
+    </label>
+    <label>Resolution Height
+      <input type="number" id="dbi_height" placeholder="Example: 320">
+    </label>
+    <label>Color Depth
+      <input type="number" id="dbi_bpp" placeholder="Enter 16 for RGB565 or 24 for RGB888">
+    </label>
+    <label>Interface Frequency (Hz)
+      <input type="number" id="dbi_freq" placeholder="Example: 10000000">
+    </label>
+  </div>
+
+  <button onclick="calculate()">Calculate</button>
+
+  <!-- Result display area -->
+  <div style="width: 100%;">
+    <div class="result" id="result"></div>
+  </div>
+</div>
+
+<script>
+  // === Particle background animation ===
+  const canvas = document.getElementById('background-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  let particles = [];
+  const numParticles = 80;
+
+  for (let i = 0; i < numParticles; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 1.5 + 0.5,
+      vx: Math.random() * 0.5 - 0.25,
+      vy: Math.random() * 0.5 - 0.25,
+      alpha: Math.random() * 0.5 + 0.5
+    });
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 150) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(100, 200, 255, ${0.2 * (1 - distance / 150)})`;
+          ctx.lineWidth = 0.5;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+
+      particles[i].x += particles[i].vx;
+      particles[i].y += particles[i].vy;
+
+      if (particles[i].x < 0 || particles[i].x > canvas.width) particles[i].vx *= -1;
+      if (particles[i].y < 0 || particles[i].y > canvas.height) particles[i].vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(particles[i].x, particles[i].y, particles[i].radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(100, 200, 255, ${particles[i].alpha})`;
+      ctx.fill();
+    }
+
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+
+  // === Switch interface mode ===
+  function switchMode() {
+    const mode = document.getElementById("interface-type").value;
+    document.querySelectorAll('.field-group').forEach(group => {
+      group.classList.remove('active');
+    });
+    document.getElementById(`${mode}-fields`).classList.add('active');
+  }
+
+  // === Calculation ===
+  function calculate() {
+    const mode = document.getElementById("interface-type").value;
+    let frameRate = 0;
+
+    try {
+      switch (mode) {
+        case "qspi":
+          const A = parseFloat(document.getElementById('A3').value);
+          const B = parseFloat(document.getElementById('B3').value);
+          const C = parseFloat(document.getElementById('C3').value);
+          const D = parseFloat(document.getElementById('D3').value);
+          const E = parseFloat(document.getElementById('E3').value);
+          if (![A, B, C, D, E].every(v => !isNaN(v) && v > 0)) throw "Incomplete QSPI parameters";
+          frameRate = (D * 4 * E) / (A * B * C);
+          break;
+
+        case "dsi_video":
+          const w1 = parseFloat(document.getElementById('dsi_width').value);
+          const ht = parseFloat(document.getElementById('dsi_hsync_total').value);
+          const h1 = parseFloat(document.getElementById('dsi_height').value);
+          const vt = parseFloat(document.getElementById('dsi_vsync_total').value);
+          const bpp1 = parseFloat(document.getElementById('dsi_bpp').value);
+          const laneSpeed = parseFloat(document.getElementById('dsi_lane_speed').value);
+          const laneCount = parseFloat(document.getElementById('dsi_lane_count').value);
+          if (![w1, ht, h1, vt, bpp1, laneSpeed, laneCount].every(v => !isNaN(v) && v > 0)) throw "Incomplete DSI Video parameters";
+          const totalBandwidth = laneSpeed * laneCount * 0.9;
+          const pixelsPerFrame = (ht + w1) * (vt + h1);
+          frameRate = (totalBandwidth * 1_000_000 / 8) / (pixelsPerFrame * (bpp1 / 8));
+          break;
+
+        case "dpi":
+          const w2 = parseFloat(document.getElementById('dpi_width').value);
+          const ht2 = parseFloat(document.getElementById('dpi_hsync_total').value);
+          const h2 = parseFloat(document.getElementById('dpi_height').value);
+          const vt2 = parseFloat(document.getElementById('dpi_vsync_total').value);
+          const pclk = parseFloat(document.getElementById('dpi_pclk').value);
+          if (![w2, ht2, h2, vt2, pclk].every(v => !isNaN(v) && v > 0)) throw "Incomplete DPI parameters";
+          const pixelsPerFrameDPI = (ht2 + w2) * (vt2 + h2);
+          frameRate = (pclk * 1_000_000) / pixelsPerFrameDPI;
+          break;
+
+        case "dbi":
+          const w3 = parseFloat(document.getElementById('dbi_width').value);
+          const h3 = parseFloat(document.getElementById('dbi_height').value);
+          const bpp3 = parseFloat(document.getElementById('dbi_bpp').value);
+          const freq = parseFloat(document.getElementById('dbi_freq').value);
+          if (![w3, h3, bpp3, freq].every(v => !isNaN(v) && v > 0)) throw "Incomplete DBI parameters";
+          frameRate = (freq * 8) / (w3 * h3 * bpp3);
+          break;
+
+        default:
+          throw "Unknown mode";
+      }
+    } catch (e) {
+      showError(e.toString());
+      return;
+    }
+
+    const refreshTime = 1000 / frameRate;
+
+    const resultEl = document.getElementById('result');
+    // Keep the result as two independent block rows.
+    resultEl.innerHTML = `
+      <div style="margin: 8px 0;"><strong>Frame Rate:</strong> ${frameRate.toFixed(2)} <span style="color:#66ccff;font-weight:600;">FPS</span></div>
+      <div style="margin: 8px 0;"><strong>Refresh Time:</strong> ${refreshTime.toFixed(2)} <span style="color:#66ccff;font-weight:600;">ms</span></div>
+    `;
+    resultEl.className = 'result show';
+  }
+
+  function showError(msg) {
+    const resultEl = document.getElementById('result');
+    resultEl.innerHTML = `<strong style="color:#ff6b6b;">❌ ${msg}</strong>`;
+    resultEl.className = 'result show';
+  }
+
+  // Calculate on Enter.
+  document.querySelectorAll('input').forEach(input => {
+    input.addEventListener('keypress', e => {
+      if (e.key === 'Enter') calculate();
+    });
+  });
+
+  window.onload = () => {
+    document.getElementById('A3').focus();
+  };
+</script>
+</body>
+</html>
