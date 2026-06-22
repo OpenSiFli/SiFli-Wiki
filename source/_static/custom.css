@@ -322,3 +322,110 @@ html.light {
         gap: 8px !important;
     }
 }
+
+/* SF32LB52-DevKit-Core-3p3 tables: keep the table as wide as its wrapper. */
+.table-wrapper.devkit-pin-table,
+.table-wrapper.devkit-simple-table,
+.table-wrapper.devkit-model-table {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.table-wrapper.devkit-pin-table > table,
+.table-wrapper.devkit-simple-table > table,
+.table-wrapper.devkit-model-table > table,
+table.devkit-pin-table,
+table.devkit-simple-table,
+table.devkit-model-table {
+    display: table !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    table-layout: fixed !important;
+}
+
+.table-wrapper.devkit-pin-table th,
+.table-wrapper.devkit-pin-table td,
+.table-wrapper.devkit-simple-table th,
+.table-wrapper.devkit-simple-table td,
+.table-wrapper.devkit-model-table th,
+.table-wrapper.devkit-model-table td,
+table.devkit-pin-table th,
+table.devkit-pin-table td,
+table.devkit-simple-table th,
+table.devkit-simple-table td,
+table.devkit-model-table th,
+table.devkit-model-table td {
+    box-sizing: border-box !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+}
+
+.table-wrapper.devkit-pin-table th:nth-child(1),
+.table-wrapper.devkit-pin-table td:nth-child(1),
+table.devkit-pin-table th:nth-child(1),
+table.devkit-pin-table td:nth-child(1) {
+    width: 10% !important;
+}
+
+.table-wrapper.devkit-pin-table th:nth-child(2),
+.table-wrapper.devkit-pin-table td:nth-child(2),
+table.devkit-pin-table th:nth-child(2),
+table.devkit-pin-table td:nth-child(2) {
+    width: 16% !important;
+}
+
+.table-wrapper.devkit-pin-table th:nth-child(3),
+.table-wrapper.devkit-pin-table td:nth-child(3),
+table.devkit-pin-table th:nth-child(3),
+table.devkit-pin-table td:nth-child(3) {
+    width: 64% !important;
+}
+
+.table-wrapper.devkit-pin-table th:nth-child(4),
+.table-wrapper.devkit-pin-table td:nth-child(4),
+table.devkit-pin-table th:nth-child(4),
+table.devkit-pin-table td:nth-child(4) {
+    width: 10% !important;
+}
+
+.table-wrapper.devkit-simple-table th:nth-child(1),
+.table-wrapper.devkit-simple-table td:nth-child(1),
+.table-wrapper.devkit-simple-table th:nth-child(2),
+.table-wrapper.devkit-simple-table td:nth-child(2),
+table.devkit-simple-table th:nth-child(1),
+table.devkit-simple-table td:nth-child(1),
+table.devkit-simple-table th:nth-child(2),
+table.devkit-simple-table td:nth-child(2) {
+    width: 20% !important;
+}
+
+.table-wrapper.devkit-simple-table th:nth-child(3),
+.table-wrapper.devkit-simple-table td:nth-child(3),
+table.devkit-simple-table th:nth-child(3),
+table.devkit-simple-table td:nth-child(3) {
+    width: 60% !important;
+}
+
+.table-wrapper.devkit-model-table th:nth-child(1),
+.table-wrapper.devkit-model-table td:nth-child(1),
+table.devkit-model-table th:nth-child(1),
+table.devkit-model-table td:nth-child(1) {
+    width: 42% !important;
+}
+
+.table-wrapper.devkit-model-table th:nth-child(2),
+.table-wrapper.devkit-model-table td:nth-child(2),
+table.devkit-model-table th:nth-child(2),
+table.devkit-model-table td:nth-child(2) {
+    width: 28% !important;
+}
+
+.table-wrapper.devkit-model-table th:nth-child(3),
+.table-wrapper.devkit-model-table td:nth-child(3),
+table.devkit-model-table th:nth-child(3),
+table.devkit-model-table td:nth-child(3) {
+    width: 30% !important;
+}

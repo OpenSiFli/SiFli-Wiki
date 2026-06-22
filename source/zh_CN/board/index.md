@@ -46,6 +46,23 @@
 [查看详情 →](sf32lb52x/SF32LB52-DevKit-Nano)
 ```
 
+```{grid-item-card} SF32LB52-DevKit-Core-3p3
+:img-top: assets/SF32LB52-DevKit-Core-3p3.png
+:link: sf32lb52x/SF32LB52-DevKit-Core-3p3.html
+:class-card: board-card
+
+基于SF32LB52芯片设计的核心开发板，提供丰富GPIO和FPC显示接口，适合原型开发和功耗测试。
+
+**主要特性：**
+- 30.88mm x 68mm核心板尺寸
+- 蛇形孔排针设计，便于免焊接调试
+- 支持1.8V/3.3V跳线供电配置
+- 支持单路电源和整板功耗测试
+
++++
+[查看详情 →](sf32lb52x/SF32LB52-DevKit-Core-3p3)
+```
+
 ```{grid-item-card} SF32LB52-黄山派
 :img-top: assets/SF32LB52-DevKit-ULP.png
 :link: sf32lb52x/SF32LB52-黄山派.html
@@ -118,6 +135,7 @@ sf32lb52x/SF-DevKit-LCM-Adapter
 <!-- sf32lb52x/SF32LB52-DevKit-ULP -->
 sf32lb52x/SF32LB52-黄山派
 sf32lb52x/SF32LB52-DevKit-Nano
+sf32lb52x/SF32LB52-DevKit-Core-3p3
 sf32lb52x/SF32LB52-OED-6'-EPD
 sf32lb56x/SF32LB56-DevKit-LCD
 sf32lb58x/SF32LB58-DevKit-LCD

@@ -46,6 +46,23 @@ A compact development board designed based on the SF32LB52 chip, suitable for us
 [View Details →](sf32lb52x/SF32LB52-DevKit-Nano)
 ```
 
+```{grid-item-card} SF32LB52-DevKit-Core-3p3
+:img-top: assets/SF32LB52-DevKit-Core-3p3.png
+:link: sf32lb52x/SF32LB52-DevKit-Core-3p3.html
+:class-card: board-card
+
+A core development board designed around the SF32LB52 chip, with rich GPIOs and an FPC display interface for prototyping and power testing.
+
+**Key Features:**
+- Compact 30.88 mm x 68 mm core-board form factor
+- Castellated through-hole header design for solder-free debugging
+- Supports 1.8 V/3.3 V jumper power configuration
+- Supports single-rail and whole-board power consumption tests
+
++++
+[View Details →](sf32lb52x/SF32LB52-DevKit-Core-3p3)
+```
+
 ```{grid-item-card} SF32LB52-黄山派
 :img-top: assets/SF32LB52-DevKit-ULP.png
 :link: sf32lb52x/SF32LB52-黄山派.html
@@ -118,6 +135,7 @@ sf32lb52x/SF-DevKit-LCM-Adapter
 <!-- sf32lb52x/SF32LB52-DevKit-ULP -->
 sf32lb52x/SF32LB52-黄山派
 sf32lb52x/SF32LB52-DevKit-Nano
+sf32lb52x/SF32LB52-DevKit-Core-3p3
 sf32lb52x/SF32LB52-OED-6'-EPD
 sf32lb56x/SF32LB56-DevKit-LCD
 sf32lb58x/SF32LB58-DevKit-LCD
