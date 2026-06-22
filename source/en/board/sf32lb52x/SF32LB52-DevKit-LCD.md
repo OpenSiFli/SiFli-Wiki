@@ -130,7 +130,6 @@ This section provides more information about the development board hardware.
 The following table provides the GPIO assignment list for the pins of the SF32LB52-MOD-N16R8 module, used to control specific components or functions of the development board.
 
 ```{table} SF32LB52-MOD-N16R8 GPIO Assignment
-
 :name: SF32LB52-MOD-N16R8-GPIO-LIST
 
 | Pin |	Pin Name           	   |   Function  |

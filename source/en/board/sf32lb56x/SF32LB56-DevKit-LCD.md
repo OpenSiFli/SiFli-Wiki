@@ -224,13 +224,11 @@ The table below lists the GPIO assignments for the SF32LB56-MOD-A128R12N1 module
 
 <div align="center"> RGB-FPC-J0100 Signal Definitions </div>
 
-```{table}
-:align: center
 |Pin|	Pin Name           	   |   Function  |
 |:--|:-----------------------|:-----------|
 |1   | 5V       | 5V power output                 
 |2   | 5V       | 5V power output   
-|3   | R0       | PA_14, LCDC1_DPI_R0  &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;  
+|3   | R0       | PA_14, LCDC1_DPI_R0
 |4   | R1       | PA_13, LCDC1_DPI_R1        
 |5   | R2       | PA_16, LCDC1_DPI_R2    
 |6   | R3       | PA_24, LCDC1_DPI_R3    
@@ -268,7 +266,6 @@ The table below lists the GPIO assignments for the SF32LB56-MOD-A128R12N1 module
 |38  | CTP_SCL  | PA_01, I2C4_SCL       
 |39  | CTP_INT  | PA_51       
 |40  | RESET    | PA_50            
-```
 
 ### Power Supply Description
 

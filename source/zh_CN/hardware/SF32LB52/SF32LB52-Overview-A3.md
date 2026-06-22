@@ -33,7 +33,6 @@ SF32LB527UD6，合封16MB OPI-PSRAM
 
 
 ```{table} 封装信息表
-
 :name: sf32lb52x-B-package-info
 
 |封装名称|	尺寸           	   |   管脚间距  |
