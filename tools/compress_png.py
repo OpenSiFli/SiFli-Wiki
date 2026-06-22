@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import argparse
+import os
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 from tempfile import NamedTemporaryFile
@@ -75,24 +77,53 @@ def optimize_png(path: Path) -> tuple[bool, int, int, str | None]:
         return False, original_size, original_size, str(exc)
 
 
-def optimize_images(paths: list[Path], verbose: bool) -> OptimizeResult:
-    result = OptimizeResult()
-    for path in iter_png_files(paths):
-        result.scanned += 1
-        optimized, original_size, optimized_size, error = optimize_png(path)
-        result.original_bytes += original_size
-        result.optimized_bytes += optimized_size
+def optimize_png_with_path(path: Path) -> tuple[Path, bool, int, int, str | None]:
+    optimized, original_size, optimized_size, error = optimize_png(path)
+    return path, optimized, original_size, optimized_size, error
 
-        if error:
-            result.failed += 1
-            print(f"Warning: {path}: {error}")
-        elif optimized:
-            result.optimized += 1
-            if verbose:
-                saved = original_size - optimized_size
-                print(f"Optimized {path}: saved {saved} bytes")
-        else:
-            result.skipped += 1
+
+def default_jobs() -> int:
+    return max(1, min(os.cpu_count() or 1, 4))
+
+
+def update_result(
+    result: OptimizeResult,
+    path: Path,
+    optimized: bool,
+    original_size: int,
+    optimized_size: int,
+    error: str | None,
+    verbose: bool,
+) -> None:
+    result.scanned += 1
+    result.original_bytes += original_size
+    result.optimized_bytes += optimized_size
+
+    if error:
+        result.failed += 1
+        print(f"Warning: {path}: {error}")
+    elif optimized:
+        result.optimized += 1
+        if verbose:
+            saved = original_size - optimized_size
+            print(f"Optimized {path}: saved {saved} bytes")
+    else:
+        result.skipped += 1
+
+
+def optimize_images(paths: list[Path], verbose: bool, jobs: int) -> OptimizeResult:
+    result = OptimizeResult()
+    png_files = list(iter_png_files(paths))
+
+    if jobs == 1 or len(png_files) <= 1:
+        for path in png_files:
+            optimized, original_size, optimized_size, error = optimize_png(path)
+            update_result(result, path, optimized, original_size, optimized_size, error, verbose)
+        return result
+
+    with ProcessPoolExecutor(max_workers=jobs) as executor:
+        for path, optimized, original_size, optimized_size, error in executor.map(optimize_png_with_path, png_files):
+            update_result(result, path, optimized, original_size, optimized_size, error, verbose)
 
     return result
 
@@ -105,7 +136,17 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Losslessly optimize PNG images in build output.")
     parser.add_argument("paths", nargs="+", type=Path, help="Files or directories to scan")
     parser.add_argument("--verbose", action="store_true", help="Print each optimized image")
+    parser.add_argument(
+        "--jobs",
+        type=int,
+        default=default_jobs(),
+        help="Number of worker processes to use. Defaults to min(CPU count, 4). Use 1 for serial mode.",
+    )
     args = parser.parse_args()
+
+    if args.jobs < 1:
+        print("Error: --jobs must be at least 1")
+        return 2
 
     missing_paths = [path for path in args.paths if not path.exists()]
     if missing_paths:
@@ -113,10 +154,10 @@ def main() -> int:
             print(f"Error: path does not exist: {path}")
         return 2
 
-    result = optimize_images(args.paths, args.verbose)
+    result = optimize_images(args.paths, args.verbose, args.jobs)
     print(
         "PNG optimization summary: "
-        f"scanned={result.scanned}, optimized={result.optimized}, "
+        f"jobs={args.jobs}, scanned={result.scanned}, optimized={result.optimized}, "
         f"skipped={result.skipped}, failed={result.failed}, "
         f"before={format_size(result.original_bytes)}, "
         f"after={format_size(result.optimized_bytes)}, "

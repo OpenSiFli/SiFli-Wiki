@@ -1,7 +1,0 @@
-str_cn:函数不能识别，给搜索和查看代码带来不便,str_en:The function cannot be recognized, which brings inconvenience to code searching and viewing
-str_cn:修改source insight安装目录下文件C:\Program Files (x86)\Source Insight 4.0\c.tom,str_en:Modify the file C:\Program Files (x86)\Source Insight 4.0\c.tom in the Source Insight installation directory
-str_cn:文件结尾增加如下宏定义,str_en:Add the following macro definitions at the end of the file
-str_cn:生效方法,str_en:Effective method
-str_cn:重启Source Insight,str_en:Restart Source Insight
-str_cn:菜单 File->Close All 关闭所有文件,str_en:Menu File->Close All to close all files
-str_cn:重新解释工程所有文件,str_en:Reinterpret all files in the project

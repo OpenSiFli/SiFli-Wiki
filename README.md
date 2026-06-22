@@ -4,6 +4,24 @@
 
 ## 快速开始
 
+### Linux/macOS 双语构建
+
+当前文档源文件采用两套目录：
+
+- 中文：`source/zh_CN`
+- 英文：`source/en`
+
+构建时不要再使用 PO/gettext 的 `-D language=en` 方式，直接运行：
+
+```bash
+scripts/build_parallel_docs.sh
+```
+
+脚本会生成：
+
+- 中文站点：`build/`
+- 英文站点：`build/en/`
+
 ### Windows 用户
 
 1. 首次使用 - 设置环境

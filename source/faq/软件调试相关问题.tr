@@ -1,8 +1,0 @@
-str_cn:思澈系列的MCU可以选择下面的调试方法,str_en:The following debugging methods can be selected for the ThinkSi series of MCUs;
-str_cn:Log打印调试方法,str_en:Log printing debugging method;
-str_cn:Jlink，Ozone，UartService，SystemView在线调试方法,str_en:Jlink, Ozone, UartService, SystemView online debugging method;
-str_cn:Dump内存离线调试方法,str_en:Dump memory offline debugging method;
-str_cn:死机现场保存方法,str_en:Crash scene preservation method;
-str_cn:UI模拟器调试方法,str_en:UI simulator debugging method;
-str_cn:软件调试相关问题,str_en:Software debugging related issues;
-str_cn:重要,str_en:Important;

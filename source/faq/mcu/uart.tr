@@ -1,5 +1,0 @@
-str_cn:UART FIFO只有一个字节，系统如果忙的话，一个byte长度大约10bit, 115200需要大约1us, 收到中断1us之内不清空FIFO, 就会overflow,str_en:UART FIFO has only one byte. If the system is busy, a byte length is about 10 bits, and at 115200 baud rate, it takes about 1us. If the FIFO is not cleared within 1us after receiving the interrupt, it will overflow;
-str_cn:USART1_IRQHandler中断能进来，但是因为有错误，所以没有上层回调，上层回调只是在正常收到数据才会有,str_en:The USART1_IRQHandler interrupt can come in, but due to an error, there is no upper layer callback. The upper layer callback occurs only when data is received normally;
-str_cn:由于Uart1用于控制音频蓝牙，改成Segger打印，系统轮询，有可能导致来不及清RX中断,str_en:Since Uart1 is used to control audio Bluetooth and changed to Segger printing and system polling, it may cause RX interrupt not to be cleared in time;
-str_cn:解决方案：改成DMA RX中断,str_en:Solution: Change to DMA RX interrupt;
-str_cn:rt_device_open(g_bt_uart, RT_DEVICE_FLAG_INT_RX);改成 rt_device_open(g_bt_uart, RT_DEVICE_FLAG_DMA_RX);,str_en:Change rt_device_open(g_bt_uart, RT_DEVICE_FLAG_INT_RX); to rt_device_open(g_bt_uart, RT_DEVICE_FLAG_DMA_RX);

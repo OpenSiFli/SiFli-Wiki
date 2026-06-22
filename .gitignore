@@ -5,6 +5,7 @@ project/
 
 #build文件夹
 build/
+.sphinx-doctrees/
 wiki/
 # Virtual environment
 .venv/
