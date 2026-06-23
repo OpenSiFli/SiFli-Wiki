@@ -2,6 +2,23 @@
 
 This document describes how to make a matching adapter board for SiFli development boards to debug third-party displays.
 
+<style>
+article.yue .table-wrapper {
+  overflow-x: auto;
+}
+
+article.yue table.docutils {
+  min-width: 100%;
+  width: max-content;
+  table-layout: auto;
+}
+
+article.yue table.docutils th,
+article.yue table.docutils td {
+  white-space: nowrap;
+}
+</style>
+
 ## Display Interface Types on SiFli Development Boards
 
 - 16p QSPI FPC
@@ -23,8 +40,6 @@ This document describes how to make a matching adapter board for SiFli developme
 
 <div align="center"> 16p FPC Connector Signal Definition  </div>
 
-```{table}
-:align: center
 |PIN| DevKit FPC CON PIN-Name      | Descriptions  | LCM PIN-Name |
 |:--|:---------|:-----------                       |------    |
 |1  | GND      | Power Supply Ground               | GND      |  
@@ -44,14 +59,12 @@ This document describes how to make a matching adapter board for SiFli developme
 |15 | TP_SCL   | TP I2C clock signal               | TP-SCL   |
 |16 | TP_RST   | TP Reset                          | TP-RTN   |
 
-```
+
 
 ### 22p QSPI FPC Interface
 
 <div align="center"> 22p FPC Connector Signal Definition  </div>
 
-```{table}
-:align: center
 |PIN| DevKit FPC CON PIN-Name      | Descriptions  | LCM PIN-Name |
 |:--|:---------|:-----------                       |------    |
 |1  | LEDK     | LED cathode                       | LEDK     | 
@@ -77,14 +90,12 @@ This document describes how to make a matching adapter board for SiFli developme
 |21 | TP_RST   | TP Reset                          | TP-RTN   |
 |22 | GND      | Power Supply Ground               | GND      |  
 
-```
+
 
 ### 40p RGB FPC Interface
 
 <div align="center"> 40p FPC Connector Signal Definition  </div>
 
-```{table}
-:align: center
 |PIN| DevKit FPC CON PIN-Name      | Descriptions  | LCM PIN-Name |
 |:--|:---------|:-----------                       |------    |
 |1  | 5V       | DC 5V Power Supply                | DC5V     | 
@@ -128,15 +139,13 @@ This document describes how to make a matching adapter board for SiFli developme
 |39 | TP_INT   | TP Interrupt signal inout         | TP-INT   |
 |40 | LCD_RST  | LCD reset output Active low       | RESX     | 
 
-```
+
 
 ### 30p MIPI-DSI FPC Interface
 
 
 <div align="center"> 30p FPC Connector Signal Definition  </div>
 
-```{table}
-:align: center
 |PIN| DevKit FPC CON PIN-Name      | Descriptions  | LCM PIN-Name |
 |:--|:---------|:-----------                       |------    |
 |1  | GND      | Power Supply Ground               | GND      |
@@ -170,7 +179,7 @@ This document describes how to make a matching adapter board for SiFli developme
 |29 | LEDA     | LED anode                         | LEDA     |
 |30 | LEDA     | LED anode                         | LEDA     |
 
-```
+
 
 ## LCM Adapter Board Signal Connections
 
@@ -180,8 +189,6 @@ Multiple series of SiFli development boards use a unified graphical interface to
 
 <div align="center"> 16p FPC Connector Connected to SPI, DSPI, and QSPI Displays  </div>
 
-```{table}
-:align: center
 |PIN| DevKit FPC CON PIN-Name | 3W-SPI  | 4W-SPI | DSPI  | QSPI  |
 |:--|:------------------------|:--------|:-------|:------|:------|
 |1  | GND                     | GND     | GND    | GND   | GND   | 
@@ -196,13 +203,11 @@ Multiple series of SiFli development boards use a unified graphical interface to
 |10 | QSPI_D3                 | NC      | NC     | NC    | D3    |
 |11 | 3.3V                    | VDD     | VDD    | VDD   | VDD   | 
 
-```
+
 <br>
 
 <div align="center"> 22p FPC Connector Connected to SPI, DSPI, and QSPI Displays  </div>
 
-```{table}
-:align: center
 |PIN| DevKit FPC CON PIN-Name | 3W-SPI  | 4W-SPI | DSPI  | QSPI  |
 |:--|:------------------------|:--------|:-------|:------|:------|
 |1  | LEDK                    | LEDK    | LEDK   | LEDK  | LEDK  | 
@@ -217,13 +222,11 @@ Multiple series of SiFli development boards use a unified graphical interface to
 |16 | D1/DC                   | NC      | DCx    | D1    | D1    | 
 |17 | 3.3V                    | VDD     | VDD    | VDD   | VDD   | 
 
-```
+
 <br>
 
 <div align="center"> 56LCD Development Board 40p FPC Connector Connected to SPI, DSPI, and QSPI Displays  </div>
 
-```{table}
-:align: center
 |PIN| 56-LCD | 3W-SPI  | 4W-SPI | DSPI  | QSPI  |
 |:--|:-------|:--------|:-------|:------|:------|
 |1  | 5V     | 5V      | 5V     | 5V    | 5V    | 
@@ -240,13 +243,11 @@ Multiple series of SiFli development boards use a unified graphical interface to
 |29 | GND    | GND     | GND    | GND   | GND   | 
 |40 | LCD_RST| RESX    | RESX   | RESX  | RESX  |
 
-```
+
 <br>
 
 <div align="center"> 58LCD Development Board 40p FPC Connector Connected to SPI, DSPI, and QSPI Displays  </div>
 
-```{table}
-:align: center
 |PIN| 58-LCD | 3W-SPI  | 4W-SPI | DSPI  | QSPI  |
 |:--|:-------|:--------|:-------|:------|:------|
 |1  | 5V     | 5V      | 5V     | 5V    | 5V    | 
@@ -263,15 +264,13 @@ Multiple series of SiFli development boards use a unified graphical interface to
 |29 | GND    | GND     | GND    | GND   | GND   | 
 |40 | LCD_RST| RESX    | RESX   | RESX  | RESX  |
 
-```
+
 ### MCU-8080 Interface Display
 
 8-bit MCU-8080 is supported only by the 22p and 40p (56-DevKit-LCD) FPC interfaces. The connection methods are shown in the following two tables.
 
 <div align="center"> 22p FPC Connector Connected to MCU-8080 Displays  </div>
 
-```{table}
-:align: center
 |PIN| DevKit FPC CON PIN-Name      | Descriptions  | MCU-8080 |
 |:--|:---------|:-----------                       |------    |
 |1  | LEDK     | LED cathode                       | LEDK     | 
@@ -297,13 +296,11 @@ Multiple series of SiFli development boards use a unified graphical interface to
 |21 | TP_RST   | TP Reset                          | TP-RTN   |
 |22 | GND      | Power Supply Ground               | GND      |  
 
-```
+
 <br>
 
 <div align="center"> 56LCD Development Board 40p FPC Connector Connected to MCU-8080 Displays  </div>
 
-```{table}
-:align: center
 |PIN| DevKit FPC CON PIN-Name      | Descriptions  | MCU-8080 |
 |:--|:---------|:-----------                       |------    |
 |1  | 5V       | DC 5V Power Supply                | DC5V     | 
@@ -326,7 +323,7 @@ Multiple series of SiFli development boards use a unified graphical interface to
 |29 | GND      | Power Supply Ground               | GND      |
 |40 | LCD_RST  | LCD reset output Active low       | RESX     | 
 
-```
+
 ### 8-bit Parallel E-Paper Display Interface
 
 An 8-bit parallel e-paper display requires many I/O interfaces, and the FPC display interface on SiFli development boards cannot meet the I/O count requirement.
@@ -339,8 +336,6 @@ Common interfaces for JDI displays include a 24p parallel interface and a 10p se
 
 <div align="center"> 24p Parallel JDI Signal Definition  </div>
 
-```{table}
-:align: center
 |PIN| Signal       | Descriptions                                           | Connect to      |
 |:--|:-------------|:-------------------------------------------------------|:----------------|
 |1  | LED Cathode 1| Power supply for the LED (Cathode)                     | Onboard circuit | 
@@ -368,13 +363,11 @@ Common interfaces for JDI displays include a 24p parallel interface and a 10p se
 |23 | LED Anode    | Power supply for the LED (Anode)                       | Onboard circuit |
 |24 | LED Cathode 1| Power supply for the LED 2 (Cathode)                   | Onboard circuit |
 
-```
+
 <br>
 
 <div align="center"> 10p Serial JDI Signal Definition  </div>
 
-```{table}
-:align: center
 |PIN| Signal       | Descriptions                                           | Connect to      |
 |:--|:-------------|:-------------------------------------------------------|:----------------|
 |1  | JDI_SCLK     | Serial clock signal                                    | MCU             | 
@@ -388,7 +381,7 @@ Common interfaces for JDI displays include a 24p parallel interface and a 10p se
 |9  | VSS          | Logic ground                                           | Onboard circuit |
 |10 | VSSA         | Analog ground                                          | Onboard circuit |
 
-```
+
 For detailed design guidelines, refer to the [JDI Display Hardware Design Guide](http://wiki.sifli.com).
 
 ### RGB (MIPI-DPI) Interface Display
@@ -420,8 +413,6 @@ The backlight of a TFT display is generally composed of LED emitters connected i
 
 <div align="center"> Backlight Composition of Common TFT Screen Sizes  </div>
 
-```{table}
-:align: center
 |Size      | LED Structure        | LED VF&IF            | LED drive circuit |
 |:---------|:---------------------|:---------------------|:------------------|
 |1.3inch   | 2 parallel           | VF=3.3V,IF=15*2mA    | 3.3V DC drive     |
@@ -433,7 +424,7 @@ The backlight of a TFT display is generally composed of LED emitters connected i
 |7inch     | 3 serial *6 parallel | VF=9.6V,IF=90mA      | Boost WLED driver |
 |10.1inch  | 4 serial *7 parallel | VF=12.8V,IF=105mA    | Boost WLED driver |
 
-```
+
 For a backlight driver circuit using a single LED in a parallel configuration, LEDA can be connected directly to the 3.3 V power supply, and LEDK can be connected directly to GND.
 
 For a backlight driver circuit with multiple LEDs connected in series, common 5 V and 3.3 V supplies do not meet the VF voltage requirement, so the LEDs can only be driven by boosting the voltage. It is recommended to use a constant-current LED driver chip to drive the backlight LEDs. The number of parallel LED channels x 15 mA is the current requirement for the display backlight. As shown in the figure below, Rset is used to set the IF drive current. The FB of the chip is generally 200 mV, and IF=VFB/Rset is the drive current.

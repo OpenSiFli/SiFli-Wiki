@@ -17,7 +17,6 @@ SF32LB52-DevKit-LCD board 22-pin FPC connector signal definition
 ```
 
 ```{table} SF32LB52-DevKit-LCD 22-pin assignment
-
 :name: SF32LB52-DevKit-LCD-22P-LIST
 
 |Pin|	Pin Name           	   |   Function  |
@@ -74,7 +73,6 @@ The SF32LB52-DevKit-LCD development board provides one LED driver with a default
 SF32LB52-DevKit-LCD board 40-pin dual-row header signal definition
 ```
 ```{table} SF32LB56-DevKit-LCD 40-pin signal definition
-
 :name: SF32LB56-DevKit-LCD-40P-LIST
 
 |Pin|	Pin Name           	   |   Function  |

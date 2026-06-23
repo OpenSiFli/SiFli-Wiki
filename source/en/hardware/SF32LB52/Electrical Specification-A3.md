@@ -1,7 +1,6 @@
 #### Processor Power Supply Requirements
 
 ```{table} Power Supply Requirements
-
 :name: sf32lb52x-B--POWER
 
 |Power Pin| Minimum Voltage (V) | Typical Voltage (V) | Maximum Voltage (V) | Maximum Current (mA) |   Description |

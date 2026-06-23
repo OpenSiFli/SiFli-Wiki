@@ -107,6 +107,15 @@ Prepare the development board and load the first sample application:
 
 Hardware setup is complete. You can now proceed with software setup.
 
+```{note}
+Some development boards, such as Huangshan Pi and SF32LB52-DevKit-Nano-N16R16, reset through the RTS pin of the onboard USB-to-UART chip. This is mainly intended to make board reset easier. The newer SifliTrace tool already supports RTS reset.
+
+Q: This design can cause an inconvenience: after the board is powered on again, the first serial-port connection made by a tool may trigger a board reset. In some cases, opening the serial port during use may power off the board.
+
+A: Disable hardware flow control to resolve this issue. Open Device Manager -> right-click the port and select Properties -> Port Settings (Advanced) -> select Disable modem control.
+
+```
+<img width="2013" height="852" alt="image" src="https://github.com/user-attachments/assets/2c63e07c-7730-4495-9819-29a2636a0e77" />
 
 ### Software Setup
 
@@ -121,7 +130,6 @@ This section provides more information about the development board hardware.
 The following table provides the GPIO assignment list for the pins of the SF32LB52-MOD-N16R8 module, used to control specific components or functions of the development board.
 
 ```{table} SF32LB52-MOD-N16R8 GPIO Assignment
-
 :name: SF32LB52-MOD-N16R8-GPIO-LIST
 
 | Pin |	Pin Name           	   |   Function  |
