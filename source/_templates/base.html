@@ -1,0 +1,11 @@
+{% extends "!base.html" %}
+
+{%- block htmltitle -%}
+  {%- if pagename == root_doc -%}
+    <title>{{ title|striptags|e }} | {{ docstitle|striptags|e }}</title>
+  {%- elif not docstitle -%}
+    <title>{{ title|striptags|e }}</title>
+  {%- else -%}
+    <title>{{ title|striptags|e }} | {{ docstitle|striptags|e }}</title>
+  {%- endif -%}
+{%- endblock -%}

@@ -1,5 +1,10 @@
 # Configuration file for the Sphinx documentation builder.
 
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "_ext"))
+
 project = 'SiFli-Wiki'
 copyright = '2025, SiFli'
 author = 'SiFli'
@@ -10,6 +15,7 @@ extensions = [
     "myst_parser",
     "sphinx_copybutton",
     "sphinx_sitemap",
+    "sifli_seo",
 ]
 
 templates_path = ['../_templates']
@@ -17,6 +23,7 @@ language = 'en'
 exclude_patterns = []
 
 html_theme = 'shibuya'
+html_title = 'SiFli Wiki'
 numfig = True
 html_copy_source = False
 html_show_sourcelink = False
@@ -35,6 +42,7 @@ html_js_files = [
 ]
 html_theme_options = {
     "accent_color": "blue",
+    "og_image_url": "https://wiki.sifli.com/_static/og-image.png",
     "announcement": """
         <div style="text-align: center">
             SiFli Solution is now fully open: a production-ready solution set that accelerates projects from prototype to mass production.
@@ -71,13 +79,17 @@ myst_fence_as_directive = ["mermaid"]
 
 html_baseurl = 'https://wiki.sifli.com/en/'
 sitemap_url_scheme = "{link}"
-sitemap_filename = '../sitemap.xml'
+sitemap_filename = '../sitemap-en.xml'
 sitemap_locales = [None]
+sitemap_excludes = [
+    "genindex.html",
+    "search.html",
+]
 
 html_context = {
     "languages": [
         ("English", "/en/%s.html", "en"),
-        ("中文", "/%s.html", "zh"),
+        ("中文", "/%s.html", "zh-CN"),
     ],
     "source_type": "github",
     "source_user": "OpenSiFli",
