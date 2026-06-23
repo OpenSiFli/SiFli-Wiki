@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /search.html
+Disallow: /genindex.html
+Disallow: /en/search.html
+Disallow: /en/genindex.html
+
+Sitemap: https://wiki.sifli.com/sitemap.xml
