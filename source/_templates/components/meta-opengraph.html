@@ -1,0 +1,41 @@
+{%- if "sphinxext.opengraph" not in _sphinx_extensions -%}
+  {%- set og_image = none -%}
+  {%- if meta and meta.cover -%}
+    {%- set og_image = meta.cover -%}
+  {%- elif meta and meta.image -%}
+    {%- set og_image = meta.image -%}
+  {%- elif theme_og_image_url -%}
+    {%- set og_image = theme_og_image_url -%}
+  {%- elif logo_url and logo_url.startswith('https://') -%}
+    {%- set og_image = logo_url -%}
+  {%- endif -%}
+  <meta property="og:type" content="website"/>
+  {%- if pageurl %}
+  <meta property="og:url" content="{{ pageurl|e }}"/>
+  {% endif -%}
+  <meta property="og:title" content="{{ title|striptags|e }}"/>
+  {%- if og_image %}
+  <meta property="og:image" content="{{ og_image|e }}"/>
+  {%- endif %}
+  {%- if meta and meta.description %}
+    <meta name="description" content="{{ meta.description|replace('\n', ' ')|e }}"/>
+    <meta property="og:description" content="{{ meta.description|replace('\n', ' ')|e }}"/>
+    <meta name="twitter:description" content="{{ meta.description|replace('\n', ' ')|e }}"/>
+  {%- endif %}
+  {%- if og_image %}
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:image" content="{{ og_image|e }}"/>
+  {%- else %}
+    <meta name="twitter:card" content="summary"/>
+  {%- endif -%}
+{%- elif metatags -%}
+  {{ metatags }}
+{%- endif -%}
+
+{%- if theme_twitter_creator %}
+<meta name="twitter:creator" content="@{{ theme_twitter_creator }}"/>
+{%- endif %}
+
+{%- if theme_twitter_site %}
+<meta name="twitter:site" content="@{{ theme_twitter_site }}"/>
+{%- endif %}

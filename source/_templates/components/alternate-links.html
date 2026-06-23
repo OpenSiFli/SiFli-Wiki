@@ -1,0 +1,10 @@
+{%- if languages %}
+{%- for item in languages %}
+  {%- if item[2] %}
+    {%- set href = i18n_link(item[1]) -%}
+    <link rel="alternate" hreflang="{{ item[2] }}" href="{{ href if href.startswith('http') else 'https://wiki.sifli.com' + href }}" />
+  {%- endif %}
+{%- endfor %}
+  {%- set default_href = i18n_link('/%s.html') -%}
+  <link rel="alternate" hreflang="x-default" href="{{ default_href if default_href.startswith('http') else 'https://wiki.sifli.com' + default_href }}" />
+{% endif %}

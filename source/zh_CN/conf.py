@@ -1,5 +1,10 @@
 # Configuration file for the Sphinx documentation builder.
 
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "_ext"))
+
 project = 'SiFli-Wiki'
 copyright = '2025, SiFli'
 author = 'SiFli'
@@ -10,6 +15,7 @@ extensions = [
     "myst_parser",
     "sphinx_copybutton",
     "sphinx_sitemap",
+    "sifli_seo",
 ]
 
 templates_path = ['../_templates']
@@ -17,10 +23,12 @@ language = 'zh_CN'
 exclude_patterns = []
 
 html_theme = 'shibuya'
+html_title = 'SiFli Wiki'
 numfig = True
 html_copy_source = False
 html_show_sourcelink = False
 html_static_path = ['../_static']
+html_extra_path = ['../_extra']
 html_logo = '../_static/logo_white.png'
 html_favicon = '../_static/logo_favicon.png'
 
@@ -35,6 +43,7 @@ html_js_files = [
 ]
 html_theme_options = {
     "accent_color": "blue",
+    "og_image_url": "https://wiki.sifli.com/_static/og-image.png",
     "announcement": """
         <div style="text-align: center">
             思澈 Solution 全面开放：一套产品级方案，加速从原型到量产
@@ -71,13 +80,17 @@ myst_fence_as_directive = ["mermaid"]
 
 html_baseurl = 'https://wiki.sifli.com/'
 sitemap_url_scheme = "{link}"
-sitemap_filename = 'sitemap.xml'
+sitemap_filename = 'sitemap-zh.xml'
 sitemap_locales = []
+sitemap_excludes = [
+    "genindex.html",
+    "search.html",
+]
 
 html_context = {
     "languages": [
         ("English", "/en/%s.html", "en"),
-        ("中文", "/%s.html", "zh"),
+        ("中文", "/%s.html", "zh-CN"),
     ],
     "source_type": "github",
     "source_user": "OpenSiFli",
