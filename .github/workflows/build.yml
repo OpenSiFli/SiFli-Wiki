@@ -48,26 +48,36 @@ jobs:
           retention-days: 7
       
       - name: Install COSCMD
+        if: ${{ secrets.COS_DOCS_SECRET_ID != '' && secrets.COS_DOCS_SECRET_KEY != '' && secrets.COS_DOCS_BUCKET != '' && secrets.COS_DOCS_REGION != '' }}
         run: |
           pip install coscmd
 
       - name: Configure COSCMD
+        if: ${{ secrets.COS_DOCS_SECRET_ID != '' && secrets.COS_DOCS_SECRET_KEY != '' && secrets.COS_DOCS_BUCKET != '' && secrets.COS_DOCS_REGION != '' }}
         run: |
           coscmd config -a ${{ secrets.COS_DOCS_SECRET_ID }} -s ${{ secrets.COS_DOCS_SECRET_KEY }} -b ${{ secrets.COS_DOCS_BUCKET }} -r ${{ secrets.COS_DOCS_REGION }} -m 20
 
       - name: Upload to COS
+        if: ${{ secrets.COS_DOCS_SECRET_ID != '' && secrets.COS_DOCS_SECRET_KEY != '' && secrets.COS_DOCS_BUCKET != '' && secrets.COS_DOCS_REGION != '' }}
         run: |
           cd main-repo
           coscmd upload -rs --delete --yes ./build/ /
           echo "Uploaded documentation for wiki to COS successfully."
       
       - name: Install TCCLI
+        if: ${{ secrets.COS_DOCS_SECRET_ID != '' && secrets.COS_DOCS_SECRET_KEY != '' && secrets.COS_DOCS_BUCKET != '' && secrets.COS_DOCS_REGION != '' }}
         run: |
           pip install tccli
       
       - name: Purge CDN Cache
+        if: ${{ secrets.COS_DOCS_SECRET_ID != '' && secrets.COS_DOCS_SECRET_KEY != '' && secrets.COS_DOCS_BUCKET != '' && secrets.COS_DOCS_REGION != '' }}
         run: |
           export TENCENTCLOUD_SECRET_ID=${{ secrets.COS_DOCS_SECRET_ID }}
           export TENCENTCLOUD_SECRET_KEY=${{ secrets.COS_DOCS_SECRET_KEY }}
           export TENCENTCLOUD_REGION=${{ secrets.COS_DOCS_REGION }}
           tccli cdn PurgePathCache --cli-unfold-argument --Paths 'https://wiki.sifli.com/' --FlushType flush
+
+      - name: Skip deployment when COS secrets are missing
+        if: ${{ secrets.COS_DOCS_SECRET_ID == '' || secrets.COS_DOCS_SECRET_KEY == '' || secrets.COS_DOCS_BUCKET == '' || secrets.COS_DOCS_REGION == '' }}
+        run: |
+          echo "COS deployment skipped because one or more COS_DOCS_* secrets are not configured."
