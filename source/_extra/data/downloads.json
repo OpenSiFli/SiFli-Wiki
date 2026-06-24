@@ -1,0 +1,250 @@
+{
+  "schema_version": "1.0",
+  "last_updated": "2026-06-23",
+  "site": "https://wiki.sifli.com/",
+  "description": "Machine-readable SiFli download index for product documents, hardware checklists, EDA libraries, and development tools.",
+  "indexes": {
+    "products_llms": "https://wiki.sifli.com/llms-products.txt",
+    "hardware_llms": "https://wiki.sifli.com/llms-hardware.txt",
+    "tools_llms": "https://wiki.sifli.com/llms-tools.txt"
+  },
+  "downloads": [
+    {
+      "id": "sf32lb52x-vbat-product-brief-en",
+      "title": "SF32LB52x Product Brief",
+      "category": "product_brief",
+      "product": "SF32LB52x Series",
+      "language": "en",
+      "url": "https://downloads.sifli.com/user%20manual/PB5201-SF32LB52x-Product%20Brief.pdf"
+    },
+    {
+      "id": "sf32lb52x-vbat-datasheet-en",
+      "title": "SF32LB52x Datasheet V2p5p3",
+      "category": "datasheet",
+      "product": "SF32LB52x Series",
+      "language": "en",
+      "url": "https://downloads.sifli.com/user%20manual/DS5201-SF32LB52x-Datasheet%20V2p5p3.pdf"
+    },
+    {
+      "id": "sf32lb52x-vbat-user-manual-en",
+      "title": "SF32LB52x User Manual",
+      "category": "user_manual",
+      "product": "SF32LB52x Series",
+      "language": "en",
+      "url": "https://downloads.sifli.com/docs/user%20manual/SF32LB52x/UM5201%E2%80%90SF32LB52x%E2%80%90EN.pdf"
+    },
+    {
+      "id": "sf32lb52x-3p3-product-brief-en",
+      "title": "SF32LB52X 3.3 V Product Brief V0p1",
+      "category": "product_brief",
+      "product": "SF32LB52X 3.3 V Supply Version",
+      "language": "en",
+      "url": "https://downloads.sifli.com/user%20manual/PB5202-SF32LB52X-Product%20Brief%20V0p1.pdf"
+    },
+    {
+      "id": "sf32lb52x-3p3-datasheet-en",
+      "title": "SF32LB52X 3.3 V Datasheet V0p2p5",
+      "category": "datasheet",
+      "product": "SF32LB52X 3.3 V Supply Version",
+      "language": "en",
+      "url": "https://downloads.sifli.com/user%20manual/DS5202-SF32LB52X-Datasheet%20V0p2p5.pdf"
+    },
+    {
+      "id": "sf32lb56x-product-brief-en",
+      "title": "SF32LB56x Product Brief V1p1",
+      "category": "product_brief",
+      "product": "SF32LB56x Series",
+      "language": "en",
+      "url": "https://downloads.sifli.com/silicon/PB0056-SF32LB56x-Product%20Brief%20V1p1.pdf"
+    },
+    {
+      "id": "sf32lb56x-datasheet-en",
+      "title": "SF32LB56x Datasheet V1p9p2",
+      "category": "datasheet",
+      "product": "SF32LB56x Series",
+      "language": "en",
+      "url": "https://downloads.sifli.com/user%20manual/DS5601-SF32LB56x-Datasheet%20V1p9p2.pdf"
+    },
+    {
+      "id": "sf32lb56x-user-manual-en",
+      "title": "SF32LB56x User Manual",
+      "category": "user_manual",
+      "product": "SF32LB56x Series",
+      "language": "en",
+      "url": "https://downloads.sifli.com/docs/user%20manual/SF32LB56x/UM5601%E2%80%90SF32LB56x%E2%80%90EN.pdf"
+    },
+    {
+      "id": "sf32lb58x-product-brief-en",
+      "title": "SF32LB58x Product Brief V0p7",
+      "category": "product_brief",
+      "product": "SF32LB58x Series",
+      "language": "en",
+      "url": "https://downloads.sifli.com/silicon/PB0058-SF32LB58x-Product%20Brief%20V0p7.pdf"
+    },
+    {
+      "id": "sf32lb58x-datasheet-en",
+      "title": "SF32LB58x Datasheet V1p8p3",
+      "category": "datasheet",
+      "product": "SF32LB58x Series",
+      "language": "en",
+      "url": "https://downloads.sifli.com/user%20manual/DS5801-SF32LB58x-Datasheet%20V1p8p3.pdf"
+    },
+    {
+      "id": "sf32lb58x-user-manual-en",
+      "title": "SF32LB58x User Manual",
+      "category": "user_manual",
+      "product": "SF32LB58x Series",
+      "language": "en",
+      "url": "https://downloads.sifli.com/docs/user%20manual/SF32LB58x/UM5801%E2%80%90SF32LB58x%E2%80%90EN.pdf"
+    },
+    {
+      "id": "sf32lb55x-product-brief-en",
+      "title": "SF32LB55x Product Brief V1p3",
+      "category": "product_brief",
+      "product": "SF32LB55x Series",
+      "language": "en",
+      "url": "https://downloads.sifli.com/silicon/PB0001-SF32LB55x-Product%20Brief%20V1p3.pdf"
+    },
+    {
+      "id": "sf32lb55x-datasheet-en",
+      "title": "SF32LB55x Datasheet V1p7p2",
+      "category": "datasheet",
+      "product": "SF32LB55x Series",
+      "language": "en",
+      "url": "https://downloads.sifli.com/user%20manual/DS5501-SF32LB55x-Datasheet%20V1p7p2.pdf"
+    },
+    {
+      "id": "sf30147-product-brief-en",
+      "title": "SF30147 Product Brief V0p9",
+      "category": "product_brief",
+      "product": "SF30147",
+      "language": "en",
+      "url": "https://downloads.sifli.com/silicon/PB0002-SF30147-Product%20Brief%20V0p9.pdf"
+    },
+    {
+      "id": "sf30147-datasheet-en",
+      "title": "SF30147 Datasheet V0p6",
+      "category": "datasheet",
+      "product": "SF30147",
+      "language": "en",
+      "url": "https://downloads.sifli.com/silicon/DS0002-SF30147-Datasheet%20V0p6.pdf"
+    },
+    {
+      "id": "sf32lb52-hardware-checklist",
+      "title": "SF32LB52 Schematic and PCB Checklist",
+      "category": "hardware_checklist",
+      "product": "SF32LB52x and SF32LB52X",
+      "language": "en",
+      "url": "https://downloads.sifli.com/hardware/files/documentation/SF32LB52%20Schematic%26PCB%20checklist_V1.0_20260121.xlsx"
+    },
+    {
+      "id": "sf32lb56x-hardware-checklist",
+      "title": "SF32LB56x Schematic and PCB Checklist",
+      "category": "hardware_checklist",
+      "product": "SF32LB56x Series",
+      "language": "en",
+      "url": "https://downloads.sifli.com/hardware/files/documentation/SF32LB56x%20Schematic%26PCB%20checklist_V1.0_20260121.xlsx"
+    },
+    {
+      "id": "sf32lb58x-hardware-checklist",
+      "title": "SF32LB58x Schematic and PCB Checklist",
+      "category": "hardware_checklist",
+      "product": "SF32LB58x Series",
+      "language": "en",
+      "url": "https://downloads.sifli.com/hardware/files/documentation/SF32LB58x%20Schematic%26PCB%20checklist_V1.0_20260121.xlsx"
+    },
+    {
+      "id": "sf32lb55x-hardware-checklist",
+      "title": "SF32LB55x Schematic and PCB Checklist",
+      "category": "hardware_checklist",
+      "product": "SF32LB55x Series",
+      "language": "en",
+      "url": "https://downloads.sifli.com/hardware/files/documentation/SF32LB55x%20Schematic%26PCB%20checklist_V1.0_20260121.xlsx"
+    },
+    {
+      "id": "sifli-mcu-avl",
+      "title": "SIFLI-MCU AVL Certification List",
+      "category": "hardware_library",
+      "language": "mixed",
+      "url": "https://downloads.sifli.com/hardware/files/documentation/SIFLI-MCU-AVL-%E8%AE%A4%E8%AF%81%E8%A1%A8-V0.3-20260121.xlsx?"
+    },
+    {
+      "id": "jlc-eda-library",
+      "title": "JLC EDA Library",
+      "category": "eda_library",
+      "language": "mixed",
+      "url": "https://downloads.sifli.com/hardware/files/documentation/ProPrj_sifli-iclib_2026-04-20.epro2?"
+    },
+    {
+      "id": "pads-library",
+      "title": "PADS Library",
+      "category": "eda_library",
+      "language": "mixed",
+      "url": "https://downloads.sifli.com/hardware/files/documentation/PADS-SIFLI-IC.ZIP?"
+    },
+    {
+      "id": "orcad-library",
+      "title": "OrCAD Library",
+      "category": "eda_library",
+      "language": "mixed",
+      "url": "https://downloads.sifli.com/hardware/files/documentation/OrCAD-SIFLI-IC.OLB?"
+    },
+    {
+      "id": "kicad-library",
+      "title": "KiCad Library",
+      "category": "eda_library",
+      "language": "mixed",
+      "url": "https://github.com/OpenSiFli/kicad-libraries"
+    },
+    {
+      "id": "impeller",
+      "title": "Impeller Toolkit",
+      "category": "tool",
+      "language": "mixed",
+      "url": "https://downloads.sifli.com/tools/Impeller/Impeller_latest.7z"
+    },
+    {
+      "id": "graphicstool",
+      "title": "GraphicsTool Toolkit",
+      "category": "tool",
+      "language": "mixed",
+      "url": "https://downloads.sifli.com/tools/GraphicsTool/GraphicsTool_latest.7z"
+    },
+    {
+      "id": "sifli-trace",
+      "title": "Sifli_Trace Toolkit",
+      "category": "tool",
+      "language": "mixed",
+      "url": "https://downloads.sifli.com/tools/SiFli_Trace/SiFli_Trace_latest.7z"
+    },
+    {
+      "id": "sifli-eq",
+      "title": "Sifli_EQ Toolkit",
+      "category": "tool",
+      "language": "mixed",
+      "url": "https://downloads.sifli.com/tools/SiFli_EQ/SiFli_EQ_latest.7z"
+    },
+    {
+      "id": "sifli-rftool",
+      "title": "Sifli_RfTool Toolkit",
+      "category": "tool",
+      "language": "mixed",
+      "url": "https://downloads.sifli.com/tools/SiFli_RfTool/SiFli_RfTool_latest.7z"
+    },
+    {
+      "id": "assertdump",
+      "title": "AssertDump Toolkit",
+      "category": "tool",
+      "language": "mixed",
+      "url": "https://downloads.sifli.com/tools/AssertDump/AssertDump_latest.7z"
+    },
+    {
+      "id": "lightwork",
+      "title": "LightWork Toolkit",
+      "category": "tool",
+      "language": "mixed",
+      "url": "https://downloads.sifli.com/tools/LightWork/LightWork_latest.7z"
+    }
+  ]
+}
+

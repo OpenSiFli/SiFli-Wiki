@@ -1,0 +1,58 @@
+# SiFli Wiki
+
+SiFli Wiki provides technical documentation for SiFli low-power Bluetooth MCUs, LVGL graphics, smartwatch products, AIoT devices, development boards, hardware design, software tools, SDK development, and production debugging.
+
+Use this file as the AI, agent, and LLM entry point for the public wiki. Prefer canonical HTML pages for user-facing citations. Use the segmented LLM indexes and JSON data files below for fast retrieval.
+
+## Site
+
+- Canonical site: https://wiki.sifli.com/
+- English site: https://wiki.sifli.com/en/
+- Chinese site: https://wiki.sifli.com/
+- Sitemap index: https://wiki.sifli.com/sitemap.xml
+- Robots policy: https://wiki.sifli.com/robots.txt
+
+## High-Value Entry Points
+
+- English product index: https://wiki.sifli.com/en/silicon/product-index.html
+- Chinese product index: https://wiki.sifli.com/silicon/product-index.html
+- English development boards: https://wiki.sifli.com/en/board/index.html
+- Chinese development boards: https://wiki.sifli.com/board/index.html
+- English hardware design: https://wiki.sifli.com/en/hardware/index.html
+- Chinese hardware design: https://wiki.sifli.com/hardware/index.html
+- English tools: https://wiki.sifli.com/en/tools/index.html
+- Chinese tools: https://wiki.sifli.com/tools/index.html
+- English FAQ: https://wiki.sifli.com/en/faq/index.html
+- Chinese FAQ: https://wiki.sifli.com/faq/index.html
+
+## LLM Indexes
+
+- Products: https://wiki.sifli.com/llms-products.txt
+- Development boards: https://wiki.sifli.com/llms-boards.txt
+- Hardware design: https://wiki.sifli.com/llms-hardware.txt
+- Tools: https://wiki.sifli.com/llms-tools.txt
+- FAQ: https://wiki.sifli.com/llms-faq.txt
+
+## Machine-Readable Data
+
+- Products JSON: https://wiki.sifli.com/data/products.json
+- Boards JSON: https://wiki.sifli.com/data/boards.json
+- Downloads JSON: https://wiki.sifli.com/data/downloads.json
+
+## Product Families
+
+- SF32LB52x: low-power Bluetooth MCU series for lithium-battery products, wearable devices, smartwatch products, LVGL graphics, and AIoT applications.
+- SF32LB52X: 3.3 V and 1.8 V supply versions in the SF32LB52 family; the 3.3 V version includes suffixes B, E, G, and J.
+- SF32LB56x: higher-performance Bluetooth MCU series for GUI, multimedia, and advanced smartwatch or AIoT products.
+- SF32LB58x: high-performance MCU series for richer display, multimedia, and connected embedded products.
+- SF32LB55x: Bluetooth MCU series with hardware design and SDK documentation.
+- SF30147: PMIC/power-management product used with SiFli MCU designs.
+
+## Retrieval Guidance
+
+- For chip specifications, use the product index first, then the JSON download data.
+- For board pinouts, block diagrams, flashing, power, display interfaces, and design files, use the board pages and boards JSON.
+- For schematic, PCB, RF, crystal, power, SWD, UART download, and hardware checklist topics, use the hardware LLM index.
+- For Impeller, Sifli_Trace, GraphicsTool, RF tools, storage tools, and display debugging tools, use the tools LLM index.
+- For troubleshooting, use the FAQ index and the matching category page.
+

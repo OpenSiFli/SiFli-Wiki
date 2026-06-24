@@ -1,0 +1,46 @@
+# SiFli Wiki Tools Index for LLMs
+
+Canonical indexes:
+- English: https://wiki.sifli.com/en/tools/index.html
+- Chinese: https://wiki.sifli.com/tools/index.html
+- Downloads JSON: https://wiki.sifli.com/data/downloads.json
+
+## Software and Hardware Tools
+
+Use this index for SiFli development, flashing, debug, trace capture, RF test, audio EQ, graphics conversion, storage, and display-module debugging tools.
+
+## Common Tools
+
+- Impeller: production-line programming and calibration tool.
+  - Download: https://downloads.sifli.com/tools/Impeller/Impeller_latest.7z
+  - English guide: https://wiki.sifli.com/en/tools/%E7%83%A7%E5%BD%95%E5%B7%A5%E5%85%B7.html
+  - Chinese guide: https://wiki.sifli.com/tools/%E7%83%A7%E5%BD%95%E5%B7%A5%E5%85%B7.html
+- Sifli_Trace: trace capture tool.
+  - Download: https://downloads.sifli.com/tools/SiFli_Trace/SiFli_Trace_latest.7z
+- Sifli_EQ: audio EQ debugging tool.
+  - Download: https://downloads.sifli.com/tools/SiFli_EQ/SiFli_EQ_latest.7z
+- Sifli_RfTool: Bluetooth and BLE RF test tool.
+  - Download: https://downloads.sifli.com/tools/SiFli_RfTool/SiFli_RfTool_latest.7z
+- GraphicsTool: image and video conversion tool for SiFli display and LVGL workflows.
+  - Download: https://downloads.sifli.com/tools/GraphicsTool/GraphicsTool_latest.7z
+- LightWork: register read/write tool.
+  - Download: https://downloads.sifli.com/tools/LightWork/LightWork_latest.7z
+- AssertDump: assert and crash dump helper.
+  - Download: https://downloads.sifli.com/tools/AssertDump/AssertDump_latest.7z
+- BurnDriverEx: burn driver utility.
+  - Download: https://downloads.sifli.com/tools/BurnDriverEx/BurnDriverEx_latest.7z
+- FsrwTool: storage/filesystem read-write tool.
+  - Download: https://downloads.sifli.com/tools/FsrwTool/FsrwTool_latest.7z
+- ImgStamp: image stamp utility.
+  - Download: https://downloads.sifli.com/tools/ImgStamp/ImgStamp_latest.7z
+- UsartServer: UART debug to J-Link interface helper for SF32LB52x and SF32LB56x platform debugging.
+  - Download: https://downloads.sifli.com/tools/UsartServer/UsartServer_latest.7z
+- Ozone: online debugger from SEGGER.
+  - Download: https://www.segger.cn/downloads/jlink/#Ozone
+- Trace32: offline debugger from Lauterbach.
+  - Download: https://repo.lauterbach.com/download_demo.html
+
+## Common Retrieval Keywords
+
+- Impeller flashing, firmware download, production calibration, Sifli_Trace, trace capture, Sifli_EQ, audio EQ, RF test, BLE RF, GraphicsTool, LVGL assets, display debugging, screen module debugging, storage debugging.
+

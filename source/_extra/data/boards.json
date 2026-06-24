@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0",
+  "last_updated": "2026-06-23",
+  "site": "https://wiki.sifli.com/",
+  "description": "Machine-readable SiFli development board index for AI, agent, and LLM retrieval.",
+  "indexes": {
+    "english": "https://wiki.sifli.com/en/board/index.html",
+    "chinese": "https://wiki.sifli.com/board/index.html",
+    "llms": "https://wiki.sifli.com/llms-boards.txt"
+  },
+  "boards": [
+    {
+      "id": "sf32lb52-devkit-lcd",
+      "name": "SF32LB52-DevKit-LCD",
+      "product_family": "SF32LB52x",
+      "summary": "LCD development board based on the SF32LB52 module for LVGL GUI development, low-power Bluetooth, display demonstrations, and wearable product prototyping.",
+      "features": ["integrated download and flashing", "GPIO expansion", "charging and discharging", "audio", "FPC display connector"],
+      "topics": ["LCD", "LVGL", "Bluetooth", "BLE", "smartwatch", "wearable", "Impeller", "GPIO", "audio"],
+      "urls": {
+        "en": "https://wiki.sifli.com/en/board/sf32lb52x/SF32LB52-DevKit-LCD.html",
+        "zh_CN": "https://wiki.sifli.com/board/sf32lb52x/SF32LB52-DevKit-LCD.html"
+      }
+    },
+    {
+      "id": "sf32lb52-devkit-nano",
+      "name": "SF32LB52-DevKit-Nano",
+      "product_family": "SF32LB52X 3.3 V supply version",
+      "summary": "Compact SF32LB52 chip development board for core-board use and embedded application development.",
+      "features": ["21 mm x 51 mm compact size", "ENIG castellated holes", "FPC display interface", "integrated core devices"],
+      "topics": ["core board", "display", "LVGL", "Bluetooth", "BLE", "AIoT", "wearable"],
+      "urls": {
+        "en": "https://wiki.sifli.com/en/board/sf32lb52x/SF32LB52-DevKit-Nano.html",
+        "zh_CN": "https://wiki.sifli.com/board/sf32lb52x/SF32LB52-DevKit-Nano.html",
+        "design_files": "https://oshwhub.com/sifli/sf32lb52-devkit-nano"
+      }
+    },
+    {
+      "id": "sf32lb52-devkit-core-3p3",
+      "name": "SF32LB52-DevKit-Core-3p3",
+      "product_family": "SF32LB52X 3.3 V supply version",
+      "summary": "SF32LB52 3.3 V core development board for prototyping, low-power measurement, display expansion, and hardware validation.",
+      "features": ["30.88 mm x 68 mm form factor", "castellated through-hole header", "1.8 V and 3.3 V power configuration", "single-rail power test", "whole-board power consumption test", "FPC display interface"],
+      "topics": ["3.3 V", "low power", "Bluetooth", "BLE", "LVGL", "smartwatch", "wearable", "AIoT", "power measurement", "display"],
+      "urls": {
+        "en": "https://wiki.sifli.com/en/board/sf32lb52x/SF32LB52-DevKit-Core-3p3.html",
+        "zh_CN": "https://wiki.sifli.com/board/sf32lb52x/SF32LB52-DevKit-Core-3p3.html"
+      }
+    },
+    {
+      "id": "sf32lb52-huangshan-pi",
+      "name": "SF32LB52 Huangshan Pi",
+      "product_family": "SF32LB52x",
+      "summary": "Education and prototype development board with rich peripherals and examples.",
+      "features": ["prototype-friendly form factor", "rich peripherals", "nine-axis sensor", "complete examples"],
+      "topics": ["education", "prototype", "Bluetooth", "BLE", "examples", "AIoT"],
+      "urls": {
+        "en": "https://wiki.sifli.com/en/board/sf32lb52x/SF32LB52-%E9%BB%84%E5%B1%B1%E6%B4%BE.html",
+        "zh_CN": "https://wiki.sifli.com/board/sf32lb52x/SF32LB52-%E9%BB%84%E5%B1%B1%E6%B4%BE.html",
+        "external": "https://wiki.lckfb.com/zh-hans/hspi-sf32lb52/lckfb-hspi-sf32lb52"
+      }
+    },
+    {
+      "id": "sf32lb52-oed-6in-epd",
+      "name": "SF32LB52-OED-6in-EPD",
+      "product_family": "SF32LB52x",
+      "summary": "SF32LB52 e-paper display board and reference material.",
+      "features": ["e-paper display", "FPC assembly", "display interface reference"],
+      "topics": ["e-paper", "EPD", "display", "low power", "wearable"],
+      "urls": {
+        "en": "https://wiki.sifli.com/en/board/sf32lb52x/SF32LB52-OED-6'-EPD.html",
+        "zh_CN": "https://wiki.sifli.com/board/sf32lb52x/SF32LB52-OED-6'-EPD.html"
+      }
+    },
+    {
+      "id": "sf-devkit-lcm-adapter",
+      "name": "SF-DevKit-LCM-Adapter",
+      "product_family": "Display adapter for SiFli development kits",
+      "summary": "Display adapter board for connecting supported LCD modules to SiFli development kits.",
+      "features": ["LCD module adapter", "FPC pin mapping", "AMOLED PMIC reference", "WLED driver reference", "display installation reference"],
+      "topics": ["LCD", "LCM", "FPC", "AMOLED", "WLED", "LVGL", "display adapter"],
+      "urls": {
+        "en": "https://wiki.sifli.com/en/board/sf32lb52x/SF-DevKit-LCM-Adapter.html",
+        "zh_CN": "https://wiki.sifli.com/board/sf32lb52x/SF-DevKit-LCM-Adapter.html"
+      }
+    },
+    {
+      "id": "sf32lb56-devkit-lcd",
+      "name": "SF32LB56-DevKit-LCD",
+      "product_family": "SF32LB56x",
+      "summary": "High-performance LCD development board based on the SF32LB56 module for GUI, LVGL, multimedia, smartwatch, and AIoT products.",
+      "features": ["high-performance processor", "large-capacity storage", "multimedia features", "advanced GUI applications", "LCD display"],
+      "topics": ["LCD", "RGB FPC", "LVGL", "Bluetooth", "BLE", "multimedia", "smartwatch", "wearable", "AIoT", "J-Link", "SWD"],
+      "urls": {
+        "en": "https://wiki.sifli.com/en/board/sf32lb56x/SF32LB56-DevKit-LCD.html",
+        "zh_CN": "https://wiki.sifli.com/board/sf32lb56x/SF32LB56-DevKit-LCD.html"
+      }
+    },
+    {
+      "id": "sf32lb58-devkit-lcd",
+      "name": "SF32LB58-DevKit-LCD",
+      "product_family": "SF32LB58x",
+      "summary": "High-performance SF32LB58 development board for advanced display, multimedia, LVGL, Bluetooth, smartwatch, and AIoT product development.",
+      "features": ["advanced display interfaces", "multimedia", "audio", "CAN", "SDIO Wi-Fi", "J-Link/SWD"],
+      "topics": ["LCD", "MIPI", "QSPI LCD", "LVGL", "Bluetooth", "BLE", "multimedia", "audio", "CAN", "Wi-Fi", "smartwatch", "AIoT"],
+      "urls": {
+        "en": "https://wiki.sifli.com/en/board/sf32lb58x/SF32LB58-DevKit-LCD.html",
+        "zh_CN": "https://wiki.sifli.com/board/sf32lb58x/SF32LB58-DevKit-LCD.html"
+      }
+    }
+  ]
+}
+
