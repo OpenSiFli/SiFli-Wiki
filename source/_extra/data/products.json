@@ -1,0 +1,194 @@
+{
+  "schema_version": "1.0",
+  "last_updated": "2026-06-23",
+  "site": "https://wiki.sifli.com/",
+  "description": "Machine-readable SiFli product index for AI, agent, and LLM retrieval. Products cover low-power Bluetooth MCU, LVGL graphics, smartwatch, wearable, and AIoT applications.",
+  "indexes": {
+    "english": "https://wiki.sifli.com/en/silicon/product-index.html",
+    "chinese": "https://wiki.sifli.com/silicon/product-index.html",
+    "llms": "https://wiki.sifli.com/llms-products.txt"
+  },
+  "products": [
+    {
+      "id": "sf32lb52x-vbat",
+      "name": "SF32LB52x Series",
+      "supply": "Lithium battery powered",
+      "aliases": ["SF32LB52x", "SF32LB520", "SF32LB523", "SF32LB525", "SF32LB527"],
+      "summary": "Low-power Bluetooth MCU series for wearable, smartwatch, LVGL GUI, audio, and AIoT products.",
+      "applications": ["low-power Bluetooth", "BLE", "LVGL graphics", "smartwatch", "wearable", "AIoT", "audio"],
+      "canonical_urls": {
+        "en": "https://wiki.sifli.com/en/silicon/product-index.html#sf32lb52x-lithium-battery-powered-version",
+        "zh_CN": "https://wiki.sifli.com/silicon/product-index.html#sf32lb52x"
+      },
+      "sdk": "https://docs.sifli.com/projects/sdk/latest/sf32lb52x/index.html",
+      "api": "https://docs.sifli.com/projects/sdk/latest/sf32lb52x/api/index.html",
+      "hardware_design_guides": {
+        "en": "https://wiki.sifli.com/en/hardware/SF32LB520-3-5-7-HW-Application.html",
+        "zh_CN": "https://wiki.sifli.com/hardware/SF32LB520-3-5-7-HW-Application.html"
+      },
+      "documents": {
+        "product_brief": {
+          "en": "https://downloads.sifli.com/user%20manual/PB5201-SF32LB52x-Product%20Brief.pdf",
+          "zh_CN": "https://downloads.sifli.com/user%20manual/PB5201-SF32LB52x-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B.pdf"
+        },
+        "datasheet": {
+          "en": "https://downloads.sifli.com/user%20manual/DS5201-SF32LB52x-Datasheet%20V2p5p3.pdf",
+          "zh_CN": "https://downloads.sifli.com/user%20manual/DS5201-SF32LB52x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V2p5p3.pdf"
+        },
+        "user_manual": {
+          "en": "https://downloads.sifli.com/docs/user%20manual/SF32LB52x/UM5201%E2%80%90SF32LB52x%E2%80%90EN.pdf",
+          "zh_CN": "https://downloads.sifli.com/docs/user%20manual/SF32LB52x/UM5201%E2%80%90SF32LB52x%E2%80%90CN.pdf"
+        }
+      }
+    },
+    {
+      "id": "sf32lb52x-3p3",
+      "name": "SF32LB52X Series, 3.3 V Supply Version",
+      "supply": "3.3 V",
+      "aliases": ["SF32LB52X", "SF32LB52XB", "SF32LB52XE", "SF32LB52XG", "SF32LB52XJ"],
+      "summary": "3.3 V supply version of the SF32LB52 family for low-power Bluetooth, LVGL GUI, display, smartwatch, wearable, and AIoT products.",
+      "applications": ["low-power Bluetooth", "BLE", "LVGL graphics", "smartwatch", "wearable", "AIoT", "3.3 V embedded design"],
+      "canonical_urls": {
+        "en": "https://wiki.sifli.com/en/silicon/product-index.html#sf32lb52x-3-3-v-supply-version",
+        "zh_CN": "https://wiki.sifli.com/silicon/product-index.html#sf32lb52x-3-3-v"
+      },
+      "sdk": "https://docs.sifli.com/projects/sdk/latest/sf32lb52x/index.html",
+      "api": "https://docs.sifli.com/projects/sdk/latest/sf32lb52x/api/index.html",
+      "hardware_design_guides": {
+        "en": "https://wiki.sifli.com/en/hardware/SF32LB52B-E-G-J-HW-Application.html",
+        "zh_CN": "https://wiki.sifli.com/hardware/SF32LB52B-E-G-J-HW-Application.html"
+      },
+      "documents": {
+        "product_brief": {
+          "en": "https://downloads.sifli.com/user%20manual/PB5202-SF32LB52X-Product%20Brief%20V0p1.pdf",
+          "zh_CN": "https://downloads.sifli.com/user%20manual/PB5202-SF32LB52X-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V0p1.pdf"
+        },
+        "datasheet": {
+          "en": "https://downloads.sifli.com/user%20manual/DS5202-SF32LB52X-Datasheet%20V0p2p5.pdf",
+          "zh_CN": "https://downloads.sifli.com/user%20manual/DS5202-SF32LB52X-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p2p5.pdf"
+        },
+        "user_manual": {
+          "en": "https://downloads.sifli.com/docs/user%20manual/SF32LB52x/UM5201%E2%80%90SF32LB52x%E2%80%90EN.pdf",
+          "zh_CN": "https://downloads.sifli.com/docs/user%20manual/SF32LB52x/UM5201%E2%80%90SF32LB52x%E2%80%90CN.pdf"
+        }
+      }
+    },
+    {
+      "id": "sf32lb56x",
+      "name": "SF32LB56x Series",
+      "supply": "Series dependent",
+      "aliases": ["SF32LB56x", "SF32LB56xU", "SF32LB56xV"],
+      "summary": "Higher-performance low-power Bluetooth MCU series for advanced GUI, LVGL graphics, multimedia, smartwatch, wearable, and AIoT products.",
+      "applications": ["low-power Bluetooth", "BLE", "LVGL graphics", "smartwatch", "wearable", "AIoT", "multimedia", "audio"],
+      "canonical_urls": {
+        "en": "https://wiki.sifli.com/en/silicon/product-index.html#sf32lb56x-series",
+        "zh_CN": "https://wiki.sifli.com/silicon/product-index.html#sf32lb56x"
+      },
+      "sdk": "https://docs.sifli.com/projects/sdk/latest/sf32lb56x/index.html",
+      "api": "https://docs.sifli.com/projects/sdk/latest/sf32lb56x/api/index.html",
+      "hardware_design_guides": {
+        "qfn68l_en": "https://wiki.sifli.com/en/hardware/SF32LB56xU-HW-Application.html",
+        "bga_en": "https://wiki.sifli.com/en/hardware/SF32LB56xV-HW-Application.html",
+        "qfn68l_zh_CN": "https://wiki.sifli.com/hardware/SF32LB56xU-HW-Application.html",
+        "bga_zh_CN": "https://wiki.sifli.com/hardware/SF32LB56xV-HW-Application.html"
+      },
+      "documents": {
+        "product_brief": {
+          "en": "https://downloads.sifli.com/silicon/PB0056-SF32LB56x-Product%20Brief%20V1p1.pdf",
+          "zh_CN": "https://downloads.sifli.com/silicon/PB0056-SF32LB56x-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V1p1.pdf"
+        },
+        "datasheet": {
+          "en": "https://downloads.sifli.com/user%20manual/DS5601-SF32LB56x-Datasheet%20V1p9p2.pdf",
+          "zh_CN": "https://downloads.sifli.com/user%20manual/DS5601-SF32LB56x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V1p9p2.pdf"
+        },
+        "user_manual": {
+          "en": "https://downloads.sifli.com/docs/user%20manual/SF32LB56x/UM5601%E2%80%90SF32LB56x%E2%80%90EN.pdf",
+          "zh_CN": "https://downloads.sifli.com/docs/user%20manual/SF32LB56x/UM5601%E2%80%90SF32LB56x%E2%80%90CN.pdf"
+        }
+      }
+    },
+    {
+      "id": "sf32lb58x",
+      "name": "SF32LB58x Series",
+      "supply": "Series dependent",
+      "aliases": ["SF32LB58x"],
+      "summary": "High-performance MCU series for advanced display, LVGL graphics, multimedia, Bluetooth, smartwatch, wearable, and AIoT products.",
+      "applications": ["Bluetooth", "BLE", "LVGL graphics", "smartwatch", "wearable", "AIoT", "multimedia", "display"],
+      "canonical_urls": {
+        "en": "https://wiki.sifli.com/en/silicon/product-index.html#sf32lb58x-series",
+        "zh_CN": "https://wiki.sifli.com/silicon/product-index.html#sf32lb58x"
+      },
+      "sdk": "https://docs.sifli.com/projects/sdk/latest/sf32lb58x/index.html",
+      "api": "https://docs.sifli.com/projects/sdk/latest/sf32lb58x/api/index.html",
+      "hardware_design_guides": {
+        "en": "https://wiki.sifli.com/en/hardware/SF32LB58x-HW-Application.html",
+        "zh_CN": "https://wiki.sifli.com/hardware/SF32LB58x-HW-Application.html"
+      },
+      "documents": {
+        "product_brief": {
+          "en": "https://downloads.sifli.com/silicon/PB0058-SF32LB58x-Product%20Brief%20V0p7.pdf",
+          "zh_CN": "https://downloads.sifli.com/silicon/PB0058-SF32LB58x-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V0p7.pdf"
+        },
+        "datasheet": {
+          "en": "https://downloads.sifli.com/user%20manual/DS5801-SF32LB58x-Datasheet%20V1p8p3.pdf",
+          "zh_CN": "https://downloads.sifli.com/user%20manual/DS5801-SF32LB58x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V1p8p3.pdf"
+        },
+        "user_manual": {
+          "en": "https://downloads.sifli.com/docs/user%20manual/SF32LB58x/UM5801%E2%80%90SF32LB58x%E2%80%90EN.pdf",
+          "zh_CN": "https://downloads.sifli.com/docs/user%20manual/SF32LB58x/UM5801%E2%80%90SF32LB58x%E2%80%90CN.pdf"
+        }
+      }
+    },
+    {
+      "id": "sf32lb55x",
+      "name": "SF32LB55x Series",
+      "supply": "Series dependent",
+      "aliases": ["SF32LB55x"],
+      "summary": "SiFli Bluetooth MCU series with hardware design, SDK, and API documentation.",
+      "applications": ["Bluetooth", "BLE", "embedded products", "wearable", "AIoT"],
+      "canonical_urls": {
+        "en": "https://wiki.sifli.com/en/silicon/product-index.html#sf32lb55x-series",
+        "zh_CN": "https://wiki.sifli.com/silicon/product-index.html#sf32lb55x"
+      },
+      "sdk": "https://docs.sifli.com/projects/sdk/latest/sf32lb55x/index.html",
+      "api": "https://docs.sifli.com/projects/sdk/latest/sf32lb55x/api/index.html",
+      "hardware_design_guides": {
+        "en": "https://wiki.sifli.com/en/hardware/SF32LB55x-HW-Application.html",
+        "zh_CN": "https://wiki.sifli.com/hardware/SF32LB55x-HW-Application.html"
+      },
+      "documents": {
+        "product_brief": {
+          "en": "https://downloads.sifli.com/silicon/PB0001-SF32LB55x-Product%20Brief%20V1p3.pdf",
+          "zh_CN": "https://downloads.sifli.com/silicon/PB0001-SF32LB55x-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V1p3.pdf"
+        },
+        "datasheet": {
+          "en": "https://downloads.sifli.com/user%20manual/DS5501-SF32LB55x-Datasheet%20V1p7p2.pdf",
+          "zh_CN": "https://downloads.sifli.com/user%20manual/DS5501-SF32LB55x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V1p7p2.pdf"
+        }
+      }
+    },
+    {
+      "id": "sf30147",
+      "name": "SF30147",
+      "supply": "Power-management product",
+      "aliases": ["SF30147"],
+      "summary": "SiFli power-management product used in MCU system designs.",
+      "applications": ["power management", "PMIC", "smartwatch", "wearable", "AIoT"],
+      "canonical_urls": {
+        "en": "https://wiki.sifli.com/en/silicon/product-index.html#sf30147-series",
+        "zh_CN": "https://wiki.sifli.com/silicon/product-index.html#sf30147"
+      },
+      "documents": {
+        "product_brief": {
+          "en": "https://downloads.sifli.com/silicon/PB0002-SF30147-Product%20Brief%20V0p9.pdf",
+          "zh_CN": "https://downloads.sifli.com/silicon/PB0002-SF30147-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V0p9.pdf"
+        },
+        "datasheet": {
+          "en": "https://downloads.sifli.com/silicon/DS0002-SF30147-Datasheet%20V0p6.pdf",
+          "zh_CN": "https://downloads.sifli.com/silicon/DS0002-SF30147-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p6.pdf"
+        }
+      }
+    }
+  ]
+}
+

@@ -1,0 +1,47 @@
+# SiFli Wiki Hardware Design Index for LLMs
+
+Canonical indexes:
+- English: https://wiki.sifli.com/en/hardware/index.html
+- Chinese: https://wiki.sifli.com/hardware/index.html
+- Downloads JSON: https://wiki.sifli.com/data/downloads.json
+
+## Hardware Topics
+
+Use hardware pages for schematic design, PCB layout, power supply, RF matching, antenna routing, 48 MHz crystal, 32.768 kHz RTC crystal, SWD, UART download, Boot Mode, production flashing, hardware self-checklists, and reference design package links.
+
+## Design Guides
+
+- SF32LB52x lithium-battery versions, English: https://wiki.sifli.com/en/hardware/SF32LB520-3-5-7-HW-Application.html
+- SF32LB52x lithium-battery versions, Chinese: https://wiki.sifli.com/hardware/SF32LB520-3-5-7-HW-Application.html
+- SF32LB52X 3.3 V versions B/E/G/J, English: https://wiki.sifli.com/en/hardware/SF32LB52B-E-G-J-HW-Application.html
+- SF32LB52X 3.3 V versions B/E/G/J, Chinese: https://wiki.sifli.com/hardware/SF32LB52B-E-G-J-HW-Application.html
+- SF32LB56xU QFN68L, English: https://wiki.sifli.com/en/hardware/SF32LB56xU-HW-Application.html
+- SF32LB56xU QFN68L, Chinese: https://wiki.sifli.com/hardware/SF32LB56xU-HW-Application.html
+- SF32LB56xV BGA, English: https://wiki.sifli.com/en/hardware/SF32LB56xV-HW-Application.html
+- SF32LB56xV BGA, Chinese: https://wiki.sifli.com/hardware/SF32LB56xV-HW-Application.html
+- SF32LB58x, English: https://wiki.sifli.com/en/hardware/SF32LB58x-HW-Application.html
+- SF32LB58x, Chinese: https://wiki.sifli.com/hardware/SF32LB58x-HW-Application.html
+- SF32LB55x, English: https://wiki.sifli.com/en/hardware/SF32LB55x-HW-Application.html
+- SF32LB55x, Chinese: https://wiki.sifli.com/hardware/SF32LB55x-HW-Application.html
+- Auto-download circuit guide, English: https://wiki.sifli.com/en/hardware/SF32-auto-download.html
+- Auto-download circuit guide, Chinese: https://wiki.sifli.com/hardware/SF32-auto-download.html
+
+## Checklists and Libraries
+
+- SF32LB52 schematic and PCB checklist: https://downloads.sifli.com/hardware/files/documentation/SF32LB52%20Schematic%26PCB%20checklist_V1.0_20260121.xlsx
+- SF32LB56x schematic and PCB checklist: https://downloads.sifli.com/hardware/files/documentation/SF32LB56x%20Schematic%26PCB%20checklist_V1.0_20260121.xlsx
+- SF32LB58x schematic and PCB checklist: https://downloads.sifli.com/hardware/files/documentation/SF32LB58x%20Schematic%26PCB%20checklist_V1.0_20260121.xlsx
+- SF32LB55x schematic and PCB checklist: https://downloads.sifli.com/hardware/files/documentation/SF32LB55x%20Schematic%26PCB%20checklist_V1.0_20260121.xlsx
+- SIFLI-MCU AVL certification list: https://downloads.sifli.com/hardware/files/documentation/SIFLI-MCU-AVL-%E8%AE%A4%E8%AF%81%E8%A1%A8-V0.3-20260121.xlsx?
+- JLC EDA library: https://downloads.sifli.com/hardware/files/documentation/ProPrj_sifli-iclib_2026-04-20.epro2?
+- PADS library: https://downloads.sifli.com/hardware/files/documentation/PADS-SIFLI-IC.ZIP?
+- OrCAD library: https://downloads.sifli.com/hardware/files/documentation/OrCAD-SIFLI-IC.OLB?
+- KiCad library: https://github.com/OpenSiFli/kicad-libraries
+
+## Common Retrieval Keywords
+
+- low power, Bluetooth, BLE, LVGL, smartwatch, wearable, AIoT
+- schematic checklist, PCB checklist, RF matching, antenna, 48 MHz crystal, 32 kHz crystal
+- SWD, UART download, Boot Mode, auto-download, Impeller, production flashing
+- SF32LB52X 3.3 V, SF32LB56xU QFN68L, SF32LB56xV BGA, SF32LB58x, SF32LB55x
+

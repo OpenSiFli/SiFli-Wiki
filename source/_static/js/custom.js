@@ -1,58 +1,68 @@
 // 自动语言检测和跳转
 (function() {
-    console.log('=== 语言自动跳转脚本开始执行 ===');
-    
-    // 检查是否已经处理过语言跳转（避免无限重定向）
-    var hasRedirected = sessionStorage.getItem('languageRedirected');
-    console.log('是否已处理过跳转:', hasRedirected);
-    
-    if (hasRedirected) {
-        console.log('已处理过语言跳转，跳过自动切换');
+    var preferredLanguageKey = 'preferredLanguage';
+    var autoRedirectKey = 'languageRedirected';
+    var currentPath = window.location.pathname;
+    var currentSearch = window.location.search || '';
+    var currentHash = window.location.hash || '';
+
+    function isRootPath(path) {
+        return path === '/' || path === '/index.html';
+    }
+
+    function normalizePreferredLanguage(language) {
+        if (language === 'en' || language === 'zh-CN') {
+            return language;
+        }
+        return '';
+    }
+
+    function getBrowserPreferredLanguage() {
+        var browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+        return browserLang.split('-')[0] === 'en' ? 'en' : 'zh-CN';
+    }
+
+    function pathForLanguage(path, language) {
+        if (language === 'en') {
+            if (path === '/en' || path.startsWith('/en/')) {
+                return path;
+            }
+            return path === '/' || path === '/index.html' ? '/en/' : '/en' + path;
+        }
+
+        if (path === '/en') {
+            return '/';
+        }
+        if (path.startsWith('/en/')) {
+            return path.replace(/^\/en/, '') || '/';
+        }
+        return path;
+    }
+
+    function redirectToLanguage(language) {
+        var targetPath = pathForLanguage(currentPath, language);
+        if (targetPath !== currentPath) {
+            window.location.replace(targetPath + currentSearch + currentHash);
+            return true;
+        }
+        return false;
+    }
+
+    var preferredLanguage = normalizePreferredLanguage(localStorage.getItem(preferredLanguageKey));
+
+    // 用户已经手动选择过语言时，始终尊重该选择，不再按浏览器语言覆盖。
+    if (preferredLanguage) {
+        redirectToLanguage(preferredLanguage);
         return;
     }
 
-    // 获取浏览器语言
-    var browserLang = navigator.language || navigator.userLanguage;
-    var langCode = browserLang.toLowerCase().split('-')[0]; // 获取主语言代码，如 'zh', 'en'
-    console.log('浏览器语言:', browserLang, '-> 语言代码:', langCode);
-    
-    // 获取当前页面路径
-    var currentPath = window.location.pathname;
-    var currentHost = window.location.hostname;
-    console.log('当前路径:', currentPath);
-    console.log('当前域名:', currentHost);
-    
-    // 判断当前是否在英文版 (/en/ 路径)
-    var isEnglishPage = currentPath.startsWith('/en/');
-    console.log('当前是否为英文页面:', isEnglishPage);
-    
-    // 如果浏览器语言是中文，但当前在英文页面
-    if ((langCode === 'zh' || langCode === 'cn') && isEnglishPage) {
-        // 构建中文页面URL（移除 /en/ 前缀）
-        var chinesePath = currentPath.replace(/^\/en/, '');
-        console.log('检测到中文浏览器 + 英文页面，准备跳转到:', chinesePath);
-        // 标记已处理过跳转
-        sessionStorage.setItem('languageRedirected', 'true');
-        window.location.href = chinesePath;
-        return;
+    // 没有用户偏好时，只在首次访问根路径时根据浏览器语言做一次引导。
+    if (!sessionStorage.getItem(autoRedirectKey)) {
+        sessionStorage.setItem(autoRedirectKey, 'true');
+        if (isRootPath(currentPath)) {
+            redirectToLanguage(getBrowserPreferredLanguage());
+        }
     }
-    
-    // 如果浏览器语言是英文，但当前在中文页面
-    if (langCode === 'en' && !isEnglishPage) {
-        // 构建英文页面URL（添加 /en/ 前缀）
-        // 如果是首页，跳转到 /en/，否则添加 /en 前缀
-        var englishPath = currentPath === '/' ? '/en/' : '/en' + currentPath;
-        console.log('检测到英文浏览器 + 中文页面，准备跳转到:', englishPath);
-        // 标记已处理过跳转
-        sessionStorage.setItem('languageRedirected', 'true');
-        window.location.href = englishPath;
-        return;
-    }
-    
-    // 如果到达这里，说明语言匹配，标记为已处理
-    console.log('语言已匹配，无需跳转');
-    sessionStorage.setItem('languageRedirected', 'true');
-    console.log('=== 语言自动跳转脚本执行完成 ===');
 })();
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -73,11 +83,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // 用户手动切换语言时，清除自动跳转标记
-    var languageLinks = document.querySelectorAll('a[href*="/en/"], a[href^="/"][href$=".html"]');
+    // 用户手动切换语言后保存偏好，后续页面加载时不再被浏览器语言改回去。
+    var languageLinks = document.querySelectorAll('.nav-languages-choices a');
     languageLinks.forEach(function(link) {
         link.addEventListener('click', function() {
-            sessionStorage.removeItem('languageRedirected');
+            try {
+                var linkUrl = new URL(link.href);
+                var preferredLanguage = linkUrl.pathname === '/en' || linkUrl.pathname.startsWith('/en/') ? 'en' : 'zh-CN';
+                localStorage.setItem('preferredLanguage', preferredLanguage);
+                sessionStorage.setItem('languageRedirected', 'true');
+            } catch(e) {
+                // 处理无效URL
+            }
         });
     });
 });

@@ -1,0 +1,112 @@
+# SiFli Wiki Product Index for LLMs
+
+This file summarizes SiFli product families and points agents to canonical documentation for low-power Bluetooth MCU, LVGL graphics, smartwatch, wearable, and AIoT product development.
+
+Canonical indexes:
+- English: https://wiki.sifli.com/en/silicon/product-index.html
+- Chinese: https://wiki.sifli.com/silicon/product-index.html
+- Downloads JSON: https://wiki.sifli.com/data/downloads.json
+- Products JSON: https://wiki.sifli.com/data/products.json
+
+## SF32LB52x Series
+
+Lithium-battery-powered low-power Bluetooth MCU series for wearable, smartwatch, LVGL GUI, audio, and AIoT applications.
+
+Key documentation:
+- Product brief EN: https://downloads.sifli.com/user%20manual/PB5201-SF32LB52x-Product%20Brief.pdf
+- Product brief CN: https://downloads.sifli.com/user%20manual/PB5201-SF32LB52x-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B.pdf
+- Datasheet EN: https://downloads.sifli.com/user%20manual/DS5201-SF32LB52x-Datasheet%20V2p5p3.pdf
+- Datasheet CN: https://downloads.sifli.com/user%20manual/DS5201-SF32LB52x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V2p5p3.pdf
+- User manual EN: https://downloads.sifli.com/docs/user%20manual/SF32LB52x/UM5201%E2%80%90SF32LB52x%E2%80%90EN.pdf
+- User manual CN: https://downloads.sifli.com/docs/user%20manual/SF32LB52x/UM5201%E2%80%90SF32LB52x%E2%80%90CN.pdf
+- Hardware design guide EN: https://wiki.sifli.com/en/hardware/SF32LB520-3-5-7-HW-Application.html
+- Hardware design guide CN: https://wiki.sifli.com/hardware/SF32LB520-3-5-7-HW-Application.html
+- SDK documentation: https://docs.sifli.com/projects/sdk/latest/sf32lb52x/index.html
+- API reference: https://docs.sifli.com/projects/sdk/latest/sf32lb52x/api/index.html
+
+Related development boards:
+- SF32LB52-DevKit-LCD: https://wiki.sifli.com/en/board/sf32lb52x/SF32LB52-DevKit-LCD.html
+- SF32LB52-DevKit-Nano: https://wiki.sifli.com/en/board/sf32lb52x/SF32LB52-DevKit-Nano.html
+- SF32LB52-DevKit-Core-3p3: https://wiki.sifli.com/en/board/sf32lb52x/SF32LB52-DevKit-Core-3p3.html
+
+## SF32LB52X Series, 3.3 V Supply Version
+
+3.3 V supply member of the SF32LB52 family. Suffixes B, E, G, and J use 3.3 V supply. Suitable for low-power Bluetooth, LVGL GUI, display, smartwatch, wearable, and AIoT products that need 3.3 V operation.
+
+Key documentation:
+- Product brief EN: https://downloads.sifli.com/user%20manual/PB5202-SF32LB52X-Product%20Brief%20V0p1.pdf
+- Product brief CN: https://downloads.sifli.com/user%20manual/PB5202-SF32LB52X-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V0p1.pdf
+- Datasheet EN: https://downloads.sifli.com/user%20manual/DS5202-SF32LB52X-Datasheet%20V0p2p5.pdf
+- Datasheet CN: https://downloads.sifli.com/user%20manual/DS5202-SF32LB52X-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p2p5.pdf
+- User manual EN: https://downloads.sifli.com/docs/user%20manual/SF32LB52x/UM5201%E2%80%90SF32LB52x%E2%80%90EN.pdf
+- User manual CN: https://downloads.sifli.com/docs/user%20manual/SF32LB52x/UM5201%E2%80%90SF32LB52x%E2%80%90CN.pdf
+- Hardware design guide EN: https://wiki.sifli.com/en/hardware/SF32LB52B-E-G-J-HW-Application.html
+- Hardware design guide CN: https://wiki.sifli.com/hardware/SF32LB52B-E-G-J-HW-Application.html
+- SDK documentation: https://docs.sifli.com/projects/sdk/latest/sf32lb52x/index.html
+- API reference: https://docs.sifli.com/projects/sdk/latest/sf32lb52x/api/index.html
+
+Related development boards:
+- SF32LB52-DevKit-Nano: https://wiki.sifli.com/en/board/sf32lb52x/SF32LB52-DevKit-Nano.html
+- SF32LB52-DevKit-Core-3p3: https://wiki.sifli.com/en/board/sf32lb52x/SF32LB52-DevKit-Core-3p3.html
+
+## SF32LB56x Series
+
+Higher-performance low-power Bluetooth MCU series for advanced GUI, LVGL graphics, audio, multimedia, smartwatch, and AIoT applications.
+
+Key documentation:
+- Product brief EN: https://downloads.sifli.com/silicon/PB0056-SF32LB56x-Product%20Brief%20V1p1.pdf
+- Product brief CN: https://downloads.sifli.com/silicon/PB0056-SF32LB56x-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V1p1.pdf
+- Datasheet EN: https://downloads.sifli.com/user%20manual/DS5601-SF32LB56x-Datasheet%20V1p9p2.pdf
+- Datasheet CN: https://downloads.sifli.com/user%20manual/DS5601-SF32LB56x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V1p9p2.pdf
+- User manual EN: https://downloads.sifli.com/docs/user%20manual/SF32LB56x/UM5601%E2%80%90SF32LB56x%E2%80%90EN.pdf
+- User manual CN: https://downloads.sifli.com/docs/user%20manual/SF32LB56x/UM5601%E2%80%90SF32LB56x%E2%80%90CN.pdf
+- Hardware design guide, QFN68L EN: https://wiki.sifli.com/en/hardware/SF32LB56xU-HW-Application.html
+- Hardware design guide, BGA EN: https://wiki.sifli.com/en/hardware/SF32LB56xV-HW-Application.html
+- SDK documentation: https://docs.sifli.com/projects/sdk/latest/sf32lb56x/index.html
+- API reference: https://docs.sifli.com/projects/sdk/latest/sf32lb56x/api/index.html
+
+Related development boards:
+- SF32LB56-DevKit-LCD: https://wiki.sifli.com/en/board/sf32lb56x/SF32LB56-DevKit-LCD.html
+
+## SF32LB58x Series
+
+High-performance SiFli MCU series for advanced display, multimedia, LVGL graphics, Bluetooth, wearable, smartwatch, and AIoT products.
+
+Key documentation:
+- Product brief EN: https://downloads.sifli.com/silicon/PB0058-SF32LB58x-Product%20Brief%20V0p7.pdf
+- Product brief CN: https://downloads.sifli.com/silicon/PB0058-SF32LB58x-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V0p7.pdf
+- Datasheet EN: https://downloads.sifli.com/user%20manual/DS5801-SF32LB58x-Datasheet%20V1p8p3.pdf
+- Datasheet CN: https://downloads.sifli.com/user%20manual/DS5801-SF32LB58x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V1p8p3.pdf
+- User manual EN: https://downloads.sifli.com/docs/user%20manual/SF32LB58x/UM5801%E2%80%90SF32LB58x%E2%80%90EN.pdf
+- User manual CN: https://downloads.sifli.com/docs/user%20manual/SF32LB58x/UM5801%E2%80%90SF32LB58x%E2%80%90CN.pdf
+- Hardware design guide EN: https://wiki.sifli.com/en/hardware/SF32LB58x-HW-Application.html
+- SDK documentation: https://docs.sifli.com/projects/sdk/latest/sf32lb58x/index.html
+- API reference: https://docs.sifli.com/projects/sdk/latest/sf32lb58x/api/index.html
+
+Related development boards:
+- SF32LB58-DevKit-LCD: https://wiki.sifli.com/en/board/sf32lb58x/SF32LB58-DevKit-LCD.html
+
+## SF32LB55x Series
+
+SiFli Bluetooth MCU series with hardware design, SDK, and API documentation.
+
+Key documentation:
+- Product brief EN: https://downloads.sifli.com/silicon/PB0001-SF32LB55x-Product%20Brief%20V1p3.pdf
+- Product brief CN: https://downloads.sifli.com/silicon/PB0001-SF32LB55x-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V1p3.pdf
+- Datasheet EN: https://downloads.sifli.com/user%20manual/DS5501-SF32LB55x-Datasheet%20V1p7p2.pdf
+- Datasheet CN: https://downloads.sifli.com/user%20manual/DS5501-SF32LB55x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V1p7p2.pdf
+- User manual CN: https://downloads.sifli.com/docs/user%20manual/SF32LB55x/UM5501%E2%80%90SF32LB55x%E2%80%90CN.pdf
+- Hardware design guide EN: https://wiki.sifli.com/en/hardware/SF32LB55x-HW-Application.html
+- SDK documentation: https://docs.sifli.com/projects/sdk/latest/sf32lb55x/index.html
+- API reference: https://docs.sifli.com/projects/sdk/latest/sf32lb55x/api/index.html
+
+## SF30147
+
+SiFli power-management product used in MCU system designs.
+
+Key documentation:
+- Product brief EN: https://downloads.sifli.com/silicon/PB0002-SF30147-Product%20Brief%20V0p9.pdf
+- Product brief CN: https://downloads.sifli.com/silicon/PB0002-SF30147-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V0p9.pdf
+- Datasheet EN: https://downloads.sifli.com/silicon/DS0002-SF30147-Datasheet%20V0p6.pdf
+- Datasheet CN: https://downloads.sifli.com/silicon/DS0002-SF30147-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p6.pdf
+

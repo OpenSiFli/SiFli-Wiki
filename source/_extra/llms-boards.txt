@@ -1,0 +1,90 @@
+# SiFli Wiki Development Board Index for LLMs
+
+Canonical indexes:
+- English: https://wiki.sifli.com/en/board/index.html
+- Chinese: https://wiki.sifli.com/board/index.html
+- Boards JSON: https://wiki.sifli.com/data/boards.json
+
+## Retrieval Guidance
+
+Use board pages for board-level pin definitions, block diagrams, power supply, flashing, display connectors, module interfaces, hardware design files, and quick-start details.
+
+## SF32LB52 Series Boards
+
+### SF32LB52-DevKit-LCD
+
+LCD development board based on the SF32LB52 module. Useful for LVGL GUI development, display demonstrations, low-power Bluetooth development, audio, and wearable product prototyping.
+
+- English guide: https://wiki.sifli.com/en/board/sf32lb52x/SF32LB52-DevKit-LCD.html
+- Chinese guide: https://wiki.sifli.com/board/sf32lb52x/SF32LB52-DevKit-LCD.html
+- Product family: SF32LB52x
+- Key topics: LCD FPC connector, GPIO expansion, charging/discharging, audio, Impeller flashing, display expansion.
+
+### SF32LB52-DevKit-Nano
+
+Compact SF32LB52 chip development board for core-board use and embedded application development.
+
+- English guide: https://wiki.sifli.com/en/board/sf32lb52x/SF32LB52-DevKit-Nano.html
+- Chinese guide: https://wiki.sifli.com/board/sf32lb52x/SF32LB52-DevKit-Nano.html
+- Product family: SF32LB52X 3.3 V supply version
+- Design files: https://oshwhub.com/sifli/sf32lb52-devkit-nano
+- Key topics: compact 21 mm x 51 mm design, castellated holes, display FPC, core-board integration.
+
+### SF32LB52-DevKit-Core-3p3
+
+SF32LB52 3.3 V core development board for prototyping, low-power measurement, display expansion, and hardware validation.
+
+- English guide: https://wiki.sifli.com/en/board/sf32lb52x/SF32LB52-DevKit-Core-3p3.html
+- Chinese guide: https://wiki.sifli.com/board/sf32lb52x/SF32LB52-DevKit-Core-3p3.html
+- Product family: SF32LB52X 3.3 V supply version
+- Key topics: 30.88 mm x 68 mm form factor, castellated through-hole header, 1.8 V/3.3 V power configuration, single-rail and whole-board power consumption tests, FPC display interface.
+
+### SF32LB52 Huangshan Pi
+
+Education and prototype development board with rich peripherals and examples.
+
+- English guide: https://wiki.sifli.com/en/board/sf32lb52x/SF32LB52-%E9%BB%84%E5%B1%B1%E6%B4%BE.html
+- Chinese guide: https://wiki.sifli.com/board/sf32lb52x/SF32LB52-%E9%BB%84%E5%B1%B1%E6%B4%BE.html
+- External wiki: https://wiki.lckfb.com/zh-hans/hspi-sf32lb52/lckfb-hspi-sf32lb52
+- Product family: SF32LB52x
+- Key topics: education, prototype development, sensors, examples.
+
+### SF32LB52-OED-6in-EPD
+
+SF32LB52 e-paper display board and reference material.
+
+- English guide: https://wiki.sifli.com/en/board/sf32lb52x/SF32LB52-OED-6'-EPD.html
+- Chinese guide: https://wiki.sifli.com/board/sf32lb52x/SF32LB52-OED-6'-EPD.html
+- Product family: SF32LB52x
+- Key topics: e-paper display, FPC assembly, display interface.
+
+### SF-DevKit-LCM-Adapter
+
+Display adapter board for connecting supported LCD modules to SiFli development kits.
+
+- English guide: https://wiki.sifli.com/en/board/sf32lb52x/SF-DevKit-LCM-Adapter.html
+- Chinese guide: https://wiki.sifli.com/board/sf32lb52x/SF-DevKit-LCM-Adapter.html
+- Key topics: LCD module adapter, FPC pin mapping, AMOLED PMIC, WLED driver, display installation.
+
+## SF32LB56 Series Boards
+
+### SF32LB56-DevKit-LCD
+
+High-performance LCD development board based on the SF32LB56 module for GUI, LVGL, multimedia, smartwatch, and AIoT products.
+
+- English guide: https://wiki.sifli.com/en/board/sf32lb56x/SF32LB56-DevKit-LCD.html
+- Chinese guide: https://wiki.sifli.com/board/sf32lb56x/SF32LB56-DevKit-LCD.html
+- Product family: SF32LB56x
+- Key topics: LCD display, RGB FPC, multimedia, large-capacity storage, advanced GUI applications, flashing, J-Link/SWD.
+
+## SF32LB58 Series Boards
+
+### SF32LB58-DevKit-LCD
+
+High-performance SF32LB58 development board for advanced display, multimedia, LVGL, Bluetooth, smartwatch, and AIoT product development.
+
+- English guide: https://wiki.sifli.com/en/board/sf32lb58x/SF32LB58-DevKit-LCD.html
+- Chinese guide: https://wiki.sifli.com/board/sf32lb58x/SF32LB58-DevKit-LCD.html
+- Product family: SF32LB58x
+- Key topics: LCD interfaces, MIPI, QSPI LCD, audio, CAN, SDIO Wi-Fi, flashing, J-Link/SWD, design files.
+

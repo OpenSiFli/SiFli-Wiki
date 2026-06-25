@@ -1,0 +1,31 @@
+# SiFli Wiki FAQ Index for LLMs
+
+Canonical indexes:
+- English: https://wiki.sifli.com/en/faq/index.html
+- Chinese: https://wiki.sifli.com/faq/index.html
+
+Use FAQ pages for troubleshooting SiFli MCU development, tools, flashing, chip behavior, peripheral drivers, low-power behavior, debugging, crash dump, Trace32, Ozone, serial tools, and SDK integration.
+
+## FAQ Categories
+
+- Development tools FAQ, English: https://wiki.sifli.com/en/faq/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98.html
+- Development tools FAQ, Chinese: https://wiki.sifli.com/faq/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98.html
+- Chip FAQ, English: https://wiki.sifli.com/en/faq/%E8%8A%AF%E7%89%87%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98.html
+- Chip FAQ, Chinese: https://wiki.sifli.com/faq/%E8%8A%AF%E7%89%87%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98.html
+- Peripheral driver debug FAQ, English: https://wiki.sifli.com/en/faq/%E5%A4%96%E8%AE%BE%E9%A9%B1%E5%8A%A8%E8%B0%83%E8%AF%95%E9%97%AE%E9%A2%98.html
+- Peripheral driver debug FAQ, Chinese: https://wiki.sifli.com/faq/%E5%A4%96%E8%AE%BE%E9%A9%B1%E5%8A%A8%E8%B0%83%E8%AF%95%E9%97%AE%E9%A2%98.html
+- Software debug FAQ, English: https://wiki.sifli.com/en/faq/%E8%BD%AF%E4%BB%B6%E8%B0%83%E8%AF%95%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98.html
+- Software debug FAQ, Chinese: https://wiki.sifli.com/faq/%E8%BD%AF%E4%BB%B6%E8%B0%83%E8%AF%95%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98.html
+
+## Useful Troubleshooting Pages
+
+- Crash dump FAQ, English: https://wiki.sifli.com/en/faq/debug/crash.html
+- Crash memory dump FAQ, English: https://wiki.sifli.com/en/faq/debug/dump.html
+- ICD/Ozone debug FAQ, English: https://wiki.sifli.com/en/faq/debug/icd.html
+- USB FAQ, English: https://wiki.sifli.com/en/faq/mcu/usb.html
+- Watchdog FAQ, English: https://wiki.sifli.com/en/faq/mcu/wdt.html
+
+## Common Retrieval Keywords
+
+- low power, standby, watchdog, USB, UART, download mode, crash dump, AssertDump, Trace32, Ozone, J-Link, SDK, flashing, Impeller, Bluetooth, BLE, LVGL display, peripheral driver, I2C, SPI, LCD, audio.
+
