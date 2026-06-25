@@ -42,20 +42,6 @@
 
 ::::
 
-````{if-builder}
-```{toctree}
-:maxdepth: 3
-:hidden:
-
-brief_introduction
-test_environment/index
-ble/index
-bt/index
-coremark/index
-```
-````
-
-````{if-builder}
 ```{toctree}
 :maxdepth: 3
 :hidden:
@@ -67,4 +53,3 @@ ble/index
 bt/index
 coremark/index
 ```
-````

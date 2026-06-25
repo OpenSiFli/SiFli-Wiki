@@ -1,5 +1,5 @@
 # 相关硬件
-* SF32LB52-DevKit-Core-3p3(板载芯片型号 SF32LB52BU56/SF32LB52JUD6)，使用方法参考[SF32LB52-DevKit-Core-3p3开发板使用指南](http://10.21.10.172:6600/devkits/sf32lb52x/SF32LB52-DevKit-Core-3p3.html)
+* SF32LB52-DevKit-Core-3p3(板载芯片型号 SF32LB52BU56/SF32LB52JUD6)，使用方法参考[SF32LB52-DevKit-Core-3p3开发板使用指南](http://127.0.0.1:8000/board/sf32lb52x/SF32LB52-DevKit-Core-3p3.html)
 * Agilent 66319D直流电源
 * Keysight 34465A 数字电流计
 * 串口板
