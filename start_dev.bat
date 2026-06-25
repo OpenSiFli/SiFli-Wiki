@@ -24,4 +24,4 @@ echo 按 Ctrl+C 停止服务器
 echo.
 
 REM 启动sphinx-autobuild进行实时预览
-sphinx-autobuild source build --host 127.0.0.1 --port 8000 --open-browser
+sphinx-autobuild source/zh_CN build --host 127.0.0.1 --port 8000 --open-browser
