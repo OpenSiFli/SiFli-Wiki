@@ -5,14 +5,11 @@ echo SiFli-Wiki 开发服务器启动
 echo ================================
 
 REM 检查虚拟环境是否存在
-if not exist "venv\Scripts\activate.bat" (
-    echo 错误: 虚拟环境不存在，请先运行 setup_env.bat
+if not exist "venv\Scripts\sphinx-autobuild.exe" (
+    echo 错误: 虚拟环境不存在或未安装依赖，请先运行 setup_env.bat
     pause
     exit /b 1
 )
-
-REM 激活虚拟环境
-call venv\Scripts\activate.bat
 
 echo 正在启动开发服务器...
 echo.
@@ -23,5 +20,9 @@ echo.
 echo 按 Ctrl+C 停止服务器
 echo.
 
+REM 延迟后打开浏览器
+start "" cmd /c "timeout /t 8 /nobreak >nul && start http://127.0.0.1:8000"
+
 REM 启动sphinx-autobuild进行实时预览
-sphinx-autobuild source/zh_CN build --host 127.0.0.1 --port 8000 --open-browser
+venv\Scripts\sphinx-autobuild.exe source\zh_CN build --host 127.0.0.1 --port 8000 --open-browser
+
