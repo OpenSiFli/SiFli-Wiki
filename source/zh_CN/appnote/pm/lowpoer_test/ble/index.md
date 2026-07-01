@@ -6,11 +6,7 @@ BLE (Bluetooth Low Energy) 是 SF32LB52x 的核心功能之一。本章节详细
 :hidden:
 :maxdepth: 2
 
-test
-download
-init
-adv
-connect
+prepare
+test_method
 result
 ```
-

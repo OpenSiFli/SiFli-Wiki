@@ -6,11 +6,7 @@
 :hidden:
 :maxdepth: 2
 
-objectives
-test
-download
-coremark
-whileloop
-showdown
+prepare
+test_method
 result
 ```

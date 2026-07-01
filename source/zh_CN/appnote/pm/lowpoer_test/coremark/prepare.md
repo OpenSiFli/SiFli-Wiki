@@ -1,4 +1,15 @@
-# 测试说明
+# 处理器性能测试准备
+
+## 测试目标
+
+通过标准化的处理器测试，评估芯片在不同计算强度下的功耗表现：
+
+- **Coremark 基准测试**：业界标准的 CPU 性能基准测试
+- **While Loop 测试**：基础循环操作的功耗基线测试
+- **关机模式测试**：最低功耗状态的功耗测量
+
+## 测试说明
+
 CoreMark 例程测试以下场景下的功耗:
 * 一个核执行 CoreMark 基准测试程序
 * 一个核执行一段时间的 while 循环，循环中执行 nop 指令
@@ -34,3 +45,24 @@ HCPU 还支持以下命令：
 * shutdown [wakeup_time_in_sec]: 关机，wakeup_time_in_sec为可选参数，单位为秒，表示关机后多久自动开机，如果不带参数，则关机后只能被 KEY1 按键唤醒
 
 注：由于编译采用 Ofast 优化等级，跑分结果仅作参考，并不能达到 Omax 时的最高分。
+
+## 例程编译与烧录
+
+### 编译
+
+如果使用已编译好的 image 文件，可以直接跳到烧录部分进行烧录开始测试。
+进入example\pm\coremark\project\hcpu目录，执行
+```
+scons --board=sf32lb52-core_n16r16 -j8
+```
+编译生成HCPU的image文件，编译生成的 image文件保存在 build 目录下。
+
+![](assert/image3.png)
+
+### 烧录镜像
+
+在命令行编译的目录下执行
+```
+build_sf32lb52-core_n16r16_hcpu\uart_download.bat
+```
+烧写 build 目录下编译生成的镜像文件。

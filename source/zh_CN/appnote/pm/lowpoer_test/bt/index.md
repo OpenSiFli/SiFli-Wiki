@@ -6,10 +6,7 @@
 :hidden:
 :maxdepth: 2
 
-test
-download
-init
-scan
-sniff
+prepare
+test_method
 result
 ```

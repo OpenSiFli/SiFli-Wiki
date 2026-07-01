@@ -13,7 +13,7 @@
 :::
 
 :::{grid-item-card}  测试环境
-:link: test_environment/index
+:link: test_environment
 :link-type: doc
 
 了解测试所需的硬件环境、软件配置和测试工具
@@ -48,7 +48,7 @@
 :numbered:
 
 brief_introduction
-test_environment/index
+test_environment
 ble/index
 bt/index
 coremark/index
