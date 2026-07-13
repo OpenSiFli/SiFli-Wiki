@@ -38,6 +38,10 @@
 [硬件设计指南](/hardware/SF32LB55x-HW-Application)&nbsp;&nbsp;
 [硬件设计自检查列表](https://downloads.sifli.com/hardware/files/documentation/SF32LB55x%20Schematic%26PCB%20checklist_V1.0_20260121.xlsx)
 
+## 电压自检指南
+
+[SF32硬件电压自检指南](/hardware/SF32-Voltage-Self-Check)&nbsp;&nbsp;
+
 ## SiFli物料认证表
 
 [SIFLI-MCU-AVL-认证表](https://downloads.sifli.com/hardware/files/documentation/SIFLI-MCU-AVL-%E8%AE%A4%E8%AF%81%E8%A1%A8-V0.3-20260121.xlsx?)
@@ -61,5 +65,6 @@ SF32LB58x-HW-Application
 SF32-auto-download
 SF32LB55x-HW-Application
 SF32LB52-MOD-1-EPD-HW-Application
+SF32-Voltage-Self-Check
 
 ```
