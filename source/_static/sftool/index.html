@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07111f" />
+    <title>SiFli Web Flasher</title>
+    <script type="module" crossorigin src="/tools/sftool/assets/index-jB6sYb6c.js"></script>
+    <link rel="stylesheet" crossorigin href="/tools/sftool/assets/index-DjVlJ7gL.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <span class="eyebrow">SIFLI · WEB SERIAL</span>
+        <h1>固件烧录器</h1>
+        <p>无需安装客户端，直接通过浏览器连接串口并一次烧录一个或多个 BIN 固件。</p>
+      </header>
+
+      <section id="compat" class="notice hidden"></section>
+
+      <section class="panel setup">
+        <div class="field">
+          <label for="chip">目标芯片</label>
+          <select id="chip">
+            <option value="SF32LB52">SF32LB52</option>
+            <option value="SF32LB55">SF32LB55</option>
+            <option value="SF32LB56">SF32LB56</option>
+            <option value="SF32LB57">SF32LB57</option>
+            <option value="SF32LB58">SF32LB58</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="flashType">Flash 类型</label>
+          <select id="flashType">
+            <option value="nor">NOR</option>
+            <option value="nand">NAND</option>
+            <option value="sd">SD</option>
+            <option value="nor_type1">NOR Type1</option>
+            <option value="nand_type1">NAND Type1</option>
+            <option value="nand_nobbm_type1">NAND NoBBM Type1</option>
+            <option value="sd_type1">SD Type1</option>
+          </select>
+        </div>
+        <div class="firmware-section">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">IMAGES</span>
+              <h2>BIN 固件</h2>
+            </div>
+            <div class="image-actions">
+              <button id="importZipUrl" class="secondary compact" type="button">ZIP 链接</button>
+              <button id="importZip" class="secondary compact" type="button">导入 ZIP</button>
+              <button id="importBuild" class="secondary compact" type="button">导入编译目录</button>
+              <button id="addFirmware" class="secondary compact" type="button">+ 添加 BIN</button>
+            </div>
+          </div>
+          <div id="zipUrlPanel" class="zip-url-panel hidden">
+            <input id="zipUrl" type="url" inputmode="url" placeholder="https://example.com/firmware.zip" aria-label="ZIP 下载链接" />
+            <button id="downloadZip" class="primary compact" type="button">下载并解析</button>
+            <button id="copyShareUrl" class="secondary compact" type="button">复制分享链接</button>
+          </div>
+          <input id="buildZip" class="hidden" type="file" accept=".zip,application/zip,application/x-zip-compressed" />
+          <input id="buildDirectory" class="hidden" type="file" webkitdirectory multiple />
+          <p class="directory-hint">选择编译目录、本地 ZIP 或提供 ZIP 下载链接，将自动解析配置并载入固件。分享链接支持 chip、flash、zip 参数，可自动配置并下载固件。</p>
+          <div id="firmwareList" class="firmware-list"></div>
+        </div>
+        <div class="options">
+          <label><input id="verify" type="checkbox" checked /> 烧录后校验</label>
+          <label><input id="eraseAll" type="checkbox" /> 全片擦除</label>
+        </div>
+        <div class="actions">
+          <button id="connect" class="secondary" type="button">选择串口</button>
+          <button id="flash" class="primary" type="button" disabled>开始烧录</button>
+          <button id="cancel" class="secondary" disabled>取消</button>
+        </div>
+        <div id="connectionState" class="connection-state disconnected">串口未连接</div>
+      </section>
+
+      <section class="panel status-panel">
+        <div class="status-row">
+          <div>
+            <span class="eyebrow">STATUS</span>
+            <strong id="status">准备就绪</strong>
+          </div>
+          <span id="percent">0%</span>
+        </div>
+        <progress id="progress" max="100" value="0"></progress>
+        <pre id="log" aria-live="polite"></pre>
+      </section>
+
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite" aria-hidden="true">
+      <span class="toast-icon">✓</span>
+      <span id="toastMessage">复制成功</span>
+    </div>
+  </body>
+</html>

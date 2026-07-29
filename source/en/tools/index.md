@@ -17,6 +17,12 @@ SiFli Technology provides a series of software and hardware tools for solution d
 
 ```
 
+```{seealso}
+
+[Open SiFli Web Tool](/tools/sftool/index.html)
+
+```
+
 :::{list-table} Common Tool List
 :widths: 15 30 25
 :header-rows: 1
