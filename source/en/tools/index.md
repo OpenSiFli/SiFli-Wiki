@@ -19,7 +19,7 @@ SiFli Technology provides a series of software and hardware tools for solution d
 
 ```{seealso}
 
-[Open SiFli Web Tool](/tools/sftool/index.html)
+[Open SiFli Web Tool](https://wiki.sifli.com/tools/sftool/index.html)
 
 ```
 

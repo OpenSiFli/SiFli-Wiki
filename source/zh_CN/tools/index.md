@@ -19,7 +19,7 @@
 
 ```{seealso}
 
-[打开 SiFli Web 工具](/tools/sftool/index.html)
+[打开 SiFli Web 工具](https://wiki.sifli.com/tools/sftool/index.html)
 
 ```
 
