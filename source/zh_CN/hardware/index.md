@@ -42,6 +42,10 @@
 
 [SF32硬件电压自检指南](/hardware/SF32-Voltage-Self-Check)&nbsp;&nbsp;
 
+## SF32LB52x 硬件自检指南
+
+[SF32LB52x 硬件自检指南](/hardware/SF32LB52-HW-Self-Check)&nbsp;&nbsp;
+
 ## SiFli物料认证表
 
 [SIFLI-MCU-AVL-认证表](https://downloads.sifli.com/hardware/files/documentation/SIFLI-MCU-AVL-%E8%AE%A4%E8%AF%81%E8%A1%A8-V0.3-20260121.xlsx?)
