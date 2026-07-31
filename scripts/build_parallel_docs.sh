@@ -34,5 +34,16 @@ if [[ -f "$ROOT_DIR/lcd_frequency.html" ]]; then
   fi
 fi
 
+if [[ -d "$ROOT_DIR/source/_static/sftool" ]]; then
+  rm -rf "$ROOT_DIR/build/tools/sftool"
+  mkdir -p "$ROOT_DIR/build/tools"
+  cp -R "$ROOT_DIR/source/_static/sftool" "$ROOT_DIR/build/tools/sftool"
+fi
+
+if [[ -f "$ROOT_DIR/source/_static/芯片选型对比.html" ]]; then
+  mkdir -p "$ROOT_DIR/build/_static"
+  cp "$ROOT_DIR/source/_static/芯片选型对比.html" "$ROOT_DIR/build/_static/芯片选型对比.html"
+fi
+
 echo "Built Chinese site: $ROOT_DIR/build"
 echo "Built English site: $ROOT_DIR/build/en"

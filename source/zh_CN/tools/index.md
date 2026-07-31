@@ -17,6 +17,12 @@
 
 ```
 
+```{seealso}
+
+[打开 SiFli Web 工具](https://wiki.sifli.com/tools/sftool/index.html)
+
+```
+
 :::{list-table} 常用工具列表
 :widths: 15 30 25
 :header-rows: 1
