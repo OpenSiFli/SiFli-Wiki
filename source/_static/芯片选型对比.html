@@ -1,0 +1,1571 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>芯片选型对比</title>
+<style>:root {
+  color-scheme: light dark;
+  background-color: var(--background) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: light-dark(rgb(255 255 255), rgb(24 24 24));
+  --foreground: light-dark(rgb(26 28 31), rgb(255 255 255));
+  --card: color-mix(in oklab, var(--foreground) 5%, transparent);
+  --card-foreground: var(--foreground);
+  --popover: light-dark(rgb(255 255 255), rgb(45 45 45));
+  --popover-foreground: var(--foreground);
+  --primary: light-dark(#26bae8, #59d0f0);
+  --primary-foreground: light-dark(rgb(255 255 255), rgb(13 13 13));
+  --secondary: light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%));
+  --secondary-foreground: var(--foreground);
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: light-dark(
+    rgb(26 28 31 / 49.4%),
+    rgb(255 255 255 / 49.8%)
+  );
+  --accent: light-dark(#e8f9fd, #103542);
+  --accent-foreground: var(--primary);
+  --destructive: light-dark(#c0392b, #ff8a80);
+  --border: light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%));
+  --input: light-dark(
+    rgb(26 28 31 / 11.8%),
+    color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+  );
+  --ring: light-dark(rgb(38 186 232 / 72%), rgb(89 208 240 / 76%));
+  --font-size-base: 15px;
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, "Segoe UI", sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --radius: 6px;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: 8px;
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17 17'%3E%3Cpath d='M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z'/%3E%3C/svg%3E");
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+  --color-background-primary: var(--background);
+  --color-text-primary: var(--foreground);
+  --color-border-secondary: var(--border);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html > body {
+  margin: 0;
+  padding: 5px;
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--viz-font-weight-medium);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.table-responsive > .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead th {
+  padding-block: 8px;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 6px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align="right"]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align="center"]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: superellipse(1.5);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget > :not(.card) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls > .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls > .form-label > :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type="file"] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type="file"]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type="file"]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type="color"] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type="color"]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: superellipse(1.5);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type="checkbox"] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type="checkbox"]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type="checkbox"]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: "";
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type="radio"] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type="radio"]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: "";
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+    [aria-pressed="true"],
+    [aria-selected="true"],
+    .is-selected
+  ) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed="true"], [aria-selected="true"], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget > svg {
+  width: 100%;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html>body{padding:0}</style>
+</head>
+<body>
+<div id="chip-selector-inline" class="selector-inline">
+  <style>
+    #chip-selector-inline {
+      display: grid;
+      gap: 24px;
+      width: 100%;
+      min-width: 0;
+      color: var(--foreground);
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 22px 36px;
+    }
+
+    #chip-selector-inline * {
+      box-sizing: border-box;
+    }
+
+    #chip-selector-inline > * {
+      min-width: 0;
+    }
+
+    #chip-selector-inline .status-row,
+    #chip-selector-inline .compare-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    #chip-selector-inline .title-row {
+      display: grid;
+      gap: 8px;
+      justify-items: start;
+      text-align: left;
+      padding: 4px 0 18px;
+      border-bottom: 3px solid var(--primary);
+    }
+
+    #chip-selector-inline .title-row h1 {
+      margin: 0;
+      color: light-dark(#2c3e50, #e9f7fb);
+      font-size: clamp(1.7rem, 3vw, 2.2rem);
+      font-weight: 600;
+    }
+
+    #chip-selector-inline .title-row p { max-width: 650px; }
+
+    #chip-selector-inline .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 12px;
+      color: light-dark(#34495e, #e9f7fb);
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    #chip-selector-inline .section-step {
+      display: inline-grid;
+      width: 24px;
+      height: 24px;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--primary-foreground);
+      background: var(--primary);
+      font-size: .78rem;
+    }
+
+    #chip-selector-inline .filter-card {
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--primary);
+      border-radius: 8px;
+      background: light-dark(linear-gradient(135deg, #f6fdff, #fff 65%), linear-gradient(135deg, #12333d, #1d1d1d 65%));
+      box-shadow: 0 4px 16px rgb(34 73 87 / 8%);
+    }
+
+    #chip-selector-inline .control-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px 16px;
+    }
+
+    #chip-selector-inline .secondary-filter {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    #chip-selector-inline .secondary-label {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    #chip-selector-inline .peripheral-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px 12px;
+    }
+
+    #chip-selector-inline .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px;
+    }
+
+    #chip-selector-inline .choice-grid .btn[hidden] {
+      display: none;
+    }
+
+    #chip-selector-inline .compare-row {
+      align-items: flex-start;
+    }
+
+    #chip-selector-inline .compare-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    #chip-selector-inline .compare-table {
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    #chip-selector-inline #inline-table-wrap {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      overflow-x: auto;
+    }
+
+    #chip-selector-inline .compare-table th:first-child,
+    #chip-selector-inline .compare-table td:first-child {
+      width: 26%;
+      color: var(--muted-foreground);
+    }
+
+    #chip-selector-inline .compare-table th,
+    #chip-selector-inline .compare-table td {
+      overflow-wrap: anywhere;
+      white-space: pre-line;
+      vertical-align: top;
+    }
+
+    #chip-selector-inline .compare-table thead th {
+      color: var(--primary-foreground);
+      background: var(--primary);
+    }
+
+    #chip-selector-inline .compare-table tbody tr:nth-child(even) {
+      background: color-mix(in srgb, var(--primary) 4%, transparent);
+    }
+
+    #chip-selector-inline .compare-table tbody tr:hover {
+      background: color-mix(in srgb, var(--primary) 9%, transparent);
+    }
+
+    #chip-selector-inline .candidate-card {
+      display: grid;
+      gap: 4px;
+      min-height: 88px;
+      padding: 13px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--foreground);
+      background: var(--secondary);
+      text-align: left;
+      transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+    }
+
+    #chip-selector-inline .candidate-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 5px 14px rgb(34 73 87 / 12%);
+      transform: translateY(-2px);
+    }
+
+    #chip-selector-inline .candidate-card[aria-pressed="true"] {
+      border-color: var(--primary);
+      box-shadow: inset 0 0 0 1px var(--primary), 0 5px 14px rgb(38 186 232 / 18%);
+      background: var(--accent);
+    }
+
+    #chip-selector-inline .candidate-name { font-size: 1rem; font-weight: 600; }
+    #chip-selector-inline .candidate-meta { color: var(--muted-foreground); font-size: var(--font-size-small); }
+
+    #chip-selector-inline .status-row {
+      padding: 10px 12px;
+      border-radius: 6px;
+      background: color-mix(in srgb, var(--primary) 8%, transparent);
+    }
+
+    #chip-selector-inline .difference-label {
+      margin-left: 5px;
+    }
+
+    #chip-selector-inline .failure-summary {
+      display: grid;
+      gap: 6px;
+      margin-top: 7px;
+    }
+
+    #chip-selector-inline .failure-line {
+      padding-left: 9px;
+      border-left: 2px solid var(--destructive);
+    }
+
+    #chip-selector-inline .failure-note {
+      display: block;
+      margin-top: 3px;
+    }
+
+    #chip-selector-inline .empty-state {
+      padding: 30px 20px;
+      text-align: center;
+      color: var(--muted-foreground);
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+    }
+
+    #chip-selector-inline .scope-note {
+      padding: 13px 15px;
+      border-left: 4px solid var(--primary);
+      border-radius: 0 6px 6px 0;
+      background: color-mix(in srgb, var(--primary) 7%, transparent);
+    }
+
+    @media (max-width: 520px) {
+      #chip-selector-inline { padding: 20px 14px 28px; }
+
+      #chip-selector-inline .control-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #chip-selector-inline .peripheral-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      #chip-selector-inline .choice-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #chip-selector-inline .compare-table {
+        min-width: 560px;
+      }
+    }
+  </style>
+
+  <header class="title-row">
+    <h1>芯片选型对比</h1>
+    <p class="text-muted">按应用需求筛选思澈芯片系列，并将候选产品的关键规格并排比较。</p>
+    <span id="inline-source-summary" class="text-small text-muted" aria-label="数据范围"></span>
+  </header>
+
+  <section class="card filter-card" aria-labelledby="filter-heading">
+    <h2 id="filter-heading" class="section-heading"><span class="section-step">1</span>设定需求</h2>
+    <div class="control-grid viz-controls" aria-label="一级选型条件">
+      <label class="form-label" for="inline-package">
+        封装
+        <select id="inline-package" class="form-select">
+          <option value="any">不限</option>
+          <option value="QFN">QFN 系列</option>
+          <option value="BGA">BGA 系列</option>
+          <option value="QFN68">QFN68</option>
+          <option value="BGA145">BGA145</option>
+          <option value="BGA169">BGA169</option>
+          <option value="BGA175">BGA175</option>
+          <option value="BGA256">BGA256</option>
+        </select>
+      </label>
+
+      <label class="form-label" for="inline-voltage">
+        供电电压
+        <select id="inline-voltage" class="form-select">
+          <option value="any">不限</option>
+          <option value="1.8">1.8 V 系统</option>
+          <option value="3.3">3.3 V 系统</option>
+          <option value="lithium">单节锂电 3.2～4.7 V</option>
+        </select>
+      </label>
+
+      <label class="form-label" for="inline-display">
+        显示接口
+        <select id="inline-display" class="form-select">
+          <option value="any">不限</option>
+          <option value="MIPI">MIPI</option>
+          <option value="RGB">RGB</option>
+          <option value="QSPI-DDR">QSPI-DDR</option>
+          <option value="8080">8080</option>
+          <option value="JDI">JDI</option>
+        </select>
+      </label>
+
+      <label class="form-label" for="inline-resolution">
+        目标分辨率上限
+        <select id="inline-resolution" class="form-select">
+          <option value="any">不限</option>
+          <option value="512*512">≤ 512 × 512</option>
+          <option value="1024*600">≤ 1024 × 600</option>
+          <option value="1280*800">≤ 1280 × 800</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="secondary-filter">
+      <div class="secondary-label">
+        <span>外设最少数量</span>
+        <span class="text-small text-muted">不填写表示不限</span>
+      </div>
+      <div class="peripheral-grid" aria-label="二级外设数量筛选">
+        <label class="form-label" for="inline-gpio">GPIO
+          <input id="inline-gpio" class="form-control" type="number" min="0" step="1" inputmode="numeric" placeholder="不限">
+        </label>
+        <label class="form-label" for="inline-uart">UART
+          <input id="inline-uart" class="form-control" type="number" min="0" step="1" inputmode="numeric" placeholder="不限">
+        </label>
+        <label class="form-label" for="inline-i2c">I2C
+          <input id="inline-i2c" class="form-control" type="number" min="0" step="1" inputmode="numeric" placeholder="不限">
+        </label>
+        <label class="form-label" for="inline-spi">SPI
+          <input id="inline-spi" class="form-control" type="number" min="0" step="1" inputmode="numeric" placeholder="不限">
+        </label>
+        <label class="form-label" for="inline-i2s">I2S
+          <input id="inline-i2s" class="form-control" type="number" min="0" step="1" inputmode="numeric" placeholder="不限">
+        </label>
+        <label class="form-label" for="inline-can">CAN
+          <input id="inline-can" class="form-control" type="number" min="0" step="1" inputmode="numeric" placeholder="不限">
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="candidate-heading">
+    <div class="status-row">
+      <h2 id="candidate-heading" class="section-heading"><span class="section-step">2</span>选择候选系列 <span id="inline-match-status" class="viz-badge" aria-live="polite"></span></h2>
+      <button id="inline-reset" class="btn btn-ghost" type="button">重置选型</button>
+    </div>
+    <div id="inline-choice-grid" class="choice-grid" aria-label="芯片系列"></div>
+  </section>
+
+  <section aria-labelledby="compare-heading">
+    <div class="compare-row">
+      <div>
+        <h2 id="compare-heading" class="section-heading"><span class="section-step">3</span>参数对比</h2>
+        <div id="inline-selection-status" class="text-muted" aria-live="polite"></div>
+        <div id="inline-failure-summary" class="failure-summary" aria-live="polite" hidden></div>
+        <div id="inline-limit-status" class="text-small text-destructive" aria-live="polite"></div>
+      </div>
+      <div class="compare-actions">
+        <label class="form-label" for="inline-category">
+          对比类别
+          <select id="inline-category" class="form-select"></select>
+        </label>
+        <label class="form-check form-switch" for="inline-difference">
+          <input id="inline-difference" class="form-check-input" type="checkbox">
+          <span class="form-check-label">只看差异</span>
+        </label>
+        <button id="inline-clear" class="btn btn-ghost" type="button">清空对比</button>
+      </div>
+    </div>
+
+    <div id="inline-table-wrap" class="table-responsive">
+      <table class="table table-sm compare-table" aria-label="芯片参数对比">
+        <thead id="inline-table-head"></thead>
+        <tbody id="inline-table-body"></tbody>
+      </table>
+    </div>
+    <div id="inline-empty" class="empty-state" hidden>请选择至少一个芯片系列。</div>
+  </section>
+
+  <div class="scope-note text-small text-muted">
+    系列级参数仅用于初选；具体子型号、封装和供电条件以最新版 Datasheet 为准。
+  </div>
+
+  <script>
+    (() => {
+      const root = document.getElementById("chip-selector-inline");
+      if (!root) return;
+
+      const data = {"products":[{"name":"SF32LB58x","specs":{"封装":{"封装":"BGA256(6.5x8.5*0.94mm)"},"电源管理":{"供电电压":"1.71~3.63V","充电":"-"},"处理器":{"大核":"2 x CM33+ @240MHz","大核 Cache":"HCPU 32KB I$+32KB D$\nACPU 16KB I$+16KB D$","小核":"CM33+ @96MHz","小核 Cache":"16KB I$+16KB D$"},"存储":{"SRAM":"2176+512KB@大核\n1056KB@小核","合封PSRAM容量":"2xHPI/DDR，最多512Mbit","合封PSRAM最大带宽":"1152MB/s","合封Flash容量":"8/32Mbit QSPI，DTR"},"蓝牙":{"协议":"双模蓝牙6.3","灵敏度 (BLE 1Mbps)":"-100.6dBm","灵敏度 (EDR 2Mbps)":"-95.5dBm","最大发射功率 (BR/BLE)":"19dBm","最大发射功率 (EDR2/3)":"13dBm"},"图形":{"GPU":"ePicasso 2.0，2D/2.5D GPU\nVivante GCNanoUltraV，支持矢量绘图","图形格式":"RGB888,RGB565,aRGB8888,aRGB8565, L8,A8/4/2,YUV422,YUV420","旋转（0.1度）":"支持","缩放":"支持","显示接口":"MIPI/RGB/QSPI-DDR/8080/JDI","推屏帧率":"1280*800，60fps","原生动画":"支持，eZip-A，60fps","无损压缩":"eZip 2.0，压缩率1/10~1/5","有损压缩":"JPEG/MJPEG编解码器"},"功耗":{"大核（While Loop）":"21uA/MHz @3.8V","小核 （While Loop）":"9.8uA/MHz @3.8V","蓝牙BLE/EDR接收峰值功耗":"2.2/2.5mA@3.3V","蓝牙发射峰值功耗 (0dBm)":"2.6mA@3.3V","BLE 连接态功耗 (500ms间隔)":"13uA","BR Sniff功耗 (500ms间隔)":"18uA","睡眠功耗":"10ua@3.8V","RTC功耗":"<1uA"},"音频":{"ADC":"2x, 24-bit, SNR 99dB","DAC":"2x, 24-bit, SNR 109dB"},"外设":{"GPIO":"160","UART":"6","I2C":"7","SPI":"4","USB":"USB2.0 HS","I2S":"3","PDM":"2","CAN":"2","ADC":"1*12bit+1*16bit","PWM":"部分IO","SDIO":"2","PTM":"-","DCMI":"SPI，DVP","Free IO":"-"}}},{"name":"SF32LB56x","specs":{"封装":{"封装":"BGA175(6.5*6.1*0.94mm)\n(6.5*6.1*0.94mm)\nQFN68 (7*7*0.75mm)"},"电源管理":{"供电电压":"1.71~3.63V","充电":"-"},"处理器":{"大核":"CM33+ @240MHz","大核 Cache":"32KB I$+16KB D$","小核":"CM33+ @96MHz","小核 Cache":"16KB I$+8KB D$"},"存储":{"SRAM":"800KB@大核\n160KB@小核","合封PSRAM容量":"2xOPI/DDR，最多128Mbit","合封PSRAM最大带宽":"576MB/s","合封Flash容量":"4/8Mb QSPI，DTR"},"蓝牙":{"协议":"双模蓝牙6.3","灵敏度 (BLE 1Mbps)":"-100.6dBm","灵敏度 (EDR 2Mbps)":"-95.5dBm","最大发射功率 (BR/BLE)":"19dBm","最大发射功率 (EDR2/3)":"13dBm"},"图形":{"GPU":"ePicasso 2.0，2D/2.5D GPU","图形格式":"RGB888,RGB565,aRGB8888,aRGB8565, L8,A8/4,YUV422,YUV420","旋转（0.1度）":"支持","缩放":"支持","显示接口":"RGB/QSPI-DDR/8080/JDI","推屏帧率":"1024*600，60fps","原生动画":"支持，eZip-A，60fps","无损压缩":"eZip 2.0，压缩率1/10~1/5","有损压缩":"-"},"功耗":{"大核（While Loop）":"20uA/MHz @3.8V","小核 （While Loop）":"8.7uA/MHz@3.8V","蓝牙BLE/EDR接收峰值功耗":"2.2/2.5mA@3.3V","蓝牙发射峰值功耗 (0dBm)":"2.6mA@3.3V","BLE 连接态功耗 (500ms间隔)":"13uA","BR Sniff功耗 (500ms间隔)":"18uA","睡眠功耗":"5ua@3.8V","RTC功耗":"<1uA"},"音频":{"ADC":"1x, 24-bit, SNR 99dB","DAC":"1x, 24-bit, SNR 109dB"},"外设":{"GPIO":"120(BGA)/44(QFN)","UART":"6","I2C":"7","SPI":"4","USB":"USB2.0 FS","I2S":"1","PDM":"2","CAN":"1","ADC":"1*12bit","PWM":"任意IO","SDIO":"2","PTM":"-","DCMI":"SPI，DVP","Free IO":"-"}}},{"name":"SF32LB52x","specs":{"封装":{"封装":"QFN68 (7*7*0.75mm)"},"电源管理":{"供电电压":"3.2~4.7V (520/3/5/7)\n3.3V (52B/E/G/J)\n1.8V（52D）","充电":"支持"},"处理器":{"大核":"CM33+ @240MHz","大核 Cache":"32KB I$+16KB D$","小核":"CM33+ @24MHz","小核 Cache":"-"},"存储":{"SRAM":"512KB@大核\n64KB@小核","合封PSRAM容量":"OPI/DDR，最多128Mbit","合封PSRAM最大带宽":"288MB/s","合封Flash容量":"8/32Mbit QSPI，DTR"},"蓝牙":{"协议":"双模蓝牙6.3","灵敏度 (BLE 1Mbps)":"-100.6dBm","灵敏度 (EDR 2Mbps)":"-95.5dBm","最大发射功率 (BR/BLE)":"19dBm","最大发射功率 (EDR2/3)":"13dBm"},"图形":{"GPU":"ePicasso 2.0 Lite，2D/2.5D GPU","图形格式":"RGB888,RGB565,aRGB8888,aRGB8565, L8,A8/4/2,YUV422,YUV420","旋转（0.1度）":"支持","缩放":"支持","显示接口":"QSPI-DDR/8080/JDI","推屏帧率":"512*512，60fps","原生动画":"支持，eZip-A，60fps","无损压缩":"eZip 2.0，压缩率1/10~1/5","有损压缩":"-"},"功耗":{"大核（While Loop）":"18~27uA/MHz @3.8V","小核 （While Loop）":"10uA/MHz@3.8V","蓝牙BLE/EDR接收峰值功耗":"2.2mA@3.3V","蓝牙发射峰值功耗 (0dBm)":"2.6mA@3.3V","BLE 连接态功耗 (500ms间隔)":"15uA","BR Sniff功耗 (500ms间隔)":"20uA","睡眠功耗":"20u@3.8V","RTC功耗":"2uA"},"音频":{"ADC":"1x, 24-bit, SNR 99dB","DAC":"1x, 24-bit, SNR 109dB"},"外设":{"GPIO":"44/45","UART":"3","I2C":"4","SPI":"2","USB":"USB2.0 FS","I2S":"1","PDM":"1","CAN":"-","ADC":"1*12bit","PWM":"任意IO","SDIO":"1","PTM":"-","DCMI":"SPI，DVP","Free IO":"-"}}},{"name":"SF32LB55x","specs":{"封装":{"封装":"BGA169(7*7*0.94mm)\nBGA145 (7*7*0.94mm)\nQFN68 (7*7*0.75mm)"},"电源管理":{"供电电压":"1.71~3.63V","充电":"-"},"处理器":{"大核":"CM33+ @240MHz","大核 Cache":"32KB I$+16KB D$","小核":"CM33+ @48MHz","小核 Cache":"16KB I$+8KB D$"},"存储":{"SRAM":"1055KB@大核\n224KB@小核","合封PSRAM容量":"OPI/DDR，最多128+16Mbit","合封PSRAM最大带宽":"240MB/s","合封Flash容量":"32Mbit QSPI"},"蓝牙":{"协议":"单模蓝牙5.2","灵敏度 (BLE 1Mbps)":"-100dBm","灵敏度 (EDR 2Mbps)":"-","最大发射功率 (BR/BLE)":"10dBm","最大发射功率 (EDR2/3)":"-"},"图形":{"GPU":"ePicasso 1.0，2D/2.5D GPU","图形格式":"RGB888,RGB565,aRGB8888,aRGB8565, L8,A8","旋转（0.1度）":"支持","缩放":"支持","显示接口":"MIPI/RGB/QSPI/8080/JDI","推屏帧率":"1024*600，60fps","原生动画":"支持，GIF，40fps","无损压缩":"eZip 1.0，压缩率1/10~1/5","有损压缩":"-"},"功耗":{"大核（While Loop）":"20uA/MHz @3.3V","小核 （While Loop）":"7.9uA/MHz @3.3V","蓝牙BLE/EDR接收峰值功耗":"2mA@3.3V","蓝牙发射峰值功耗 (0dBm)":"2.6mA@3.3V","BLE 连接态功耗 (500ms间隔)":"15uA","BR Sniff功耗 (500ms间隔)":"-","睡眠功耗":"5ua@3.8V","RTC功耗":"600nA"},"音频":{"ADC":"-","DAC":"-"},"外设":{"GPIO":"119(BGA)/95(BGA)/49(QFN)","UART":"5","I2C":"6","SPI":"4","USB":"USB2.0 FS","I2S":"2","PDM":"2","CAN":"-","ADC":"1*10bit+1*16bit","PWM":"部分IO","SDIO":"2","PTM":"-","DCMI":"-","Free IO":"-"}}}],"categories":[{"name":"封装","specs":[{"name":"封装"}]},{"name":"电源管理","specs":[{"name":"供电电压"},{"name":"充电"}]},{"name":"处理器","specs":[{"name":"大核"},{"name":"大核 Cache"},{"name":"小核"},{"name":"小核 Cache"}]},{"name":"存储","specs":[{"name":"SRAM"},{"name":"合封PSRAM容量"},{"name":"合封PSRAM最大带宽"},{"name":"合封Flash容量"}]},{"name":"蓝牙","specs":[{"name":"协议"},{"name":"灵敏度 (BLE 1Mbps)"},{"name":"灵敏度 (EDR 2Mbps)"},{"name":"最大发射功率 (BR/BLE)"},{"name":"最大发射功率 (EDR2/3)"}]},{"name":"图形","specs":[{"name":"GPU"},{"name":"图形格式"},{"name":"旋转（0.1度）"},{"name":"缩放"},{"name":"显示接口"},{"name":"推屏帧率"},{"name":"原生动画"},{"name":"无损压缩"},{"name":"有损压缩"}]},{"name":"功耗","specs":[{"name":"大核（While Loop）"},{"name":"小核 （While Loop）"},{"name":"蓝牙BLE/EDR接收峰值功耗"},{"name":"蓝牙发射峰值功耗 (0dBm)"},{"name":"BLE 连接态功耗 (500ms间隔)"},{"name":"BR Sniff功耗 (500ms间隔)"},{"name":"睡眠功耗"},{"name":"RTC功耗"}]},{"name":"音频","specs":[{"name":"ADC"},{"name":"DAC"}]},{"name":"外设","specs":[{"name":"GPIO"},{"name":"UART"},{"name":"I2C"},{"name":"SPI"},{"name":"USB"},{"name":"I2S"},{"name":"PDM"},{"name":"CAN"},{"name":"ADC"},{"name":"PWM"},{"name":"SDIO"},{"name":"PTM"},{"name":"DCMI"},{"name":"Free IO"}]}]};
+      const overview = [
+        ["封装", "封装"],
+        ["电源管理", "供电电压"],
+        ["电源管理", "充电"],
+        ["处理器", "大核"],
+        ["存储", "SRAM"],
+        ["蓝牙", "协议"],
+        ["图形", "显示接口"],
+        ["图形", "推屏帧率"],
+        ["功耗", "睡眠功耗"],
+        ["外设", "USB"],
+        ["外设", "UART"],
+        ["外设", "CAN"]
+      ];
+
+      const state = {
+        packageType: "any",
+        voltage: "any",
+        display: "any",
+        resolution: "any",
+        minimums: {
+          GPIO: null,
+          UART: null,
+          I2C: null,
+          SPI: null,
+          I2S: null,
+          CAN: null
+        },
+        category: "重点参数",
+        selected: new Set(["SF32LB58x", "SF32LB52x"]),
+        differenceOnly: false
+      };
+
+      const elements = {
+        sourceSummary: root.querySelector("#inline-source-summary"),
+        packageType: root.querySelector("#inline-package"),
+        voltage: root.querySelector("#inline-voltage"),
+        display: root.querySelector("#inline-display"),
+        resolution: root.querySelector("#inline-resolution"),
+        minimums: {
+          GPIO: root.querySelector("#inline-gpio"),
+          UART: root.querySelector("#inline-uart"),
+          I2C: root.querySelector("#inline-i2c"),
+          SPI: root.querySelector("#inline-spi"),
+          I2S: root.querySelector("#inline-i2s"),
+          CAN: root.querySelector("#inline-can")
+        },
+        category: root.querySelector("#inline-category"),
+        reset: root.querySelector("#inline-reset"),
+        matchStatus: root.querySelector("#inline-match-status"),
+        choiceGrid: root.querySelector("#inline-choice-grid"),
+        selectionStatus: root.querySelector("#inline-selection-status"),
+        failureSummary: root.querySelector("#inline-failure-summary"),
+        limitStatus: root.querySelector("#inline-limit-status"),
+        difference: root.querySelector("#inline-difference"),
+        clear: root.querySelector("#inline-clear"),
+        tableWrap: root.querySelector("#inline-table-wrap"),
+        tableHead: root.querySelector("#inline-table-head"),
+        tableBody: root.querySelector("#inline-table-body"),
+        empty: root.querySelector("#inline-empty")
+      };
+
+      if (
+        Object.entries(elements).some(([key, element]) => key !== "minimums" && !element) ||
+        Object.values(elements.minimums).some((element) => !element)
+      ) return;
+
+      const escapeHtml = (value) => String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+      const specValue = (product, category, spec) =>
+        product.specs?.[category]?.[spec] ?? "-";
+
+      const normalized = (value) => String(value ?? "")
+        .toUpperCase()
+        .replaceAll("～", "~")
+        .replaceAll("—", "~")
+        .replaceAll("–", "~")
+        .replaceAll("×", "*")
+        .replace(/\s+/g, "");
+
+      const supportsVoltage = (value, target) => {
+        const text = normalized(value);
+        const ranges = [...text.matchAll(/(\d+(?:\.\d+)?)~(\d+(?:\.\d+)?)V/g)]
+          .map((match) => [Number(match[1]), Number(match[2])]);
+        if (ranges.some(([minimum, maximum]) => target >= minimum && target <= maximum)) return true;
+        return [...text.matchAll(/(\d+(?:\.\d+)?)V/g)]
+          .some((match) => Math.abs(Number(match[1]) - target) < 0.001);
+      };
+
+      const matchesVoltage = (product) => {
+        const value = specValue(product, "电源管理", "供电电压");
+        if (state.voltage === "any") return true;
+        if (state.voltage === "1.8") return supportsVoltage(value, 1.8);
+        if (state.voltage === "3.3") return supportsVoltage(value, 3.3);
+        if (state.voltage === "lithium") {
+          const ranges = [...normalized(value).matchAll(/(\d+(?:\.\d+)?)~(\d+(?:\.\d+)?)V/g)]
+            .map((match) => [Number(match[1]), Number(match[2])]);
+          return ranges.some(([minimum, maximum]) => minimum <= 3.2 && maximum >= 4.2);
+        }
+        return true;
+      };
+
+      const peripheralCount = (product, peripheral) => {
+        const value = specValue(product, "外设", peripheral);
+        const numbers = (String(value).match(/\d+/g) ?? []).map(Number);
+        if (numbers.length === 0) return 0;
+        if (peripheral !== "GPIO") return numbers[0];
+
+        const packageGroup = state.packageType.startsWith("QFN")
+          ? "QFN"
+          : state.packageType.startsWith("BGA")
+            ? "BGA"
+            : null;
+        if (packageGroup) {
+          const grouped = [...String(value).matchAll(new RegExp(`(\\d+)\\s*\\(${packageGroup}\\)`, "gi"))]
+            .map((match) => Number(match[1]));
+          if (grouped.length) return Math.max(...grouped);
+        }
+        return Math.max(...numbers);
+      };
+
+      const selectedLabel = (select) =>
+        select.options[select.selectedIndex]?.textContent?.trim() ?? select.value;
+
+      const parseResolution = (value) => {
+        const match = String(value ?? "").match(/(\d+)\s*[x×*]\s*(\d+)/i);
+        return match ? { width: Number(match[1]), height: Number(match[2]) } : null;
+      };
+
+      const supportsResolution = (product) => {
+        if (state.resolution === "any") return true;
+        const required = parseResolution(state.resolution);
+        const maximum = parseResolution(specValue(product, "图形", "推屏帧率"));
+        return Boolean(
+          required && maximum &&
+          maximum.width >= required.width && maximum.height >= required.height
+        );
+      };
+
+      const filterFailures = (product) => {
+        const failures = [];
+        const packageValue = normalized(specValue(product, "封装", "封装"));
+        const displayValue = normalized(specValue(product, "图形", "显示接口"));
+
+        if (state.packageType !== "any" && !packageValue.includes(state.packageType)) {
+          failures.push({
+            label: "封装",
+            category: "封装",
+            spec: "封装",
+            actual: specValue(product, "封装", "封装"),
+            requirement: selectedLabel(elements.packageType)
+          });
+        }
+        if (!matchesVoltage(product)) {
+          failures.push({
+            label: "供电电压",
+            category: "电源管理",
+            spec: "供电电压",
+            actual: specValue(product, "电源管理", "供电电压"),
+            requirement: selectedLabel(elements.voltage)
+          });
+        }
+        if (state.display !== "any" && !displayValue.includes(state.display)) {
+          failures.push({
+            label: "显示接口",
+            category: "图形",
+            spec: "显示接口",
+            actual: specValue(product, "图形", "显示接口"),
+            requirement: selectedLabel(elements.display)
+          });
+        }
+        if (!supportsResolution(product)) {
+          failures.push({
+            label: "分辨率",
+            category: "图形",
+            spec: "推屏帧率",
+            actual: `最大支持 ${specValue(product, "图形", "推屏帧率")}`,
+            requirement: `支持至 ${selectedLabel(elements.resolution).replace(/^≤\s*/, "")}`
+          });
+        }
+
+        for (const [peripheral, minimum] of Object.entries(state.minimums)) {
+          const actual = peripheralCount(product, peripheral);
+          if (minimum !== null && actual < minimum) {
+            failures.push({
+              label: peripheral,
+              category: "外设",
+              spec: peripheral,
+              actual: String(actual),
+              requirement: `≥ ${minimum}`
+            });
+          }
+        }
+        return failures;
+      };
+
+      const matchesFilters = (product) => filterFailures(product).length === 0;
+
+      const selectedProducts = () =>
+        data.products.filter((product) => state.selected.has(product.name));
+
+      const activeRows = () => {
+        if (state.category === "重点参数") {
+          return overview.map(([category, spec]) => ({ category, spec }));
+        }
+        const group = data.categories.find((item) => item.name === state.category);
+        return (group?.specs ?? []).map((item) => ({ category: state.category, spec: item.name }));
+      };
+
+      const isDifferent = (products, row) => {
+        if (products.length < 2) return false;
+        const values = products.map((product) =>
+          String(specValue(product, row.category, row.spec)).replace(/\s+/g, "").toLowerCase()
+        );
+        return new Set(values).size > 1;
+      };
+
+      const renderChoices = () => {
+        const matching = data.products.filter(matchesFilters);
+        elements.matchStatus.textContent = `候选 ${matching.length} / ${data.products.length}`;
+        elements.choiceGrid.innerHTML = data.products.map((product) => {
+          const selected = state.selected.has(product.name);
+          const failures = selected ? filterFailures(product) : [];
+          const mismatch = failures.length > 0;
+          const visible = matching.includes(product) || selected;
+          const summary = [
+            product.name,
+            specValue(product, "蓝牙", "协议"),
+            specValue(product, "图形", "推屏帧率"),
+            mismatch ? `不满足：${failures.map((failure) => failure.label).join("、")}` : ""
+          ].filter(Boolean).join("，");
+          const packageInfo = specValue(product, "封装", "封装").split("\n")[0];
+          const displayInfo = specValue(product, "图形", "显示接口");
+          return `<button type="button" class="btn viz-tile candidate-card${mismatch ? " text-destructive" : ""}" data-product="${escapeHtml(product.name)}" aria-pressed="${selected}" aria-invalid="${mismatch}" aria-label="${escapeHtml(summary)}" ${visible ? "" : "hidden"}><span class="candidate-name">${escapeHtml(product.name)}</span><span class="candidate-meta">${escapeHtml(packageInfo)}</span><span class="candidate-meta">${escapeHtml(displayInfo)}</span></button>`;
+        }).join("");
+      };
+
+      const renderTable = () => {
+        const products = selectedProducts();
+        const hasProducts = products.length > 0;
+        const failuresByProduct = new Map(
+          products.map((product) => [product.name, filterFailures(product)])
+        );
+        const failingProducts = products.filter(
+          (product) => failuresByProduct.get(product.name).length > 0
+        );
+        elements.empty.hidden = hasProducts;
+        elements.tableWrap.hidden = !hasProducts;
+        elements.selectionStatus.textContent = hasProducts
+          ? `已选 ${products.map((product) => product.name).join("、")}`
+          : "尚未选择对比系列";
+        elements.failureSummary.hidden = failingProducts.length === 0;
+        elements.failureSummary.innerHTML = failingProducts.map((product) => {
+          const details = failuresByProduct.get(product.name)
+            .map((failure) => `${failure.label}（实际 ${failure.actual}，要求 ${failure.requirement}）`)
+            .join("；");
+          return `<div class="failure-line text-small text-destructive"><span>${escapeHtml(product.name)}：</span>${escapeHtml(details)}</div>`;
+        }).join("");
+
+        if (!hasProducts) {
+          elements.tableHead.innerHTML = "";
+          elements.tableBody.innerHTML = "";
+          elements.failureSummary.innerHTML = "";
+          return;
+        }
+
+        const failureForRow = (product, row) =>
+          failuresByProduct.get(product.name)
+            .find((failure) => failure.category === row.category && failure.spec === row.spec);
+        const rowHasFailure = (row) =>
+          products.some((product) => Boolean(failureForRow(product, row)));
+        const rows = activeRows().filter((row) =>
+          !state.differenceOnly || isDifferent(products, row) || rowHasFailure(row)
+        );
+
+        elements.tableHead.innerHTML = `<tr><th scope="col">参数</th>${products.map((product) => {
+          const hasFailure = failuresByProduct.get(product.name).length > 0;
+          return `<th scope="col" class="${hasFailure ? "text-destructive" : ""}">${escapeHtml(product.name)}${hasFailure ? '<span class="failure-note text-small">不满足选型</span>' : ""}</th>`;
+        }).join("")}</tr>`;
+        elements.tableBody.innerHTML = rows.map((row) => {
+          const difference = isDifferent(products, row);
+          const hasFailure = rowHasFailure(row);
+          return `<tr><th scope="row">${escapeHtml(row.spec)}${difference ? '<span class="viz-badge difference-label">差异</span>' : ""}${hasFailure ? '<span class="failure-note text-small text-destructive">未满足</span>' : ""}</th>${products.map((product) => {
+            const failure = failureForRow(product, row);
+            return `<td class="${failure ? "text-destructive" : ""}">${escapeHtml(specValue(product, row.category, row.spec))}${failure ? `<span class="failure-note text-small">要求 ${escapeHtml(failure.requirement)}</span>` : ""}</td>`;
+          }).join("")}</tr>`;
+        }).join("");
+
+        if (rows.length === 0) {
+          elements.tableBody.innerHTML = `<tr><td colspan="${products.length + 1}" class="text-center text-muted">当前类别没有差异项</td></tr>`;
+        }
+      };
+
+      const readMinimum = (input) => {
+        if (input.value.trim() === "") return null;
+        const value = Number(input.value);
+        return Number.isFinite(value) ? Math.max(0, Math.floor(value)) : null;
+      };
+
+      const syncFilters = () => {
+        state.packageType = elements.packageType.value;
+        state.voltage = elements.voltage.value;
+        state.display = elements.display.value;
+        state.resolution = elements.resolution.value;
+        Object.entries(elements.minimums).forEach(([peripheral, input]) => {
+          state.minimums[peripheral] = readMinimum(input);
+        });
+        renderChoices();
+        renderTable();
+      };
+
+      [elements.packageType, elements.voltage, elements.display, elements.resolution]
+        .forEach((select) => select.addEventListener("change", syncFilters));
+      Object.values(elements.minimums)
+        .forEach((input) => input.addEventListener("input", syncFilters));
+
+      elements.category.addEventListener("change", () => {
+        state.category = elements.category.value;
+        renderTable();
+      });
+
+      elements.difference.addEventListener("change", () => {
+        state.differenceOnly = elements.difference.checked;
+        renderTable();
+      });
+
+      elements.choiceGrid.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-product]");
+        if (!button) return;
+        const product = button.dataset.product;
+        elements.limitStatus.textContent = "";
+        if (state.selected.has(product)) {
+          state.selected.delete(product);
+        } else if (state.selected.size < 3) {
+          state.selected.add(product);
+        } else {
+          elements.limitStatus.textContent = "内联对比最多选择 3 个系列";
+          return;
+        }
+        renderChoices();
+        renderTable();
+      });
+
+      elements.clear.addEventListener("click", () => {
+        state.selected.clear();
+        elements.limitStatus.textContent = "";
+        renderChoices();
+        renderTable();
+      });
+
+      elements.reset.addEventListener("click", () => {
+        elements.packageType.value = "any";
+        elements.voltage.value = "any";
+        elements.display.value = "any";
+        elements.resolution.value = "any";
+        Object.values(elements.minimums).forEach((input) => {
+          input.value = "";
+        });
+        elements.limitStatus.textContent = "";
+        syncFilters();
+      });
+
+      elements.sourceSummary.textContent = `${data.products.length} 个系列 · ${data.categories.reduce((sum, group) => sum + group.specs.length, 0)} 项参数`;
+      elements.category.innerHTML = ["重点参数", ...data.categories.map((group) => group.name)]
+        .map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`)
+        .join("");
+      elements.category.value = state.category;
+      renderChoices();
+      renderTable();
+    })();
+  </script>
+</div>
+
+</body>
+</html>
