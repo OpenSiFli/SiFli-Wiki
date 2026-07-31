@@ -1,4 +1,4 @@
-# 芯片硬件设计指南
+# 硬件设计指南
 
 ## SF32LB52x系列
 
@@ -38,24 +38,14 @@
 [硬件设计指南](/hardware/SF32LB55x-HW-Application)&nbsp;&nbsp;
 [硬件设计自检查列表](https://downloads.sifli.com/hardware/files/documentation/SF32LB55x%20Schematic%26PCB%20checklist_V1.0_20260121.xlsx)
 
-## 电压自检指南
-
-[SF32硬件电压自检指南](/hardware/SF32-Voltage-Self-Check)&nbsp;&nbsp;
-
-## SF32LB52x 硬件自检指南
-
-[SF32LB52x 硬件自检指南](/hardware/SF32LB52-HW-Self-Check)&nbsp;&nbsp;
-
-## SiFli物料认证表
+## 资源下载
 
 [SIFLI-MCU-AVL-认证表](https://downloads.sifli.com/hardware/files/documentation/SIFLI-MCU-AVL-%E8%AE%A4%E8%AF%81%E8%A1%A8-V0.3-20260121.xlsx?)
 
-## EDA工具库文件
-
-[嘉立创库](https://downloads.sifli.com/hardware/files/documentation/ProPrj_sifli-iclib_2026-04-20.epro2?)&nbsp;
-[PADS库](https://downloads.sifli.com/hardware/files/documentation/PADS-SIFLI-IC.ZIP?)&nbsp;
-[Orcad库](https://downloads.sifli.com/hardware/files/documentation/OrCAD-SIFLI-IC.OLB?)&nbsp;
-[Kicad库](https://github.com/OpenSiFli/kicad-libraries)&nbsp;
+[嘉立创库](https://downloads.sifli.com/hardware/files/documentation/ProPrj_sifli-iclib_2026-04-20.epro2?)
+[PADS库](https://downloads.sifli.com/hardware/files/documentation/PADS-SIFLI-IC.ZIP?)
+[Orcad库](https://downloads.sifli.com/hardware/files/documentation/OrCAD-SIFLI-IC.OLB?)
+[Kicad库](https://github.com/OpenSiFli/kicad-libraries)
 
 
 ```{toctree}
@@ -69,6 +59,5 @@ SF32LB58x-HW-Application
 SF32-auto-download
 SF32LB55x-HW-Application
 SF32LB52-MOD-1-EPD-HW-Application
-SF32-Voltage-Self-Check
 
 ```
