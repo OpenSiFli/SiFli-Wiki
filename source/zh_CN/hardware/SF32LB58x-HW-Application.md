@@ -1,6 +1,5 @@
 # SF32LB58x-硬件设计指南
 
-
 ## 基本介绍
 
 本文的主要目的是帮助硬件工程师完成基于SF32LB58x系列芯片的原理图和PCB的设计。
@@ -42,6 +41,7 @@ SF30147C是一款针对超低功耗可穿戴产品的高集成度、高效率、
 | HVSW1              | 2.8         | 5           | 150          | 模拟Class-K PA供电                                       |
 | HVSW2              | 2.8         | 5           | 150          | GPS供电                                                  |
 ```
+
 #### SF32LB58x供电要求
 
 SF32LB58x系列芯片内部集成PMU供电规格如表2.2所示。
@@ -154,7 +154,7 @@ L(电感值) = 4.7uH，DCR(直流阻抗) ≦ 0.4 ohm，Isat(饱和电流) ≧ 50
 
 SF32LB58x系列芯片封装内置3路LDO输出，如图2.5所示。
 
-<img src="assets/58x/sf32lb58x-LDO-SCH.png" alt="LDO电路图" width="80%" align="center" /> 
+<img src="assets/58x/sf32lb58x-LDO-SCH.png" alt="LDO电路图" width="80%" align="center" />
 
 <div align="center"> 图2.5 内置LDO电路图 </div>  <br> <br> <br>
 
@@ -179,7 +179,7 @@ SF32LB58x系列芯片提供一个Mode管脚来配置启动模式，如表2.5所�
 2. Mode外接10K电阻到电源或GND，保持电平稳定，不能悬空也不能有toggle干扰；
 3. Mode管脚在量产板上必须留测试点，程序下载或校准晶体时要用到，可以不用预留跳线；
 4. Mode管脚在测试板上建议要预留跳线，程序死机后方便从下载模式启动下载程序。
-:::
+   :::
 
 ### 时钟
 
@@ -222,7 +222,7 @@ PCB走线时，在晶体下面至少挖掉第二层的GND铜来减少时钟信�
 
 SF32LB58x系列芯片的射频本身采用了片上集成宽带匹配滤波技术，只需保证射频PCB走线为50ohms特征阻抗即可。设计时建议预留π型匹配网络用来杂散滤波和天线匹配。请参考图2.6所示电路。
 
-<img src="assets/58x/sf32lb58x-RF-SCH.png" alt="射频电路图" width="80%" align="center" /> 
+<img src="assets/58x/sf32lb58x-RF-SCH.png" alt="射频电路图" width="80%" align="center" />
 
 <div align="center"> 图2.6 射频电路图 </div>  <br> <br> <br>
 
@@ -244,8 +244,6 @@ SF32LB58x系列芯片的EVB验证板默认使用'MPI4'外接SPI NAND Flash设备
 
 <div align="center"> 图2.7 SPI Nand Flash连接参考电路 </div>  <br> <br> <br>
 
-
-
 <div align="center"> 表2.8 MPI4信号连接 </div>
 
 ```{table}
@@ -264,9 +262,8 @@ SF32LB58x系列芯片的EVB验证板默认使用'MPI4'外接SPI NAND Flash设备
 **注意：**
 
 1. 如果，如果产线需要下载程序到外置FLASH中，需要在下载工具软件中，将外部FLASH的电源控制脚PA43置高，打开外置FLASH的电源。
-
 2. SPI NAND Flash的Hold#管脚需要通过10K电阻上拉到SPI NAND Flash的供电电源。
-:::
+   :::
 
 #### SDIO eMMC/Micro SD接口
 
@@ -274,23 +271,19 @@ SF32LB58x系列芯片支持2路 SDIO 接口，EVB板默认SD1接EMMC或SD NAND�
 
 其中SD1接口所用的PA00-PA11共计12个GPIO，电源域为VDDIOA2，支持1.8V和3.3V供电，可根据外设的接口电平来设置输入电压。推荐SPI NAND FLASH和EMMC使用1.8V接口电平。因为SD NAND FLASH颗粒只支持3.3V接口电平，所以VDDIOA2要接3.3V电压。
 
-<img src="assets/58x/sf32lb58x-EMMC-SCH.png" alt="EMMC连接参考电路" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-EMMC-SCH.png" alt="EMMC连接参考电路" width="80%" align="center" />
 
 <div align="center"> 图2.8 EMMC连接参考电路 </div>  <br> <br> <br>
 
-
-<img src="assets/58x/sf32lb58x-SDNAND-SCH.png" alt="SD NAND连接参考电路" width="80%" align="center" /> 
+<img src="assets/58x/sf32lb58x-SDNAND-SCH.png" alt="SD NAND连接参考电路" width="80%" align="center" />
 
 <div align="center"> 图2.9 SD NAND连接参考电路 </div>  <br> <br> <br>
 
-
-<img src="assets/58x/sf32lb58x-TF-SCH.png" alt="SD卡连接参考电路" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-TF-SCH.png" alt="SD卡连接参考电路" width="80%" align="center" />
 
 <div align="center"> 图2.10 SD卡连接参考电路 </div>  <br> <br> <br>
 
-
 SF32LB58x系列芯片的SD1,SD2信号连接如表2.9，2.10所示。
-
 
 <div align="center"> 表2.9 SD1信号连接 </div>
 
@@ -328,7 +321,7 @@ SF32LB58x系列芯片的SD1,SD2信号连接如表2.9，2.10所示。
 
 #### MIPI DSI 显示接口
 
-SF32LB58x系列芯片支持2 lane的MIPI DSI显示接口，如表2.11所示。 
+SF32LB58x系列芯片支持2 lane的MIPI DSI显示接口，如表2.11所示。
 
 <div align="center"> 表2.11 MIPI-DSI 信号连接 </div>
 
@@ -400,7 +393,6 @@ SF32LB58x系列芯片支持 MCU8080 接口来连接LCD显示屏，如表2.13所�
 
 SF32LB58x系列芯片支持 DPI 接口来连接LCD显示屏，如表2.14所示。
 
-
 <div align="center"> 表2.14 DPI屏信号连接方式 </div>
 
 ```{table}
@@ -443,7 +435,6 @@ SF32LB58x系列芯片支持 DPI 接口来连接LCD显示屏，如表2.14所示�
 
 SF32LB58x系列芯片支持 并行和串行的JDI接口来连接LCD显示屏，支持PA的LCDC1或PB的LCDC2复用相应的信号，推荐使用PB接口的LCDC2，如表2.15，表2.16所示。
 
-
 <div align="center"> 表2.15 并行JDI屏信号连接方式 </div>
 
 ```{table}
@@ -465,7 +456,6 @@ SF32LB58x系列芯片支持 并行和串行的JDI接口来连接LCD显示屏，�
 | JDI_XFRP     | PBR1         | PBR1         | Liquid crystal driving signal  ("On" pixel)                  |
 | JDI_VCOM/FRP | PBR2         | PBR2         | Common electrode driving signal/   Liquid crystal driving signal  ("Off" pixel) |
 ```
- 
 
 <div align="center"> 表2.16 串行JDI屏信号连接方式 </div>
 
@@ -483,7 +473,6 @@ SF32LB58x系列芯片支持 并行和串行的JDI接口来连接LCD显示屏，�
 ### 触摸和背光接口
 
 SF32LB58x系列芯片支持I2C格式的触摸屏控制接口和触摸状态中断输入，同时支持1路PWM信号来控制背光电源芯片的使能和亮度，如表2.17所示。
-
 
 <div align="center"> 表2.17 触摸和背光控制连接方式 </div>
 
@@ -504,7 +493,6 @@ SF32LB58x系列芯片支持I2C格式的触摸屏控制接口和触摸状态中�
 SF32LB58x系列芯片支持Arm®标准的SWD调试接口，可以连接到EDA工具上进行单步运行调试。如图2.11所示，连接SEEGER® J-Link® 工具时需要把调试工具的电源修改为外置接口输入，通过SF32LB58x电路板给J-Link工具供电。
 
 SF32LB58x有1路SWD和6路UART接口可供选择进行调试信息输出，具体请参考表2.18。
-
 
 <div align="center"> 表2.18 调试口连接方式 </div>
 
@@ -533,11 +521,10 @@ SF32LB58x有1路SWD和6路UART接口可供选择进行调试信息输出，具�
 
 UARTx的RXD信号不能悬空，软件初始化时设置为内部上拉方式。
 :::
- 
-<img src="assets/58x/sf32lb58x-SWD-SCH.png" alt="SWD调试接口电路图" width="80%" align="center" /> 
 
-<div align="center"> 图2.11 SWD调试接口电路图 </div>  <br> <br> <br> 
+<img src="assets/58x/sf32lb58x-SWD-SCH.png" alt="SWD调试接口电路图" width="80%" align="center" />
 
+<div align="center"> 图2.11 SWD调试接口电路图 </div>  <br> <br> <br>
 
 ### 按键接口
 
@@ -545,15 +532,13 @@ UARTx的RXD信号不能悬空，软件初始化时设置为内部上拉方式。
 
 SF32LB58x系列芯片开关机信号建议使用PB54，这样可以把短按开关机功能和长按复位功能合并到一个按键上。如图2-12所示，设计上采用高电平有效方式，长按复位功能需要长按10s以上芯片会自动复位。
 
-<img src="assets/58x/sf32lb58x-PWRKEY-SCH.png" alt="开关机按键电路图" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-PWRKEY-SCH.png" alt="开关机按键电路图" width="80%" align="center" />
 
 <div align="center"> 图2.12 开关机按键电路图 </div>  <br> <br> <br>
-
 
 #### 功能按键或旋钮
 
 SF32LB58x系列芯片支持功能按键输入以及旋钮信号输入，按键或旋钮信号需要上拉。按键用法如图2.13所示。也可以支持光追踪传感器，推荐使用I2C4接口，信号连接如表2.19所示。
-
 
 <div align="center"> 表2.19 光追踪传感器信号 </div>
 
@@ -566,21 +551,18 @@ SF32LB58x系列芯片支持功能按键输入以及旋钮信号输入，按键�
 | SCL     | PA60 | 光追踪传感器I2C 时钟信号 |
 ```
 
-
-<img src="assets/58x/sf32lb58x-KEY-SCH.png" alt="功能按键或旋钮电路图" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-KEY-SCH.png" alt="功能按键或旋钮电路图" width="80%" align="center" />
 
 <div align="center"> 图2.13 功能按键或旋钮电路图 </div>  <br> <br> <br>
-
 
 ### 振动马达接口
 
 SF32LB58x系列芯片支持多路PWM输出，可以用做振动马达的驱动信号，图2.14所示为推荐电路。
 
- 
-<img src="assets/58x/sf32lb58x-VIB-SCH.png" alt="振动马达电路图" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-VIB-SCH.png" alt="振动马达电路图" width="80%" align="center" />
 
 <div align="center"> 图2.14 振动马达电路图 </div>  <br> <br> <br>
- 
+
 :::{important}
 如果软件打开了`#define BSP PM FREQ SCALING 1`的HCPU主频降频功能宏定义,HCPU进入idle线程后，主频会变低，相对应Hcpu的PA口的PWM频率也会变化，
 所以推荐使用PB接口来输出PWM信号。
@@ -591,19 +573,14 @@ SF32LB58x系列芯片支持多路PWM输出，可以用做振动马达的驱动�
 SF32LB58x系列芯片提供6个PBR接口，其主要特点：
 
 1. PBR0在开机阶段会从0变1， 用来做某些外部LSW控制，PBR1-PBR5都是默认输出0；
-
 2. PBR0-PBR5无论是standby还是hibernate，都可以做输出；
-
 3. PBR0-PBR5可以输出LPTIM信号；
-
 4. PBR0-PBR5可以输出32K时钟信号；
-
 5. PBR0-PBR3可以配置为输入，用来做唤醒信号输入，MCU醒的时候，收不到中断。
 
 ### 可唤醒中断源
 
 SF32LB58x系列芯片在light/deep sleep mode时所有GPIO都支持唤醒功能，在standby和Hibernate mode时，支持16个可唤醒中断源，如表2.20所示，PA有6个中断源，PB有10个中断源。
-
 
 <div align="center"> 表2.20 中断源连接方式 </div>
 
@@ -628,28 +605,19 @@ SF32LB58x系列芯片在light/deep sleep mode时所有GPIO都支持唤醒功能�
 | WKUP_PIN14 | PBR2 | 中断信号14 |
 | WKUP_PIN15 | PBR3 | 中断信号15 |
 ```
- 
 
 ### 音频接口
 
 SF32LB58x系列芯片有各种音频相关接口，如表2.21所示，音频接口信号有以下特点：
 
 1. 支持3组I2S，其中I2S1只能做输入，I2S2，I2S3支持输入和输出；3组I2S只支持Master模式，不支持Slave模式；
-
 2. I2S1推荐接I2S MIC输入；
-
 3. I2S2推荐接音频DAC；
-
 4. I2S3推荐接音频Codec；
-
 5. 支持两路PDM MIC输入；
-
 6. 支持两路模拟MIC输入，中间需要加容值至少2.2uF的隔直电容，模拟MIC的电源使用SF32LB58x的MIC_BIAS；
-
-7. 支持外接模拟音频PA，两路DAC输出的走线，均按照差分线走线，做好包地屏蔽处理，还需要注意：Trace Capacitor < 10pF, Length < 2cm。 
-
+7. 支持外接模拟音频PA，两路DAC输出的走线，均按照差分线走线，做好包地屏蔽处理，还需要注意：Trace Capacitor < 10pF, Length < 2cm。
 8. 支持立体声模拟耳机接入。
-
 
 <div align="center"> 表2.21 音频信号连接方式 </div>
 
@@ -683,72 +651,53 @@ SF32LB58x系列芯片有各种音频相关接口，如表2.21所示，音频接�
 | AU_DAC2N | DAC2N | 模拟输出2N |
 ```
 
-
 SF32LB58x模拟MIC支持单端和差分输入，中间要串2.2uF电容。差分输入如图2.15所示，单端转差分输入如图2.16所示，其中AU_ADC1P，AU_ADC1N，AU_ADC2P，AU_ADC2N是连接到SF32LB58x，AU_ADC1P_IN和AU_ADC2P_IN是模拟MIC或耳机音频输入的信号。
 
- 
-<img src="assets/58x/sf32lb58x-DIFAU-SCH.png" alt="差分模拟音频输入电路图" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-DIFAU-SCH.png" alt="差分模拟音频输入电路图" width="80%" align="center" />
 
 <div align="center"> 图2.15 差分模拟音频输入电路图 </div>  <br> <br> <br>
 
-
- 
-<img src="assets/58x/sf32lb58x-SIGLEAU-SCH.png" alt="单端模拟音频输入电路图" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-SIGLEAU-SCH.png" alt="单端模拟音频输入电路图" width="80%" align="center" />
 
 <div align="center"> 图2.16 单端模拟音频输入电路图 </div>  <br> <br> <br>
 
-
 SF32LB58x模拟音频输出电路图如图2.17所示，其中AU_DAC1P，AU_DAC1N，AU_DAC2P，AU_DAC2N是SF32LB58x输出信号，HP_DAC1P_OUT, HP_DAC1N_OUT，HP_DAC2P_OUT, HP_DAC2N_OUT是连接到立体声耳机PA输入脚，SPK_DAC1P_OUT和SPK_DAC1N_OUT是连接到模拟音频PA的输入脚。
 
- 
-<img src="assets/58x/sf32lb58x-DAC-SCH.png" alt="模拟音频输出电路图" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-DAC-SCH.png" alt="模拟音频输出电路图" width="80%" align="center" />
 
 <div align="center"> 图2.17 模拟音频输出电路图 </div>  <br> <br> <br>
- 
-
 
 模拟MIC输入连接的电路图如图2.18所示。
 
- 
-<img src="assets/58x/sf32lb58x-MIC-SCH.png" alt="模拟MIC电路图" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-MIC-SCH.png" alt="模拟MIC电路图" width="80%" align="center" />
 
 <div align="center"> 图2.18 模拟MIC电路图 </div>  <br> <br> <br>
 
- 
-
 立体声耳机连接电路图如图2.19所示。
 
- 
-<img src="assets/58x/sf32lb58x-PHONE-SCH.png" alt="立体声耳机电路图" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-PHONE-SCH.png" alt="立体声耳机电路图" width="80%" align="center" />
 
 <div align="center"> 图2.19 立体声耳机电路图 </div>  <br> <br> <br>
 
- 
 模拟音频PA连接电路图如图2.20所示，采用I2C3配置模拟音频PA的寄存器。
 
- 
-<img src="assets/58x/sf32lb58x-AUPA-SCH.png" alt="模拟音频PA电路图" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-AUPA-SCH.png" alt="模拟音频PA电路图" width="80%" align="center" />
 
 <div align="center"> 图2.20 模拟音频PA电路图 </div>  <br> <br> <br>
 
-
 I2S音频PA连接电路图如图2.21所示，采用I2C3配置I2S音频PA的寄存器。
 
- 
-<img src="assets/58x/sf32lb58x-I2SPA-SCH.png" alt="I2S音频PA电路图" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-I2SPA-SCH.png" alt="I2S音频PA电路图" width="80%" align="center" />
 
 <div align="center"> 图2.21 I2S音频PA电路图 </div>  <br> <br> <br>
- 
 
 ### USB接口
 
 SF32LB58x系列芯片USB支持USB2.0 HS，支持HOST和Device模式，USB DP和DM上需要并联TVS接地，TVS的结电容要求小于5pF，另外就是DP，DM PCB走线按照差分90欧姆进行阻抗控制。USB接口连接示意图如图2.22所示。
 
-<img src="assets/58x/sf32lb58x-USB-SCH.png" alt="USB接口电路图" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-USB-SCH.png" alt="USB接口电路图" width="80%" align="center" />
 
 <div align="center"> 图2.22 USB接口电路图 </div>  <br> <br> <br>
-
-
 
 ## PCB设计指导
 
@@ -758,367 +707,284 @@ SF32LB58x系列芯片USB支持USB2.0 HS，支持HOST和Device模式，USB DP和D
 
 SF32LB58x系列芯片封装为BGA256，8.5mmx6.5mmx0.94mm，0.4mm间距，详细尺寸如图3.1所示。
 
- 
-<img src="assets/58x/sf32lb58x-POD-PCB.png" alt="BGA256封装尺寸图" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-POD-PCB.png" alt="BGA256封装尺寸图" width="80%" align="center" />
 
-<div align="center"> 图3.1 BGA256封装尺寸图 </div>  <br> <br> <br> 
- 
+<div align="center"> 图3.1 BGA256封装尺寸图 </div>  <br> <br> <br>
 
 #### 封装形状
 
 封装形状如图3.2所示。
 
+<img src="assets/58x/sf32lb58x-DECAL-PCB.png" alt="封装形状图" width="80%" align="center" />
 
-<img src="assets/58x/sf32lb58x-DECAL-PCB.png" alt="封装形状图" width="80%" align="center" />  
-
-<div align="center"> 图3.2 封装形状图 </div>  <br> <br> <br> 
-
+<div align="center"> 图3.2 封装形状图 </div>  <br> <br> <br>
 
 #### 焊盘设计
 
 PCB焊盘设计信息，如图3.3所示。
 
+<img src="assets/58x/sf32lb58x-PAD-PCB.png" alt="封装形状图" width="80%" align="center" />
 
-<img src="assets/58x/sf32lb58x-PAD-PCB.png" alt="封装形状图" width="80%" align="center" />   
-
-<div align="center"> 图3.3 PCB焊盘焊盘设计参考 </div>  <br> <br> <br>  
-
+<div align="center"> 图3.3 PCB焊盘焊盘设计参考 </div>  <br> <br> <br>
 
 #### 封装BALLMAP
 
- 
 封装BALLMAP信息，如图3.4所示。
 
-<img src="assets/58x/sf32lb58x-BALLMAP-PCB.png" alt="封装BALLMAP信息" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-BALLMAP-PCB.png" alt="封装BALLMAP信息" width="80%" align="center" />
 
-<div align="center"> 图3.4 封装BALLMAP信息 </div>  <br> <br> <br> 
-
+<div align="center"> 图3.4 封装BALLMAP信息 </div>  <br> <br> <br>
 
 #### 封装基板
 
-
 封装基板BALL信息，如图3.5所示。
-​       
-<img src="assets/58x/sf32lb58x-BALL-PCB.png" alt="封装基板BALL信息" width="80%" align="center" />  
+
 
 <div align="center"> 图3.5 封装基板BALL信息 </div>  <br> <br> <br>
-
 
 ### PCB叠层设计
 
 SF32LB58x系列芯片布局支持单双面，PCB只支持HDI板，不支持PTH板：推荐采用6HDI-2,推荐参考叠层结构如图3.6所示。
 
- 
-<img src="assets/58x/sf32lb58x-STACK-PCB.png" alt="参考叠层结构图" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-STACK-PCB.png" alt="参考叠层结构图" width="80%" align="center" />
 
 <div align="center"> 图3.6 参考叠层结构图 </div>  <br> <br> <br>
-
 
 ### PCB通用设计规则
 
 PCB通用设计规则如图3.7所示，单位为mm。
 
-<img src="assets/58x/sf32lb58x-RULE-PCB.png" alt="通用设计规则" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-RULE-PCB.png" alt="通用设计规则" width="80%" align="center" />
 
-<div align="center"> 图3.7 通用设计规则 </div>  <br> <br> <br> 
-
+<div align="center"> 图3.7 通用设计规则 </div>  <br> <br> <br>
 
 #### 盲孔设计
 
 PCB盲孔设计如图3.8，3.9所示，单位为mm。
 
- 
-<img src="assets/58x/sf32lb58x-VIA1-2-PCB.png" alt="1-2盲孔设计" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-VIA1-2-PCB.png" alt="1-2盲孔设计" width="80%" align="center" />
 
-<div align="center"> 图3.8 1-2盲孔设计 </div>  <br> <br> <br> 
+<div align="center"> 图3.8 1-2盲孔设计 </div>  <br> <br> <br>
 
+<img src="assets/58x/sf32lb58x-VIA1-3-PCB.png" alt="1-3盲孔设计" width="80%" align="center" />
 
-<img src="assets/58x/sf32lb58x-VIA1-3-PCB.png" alt="1-3盲孔设计" width="80%" align="center" />  
-
-<div align="center"> 图3.9 1-3盲孔设计 </div>  <br> <br> <br>    
-
-
+<div align="center"> 图3.9 1-3盲孔设计 </div>  <br> <br> <br>
 
 #### 埋孔设计
 
 PCB埋孔设计如图3.10所示，单位为mm。
 
-<img src="assets/58x/sf32lb58x-VIA2-5-PCB.png" alt="埋孔设计" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-VIA2-5-PCB.png" alt="埋孔设计" width="80%" align="center" />
 
-<div align="center"> 图3.10 埋孔设计 </div>  <br> <br> <br> 
-
+<div align="center"> 图3.10 埋孔设计 </div>  <br> <br> <br>
 
 ### SF32LB58x芯片走线扇出
 
 BGA行列前两排球通过表层扇出方式，其它的球通过过孔内层扇出方式 如图3.11，3.12所示。
 
+<img src="assets/58x/sf32lb58x-FANOUT-T-PCB.png" alt="表层扇出参考图" width="80%" align="center" />
 
-<img src="assets/58x/sf32lb58x-FANOUT-T-PCB.png" alt="表层扇出参考图" width="80%" align="center" />  
+<div align="center"> 图3.11 表层扇出参考图 </div>  <br> <br> <br>
 
-<div align="center"> 图3.11 表层扇出参考图 </div>  <br> <br> <br> 
+<img src="assets/58x/sf32lb58x-FANOUT-I-PCB.png" alt="内层扇出参考图" width="80%" align="center" />
 
-
-<img src="assets/58x/sf32lb58x-FANOUT-I-PCB.png" alt="内层扇出参考图" width="80%" align="center" />  
-
-<div align="center"> 图3.12 内层扇出参考图 </div>  <br> <br> <br> 
-
+<div align="center"> 图3.12 内层扇出参考图 </div>  <br> <br> <br>
 
 ### 时钟接口走线
 
 晶体需摆放在屏蔽罩里面，离PCB板框间距大于1mm,尽量远离发热大的器件，如PA、Charge和PMU等电路器件，距离最好大于5MM以上，避免影响晶体频偏，晶体电路禁布区间距大于0.25mm避免有其它金属和器件，如图3.13所示。
 
+<img src="assets/58x/sf32lb58x-CRYSTAL-PCB.png" alt="晶体布局图" width="80%" align="center" />
 
-<img src="assets/58x/sf32lb58x-CRYSTAL-PCB.png" alt="晶体布局图" width="80%" align="center" />  
-
-<div align="center"> 图3.13 晶体布局图 </div>  <br> <br> <br> 
-
+<div align="center"> 图3.13 晶体布局图 </div>  <br> <br> <br>
 
 48MHz晶体走线建议走表层长度要求控制在3-10mm区间,线宽0.075mm,必须立体包地处理，并且其走线需远离VBAT，DC/DC及高速信号线。48MHz晶体区域下方表层及临层做禁空处理，禁止其它走线从其区域走，如图3.14，3.15，3.16所示。
 
+<img src="assets/58x/sf32lb58x-48M-SCH.png" alt="48MHz晶体原理图" width="80%" align="center" />
 
-<img src="assets/58x/sf32lb58x-48M-SCH.png" alt="48MHz晶体原理图" width="80%" align="center" />  
+<div align="center"> 图3.14 48MHz晶体原理图 </div>  <br> <br> <br>
 
-<div align="center"> 图3.14 48MHz晶体原理图 </div>  <br> <br> <br> 
+<img src="assets/58x/sf32lb58x-48M-M-PCB.png" alt="48MHz晶体走线模型" width="80%" align="center" />
 
+<div align="center"> 图3.15 48MHz晶体走线模型 </div>  <br> <br> <br>
 
-<img src="assets/58x/sf32lb58x-48M-M-PCB.png" alt="48MHz晶体走线模型" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-48M-REF-PCB.png" alt="48MHz晶体走线参考" width="80%" align="center" />
 
-<div align="center"> 图3.15 48MHz晶体走线模型 </div>  <br> <br> <br> 
-
-
-<img src="assets/58x/sf32lb58x-48M-REF-PCB.png" alt="48MHz晶体走线参考" width="80%" align="center" />  
-
-<div align="center"> 图3.16 48MHz晶体走线参考 </div>  <br> <br> <br> 
-
+<div align="center"> 图3.16 48MHz晶体走线参考 </div>  <br> <br> <br>
 
 32.768KHz晶体建议走表层，走线长度控制≤10mm,线宽0.075mm,32K_XI/32_XO平行走线间距≥0.15mm,必须立体包地处理，晶体区域下方表层及临层做禁空处理，禁止其它走线从其区域走， 如图3.17，3.18，3.19所示。
 
+<img src="assets/58x/sf32lb58x-32K-SCH.png" alt="32.768KHz晶体原理图" width="80%" align="center" />
 
-<img src="assets/58x/sf32lb58x-32K-SCH.png" alt="32.768KHz晶体原理图" width="80%" align="center" />  
+<div align="center"> 图3.17 32.768KHz晶体原理图 </div>  <br> <br> <br>
 
-<div align="center"> 图3.17 32.768KHz晶体原理图 </div>  <br> <br> <br> 
+<img src="assets/58x/sf32lb58x-32K-M-PCB.png" alt="32.768KHz晶体走线模型" width="80%" align="center" />
 
+<div align="center"> 图3.18 32.768KHz晶体走线模型 </div>  <br> <br> <br>
 
-<img src="assets/58x/sf32lb58x-32K-M-PCB.png" alt="32.768KHz晶体走线模型" width="80%" align="center" />  
+<img src="assets/58x/sf32lb58x-32K-REF-PCB.png" alt="32.768KHz晶体走线参考" width="80%" align="center" />
 
-<div align="center"> 图3.18 32.768KHz晶体走线模型 </div>  <br> <br> <br> 
-
-
-<img src="assets/58x/sf32lb58x-32K-REF-PCB.png" alt="32.768KHz晶体走线参考" width="80%" align="center" />  
-
-<div align="center"> 图3.19 32.768KHz晶体走线参考 </div>  <br> <br> <br> 
-
+<div align="center"> 图3.19 32.768KHz晶体走线参考 </div>  <br> <br> <br>
 
 ### 射频接口走线
 
 射频匹配电路要尽量靠近芯片端放置，不要靠近天线端放置，AVDD_BRF射频电源其滤波电容尽量靠近芯片管脚放置，电容接地PIN 脚打孔直接接主地，RF信号的π型网络的原理图和PCB分别如图3.20，3.21所示。
 
+<img src="assets/58x/sf32lb58x-π-SCH.png" alt="π型网络以及电源电路原理图" width="80%" align="center" />
 
-<img src="assets/58x/sf32lb58x-π-SCH.png" alt="π型网络以及电源电路原理图" width="80%" align="center" />  
+<div align="center"> 图3.20 π型网络以及电源电路原理图 </div>  <br> <br> <br>
 
-<div align="center"> 图3.20 π型网络以及电源电路原理图 </div>  <br> <br> <br> 
+<img src="assets/58x/sf32lb58x-π-PCB.png" alt="π型网络以及电源PCB布局" width="80%" align="center" />
 
-
-<img src="assets/58x/sf32lb58x-π-PCB.png" alt="π型网络以及电源PCB布局" width="80%" align="center" />  
-
-<div align="center"> 图3.21 π型网络以及电源PCB布局 </div>  <br> <br> <br> 
-
+<div align="center"> 图3.21 π型网络以及电源PCB布局 </div>  <br> <br> <br>
 
 射频线建议走表层，避免打孔穿层影响RF 性能，线宽最好大于10mil，需要立体包地处理，避免走锐角和直角，射频线两边多打屏蔽地孔，射频线需要做50欧阻抗控制，如图3.22,3.23所示。
 
+<img src="assets/58x/sf32lb58x-RF-R-SCH.png" alt="RF信号电路原理图" width="80%" align="center" />
 
-<img src="assets/58x/sf32lb58x-RF-R-SCH.png" alt="RF信号电路原理图" width="80%" align="center" />  
+<div align="center"> 图3.22 RF信号电路原理图 </div>  <br> <br> <br>
 
-<div align="center"> 图3.22 RF信号电路原理图 </div>  <br> <br> <br> 
+<img src="assets/58x/sf32lb58x-RF-R-PCB.png" alt="RF信号PCB走线" width="80%" align="center" />
 
-
-<img src="assets/58x/sf32lb58x-RF-R-PCB.png" alt="RF信号PCB走线" width="80%" align="center" />  
-
-<div align="center"> 图3.23 RF信号PCB走线 </div>  <br> <br> <br> 
-
+<div align="center"> 图3.23 RF信号PCB走线 </div>  <br> <br> <br>
 
 射频电路走线禁止DC-DC，VBAT和高速数字信号从其区域走，比如晶振，高频时钟，及数字接口信号（I2C,SPI,SDIO,I2S，UART等）。
 AVSS_RRF，AVSS_TRF，AVSS_TRF2，AVSS_VCO，AVSS_BB 为射频电路接地脚，必须保证其良好接地，建议在其焊盘上直接盲孔并连接到主地，如图3.24a，3.24b所示。
-
 
 <img src="assets/58x/sf32lb58x-RF-VSS-SCH.png" alt="射频电路接地信号原理图" width="80%" align="center" />
 
 <div align="center"> 图3.24a 射频电路接地信号原理图 </div>  <br> <br> <br>
 
-
 <img src="assets/58x/sf32lb58x-RF-VSS-PCB.png" alt="射频电路接地信号PCB图" width="80%" align="center" />
 
 <div align="center"> 图3.24b 射频电路接地信号PCB图 </div>  <br> <br> <br>
-
 
 ### 音频接口走线
 
 AVDD33_AUD 为音频接口供电的管脚，其滤波电容靠近其对应管脚放置，滤波电容接地脚良好接主地，MIC_BIAS 为音频接口麦克风的供电电路，其对应滤波电容靠近对应管脚放置，滤波电容接地脚良好接主地 AUD_VREF 滤波电容靠近管脚放置，如图3.25a，3.25b所示。
 
-
 <img src="assets/58x/sf32lb58x-AU-PWR-SCH.png" alt="音频电路电源原理图" width="80%" align="center" />
 
 <div align="center"> 图3.25a 音频电路电源原理图 </div>  <br> <br> <br>
-
 
 <img src="assets/58x/sf32lb58x-AU-PWR-PCB.png" alt="音频电路电源滤波电路PCB设计" width="80%" align="center" />
 
 <div align="center"> 图3.25b 音频电路电源滤波电路PCB设计 </div>  <br> <br> <br>
 
-
 AU_ADC1P/AU_ADC1N,AU_ADC2P/AU_ADC2N 为两路模拟信号输入，对应电路器件尽量靠近对应管脚放置，每一路P/N需要按照差分线形式走线，走线线长尽量短，差分对走线做立体包地处理，其它接口强干扰信号，远离其走线，如图3.26a，3.26b所示。
-
 
 <img src="assets/58x/sf32lb58x-AUADC-SCH.png" alt="模拟音频输入原理图" width="80%" align="center" />
 
 <div align="center"> 图3.26a 模拟音频输入原理图 </div>  <br> <br> <br>
 
-
 <img src="assets/58x/sf32lb58x-AUADC-PCB.png" alt="模拟音频输入PCB设计" width="80%" align="center" />
 
 <div align="center"> 图3.26b 模拟音频输入PCB设计 </div>  <br> <br> <br>
 
-
 AU_DAC1P/AU_DAC1N,AU_DAC2P/AU_DAC2N 为两路模拟信号输出，对应电路器件尽量靠近对应管脚放置，每一路P/N需要按照差分线形式走线，走线线长尽量短，并小于2mm,走线寄生电容小于10pf,差分走线线宽0.075mm,差分对走线需做立体包地处理，其它接口强干扰信号，远离其走线，如图3.27a，3.27b所示。
-
 
 <img src="assets/58x/sf32lb58x-AUDAC-SCH.png" alt="模拟音频输出原理图" width="80%" align="center" />
 
 <div align="center"> 图3.27a 模拟音频输出原理图 </div>  <br> <br> <br>
 
-
 <img src="assets/58x/sf32lb58x-AUDAC-PCB.png" alt="模拟音频输出PCB设计" width="80%" align="center" />
 
 <div align="center"> 图3.27b 模拟音频输出PCB设计 </div>  <br> <br> <br>
-
-
 
 ### USB 接口走线
 
 AVDD33_USB 为USB 接口供电脚，其滤波电容靠近管脚放置，接USB2_REXT 校准电阻靠近管脚放置， USB 走线必须先过ESD器件管脚，然后再到芯片端，要保证ESD 器件接地PIN 良好连接主地，USB DP/DN 按照差分线形式走线，按照90欧差分阻抗控制，并做立体包处理，如图3.28a，3.28b所示。图2.29a为USB信号的元件布局参考图，图3.29b为PCB走线模型。
 
-   
 <img src="assets/58x/sf32lb58x-USBS-SCH.png" alt="USB信号原理图" width="80%" align="center" />
 
 <div align="center"> 图3.28a USB信号原理图 </div>  <br> <br> <br>
-
 
 <img src="assets/58x/sf32lb58x-USBS-PCB.png" alt="USB信号PCB设计" width="80%" align="center" />
 
 <div align="center"> 图3.28b USB信号PCB设计 </div>  <br> <br> <br>
 
-
-
 <img src="assets/58x/sf32lb58x-USBM-SCH.png" alt="USB信号器件布局参考" width="80%" align="center" />
 
 <div align="center"> 图3.29a USB信号器件布局参考 </div>  <br> <br> <br>
-
 
 <img src="assets/58x/sf32lb58x-USBM-PCB.png" alt="USB信号走线模型" width="80%" align="center" />
 
 <div align="center"> 图3.29b USB信号走线模型 </div>  <br> <br> <br>
 
-
-
 ### SDIO 接口走线
 
 SF32LB58X 提供2个SDIO接口分别为SDIO1和SDIO2,所有的SDIO 信号走线在一起，避免分开走，整个走线长度≤50mm, 组内长度控制≤6mm. SDIO接口时钟信号需立体包地处理，DATA和CM 信号也需要包地处理，如图3.30a，3.30b所示。
-
 
 <img src="assets/58x/sf32lb58x-SDIOM-SCH.png" alt="SDIO1接口电路图" width="80%" align="center" />
 
 <div align="center"> 图3.30a SDIO1接口电路图 </div>  <br> <br> <br>
 
-
 <img src="assets/58x/sf32lb58x-SDIOM-PCB.png" alt="SDIO1 PCB走线模型" width="80%" align="center" />
 
 <div align="center"> 图3.30b SDIO1 PCB走线模型 </div>  <br> <br> <br>
-
-
 
 ### DSI 接口走线
 
 AVDD18_DSI 为DSI 接口供电脚，其滤波电容靠近管脚放置，接DSI_REXT 校准电阻靠近管脚放置, DSI 接口走线按差分线形式走线，需要做差分100欧阻抗控制，并且时钟和数据需要做等长处理，差分对组内控制≤0.5mm，差分对组间按照≤2mm; 每对差分线需要做立体包地处理，如图3.31a，3.31b所示。
 
-
 <img src="assets/58x/sf32lb58x-DSIM-SCH.png" alt="DSI信号电路图" width="80%" align="center" />
 
 <div align="center"> 图3.31a DSI信号电路图 </div>  <br> <br> <br>
-
 
 <img src="assets/58x/sf32lb58x-DSIM-PCB.png" alt="DSI信号PCB走线" width="80%" align="center" />
 
 <div align="center"> 图3.31b DSI信号PCB走线 </div>  <br> <br> <br>
 
-
-
 ### DC-DC 电路走线
 
 DC-DC电路功率电感和滤波电容必须靠近芯片的管脚放置，BUCK_LX 走线尽量短且粗，保证整个DC-DC 电路回路点感小，所有的DC-DC输出滤波电容接地脚多打过孔连接到主地平面；BUCK_FB 管脚反馈线不能太细，必须大于0.25mm,功率电感区域表层禁止铺铜，临层必须为完整的参考地，避免其它线从电感区域里走线，如图3.32a，3.32b所示。
 
-   
 <img src="assets/58x/sf32lb58x-DCDC-P-SCH.png" alt="DC-DC关键器件电路图" width="80%" align="center" />
 
 <div align="center"> 图3.32a DC-DC关键器件电路图 </div>  <br> <br> <br>
-
 
 <img src="assets/58x/sf32lb58x-DCDC-P-PCB.png" alt="DC-DC 关键器件PCB布局图" width="80%" align="center" />
 
 <div align="center"> 图3.32b DC-DC 关键器件PCB布局图 </div>  <br> <br> <br>
 
-
-
 ### 电源供电走线
 
 PVDD1,PVDD2为芯片内置PMU 模块电源输入脚，对应的电容必须靠近管脚放置，走线尽量的粗，不能低于0.5mm; PVSS1,PVSS2 为PMU模块接地脚，必须通过过孔连接到主地，避免浮空影响整个PMU 性能，如图3.33a，3.33b所示。
 
-   
 <img src="assets/58x/sf32lb58x-DCDC-R-SCH.png" alt="DC-DC电路图" width="80%" align="center" />
 
 <div align="center"> 图3.33a DC-DC电路图 </div>  <br> <br> <br>
-
 
 <img src="assets/58x/sf32lb58x-DCDC-R-PCB.png" alt="DC-DC PCB走线" width="80%" align="center" />
 
 <div align="center"> 图3.33b DC-DC PCB走线 </div>  <br> <br> <br>
 
-
-
 ### LDO和IO电源输入走线
 
 所有的LDO输出和IO 电源输入管脚滤波电容靠近对应的管脚放置，其走线宽必须满足输入电流要求，走线尽量短粗，从而减少电源纹波提高系统稳定性；如图3.14所示。
-
 
 <img src="assets/58x/sf32lb58x-LDOIO-R-PCB.png" alt="LDO和IO输入电源走线示意图" width="80%" align="center" />
 
 <div align="center"> 图3.34 LDO和IO输入电源走线示意图 </div>  <br> <br> <br>
 
-
-
 ### 其它接口走线
 
 管脚配置为GPADC 管脚信号，必须要求立体包地处理，远离其它干扰信号，如电池电量电路，温度检查电路等。如图3.35所示。
-
 
 <img src="assets/58x/sf32lb58x-GPADC-R-SCH.png" alt="GPADC电路图" width="80%" align="center" />
 
 <div align="center"> 图3.35 GPADC电路图 </div>  <br> <br> <br>
 
-
 管脚配置为时钟输入输出管脚信号网络，必须要求立体包地处理，远离其它干扰信号，如32K 输出等；如图3.36所示。
-
 
 <img src="assets/58x/sf32lb58x-32K-R-SCH.png" alt="32K时钟输出电路图" width="80%" align="center" />
 
 <div align="center"> 图3.36 32K时钟输出电路图 </div>  <br> <br> <br>
 
-
-
 #### SF32LB58X 芯片地走线
 
 SF32LB58X芯片中心区域的地网络需要用走线全部连接起来，保证足够的地平面并通过盲埋孔连接到主地平面。如图3.37a，3.37b，3.37c，3.37d；
 
-   
 <img src="assets/58x/sf32lb58x-VSS-1-PCB.png" alt="芯片下TOP层地信号" width="80%" align="center" />
 
 <div align="center"> 图3.37a 芯片下TOP层地信号 </div>  <br> <br> <br>
@@ -1135,56 +1001,42 @@ SF32LB58X芯片中心区域的地网络需要用走线全部连接起来，保�
 
 <div align="center"> 图3.37d 芯片下第四层地信号 </div>  <br> <br> <br>
 
-
-
 #### EMI&ESD 走线
 
 避免屏蔽罩外面表层长距离走线，特别是时钟，电源等干扰信号尽量走内层，禁止走表层；ESD 保护器件必须靠近连接器对应管脚放置，信号走线先过ESD 保护器件管脚，避免信号分叉，没过ESD 保护管脚，ESD器件接地脚必须保证过孔连接主地，保证地焊盘走线短且粗，减少阻抗提高ESD器件性能。
-
-
 
 #### 其它
 
 USB 充电线测试点必须放置在TVS 管前面，电池座TVS 管 放置在平台前面 其走线必须保证先过TVS 然后再到芯片端，如图3.38所示。
 
- 
 <img src="assets/58x/sf32lb58x-TVS-P-PCB.png" alt="电源TVS布局参考" width="80%" align="center" />
 
 <div align="center"> 图3.38 电源TVS布局参考 </div>  <br> <br> <br>
 
-
 TVS 管接地脚尽量避免走长线再连接到地，如图3.39所示。
-
 
 <img src="assets/58x/sf32lb58x-TVS-R-PCB.png" alt="TVS走线参考" width="80%" align="center" />
 
 <div align="center"> 图3.39 TVS走线参考 </div>  <br> <br> <br>
 
-
 为了保证阻焊层不上焊盘，影响焊接可靠性，BGA 焊盘上的过孔要求打在BGA球的中心区域。避免打偏，如图3.40所示。
-
 
 <img src="assets/58x/sf32lb58x-BGA-VIA-PCB.png" alt="BGA打孔示意图" width="80%" align="center" />
 
 <div align="center"> 图3.40 BGA打孔示意图 </div>  <br> <br> <br>
 
-
 为了提高可加工性良率，PCB设计时参考图如图3.41a，3.41b优化。
 
- 
 <img src="assets/58x/sf32lb58x-BGA-R1-PCB.png" alt="BGA BALL连线参考图一" width="80%" align="center" />
 
 <div align="center"> 图3.41a BGA BALL连线参考图一 </div>  <br> <br> <br>
-
 
 <img src="assets/58x/sf32lb58x-BGA-R2-PCB.png" alt="BGA BALL连线参考图二" width="80%" align="center" />
 
 <div align="center"> 图3.41b BGA BALL连线参考图二 </div>  <br> <br> <br>
 
-
-
 ## 修订历史
 
-| 版本   | 日期   | 发布说明  |
+| 版本  | 日期   | 发布说明  |
 | ----- | ------ | --------- |
-| 0.0.1 | 1/2025 | Draft版本  |
+| 0.0.1 | 1/2025 | Draft版本 |

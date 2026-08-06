@@ -112,7 +112,7 @@ jobs:
         if: steps.check_changes.outputs.has_changes == 'true'
         run: |
           BRANCH_NAME="auto-translation-${{ steps.direction.outputs.target_branch }}-${{ github.run_number }}"
-          
+
           # 切换到目标分支
           git checkout ${{ steps.direction.outputs.target_branch }}
           
