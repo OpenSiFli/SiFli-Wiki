@@ -14,7 +14,7 @@
 [英文用户手册55x]: https://downloads.sifli.com/docs/user%20manual/SF32LB55x/UM5501-SF32LB55x-User%20manual%20V0p3p4.pdf 
 
 
-[中文规格书58x]: https://downloads.sifli.com/docs/Datasheet/sf32lb58/DS5801-SF32LB58x-Datasheet%20V1p8p6.pdf 
+[中文规格书58x]: https://downloads.sifli.com/docs/Datasheet/sf32lb58/DS5801-SF32LB58x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V1p8p6.pdf 
 [英文规格书58x]: https://downloads.sifli.com/docs/Datasheet/sf32lb58/DS5801-SF32LB58x-Datasheet%20V1p8p6.pdf 
 [中文简介58x]: https://downloads.sifli.com/docs/Product%20Brief/SF32LB58x/PB5801-SF32LB58x-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V0p72.pdf
 [英文简介58x]: https://downloads.sifli.com/docs/Product%20Brief/SF32LB58x/PB5801-SF32LB58x-Product%20Brief%20V0p72.pdf

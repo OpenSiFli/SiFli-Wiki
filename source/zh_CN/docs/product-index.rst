@@ -102,7 +102,7 @@ SF32LB58x 系列
       **芯片文档**
       
       * 芯片简介（`中文 <https://downloads.sifli.com/docs/Product%20Brief/SF32LB58x/PB5801-SF32LB58x-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V0p72.pdf>`__ | `English <https://downloads.sifli.com/docs/Product%20Brief/SF32LB58x/PB5801-SF32LB58x-Product%20Brief%20V0p72.pdf>`__）
-      * 芯片规格书（`中文 <https://downloads.sifli.com/docs/Datasheet/sf32lb58/DS5801-SF32LB58x-Datasheet%20V1p8p6.pdf>`__ | `English <https://downloads.sifli.com/docs/Datasheet/sf32lb58/DS5801-SF32LB58x-Datasheet%20V1p8p6.pdf>`__）
+      * 芯片规格书（`中文 <https://downloads.sifli.com/docs/Datasheet/sf32lb58/DS5801-SF32LB58x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V1p8p6.pdf>`__ | `English <https://downloads.sifli.com/docs/Datasheet/sf32lb58/DS5801-SF32LB58x-Datasheet%20V1p8p6.pdf>`__）
       * 用户手册（`中文 <https://downloads.sifli.com/docs/user%20manual/SF32LB58x/UM5801-SF32LB58x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V0p4p6.pdf>`__ | `English <https://downloads.sifli.com/docs/user%20manual/SF32LB58x/UM5801-SF32LB58x-User%20mannual%20V0p4p6.pdf>`__）
       **模组文档**
       
