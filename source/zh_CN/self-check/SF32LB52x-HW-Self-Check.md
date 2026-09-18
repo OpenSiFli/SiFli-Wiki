@@ -289,7 +289,7 @@ SFBL 表示芯片内部的普通 BootROM 已经启动，正在执行标准启动
 ![](./assets/boot_8SFBL.png) -->
 
 
-## 五、固件下载
+## 五、固件烧录
 
 
 :::{important}
@@ -301,6 +301,11 @@ SFBL 表示芯片内部的普通 BootROM 已经启动，正在执行标准启动
 Impeller：[使用说明](https://wiki.sifli.com/tools/%E7%83%A7%E5%BD%95%E5%B7%A5%E5%85%B7.html)
 
 :::
+
+### 5.1 烧录日志
+
+
+
 
 
 ## 六. 常见故障FAQ
