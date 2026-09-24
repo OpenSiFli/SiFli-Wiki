@@ -10,7 +10,8 @@ The parallel interface is currently more common. It generally requires LCDC to w
 
 
 ### Parameter configuration explanation
-
+Take the timing diagram of the screen shown in the figure below as an example. This is a 240x240 screen, and the parameter configuration required for this timing diagram is as follows:
+![alt text](assets/jdi_conf_example_timing.png)
 ```c
 static LCDC_InitTypeDef lcdc_int_cfg =
 {
@@ -26,15 +27,15 @@ static LCDC_InitTypeDef lcdc_int_cfg =
     .cfg = {
         .jdi = {
             .bank_col_head = 0, //Vertical Blanking pixles at the head
-            .valid_columns = THE_LCD_PIXEL_WIDTH, //Vertical valid pixles
+            .valid_columns = 240, //Vertical valid pixles
             .bank_col_tail = 4, //Vertical Blanking pixles at the tail
 
             .bank_row_head = 0, //Horizontal Blanking rows at the head
-            .valid_rows = THE_LCD_PIXEL_HEIGHT, //Horizontal valid rows
+            .valid_rows = 240, //Horizontal valid rows
             .bank_row_tail = 4, //Horizontal Blanking rows at the tail
 
             /* 
-                ENB will be active during column [32~95]
+                ENB will be active during column [64~190]
             */
             .enb_start_col = 32, 
             .enb_end_col = 95,
@@ -43,6 +44,10 @@ static LCDC_InitTypeDef lcdc_int_cfg =
 
 };
 ```
+
+- `bank_col_head`, `valid_columns`, `bank_col_tail`, `bank_row_head`, `valid_rows`, `bank_row_tail` are all specified in pixels. Note that on the timing diagram, every 2 VCK edges in the vertical direction make up one pixel, while every 1 HCK edge in the horizontal direction corresponds to two pixels.
+- `enb_start_col` and `enb_end_col` are the start and end columns of the ENB signal divided by 2. This configuration is not strictly specified in most datasheets, but their range is [0, (bank_col_head+valid_columns+bank_col_tail)/2]
+
 
 
 
