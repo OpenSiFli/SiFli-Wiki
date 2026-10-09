@@ -10,7 +10,8 @@ JDI屏幕有2种接口：并口(JDI_PARALLEL)和串口(JDI_SERIAL)。
 
 
 ### 参数配置讲解
-
+以下图这个屏幕的时序图为例，这是一个240x240的屏幕， 这个时序图需要的参数配置如下：
+![alt text](assets/jdi_conf_example_timing.png)
 ```c
 static LCDC_InitTypeDef lcdc_int_cfg =
 {
@@ -26,15 +27,15 @@ static LCDC_InitTypeDef lcdc_int_cfg =
     .cfg = {
         .jdi = {
             .bank_col_head = 0, //Vertical Blanking pixles at the head
-            .valid_columns = THE_LCD_PIXEL_WIDTH, //Vertical valid pixles
+            .valid_columns = 240, //Vertical valid pixles
             .bank_col_tail = 4, //Vertical Blanking pixles at the tail
 
             .bank_row_head = 0, //Horizontal Blanking rows at the head
-            .valid_rows = THE_LCD_PIXEL_HEIGHT, //Horizontal valid rows
+            .valid_rows = 240, //Horizontal valid rows
             .bank_row_tail = 4, //Horizontal Blanking rows at the tail
 
             /* 
-                ENB will be active during column [32~95]
+                ENB will be active during column [64~190]
             */
             .enb_start_col = 32, 
             .enb_end_col = 95,
@@ -43,6 +44,12 @@ static LCDC_InitTypeDef lcdc_int_cfg =
 
 };
 ```
+
+- `bank_col_head`, `valid_columns`, `bank_col_tail`, `bank_row_head`, `valid_rows`, `bank_row_tail`, 这些参数都是以像素为单位，注意时序图上垂直方向每2个VCK沿为一个像素，水平方向每1个HCK沿为两个像素。
+- `enb_start_col`和`enb_end_col`是ENB信号的起始和结束列除以2，这个配置在大部分手册上要求不是很严格, 但是他们的范围是[0, (bank_col_head+valid_columns+bank_col_tail)/2]
+
+
+
 
 
 
