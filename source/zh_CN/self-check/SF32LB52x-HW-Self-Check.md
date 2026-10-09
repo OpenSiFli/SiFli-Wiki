@@ -118,7 +118,7 @@
 |  BUCK_FB  |                 约 1.25V                 |                     BUCK输出                     |
 |  VDD_RET  |                 约 0.9V                 |                    RET LDO输出                    |
 |  VDD_RTC  |                 约 1.1V                 |                   RTC LDO 输出                   |
-|   VDDIOA   | 1.8V 或 3.3V（52D为1.8V，52B/E/J为3.3V） |         GPIO 电源输入，电压由芯片型号决定         |
+|   VDDIOA   | 1.8V 或 3.3V（52B为3.3V，52D/E/J为1.8V） |         GPIO 电源输入，电压由芯片型号决定         |
 |  VDD_SIP  | 1.8V 或 3.3V（52D为1.8V，52B/E/J为3.3V） |         合封存储电源，电压由芯片型号决定         |
 | VDD_VOUT1 |                 约 1.1V                 |                   内部LDO1输出                   |
 | VDD_VOUT2 |                 约 0.9V                 |                   内部LDO2输出                   |
@@ -135,7 +135,7 @@
 - 若 VDD_VOUT1/VDD_VOUT2 无电压，先确认芯片是否正常上电
 - 对于锂电池供电版本，VDD18_VOUT 为固定 1.8V 输出；VDD33_VOUT1/VDD33_VOUT2 为固定 3.3V 输出，默认无输出，需软件使能后才有电压
 - 对于锂电池供电版本（0/3/5/7），VBAT/VCC 是系统主电源，**必须接入外部锂电池**才能使设备正常运行。即使通过 USB（VBUS）充电，电池也必须连接在 VBAT 上
-- 对于常规供电版本（B/E/J），无需外部电池，通过 PVDD 接入外部电源即可。VDDIOA 和 VDD_SIP 的电压取决于芯片型号：52D 为 1.8V，52B/E/J 为 3.3V，请核对所用芯片型号确认预期电压
+- 对于常规供电版本（B/E/J），无需外部电池，通过 PVDD 接入外部电源即可。VDDIOA 和 VDD_SIP 的电压取决于芯片型号：52B 为 3.3V，52D/E/J 为 3.3V，请核对所用芯片型号确认预期电压
 
 ### 2.2 Flash 存储供电检测
 
@@ -165,7 +165,7 @@ SF32LB52x支持内部合封Flash/PSRAM和外接Flash存储器，分为锂电池�
 :::{important}
 **Flash供电检测要点：**
 
-1. **VDD_SIP电压**：合封存储电源，常规供电版本范围1.71V~3.63V（52D为1.8V，52B/E/J为3.3V）
+1. **VDD_SIP电压**：合封存储电源，常规供电版本范围1.71V~3.63V（52D/E/J为1.8V，52B为3.3V）
 2. **PA21/PA11控制信号**：所有启动存储器的电源开关使能脚**必须**使用PA21/PA11控制，高电平打开，低电平关闭
 3. **Hibernate模式**：使用Hibernate mode时，VDD_SIP供电要关闭，否则合封存储的I/O上会有漏电风险
 4. **大容量Flash**：外接≥32MB SPI Nor Flash时，必须用PA21控制断电，使Flash退出4BYTE Mode
@@ -198,14 +198,14 @@ SF32LB52x支持内部合封Flash/PSRAM和外接Flash存储器，分为锂电池�
 
 - 本章内容验证芯片启动输出是否正常
 
-sifli串口工具：[SiFli_Trace工具下载](https://downloads.sifli.com/tools/SiFli_Trace/SiFli_Trace_latest.7z) 
+sifli串口工具：[SiFli_Trace工具下载](https://downloads.sifli.com/tools/SiFli_Trace/SiFli_Trace_latest.7z)
 
 :::
 
 ### 4.1 串口连接
 
-1.  芯片TX ↔ 串口转换板RX；芯片RX ↔ 串口转换板TX，接反直接无通讯、无打印
-2.  串口电平匹配：芯片IO电压 = 转换板电压（1.8V对1.8V，3.3V对3.3V） 
+1. 芯片TX ↔ 串口转换板RX；芯片RX ↔ 串口转换板TX，接反直接无通讯、无打印
+2. 串口电平匹配：芯片IO电压 = 转换板电压（1.8V对1.8V，3.3V对3.3V）
 
 ### 4.2 串口通信验证
 
@@ -288,9 +288,7 @@ SFBL 表示芯片内部的普通 BootROM 已经启动，正在执行标准启动
 
 ![](./assets/boot_8SFBL.png) -->
 
-
 ## 五、固件烧录
-
 
 :::{important}
 
@@ -304,12 +302,7 @@ Impeller：[使用说明](https://wiki.sifli.com/tools/%E7%83%A7%E5%BD%95%E5%B7%
 
 ### 5.1 烧录日志
 
-
-
-
-
 ## 六. 常见故障FAQ
-
 
 ### 1、串口通信
 
@@ -337,15 +330,13 @@ A: 检测供电，锂电池供电版本需接电池供电。
 
 Q:设备周期性大约10s复位1次
 
-A:确认复位引脚PA34没有被拉高 
-
+A:确认复位引脚PA34没有被拉高
 
 #### FAQ5：芯片内有程序，上电复位后仅输出SFBL不正常运行芯片程序
 
-R:串口工具勾选了52X_BOOT 
+R:串口工具勾选了52X_BOOT
 
 A：取消勾选串口工具52X_BOOT
-
 
 #### FAQ5：连接串口后芯片像死机一样不动
 
@@ -354,8 +345,6 @@ R:部分开发板如黄山派、SF32LB52-DevKit-Nano-N16R16 等，通过板载�
 A：进入设备管理器->右键端口属性->选择端口设置(高级)->勾选禁用modem流控，sifli_trace工具中有RTS复位功能
 
 ![](./assets/Modem.png)
-
-
 
 #### 下载模式排查要点
 
@@ -390,8 +379,6 @@ Impeller工具：工具根目录\log\channel\日期\chanx_日期.txt
 
 ##### 1.1.2 日记关键节点解析速查表
 
-
-
 | Log打印节点 |             关键日志内容             |       状态判定       |           说明           |
 | :---------: | :----------------------------------: | :------------------: | :-----------------------: |
 |   阶段1.1   |       uart COMxx open success       |     串口打开正常     |    串口接线、串口占用    |
@@ -402,10 +389,9 @@ Impeller工具：工具根目录\log\channel\日期\chanx_日期.txt
 |   阶段2.1   |            id:0x00000000            |   未识别外部Flash   | Flash供电、接线、驱动配置 |
 |   阶段2.2   | download_image_simple_thread success |    主镜像写入完成    | Flash供电、接线、驱动配置 |
 |   阶段2.3   |        OTP_FACTORY_WRITE_PASS        |    MAC/SN写入成功    |    OTP供电、SN/MAC配置    |
-|    末尾    |              FINAL_PASS              |  全部烧录校验通过   |          无故障          |
+|    末尾    |              FINAL_PASS              |   全部烧录校验通过   |          无故障          |
 
 ##### 1.1.3 完整烧录Log样例
-
 
 ```text
 
