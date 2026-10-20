@@ -32,6 +32,7 @@ DPI接口输出的颜色格式
             .DE_polarity   = 0, /* 选择DPI波形中DE（数据使能信号）的极性 */
             .VS_polarity   = 1, /* 选择DPI波形中VS（V sync 场同步信号）的极性 */
             .HS_polarity   = 1, /* 选择DPI波形中HS（H sync 行同步信号）的极性 */
+            .PCLK_force_on = 0, /* 即使在行间准备数据的间隙, 也强制PCLK（像素时钟）持续输出、不停止时钟*/
 
             .VS_width      = 2,  /* 选择VS（场同步信号）持续的宽度，单位为（几个HS波形） */
             .HS_width      = 2, /* 选择HS（行同步信号）持续的宽度，单位为（几个Pclk波形） */
@@ -75,7 +76,7 @@ DPI屏幕的刷屏对framebuffer所在的RAM的读取稳定性有要求，所以
 对DPI屏幕接口的宏`AUTO_SELECTED_DPI_INTFACE` 实际会根据芯片和屏幕宽度自动选择以下2种模式：
 
 - **DPI模式**<br>
-LCD控制器原生模式，支持的屏幕最大宽度：58x下是1024，其他是512。
+LCD控制器原生模式，支持的屏幕最大宽度：58x下是1024，其他是512。57x系列芯片目前只能使用DPI_AUX模式。
 
 - **DPI_AUX模式**<br>
 针对超出LCD控制器原生模式宽度的屏幕而做的辅助模式。
@@ -96,6 +97,10 @@ drv_lcd.c中的ramless_code，sram_data0，sram_data1
 SDK 2.2.4之后，这部分数组改成了从系统堆里面自动分配一个非Retention-SRAM的内存。
 :::
 #### 四、刷屏期间需要一直占用如下硬件模块：
+
+57x:
+1. GPDMA的一个channel(可配置，默认DMA1-CH2）
+2. PTM模块的core0
 
 56x:
 1. 普通DMA的一个channel(可配置，默认DMA1-CH5）
