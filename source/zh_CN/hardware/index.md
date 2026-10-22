@@ -1,5 +1,9 @@
 # 硬件设计指南
 
+## SF32LB57x系列
+
+[硬件设计指南](/hardware/SF32LB57x-HW-Application)
+
 ## SF32LB52x系列
 
 后缀为数字0、3、5、7的芯片，属于SF32LB52x系列,使用锂电池供电，支持USB充电。
