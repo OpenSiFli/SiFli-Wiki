@@ -430,11 +430,11 @@ $\Large V_{\mathrm{IN\_OVLO}} = \frac{R_1+R_2}{R_2} V_{\mathrm{OVLO\_TH}}$
 - 合理配置电源开关控制 GPIO 的默认电平，搭配兆欧级上下拉电阻，确保负载开关上电默认处于关闭状态；
 - LDO、负载开关（Load Switch）选型需优先选用静态电流 Iq、关断电流 Istb 参数优异的器件，常开类电源芯片需重点核查静态电流 Iq 指标。
 
-<img src="assets/57x/sf32lb57x-H-PWR-diagram.png" width="80%" align="center" />  
+<img src="assets/57x/SF32LB57x-H-PWR-diagram.png" width="80%" align="center" />  
 
 <div align="center"> 图2-1-7-1 SF32LB57x 电池供电系统电源结构图 </div>   <br>  <br>
 
-<img src="assets/57x/sf32lb57x-L-PWR-diagram.png" width="80%" align="center" />  
+<img src="assets/57x/SF32LB57x-L-PWR-diagram.png" width="80%" align="center" />  
 
 <div align="center"> 图2-1-7-2 SF32LB57x 3.3V供电系统电源结构图 </div>   <br>  <br>
 
