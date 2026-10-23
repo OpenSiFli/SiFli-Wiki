@@ -112,7 +112,7 @@
 ```{grid-item-card} SF32LB58-DevKit系列
 :class-card: board-card
 
-基于SF32LB58芯片的下一代开发板
+基于SF32LB58模组的高性能LCD开发板
 
 **主要特性：**
 - ✓ 更强的性能
@@ -122,6 +122,27 @@
 
 +++
 [查看详情 →](sf32lb58x/SF32LB58-DevKit-LCD)
+```
+````
+
+### SF32LB57 系列
+
+````{grid} 1 2 2 3
+:gutter: 3
+
+```{grid-item-card} SF32LB57-DevKit系列
+:class-card: board-card
+
+基于SF32LB57模组的高性能LCD开发板
+
+**主要特性：**
+- ✓ 更强的性能
+- ✓ 更丰富的功能
+- ✓ 更优化的设计
+- ✓ 更广泛的应用
+
++++
+[查看详情 →](sf32lb57x/SF32LB57-DevKit-LCD)
 ```
 ````
 
@@ -138,6 +159,7 @@ sf32lb52x/SF32LB52-DevKit-Nano
 sf32lb52x/SF32LB52-DevKit-Core-3p3
 sf32lb52x/SF32LB52-OED-6'-EPD
 sf32lb56x/SF32LB56-DevKit-LCD
+sf32lb56x/SF32LB57-DevKit-LCD
 sf32lb58x/SF32LB58-DevKit-LCD
 
 ```
