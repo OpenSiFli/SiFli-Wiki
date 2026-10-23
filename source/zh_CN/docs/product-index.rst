@@ -10,6 +10,72 @@
 
 .. rst-class:: product-index
 
+SF32LB57 系列
+---------------
+
+SF32LB57x - 锂电池供电版本
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. grid:: 1 1 2 2
+   :gutter: 2
+   :class-container: product-series-container
+
+   .. grid-item-card:: 硬件文档
+      :class-card: hardware-docs
+
+      **芯片文档**
+      
+      * 芯片简介（`中文 <https://downloads.sifli.com/docs/Datasheet/%E9%94%82%E7%94%B5/PB5701-SF32LB57x-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20v0.4.pdf>`__ | `English <https://downloads.sifli.com/docs/Datasheet/%E9%94%82%E7%94%B5/PB5701-SF32LB57x-Product%20Brief%20v0.4.pdf>`__）
+      * 芯片规格书（`中文 <https://downloads.sifli.com/docs/Datasheet/%E9%94%82%E7%94%B5/DS5701-SF32LB57x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p2p2.pdf>`__ ）
+      * 用户手册（`中文 <https://downloads.sifli.com/docs/Datasheet/%E9%94%82%E7%94%B5/UM5701-SF32LB57x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V0p1.pdf>`__ ）
+      * 硬件设计指南（`设计指南 <https://wiki.sifli.com/hardware/SF32LB57x-HW-Application.html>`__）
+      
+    
+      **开发板文档**
+
+      * SF32LB57-DevKit-LCD（`使用指南 <https://wiki.sifli.com/board/sf32lb57x/SF32LB57-DevKit-LCD.html>`__）
+
+   .. grid-item-card:: 软件文档
+      :class-card: software-docs
+
+      **开发资料**
+      
+      * SDK文档（`查看 <https://docs.sifli.com/projects/sdk/latest/sf32lb52x/index.html>`__）
+      * API参考（`查看 <https://docs.sifli.com/projects/sdk/latest/sf32lb52x/api/index.html>`__）
+
+
+SF32LB57X - 3.3V供电版本
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. grid:: 1 1 2 2
+   :gutter: 2
+   :class-container: product-series-container
+
+   .. grid-item-card:: 硬件文档
+      :class-card: hardware-docs
+
+      **芯片文档**
+      
+      * 芯片简介（`中文 <https://downloads.sifli.com/docs/Datasheet/%E5%B8%B8%E4%BE%9B%E7%94%B5/PB5702-SF32LB57X-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20v0p4.pdf>`__ | `English <https://downloads.sifli.com/docs/Datasheet/%E5%B8%B8%E4%BE%9B%E7%94%B5/PB5702-SF32LB57X-Product%20Brief%20v0p4.pdf>`__）
+      * 芯片规格书（`中文 <https://downloads.sifli.com/docs/Datasheet/%E5%B8%B8%E4%BE%9B%E7%94%B5/DS5702-SF32LB57X-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p2p2.pdf>`__ ）
+      * 用户手册（`中文 <https://downloads.sifli.com/docs/Datasheet/%E5%B8%B8%E4%BE%9B%E7%94%B5/UM5701-SF32LB57x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V0p1.pdf>`__ ）
+      * 硬件设计指南（`设计指南 <https://wiki.sifli.com/hardware/SF32LB57x-HW-Application.html>`__）
+      
+      **开发板文档**
+
+
+      * SF32LB57-DevKit-LCD (`使用指南 <https://wiki.sifli.com/board/sf32lb57x/SF32LB57-DevKit-LCD.html>`__ ）
+
+   .. grid-item-card:: 软件文档
+      :class-card: software-docs
+
+      **开发资料**
+      
+      * SDK文档（`查看 <https://docs.sifli.com/projects/sdk/latest/sf32lb52x/index.html>`__）
+      * API参考（`查看 <https://docs.sifli.com/projects/sdk/latest/sf32lb52x/api/index.html>`__）
+
+
+
 SF32LB52x 系列
 ---------------
 
