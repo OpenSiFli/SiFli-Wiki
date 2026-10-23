@@ -109,6 +109,30 @@ SF32LB52-DevKit-LCD-1-A128R16 | SF32LB52-MOD-1-A128R16 | 128MB QSPI-NAND | 16MB 
 SF32LB56-DevKit-LCD-N16R12N1  | SF32LB56-MOD-N16R12N1  | 16MB QSPI-NOR   | 4+8MB OPI-PSRAM | 1MB QSPI-NOR | -40~85C | 65*38
 SF32LB56-DevKit-LCD-A128R12N1 | SF32LB56-MOD-A128R12N1 | 128MB QSPI-NAND | 4+8MB OPI-PSRAM | 1MB QSPI-NOR | -40~85C | 65*38
 
+## SF32LB57-DevKit-LCD
+
+* 用于适配 SF32LB57-MOD-WD 系列模组（模组内合封 SF32LB57 双核 Cortex-M33、AIC8800D40LS-N Wi-Fi-6、QSPI 启动 Flash）
+* 开发板供电：USB-Type-C（板上两个 Type-C 接口均可 5V 供电）
+* 板载 CH343P 芯片，提供 1 路 USB 转 UART 调试口（另设 1 路 USB2.0 FS 设备口）
+* 板载 SWD 接口，包含在 40p 双排针中（PA43 SWCLK / PA44 SWDIO）
+* 支持 Boot Mode 启动模式跳线
+* 板载 3x GPADC 电阻分压按键和 1x 复位按键
+* 板载 DPI-RGB（并行 RGB-24bit）显示接口，采用 40p，0.5mm 间距 FPC 转接座（默认 RGB888，软件可配 RGB565/RGB666）
+* 板载 DCMI DVP 摄像头接口，采用 24p，0.5mm 间距 FPC 转接座
+* 板载 1x 40p（2x20p）双排针信号转接接口，树莓派兼容
+* 板载 2x PDM 数字麦克风（双麦阵列）
+* 板载 1 路 24-bit DAC 音频输出，经 Class-AB 功放（KSA7150UB）驱动 1 路 SPK（8Ω 扬声器，MX1.25-2P 座）
+* 板载 1x WS2812B 可寻址 RGB LED，3x 用户 LED（红/绿/蓝，由 IO 扩展器 AW9523B 驱动）
+* 板载 SDIO 接口的 TF 卡座
+* 板载 Wi-Fi 6 芯片（AIC8800D40LS-N），IPEX-1 天线座
+* 板载 IO 扩展器 AW9523B（I2C），提供 16 路可控 IO
+* 主电源与独立 Wi-Fi 电源双路 3.3V 供电（ETA3425D2G Buck）
+
+开发板代码| 模组代码 | Flash容量 | PSRAM容量 | 常备Flash容量 | 环境温度 | 开发板尺寸（mm）
+:-| :-|:-|:-|:-|:-|:-
+SF32LB57-DevKit-LCD-N16R8  | SF32LB57-MOD-N16R8  | 16MB QSPI-NOR | 4+4MB OPI-PSRAM | n/a           | -40~85C | 65*55
+SF32LB57-DevKit-LCD-R16N16 | SF32LB57-MOD-R16N16 | n/a           | 16MB  OPI-PSRAM | 16MB QSPI-NOR | -40~85C | 65*55
+
 ## SF32LB58-DevKit-LCD
 
 * 用于适配SF32LB58-MOD系列模组
