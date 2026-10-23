@@ -63,8 +63,8 @@ SF32LB57x系列芯片包含两种类型：锂电池供电和3.3V常规供电。 
 |QFN68L | 7x7 mm     | 1.1 mm  | 0.35 mm |
 |QFN80L | 8x8 mm     | 0.9 mm  | 0.35 mm |
 |QFN80L | 8x8 mm     | 1.1 mm  | 0.35 mm |
-<!-- |BGA112 | 5.4x4.4 mm | 0.98 mm | 0.4 mm  | -->
-<!-- |BGA112 | 5.4x4.4 mm | 1.03 mm | 0.4 mm  | -->
+|BGA112 | 5.4x4.4 mm | 0.98 mm | 0.4 mm  |
+|BGA112 | 5.4x4.4 mm | 1.03 mm | 0.4 mm  |
 ```
 
 ```{note}
@@ -89,8 +89,6 @@ SF32LB57x系列芯片包含两种类型：锂电池供电和3.3V常规供电。 
 
 <div align="center"> 图1-3-4 QFN80L 3.3V供电系列管脚分布 </div>  <br> <br>
 
-<!--
-
 <img src="assets/57x/57x-PKG-BGA112-HV.svg" width="100%" align="center" />  
 
 <div align="center"> 图1-3-5 BGA112 电池供电系列管脚分布 </div>  <br> <br>
@@ -98,8 +96,6 @@ SF32LB57x系列芯片包含两种类型：锂电池供电和3.3V常规供电。 
 <img src="assets/57x/57x-PKG-BGA112-LV.svg" width="100%" align="center" />  
 
 <div align="center"> 图1-3-6 BGA112 3.3V供电系列管脚分布 </div>  <br> <br>
-
--->
 
 ```{note}
 芯片的POD尺寸图，参考规格书中相关章节的描述。
@@ -247,8 +243,6 @@ PVDD、AVDD33、AVDD_BRF和AVDD33_AUD都接 3.3V 电源，PCB走线时采用星�
 <span style="color:red;">[2]</span> ：请参照芯片型号定义说明：MPI2、MPI3 型号若合封 PSRAM，VDDIOSB 接 1.8V 的 VDD18_VOUT 电源；合封 NOR Flash 则该引脚外供 3.3V 电源。
 ```
 
-<!--
-
 #### 2.1.3.BGA112 封装芯片供电要求
 
 <div align="center"> 表2-1-5 BGA112 电池供电系列电源供电要求 </div>
@@ -298,7 +292,6 @@ PVDD、AVDD33、AVDD_BRF和AVDD33_AUD都接 3.3V 电源，PCB走线时采用星�
 <span style="color:red;">[5]</span> ：请参照芯片型号定义说明：MPI2、MPI3 型号若合封 PSRAM，VDDIOSB 接 1.8V 的 VDD18_VOUT 电源；合封 NOR Flash 则该引脚接 3.3V 的 VDD33_VOUT1 电源。
 ```
 
-
 <div align="center"> 表2-1-6 BGA112 3.3V 供电系列电源供电要求 </div>
 
 ```{table}
@@ -338,8 +331,6 @@ PVDD、AVDD33、AVDD_BRF和AVDD33_AUD都接 3.3V 电源，PCB走线时采用星�
 <span style="color:red;">[1]</span> ：PVDD、AVDD33、AVDD_BRF、AVDD33_AUD和VDDIOA都接 3.3V 电源，PCB走线时采用星型结构，都单独从电源拉线到相应管脚。 \
 <span style="color:red;">[2]</span> ：请参照芯片型号定义说明：MPI2、MPI3 型号若合封 PSRAM，VDDIOSB 接 1.8V 的 VDD18_VOUT 电源；合封 NOR Flash 则该引脚外供 3.3V 电源。
 ```
-
--->
 
 #### 2.1.4.上电时序
 
@@ -1478,8 +1469,6 @@ GPADC 功能所对应的 GPIO 引脚分配详情参见`表2-8-9-1`
 
 <div align="center"> 图2-11-4 QFN80L 3.3V供电系列芯片最小系统原理图 </div>   <br>  <br>
 
-<!--
-
 <img src="assets/57x/SF32LB57-VH-MHS-SCH-V2.svg" width="80%" align="center" />  
 
 <div align="center"> 图2-11-5 BGA112 电池供电系列芯片最小系统原理图 </div>   <br>  <br>
@@ -1487,8 +1476,6 @@ GPADC 功能所对应的 GPIO 引脚分配详情参见`表2-8-9-1`
 <img src="assets/57x/SF32LB57-VL-MHS-SCH-V2.svg" width="80%" align="center" />  
 
 <div align="center"> 图2-11-6 BGA112 3.3V供电系列芯片最小系统原理图 </div>   <br>  <br>
-
--->
 
 ## 3.PCB设计指导
 
@@ -1532,8 +1519,6 @@ SF32LB57x系列芯片的QFN80L封装尺寸：8mmX8mm；管脚数：80；PIN 间�
 
 <div align="center"> 图3-1-1-8 QFN80L封装PCB钢网设计参考图 </div>   <br>  <br>
 
-<!--
-
 SF32LB57x系列芯片的BGA112封装尺寸：5.4mmX4.4mm；管脚数：112；PIN 间距：0.4mm。 封装尺寸、PCB 焊盘和钢网设计尺寸参考`图3-1-1-9` ~ `图3-1-1-12`。
 
 <img src="assets/57x/PO-ABGA451X33-A.svg" width="80%" align="center" />  
@@ -1552,8 +1537,6 @@ SF32LB57x系列芯片的BGA112封装尺寸：5.4mmX4.4mm；管脚数：112；PIN
 
 <div align="center"> 图3-1-1-12 BGA112封装PCB钢网设计参考图 </div>   <br>  <br>
 
--->
-
 #### 3.1.2.叠层设计
 
 SF32LB57x QFN 系列芯片支持单双面 PCB 布局，元器件可全部放置在单面，也可将电容等器件布置于芯片背面。PCB 支持 PTH 通孔工艺，建议选用 4 层 PTH 板材，推荐叠层结构详见`图 3-1-2-1` 和 `图 3-1-2-2`。
@@ -1566,8 +1549,6 @@ SF32LB57x QFN 系列芯片支持单双面 PCB 布局，元器件可全部放置�
 
 <div align="center"> 图3-1-2-2 QFN封装板厚0.8mm PCB参考叠层结构图 </div>   <br>  <br>
 
-<!--
-
 SF32LB57x BGA 系列支持 PCB 单双面布局，元器件可单面放置，也可将电容类器件布局在芯片背面。硬件设计可采用一阶 HDI 盲埋孔工艺，PCB 层数最少为 4 层，推荐叠层结构参考`图 3-1-2-3`和`图 3-1-2-4`。
 
 <img src="assets/57x/SF32LB57x-BGA-PCB-1P6-STACK.png" width="80%" align="center" />  
@@ -1577,8 +1558,6 @@ SF32LB57x BGA 系列支持 PCB 单双面布局，元器件可单面放置，也�
 <img src="assets/57x/SF32LB57x-BGA-PCB-0P8-STACK.png" width="80%" align="center" />  
 
 <div align="center"> 图3-1-2-4 BGA封装板厚0.8mm PCB参考叠层结构图 </div>   <br>  <br>
-
--->
 
 四层 PCB 叠层设计要求：
 - 第一层（顶层）：整层铺地铜，主要用于元器件摆放与信号走线。
@@ -1622,13 +1601,9 @@ QFN68、QFN80 <!-- 和 BGA112 --> 封装信号扇出，参考`图3-1-4-1` ~ `图
 
 <div align="center"> 图3-1-4-2 QFN80 表层扇出参考图 </div>   <br>  <br>
 
-<!--
-
 <img src="assets/57x/SF32LB57x-BGA112-PCB-FANOUT.png" width="80%" align="center" />  
 
 <div align="center"> 图3-1-4-3 BGA112 扇出参考图 </div>   <br>  <br>
-
--->
 
 ### 3.2.电源
 
@@ -1640,13 +1615,9 @@ VCC 与 PVDD 是芯片内置 PMU 模块的电源输入引脚，二者配套电�
 
 <div align="center"> 图3-2-1-1 QFN封装 VCC 电源走线图 </div>   <br>  <br>
 
-<!--
-
 <img src="assets/57x/SF32LB57x-BGA-PCB-VCC.png" width="80%" align="center" />  
 
 <div align="center"> 图3-2-1-2 BGA封装 VCC 电源走线图 </div>   <br>  <br>
-
--->
 
 VDD_VOUT1、VDD_VOUT2、VDD_RET、VDD_RTC、VDD18_VOUT、VDD33_VOUT1、VDD33_VOUT2、AVDD33_AUD、AVDD_BRF 等引脚的滤波电容需就近布置，电源线需依据输入电流设计为短粗走线，降低电源纹波，提升系统工作稳定性。
 
@@ -1663,13 +1634,9 @@ VBUS、VBAT 为芯片内置充电模块的输入、输出引脚，二者滤波�
 
 <div align="center"> 图3-2-2-1 QFN封装 VBUS&VBAT 电源走线图 </div>   <br>  <br>
 
-<!--
-
 <img src="assets/57x/SF32LB57x-BGA-PCB-CHG.png" width="80%" align="center" />  
 
 <div align="center"> 图3-2-2-2 BGA封装 VBUS&VBAT 电源走线图 </div>   <br>  <br>
-
--->
 
 #### 3.2.3.DCDC电路
 
@@ -1679,13 +1646,9 @@ DC-DC 电路的功率电感与滤波电容需紧贴芯片引脚放置，BUCK_LX 
 
 <div align="center"> 图3-2-3-1 QFN封装 DCDC 电源走线图 </div>   <br>  <br>
 
-<!--
-
 <img src="assets/57x/SF32LB57x-BGA-PCB-DCDC.png" width="80%" align="center" />  
 
 <div align="center"> 图3-2-3-2 BGA封装 DCDC 电源走线图 </div>   <br>  <br>
-
--->
 
 ### 3.3.时钟接口走线
 
@@ -2242,6 +2205,6 @@ USB 充电线路的测试点布置在 TVS 防护管前端；电池座对应的 T
 
 |版本 |日期   |发布说明 |
 |---|---|---|
-|0.0.1 |6/2026 |初始版本 |
+|0.0.1 |10/2026 |初始版本 |
 
 ```
