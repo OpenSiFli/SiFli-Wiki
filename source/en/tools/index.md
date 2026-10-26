@@ -71,4 +71,5 @@ SiFli Technology provides a series of software and hardware tools for solution d
 存储调试工具
 屏幕模组调试
 SFTool
+bin2bmp工具
 ```
