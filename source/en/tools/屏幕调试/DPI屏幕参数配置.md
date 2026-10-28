@@ -32,6 +32,7 @@ DPI接口输出的颜色格式
             .DE_polarity   = 0, /* 选择DPI波形中DE（数据使能信号）的极性 */
             .VS_polarity   = 1, /* 选择DPI波形中VS（V sync 场同步信号）的极性 */
             .HS_polarity   = 1, /* 选择DPI波形中HS（H sync 行同步信号）的极性 */
+            .PCLK_force_on = 0, /* Force PCLK (pixel clock) to keep outputting continuously without stopping the clock, even during the gap of preparing data between lines */
 
             .VS_width      = 2,  /* 选择VS（场同步信号）持续的宽度，单位为（几个HS波形） */
             .HS_width      = 2, /* 选择HS（行同步信号）持续的宽度，单位为（几个Pclk波形） */
@@ -75,7 +76,7 @@ If your screen width is ≤1024 pixels and you are using a 58x chip, you also do
 For the DPI screen interface, the macro `AUTO_SELECTED_DPI_INTFACE` automatically selects one of the following two modes according to the chip and screen width:
 
 - **DPI mode**<br>
-In the LCD controller native mode, the maximum supported screen width is 1024 on 58x, and 512 on others.
+In the LCD controller native mode, the maximum supported screen width is 1024 on 58x and 512 on others. The 57x series chips currently can only use DPI_AUX mode.
 
 - **DPI_AUX mode**<br>
 An auxiliary mode designed for screens that exceed the width of the LCD controller native mode.
@@ -96,6 +97,10 @@ ramless_code, sram_data0, and sram_data1 in drv_lcd.c
 After SDK 2.2.4, these arrays are changed to automatically allocate non-retention-SRAM memory from the system heap.
 :::
 #### 4. The following hardware modules must remain occupied during screen refresh:
+
+57x:
+1. One GPDMA channel (configurable, default DMA1-CH2)
+2. Core 0 of the PTM module
 
 56x:
 1. One regular DMA channel (configurable, default DMA1-CH5)
