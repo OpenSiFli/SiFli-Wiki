@@ -338,7 +338,7 @@ R:串口工具勾选了52X_BOOT
 
 A：取消勾选串口工具52X_BOOT
 
-#### FAQ5：连接串口后芯片像死机一样不动
+#### FAQ6：连接串口后芯片像死机一样不动
 
 R:部分开发板如黄山派、SF32LB52-DevKit-Nano-N16R16 等，通过板载串口的 RTS 管脚复位,在板子重新上电后，第一次通过工具连接串口时会触发板子复位，或者在使用过程中出现打开串口板子关机的情况
 
@@ -362,7 +362,7 @@ A：进入设备管理器->右键端口属性->选择端口设置(高级)->勾�
 │  ├─ Trace完全无任何打印 → 主电源/48M晶体/BUCK/收发接反/未进BOOT
 │  ├─ 有BOOT打印，输入help无回复 → 芯片RX/转换板TX硬件断路
 │  └─ 驱动加载失败 → 工具芯片型号选错、Flash供电缺失、内核电压异常
-├─ 能进BOOT但驱动烧录失败：第三章（仅内核供电、芯片型号校验）
+├─ 能进BOOT但驱动烧录失败
 ├─ 有进度中途卡住/固定地址报错：第四章（内/外Flash区分、Flash供电、驱动配置、上下拉、ID适配）
 ├─ 随机概率性失败：第五章（晶体/电感/电源/串口/Flash物料信号）
 └─ 99%校验失败：xxx
@@ -393,19 +393,21 @@ Impeller工具：工具根目录\log\channel\日期\chanx_日期.txt
 
 ##### 1.1.3 完整烧录Log样例
 
+- 根据完整烧录样例来逐步排查问题
+
 ```text
 
 workpath: D:\svn_tool\Impeller_x30_2022_m5\Release, 
 toolpath: D:\svn_tool\Impeller_x30_2022_m5\Release
 cur version 3.8, driver_external/internal_20251030
 uart COM19 open success 
-//---------------------------- 1.1 到此说明串口正常打开，此处失败跳到第2章节
+//---------------------------- 1.1 到此说明串口正常打开
 RAM_PATCH: D:\svn_tool\Impeller_x30_2022_m5\Release\file\ram_patch_52X.bin
 SIG_PUB: D:\svn_tool\Impeller_x30_2022_m5\Release\file\sig_pub.der
 channel DownLoadUart start 
 uart COM19 open success 
 EnterDebugMode success: curbaund (1000000)
-//---------------------------- 1.2 到此说明串口调试功正常打开，此处失败跳转到第2章节
+//---------------------------- 1.2 到此说明串口调试功正常打开
 WriteMemSingle success: 0xf000edf0 0xa05f0003
 ReadMemSingle success: 0xf000ee08 0x00000000
 WriteMemSingle success: 0xf000ee08 0x00010000
@@ -420,7 +422,7 @@ WriteMemSingle success: 0xf000edfc 0x01000000
 DownLoadFileRam start
 use driver: D:\svn_tool\Impeller_x30_2022_m5\Release\file\ram_patch_52X.bin
 DownLoadFileRam over: PASS
-//---------------------------- 1.3 到此说明烧录驱动下载成功，此处失败跳转到第3章节
+//---------------------------- 1.3 到此说明烧录驱动下载成功
 WriteMemSingle success: 0x5000202c 0xfffffc00
 WriteMemSingle success: 0x50002030 0x00000000
 [R] PC: 0x000007d4  MSP: 0x20001020
@@ -438,7 +440,7 @@ Serial:c2,Chip:4,Package:3,Rev:3  Reason:00000000
 2020 - 2022 Copyright by SiFli team
 curent ver 20251030, otpbase 0x12000000
 psram size:0x800000 addr:0x60000000
-//---------------------------- 1.4 到此说明完成所有初始化，进入主函数，此处失败先排查附录A电源
+//---------------------------- 1.4 到此说明完成所有初始化，进入主函数
 burn_speed 3000000 1000
 burn_speed 3000000 1000
 OK
@@ -449,7 +451,7 @@ burn_erase_write 0x120ae000 0x5c128
 burn_erase_write 0x120ae000 0x5c128
 addr:0x120ae000 base:0x12000000 size:0x1000000 sector:0x1000 page:0x0 id:0x182085
 ext_flash -1, g_base_addr 0x0, g_base_size 0x0
-//---------------------------- 2.1 检测对应的flash/emmc信息，NOR/NAND flash 要有id号，为0表示未识别到，此处失败跳转到第4章节
+//---------------------------- 2.1 检测对应的flash/emmc信息，NOR/NAND flash 要有id号，为0表示未识别到
 RX_WAIT:0 0
 [0] run thread 0 addr:0x120ae000 len:0x20000
 RX_WAIT:1 1
@@ -463,13 +465,13 @@ addr:0x120ae000 base:0x12000000 size:0x1000000 sector:0x1000 page:0x0 id:0x18208
 V: 0x43330e70 vs 0x43330e70, TIMR:0xff DCR:0x800000
 OK
 download_image_simple_thread success 
-//---------------------------- 2.2 到此说明该镜像文件烧录完毕，此处失败跳转到第4章节
+//---------------------------- 2.2 到此说明该镜像文件烧录完毕
 otpwrite: otp_factory_write 1 c80013140010
 otp_factory_write 1 c80013140010
 FACTORY_CFG_ID_MAC write ok with 6
 OTP_FACTORY_WRITE_PASS
 OTP_FACTORY_WRITE_PASS
-//---------------------------- 2.3 到此说明写MAC成功，其他磁轭OTP的操作类似，此处烧录失败跳转到第6章节
+//---------------------------- 2.3 到此说明写MAC成功，其他磁轭OTP的操作类似
 burn_speed 1000000 1000
 burn_speed 1000000 1000
 OK
@@ -477,6 +479,87 @@ DownLoadUart success
 DownLoadUart() pass
 FINAL_PASS
 ```
+
+
+
+### 2. 烧录无进度条
+
+#### FAQ7:烧录未到串口打开
+
+R:1秒内立刻失败，90%原因为串口占用、COM冲突
+
+A: 释放串口：关闭串口助手、其他烧录软件、虚拟串口工具，设备管理器确认COM未被多程序占用；
+
+#### FAQ8:Enter DebugMode 失败
+
+R:为成功进入BOOT模式
+
+A: 检查BOOT模式是否正常，是否能进入BOOT模式
+
+### 3.烧录中途失败
+
+```text
+
+内部flash地址固定，外部flash地址由外部存储及软件定义产生:
+
+SF32LB52B	0x10000000 ~ 0x11FFFFFF	唯一带内置52X型号
+
+其余52X(523/525/527/D/E/J)	无内部Flash	全部依赖外部存储
+
+```
+#### FAQ9:固定地址失败,失败落在内部flash区间
+
+A: 1.	复测内核供电管脚电压；SF32LB52B	VDD_SIP	3.3V | SF32LB52D/52E/52J	VDD_SIP	1.8V | SF32LB523/525/527	VSYS	3.3V
+
+2.	确认内部Flash对应电源无跌落；
+
+3.	排查芯片焊接，烧录地址。
+
+#### FAQ10:固定地址失败,失败落在外部flash区间，供电电路异常
+
+A：1.	常供电Flash电路：无电压直接排查LDO、线路断路；
+
+2.	IO可控Flash供电电路：
+
+•	必须烧录过程实时测量（仅烧录时IO才拉高供电）；
+
+•	临时验证：飞线直接给Flash常供电，区分硬件/驱动配置问题；
+
+•	根治方案：BurnDriverEx修改驱动，烧录自动拉高供电IO。
+
+
+#### FAQ11:固定地址失败,失败落在外部flash区间，flash id异常
+
+Q:没有检测到对应flash id
+
+A:flash 未适配：查阅：[flash id 配置文档](https://wiki.sifli.com/tools/flash/Flash%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97.html) 
+
+
+####  FAQ12:概率性随机烧录失败
+
+Q:单板偶发烧录成功/失败，无固定复现条件
+
+A:1.核心硬件物料排查（48M晶体、BUCK电路、电源滤波电容）
+
+2.排查供电稳定性
+
+3.排查串口通信翁东西
+
+4.Flash硬件信号（PCB走线过长、芯片不良）
+
+
+####  FAQ13:烧录卡在99%
+
+R:固件写入完成，但数据校验不匹配
+
+A:1.	Flash硬件区分
+
+•	单块板个别失败：Flash存在坏块，直接更换Flash芯片；
+
+•	批量全部99%失败：Flash驱动主频配置过高，修改驱动读写时钟参数
+。
+2.	OTP附加字段干扰验证 取消勾选【烧录MAC】【烧录SN】选项，仅烧录固件测试；取消后正常即代表MAC/SN配置参数错误，需查看驱动配置文件。
+
 
 <!-- 
 #### 1.2、FAQ 烧录无进度
