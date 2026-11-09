@@ -466,7 +466,7 @@ U11（AW9523BTOR）通过 I2C（PA_22 SCL / PA_23 SDA）与 SF32LB57 通信，�
 
 ### DPI-RGB 并行显示接口
 
-**推送RGB888数据的排线，选0.5B类型：**
+**推送RGB888数据的排线，屏端FPC座上接触选0.5A类型，屏端FPC座下接触选0.5B类型：**
 - [通用40p-0.5mm](https://item.szlcsc.com/3056935.html?fromZone=s_s__%2522C2856837%2522&spm=sc.gbn.xh1.zy.n___sc.it.hd.ss&lcsc_vid=QAcLUgJQQlQLU1RQEQQKBVEAFAIIU1NQQ1ZZAgJVFVYxVlNTR1FZVFZTTlRfUTsOAxUeFF5JWBIBSRccGwIdBEoFGAxB)
 
 <img src="../sf32lb52x/assets/FPC-REF.png" width="80%" align="center" /> 
@@ -486,6 +486,10 @@ U11（AW9523BTOR）通过 I2C（PA_22 SCL / PA_23 SDA）与 SF32LB57 通信，�
 
 <div align="center"> 7寸 RGB 显示屏接线图 </div>   <br> <br>
 
+```{note}
+思澈科技 SF32LB5xx-DevKit-LCD开发板的RGB接口线序兼容正点原子40p线序，其他线序的屏幕，请参考[思澈开发板LCM转接板制作指南](../sf32lb52x/SF-DevKit-LCM-Adapter.md)自行做转接板或FPC软排线转接。
+```
+
 ### QSPI 显示接口
 
 **连接SFLCM_1p85黄山派屏排线：**
@@ -495,11 +499,11 @@ U11（AW9523BTOR）通过 I2C（PA_22 SCL / PA_23 SDA）与 SF32LB57 通信，�
 
 <div align="center"> SFLCM1p85 QSPI接口屏FPC软排线 </div>   <br> <br>
 
-**连接7寸 RGB接口屏**
+**连接SFLCM1p85 QSPI接口屏**
 
 <img src="assets/57DEVKIT-LCD-QSPI-Panel-Install.png" width="80%" align="center" /> 
 
-<div align="center"> 7寸 RGB 显示屏接线图 </div>   <br> <br>
+<div align="center"> 1.85寸 QSPI显示屏接线图 </div>   <br> <br>
 
 **具体请参考：**[屏幕调试工具](https://wiki.sifli.com/tools/%E5%B1%8F%E5%B9%95%E6%A8%A1%E7%BB%84%E8%B0%83%E8%AF%95.html)
 
