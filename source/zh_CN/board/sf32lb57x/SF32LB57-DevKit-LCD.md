@@ -478,7 +478,7 @@ U11（AW9523BTOR）通过 I2C（PA_22 SCL / PA_23 SDA）与 SF32LB57 通信，�
 
 <img src="./assets/FPC_57_40p_to_RGB565软排线.png" width="80%" align="center" /> 
 
-<div align="center"> RGB888直连FPC软排线 </div>   <br> <br>
+<div align="center"> RGB565转接FPC软排线 </div>   <br> <br>
 
 **连接7寸 RGB接口屏**
 
