@@ -459,14 +459,45 @@ U11（AW9523BTOR）通过 I2C（PA_22 SCL / PA_23 SDA）与 SF32LB57 通信，�
 
 ### LCD 显示屏接口
 
-SF32LB57-DevKit-LCD 支持 **DPI-RGB 并行显示接口**：
-
 - 接口类型：40P 0.5mm 间距 FPC 座（FPC1）
 - 默认支持 RGB888，软件可配置 RGB565 / RGB666
 - 支持分辨率、刷新率依具体 LCD 模组规格而定，ePicasso 3.0 硬件加速最高支持 2048×2048
 - 背光控制：PA_11 / BL_PWM
 
+### DPI-RGB 并行显示接口
+
+**推送RGB888数据的排线，选0.5B类型：**
+- [通用40p-0.5mm](https://item.szlcsc.com/3056935.html?fromZone=s_s__%2522C2856837%2522&spm=sc.gbn.xh1.zy.n___sc.it.hd.ss&lcsc_vid=QAcLUgJQQlQLU1RQEQQKBVEAFAIIU1NQQ1ZZAgJVFVYxVlNTR1FZVFZTTlRfUTsOAxUeFF5JWBIBSRccGwIdBEoFGAxB)
+
+<img src="../sf32lb52x/assets/FPC-REF.png" width="80%" align="center" /> 
+
+<div align="center"> RGB888直连FPC软排线 </div>   <br> <br>
+
+**推送RGB565数据（此情景可以同时使用DVP接口）的排线：**
+- [专用40p-0.5mm](https://downloads.sifli.com/hardware/files/documentation/ProPrj_FPC_57_40p_to_RGB565%E8%BD%AF%E6%8E%92%E7%BA%BF_2026-11-09.epro2)
+
+<img src="./assets/FPC_57_40p_to_RGB565软排线.png" width="80%" align="center" /> 
+
+<div align="center"> RGB888直连FPC软排线 </div>   <br> <br>
+
+**连接7寸 RGB接口屏**
+
 <img src="assets/57DEVKIT-LCD-RGB-Panel-Install.png" width="80%" align="center" /> 
+
+<div align="center"> 7寸 RGB 显示屏接线图 </div>   <br> <br>
+
+### QSPI 显示接口
+
+**连接SFLCM_1p85黄山派屏排线：**
+- [专用40p-0.5mm](https://downloads.sifli.com/hardware/files/documentation/ProPrj_FPC_57_40p_to_SFLCM1p85%E8%BD%AF%E6%8E%92%E7%BA%BF_2026-11-09.epro2)
+
+<img src="./assets/FPC_57_40p_to_SFLCM1p85软排线.png" width="80%" align="center" /> 
+
+<div align="center"> SFLCM1p85 QSPI接口屏FPC软排线 </div>   <br> <br>
+
+**连接7寸 RGB接口屏**
+
+<img src="assets/57DEVKIT-LCD-QSPI-Panel-Install.png" width="80%" align="center" /> 
 
 <div align="center"> 7寸 RGB 显示屏接线图 </div>   <br> <br>
 
@@ -498,8 +529,8 @@ SF32LB57-DevKit-LCD 音频部分包含：
 
 ## 相关文档
 
-- [SF32LB57x 芯片规格书](https://wiki.sifli.com/silicon/product-index.html#sf32lb57x)
-- [SF32LB57x 用户手册](https://downloads.sifli.com/user%20manual/)（待发布）
+- [SF32LB57x 芯片规格书](https://wiki.sifli.com/docs/product-index.html)
+- [SF32LB57x 用户手册](https://wiki.sifli.com/docs/product-index.html)
 - [SF32LB57x 硬件设计指南](https://wiki.sifli.com/hardware/SF32LB57x-HW-Application.html)
-- [SF32LB57x 芯片简介](https://wiki.sifli.com/silicon/product-index.html#sf32lb57x)
+- [SF32LB57x 芯片简介](https://wiki.sifli.com/docs/product-index.html)
 
