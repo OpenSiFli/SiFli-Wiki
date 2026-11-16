@@ -339,21 +339,21 @@ FPC4 为 24P 0.5mm 间距 FPC 座，用于连接 DVP 摄像头模组。
 | 7 | VSYNC | DVP 场同步 |
 | 8 | PWDN | 摄像头掉电控制（IOEX_DVP_PDN） |
 | 9 | HSYNC | DVP 行同步 |
-| 10 | NC | 悬空 |
-| 11 | D0 | DVP 数据位 0 |
-| 12 | D1 | DVP 数据位 1 |
-| 13 | D2 | DVP 数据位 2 |
-| 14 | D3 | DVP 数据位 3 |
-| 15 | D4 | DVP 数据位 4 |
-| 16 | D5 | DVP 数据位 5 |
-| 17 | D6 | DVP 数据位 6 |
-| 18 | D7 | DVP 数据位 7 |
-| 19 | MCLK | 摄像头主时钟 |
-| 20 | PCLK | DVP 像素时钟 |
-| 21 | GND | 地 |
-| 22 | AVDD_2V8 | 摄像头模拟电源 2.8V |
+| 10 | NC/DVDD | 悬空/或摄像头核心电压,具体电压值参考摄像头规格书要求，开发板默认1.5V |
+| 11 | DOVDD_2V8 | 摄像头IO电源 2.8V |
+| 12 | NC/D7  | QSPI 摄像头时为NC; DVP 摄像头时为数据位 7 |
+| 13 | MCLK   | 摄像头主时钟 |
+| 14 | NC/D6  | QSPI 摄像头时为NC; DVP 摄像头时为数据位 6 |
+| 15 | GND    | 地 |
+| 16 | NC/D5  | QSPI 摄像头时为NC; DVP 摄像头时为数据位 5 |
+| 17 | PCLK   | DVP 像素时钟 |
+| 18 | NC/D4  | QSPI 摄像头时为NC; DVP 摄像头时为数据位 4 |
+| 19 | SD0/D0 | QSPI 摄像头时为SD0; DVP 摄像头时为数据位 0 |
+| 20 | SD3/D3 | QSPI 摄像头时为SD3; DVP 摄像头时为数据位 3 |
+| 21 | SD1/D1 | QSPI 摄像头时为SD1; DVP 摄像头时为数据位 1 |
+| 22 | SD2/D2 | QSPI 摄像头时为SD2; DVP 摄像头时为数据位 2 |
 | 23 | NC | 悬空 |
-| 24 | GND | 地 |
+| 24 | NC | 悬空 |
 ```
 
 > 注：DCMI 数据线通过跳线选择占用 Wi-Fi SDIO 或 TF 卡 SDIO 管脚，具体以实际 ioconfig 和软件配置为准。默认 ioconfig 中 DVP 与 Wi-Fi/TF 部分信号复用，不可同时使用。
