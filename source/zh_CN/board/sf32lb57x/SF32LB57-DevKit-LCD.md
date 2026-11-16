@@ -383,7 +383,7 @@ FPC4 为 24P 0.5mm 间距 FPC 座，用于连接 DVP 摄像头模组。
 | LED1 | IOEX_LED_R | AW9523B P1_1 | 红色 |
 | LED2 | IOEX_LED_G | AW9523B P1_2 | 绿色 |
 | LED3 | IOEX_LED_B | AW9523B P1_3 | 蓝色 |
-| U1 | WS2812B | PA_11 | 可寻址 RGB |
+| U1 | WS2812B | PA_08 | 可寻址 RGB |
 ```
 ```{note}
 WS2812B在SF32LB57-DevKit-LCD-V1.0开发板上接的是PA_11，SF32LB57-DevKit-LCD-V1.1上修改为PA_08。
