@@ -190,25 +190,79 @@ U7 的使能由 IO 扩展器信号 **IOEX_WF_PWREN** 控制，软件可独立关
 :align: center
 | 管脚 | 管脚名称 | 功能 |
 |:----:|:---------|:-----|
-| 1 | GND | 地 |
-| 2 | VDD_3V3 | 3.3V 电源输入 |
-| 3 | VDD_1V8 | 1.8V 电源输出（内部 LDO） |
-| 4 | RSTN | 复位信号，接复位按键 |
-| 5~22 | PA_41 ~ PA_24 | GPIO / LCDC / SPI / SD / 调试复用 |
-| 23~36 | PA_23 ~ PA_10 | GPIO / I2C / SD / USB / 音频 / 调试复用 |
-| 37 | DAC1P | 音频 DAC 差分输出 P |
+| 1  | PA_41 | GPIO，板上接 DPI_G6 |
+| 2  | PA_40 | GPIO，板上接 DPI_G5 |
+| 3  | PA_39 | GPIO，板上接 DPI_G4 |
+| 4  | PA_38 | GPIO，板上接 DPI_G3 |
+| 5  | PA_37 | GPIO，板上接 DPI_G2 |
+| 6  | PA_36 | GPIO，板上接 USB_DM |
+| 7  | PA_35 | GPIO，板上接 USB_DP |
+| 8  | PA_34 | GPIO，板上接 GPADC 按键 |
+| 9  | PA_33 | GPIO，板上接 DPI_G1 和 DVP_D0 |
+| 10 | PA_32 | GPIO，板上接 DPI_G0 和 DVP_D4 |
+| 11 | PA_31 | GPIO，板上接 DPI_R7 |
+| 12 | PA_30 | GPIO，板上接 DPI_R6 |
+| 13 | PA_29 | GPIO，板上接 DPI_R5 |
+| 14 | PA_28 | GPIO，板上接 DPI_R4 |
+| 15 | PA_27 | GPIO，板上接 DPI_R3 |
+| 16 | PA_26 | GPIO，板上接 DPI_R2 和 DVP_PCLK  |
+| 17 | PA_25 | GPIO，板上接 DPI_R1 和 DVP_D5  |
+| 18 | PA_24 | GPIO，板上接 DPI_R0 和 DVP_D6  |
+| 19 | GND   | 地   |
+| 20 | PA_23 | GPIO，I2C_SDA |
+| 21 | PA_22 | GPIO，I2C_SCL |
+| 22 | 3.3V  | 3.3V 电源输入 |
+| 23 | VBATS | 电池电源检测输入 |
+| 24 | GND   | 地   |
+| 25 | PA_21 | GPIO，接 IO 扩展芯片的 INT 信号 |
+| 26 | PA_20 | GPIO，接触摸屏的 INT 信号 |
+| 27 | PA_19 | GPIO，默认调试信号 DBG_TX，板上接 CH343P 的 RXD |
+| 28 | PA_18 | GPIO，默认调试信号 DBG_RX，板上接 CH343P 的 TXD |
+| 29 | PA_17 | GPIO，模组内部接 Flash，开发板 NC |
+| 30 | PA_16 | GPIO，模组内部接 Flash，开发板 NC |
+| 31 | PA_15 | GPIO，模组内部接 Flash，开发板 NC |
+| 32 | PA_14 | GPIO，模组内部接 Flash，开发板 NC |
+| 33 | PA_13 | GPIO，模组内部接 Flash，开发板 NC |
+| 34 | PA_12 | GPIO，模组内部接 Flash，开发板 NC |
+| 35 | PA_11 | GPIO，接屏的背光信号 |
+| 36 | PA_10 | GPIO，通过跳线选择，板上接 TF 卡座 SD_D0 或 DVP_HSYNC  |
+| 37 | GND   | 地   |
 | 38 | DAC1N | 音频 DAC 差分输出 N |
-| 39 | MICBIAS_PA56 | 麦克风偏置电源 / PDM_CLK |
-| 40 | ADC1P_PA55 | 音频 ADC 输入 P / PDM_DAT |
-| 41 | GND | 地 |
-| 42 | PA_00 | GPIO / USB_DP |
-| 43 | PA_01 | GPIO / USB_DM |
-| 44~53 | PA_07 ~ PA_09, PA_06 | GPIO / SD / 触摸 / USB 检测 |
-| 54 | GND | 地 |
-| 55 | PA_42 | GPIO |
-| 56 | PA_43 | SWCLK / GPIO |
-| 57 | PA_44 | SWDIO / GPIO |
-| 58~? | PA_45 ~ PA_57 | DPI-RGB 数据高位 / PDM / Wi-Fi 唤醒（仅 QFN80/BGA112 模组引出） |
+| 39 | DAC1P | 音频 DAC 差分输出 P |
+| 40 | GND   | 地   |
+| 41 | PA_55 | 音频 ADC 输入 P / PDM_DAT |
+| 42 | PA_56 | 麦克风偏置电源 / PDM_CLK |
+| 43 | GND   | 地   |
+| 44 | PA_09 | GPIO，通过跳线选择，板上接 TF 卡座 SD_CMD 或 DVP_VSYNC  |
+| 45 | PA_08 | GPIO，板上接 TF 卡座 SD_CLK 和 RGB_LED  |
+| 46 | PA_07 | GPIO，板上接 DVP_MCLK |
+| 47 | PA_06 | GPIO，板上接 DVP_D7   |
+| 48 | PA_00 | GPIO，模组内部接 WiFi SD_D2，板上通过跳线选接 DVP_HSYNC，同时 BOOT 信号受 CH343P 控制 |
+| 49 | PA_01 | GPIO，模组内部接 WiFi SD_D3，板上通过跳线选接 DVP_VSYNC |
+| 50 | WF-UART-TXD  | WiFi 调试串口 TXD   |
+| 51 | WF_UART-RXD  | WiFi 调试串口 RXD   |
+| 52 | HST-WAK-WF   | Host Wake WiFi 输入 |
+| 53 | WF_3V3       | WiFi 3.3V 电源输入  |
+| 54 | GND   | 地   |
+| 55 | WF-PWRKEY    | WiFi 开关键输入     |
+| 56 | 2.4G-RFSW    | 57X 的 2.4G 和 WiFi 2.4G 切换控制信号，高电平时切换到 57X 的2.4G 天线，低电平时切换到 WiFi 的 2.4G 天线   |
+| 57 | PA_54 | GPIO，板上接 DPI_B5 |
+| 58 | PA_53 | GPIO，板上接 DPI_B4 |
+| 59 | PA_52 | GPIO，板上接 DPI_B3 |
+| 60 | PA_51 | GPIO，板上接 DPI_VSYNC |
+| 61 | PA_50 | GPIO，板上接 DPI_DE    |
+| 62 | PA_49 | GPIO，板上接 DPI_HSYNC |
+| 63 | PA_48 | GPIO，板上接 DPI_CLK   |
+| 64 | PA_47 | GPIO，板上接 DPI_B7 |
+| 65 | PA_46 | GPIO，板上接 DPI_B6 |
+| 66 | PA_45 | GPIO，板上接 DPI_B2 和 DVP_D2 |
+| 67 | PA_44 | GPIO，板上接 DPI_B1 和 DVP_D1 |
+| 68 | PA_43 | GPIO，板上接 DPI_B0 和 DVP_D3 |
+| 69 | PA_42 | GPIO，板上接 DPI_G7 |
+| 70 | GND   | 地   |
+| 71 | ANT   | 天线接口，天线默认链接模组上的IPEX接口，此管脚为NC   |
+| 72 | GND   | 地   |
+
 ```
 
 > 注：具体模组封装（QFN80 / BGA112）决定 PA45~PA57 是否引出；本开发板使用具备完整 RGB888 及 DVP 接口的模组料号。
@@ -275,43 +329,47 @@ FPC1 为 40P 0.5mm 间距上接/下接 FPC 座（FPC-05FB-40PH20），用于连�
 :align: center
 | 管脚 | 管脚名称 | 功能 |
 |:----:|:---------|:-----|
-| 1 | 5V | 5V 电源输入（背光或屏驱升压） |
-| 2 | GND | 地 |
-| 3 | PA_24 | DPI_R0 |
-| 4 | PA_25 | DPI_R1 |
-| 5 | PA_26 | DPI_R2 |
-| 6 | PA_27 | DPI_R3 |
-| 7 | PA_28 | DPI_R4 |
-| 8 | PA_29 | DPI_R5 |
-| 9 | PA_30 | DPI_R6 |
-| 10 | PA_31 | DPI_R7 |
-| 11 | GND | 地 |
-| 12 | GND | 地 |
-| 13 | PA_32 | DPI_G0 |
-| 14 | PA_33 | DPI_G1 |
-| 15 | PA_34 | PWRKEY / GPADC_CH6（按键输入） |
-| 16 | PA_35 | USB_DP（与 USB2.0 FS 复用） |
-| 17 | PA_36 | USB_DM（与 USB2.0 FS 复用） |
-| 18 | PA_37 | DPI_G2 |
-| 19 | PA_38 | DPI_G3 |
-| 20 | GND | 地 |
-| 21 | PA_39 | DPI_G4 |
-| 22 | PA_40 | DPI_G5 |
-| 23 | PA_41 | DPI_G6 |
-| 24 | PA_42 | DPI_G7 |
-| 25 | PA_43 | DPI_B0 |
-| 26 | PA_44 | DPI_B1 |
-| 27 | PA_45 | DPI_B2 |
-| 28 | PA_52 | DPI_B3 |
-| 29 | PA_53 | DPI_B4 |
-| 30 | PA_54 | DPI_B5 |
-| 31 | PA_46 | DPI_B6 |
-| 32 | PA_47 | DPI_B7 |
-| 33 | PA_48 | DPI_CLK |
-| 34 | PA_49 | DPI_HSYNC |
-| 35 | PA_50 | DPI_DE |
-| 36 | PA_51 | DPI_VSYNC |
-| 37~40 | 控制信号 | PA_11（BL_PWM）、IOEX_CTP_RST、I2C_SDA（PA_23）、I2C_SCL（PA_22）、IOEX_LCD_RST 中的 4 路，具体线序请对照原理图 / ioconfig 确认 |
+|1   | 5V       | 5V电源输出            |     
+|2   | 5V       | 5V电源输出            |
+|3   | R0       | PA_24，LCDC1_DPI_R0   |
+|4   | R1       | PA_25，LCDC1_DPI_R1   |     
+|5   | R2       | PA_26，LCDC1_DPI_R2   | 
+|6   | R3       | PA_27，LCDC1_DPI_R3   | 
+|7   | R4       | PA_28，LCDC1_DPI_R4   | 
+|8   | R5       | PA_29，LCDC1_DPI_R5   | 
+|9   | R6       | PA_30，LCDC1_DPI_R6   | 
+|10  | R7       | PA_31，LCDC1_DPI_R7   | 
+|11  | GND      | 接地                  |
+|12  | G0       | PA_32，LCDC1_DPI_G0   |
+|13  | G1       | PA_33，LCDC1_DPI_G1   |             
+|14  | G2       | PA_37，LCDC1_DPI_G2   |      
+|15  | G3       | PA_38，LCDC1_DPI_G3   |    
+|16  | G4       | PA_39，LCDC1_DPI_G4   |              
+|17  | G5       | PA_40，LCDC1_DPI_G5   |    
+|18  | G6       | PA_41，LCDC1_DPI_G6   | 
+|19  | G7       | PA_42，LCDC1_DPI_G7   | 
+|20  | GND      | 接地                  |
+|21  | B0       | PA_43，LCDC1_DPI_B0   |    
+|22  | B1       | PA_44，LCDC1_DPI_B1   |    
+|23  | B2       | PA_45，LCDC1_DPI_B2   |    
+|24  | B3       | PA_52，LCDC1_DPI_B3   |    
+|25  | B4       | PA_53，LCDC1_DPI_B4   |    
+|26  | B5       | PA_54，LCDC1_DPI_B5   |    
+|27  | B6       | PA_46，LCDC1_DPI_B6   |    
+|28  | B7       | PA_47，LCDC1_DPI_B7   |    
+|29  | GND      | 接地                  |
+|30  | CLK      | PA_48，LCDC1_DPI_CLK    |    
+|31  | HSYNC    | PA_49，LCDC1_DPI_HSYNC  |     
+|32  | VSYNC    | PA_51，LCDC1_DPI_VSYNC  |     
+|33  | DE       | PA_50，LCDC1_DPI_DE     |  
+|34  | BL       | PA_11，BL_PWM         |  
+|35  | CTP_RST  | IO 扩展芯片 P1_6      | 
+|36  | CTP_SDA  | PA_23，I2C_SDA        |
+|37  | NC       | -                     |
+|38  | CTP_SCL  | PA_22，I2C_SCL        |
+|39  | CTP_INT  | PA_20                 |
+|40  | RESET    | IO 扩展芯片 P1_7      |
+
 ```
 
 > 注：
