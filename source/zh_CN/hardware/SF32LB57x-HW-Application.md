@@ -1453,27 +1453,27 @@ GPADC 功能所对应的 GPIO 引脚分配详情参见`表2-8-9-1`
 
 ### 2.11.最小系统原理图
 
-<img src="assets/57x/SF32LB57-UH-MHS-SCH-V2.svg" width="80%" align="center" />  
+<img src="assets/57x/SF32LB57-UH-MHS-SCH-V3.svg" width="80%" align="center" />  
 
 <div align="center"> 图2-11-1 QFN68L 电池供电系列芯片最小系统原理图 </div>   <br>  <br>
 
-<img src="assets/57x/SF32LB57-UL-MHS-SCH-V2.svg" width="80%" align="center" />  
+<img src="assets/57x/SF32LB57-UL-MHS-SCH-V3.svg" width="80%" align="center" />  
 
 <div align="center"> 图2-11-2 QFN68L 3.3V供电系列芯片最小系统原理图 </div>   <br>  <br>
 
-<img src="assets/57x/SF32LB57-YH-MHS-SCH-V2.svg" width="80%" align="center" />  
+<img src="assets/57x/SF32LB57-YH-MHS-SCH-V3.svg" width="80%" align="center" />  
 
 <div align="center"> 图2-11-3 QFN80L 电池供电系列芯片最小系统原理图 </div>   <br>  <br>
 
-<img src="assets/57x/SF32LB57-YL-MHS-SCH-V2.svg" width="80%" align="center" />  
+<img src="assets/57x/SF32LB57-YL-MHS-SCH-V3.svg" width="80%" align="center" />  
 
 <div align="center"> 图2-11-4 QFN80L 3.3V供电系列芯片最小系统原理图 </div>   <br>  <br>
 
-<img src="assets/57x/SF32LB57-VH-MHS-SCH-V2.svg" width="80%" align="center" />  
+<img src="assets/57x/SF32LB57-VH-MHS-SCH-V3.svg" width="80%" align="center" />  
 
 <div align="center"> 图2-11-5 BGA112 电池供电系列芯片最小系统原理图 </div>   <br>  <br>
 
-<img src="assets/57x/SF32LB57-VL-MHS-SCH-V2.svg" width="80%" align="center" />  
+<img src="assets/57x/SF32LB57-VL-MHS-SCH-V3.svg" width="80%" align="center" />  
 
 <div align="center"> 图2-11-6 BGA112 3.3V供电系列芯片最小系统原理图 </div>   <br>  <br>
 
@@ -1865,7 +1865,7 @@ USB 充电线路的测试点布置在 TVS 防护管前端；电池座对应的 T
 | 28 | VDDIOA 电容规格核查                 |  | 3.3V供电系列型号 | VDDIOA 引脚需外接 4.7μF/6.3V 电容，且电容需靠近引脚摆放 |
 | 29 | AVDD33_ANA 电容规格核查             |  | 3.3V供电系列型号 | AVDD33_ANA 引脚需外接 1μF/6.3V 电容，且电容需靠近引脚摆放 |
 | 30 | BUCK_FB 电容规格核查                |  | 所有型号         | BUCK_FB端配置4.7μF电容，放置在电感和芯片管脚之间 |
-| 31 | VDD_VOUT1 电容规格核查              |  | 所有型号         | VDD_VOUT1 引脚需外接 4.7μF/6.3V 电容，且电容需靠近引脚摆放 |
+| 31 | VDD_VOUT1 电容规格核查              |  | 所有型号         | VDD_VOUT1 引脚需外接 10μF/6.3V 电容，且电容需靠近引脚摆放 |
 | 32 | VDD_VOUT2 电容规格核查              |  | 所有型号         | VDD_VOUT2 引脚需外接 4.7μF/6.3V 电容，且电容需靠近引脚摆放 |
 | 33 | VDD_RET 电容规格核查                |  | 所有型号         | VDD_RET 引脚需外接 0.47μF/6.3V 电容，且电容需靠近引脚摆放 |
 | 34 | VDD_RTC 电容规格核查                |  | 所有型号         | VDD_RTC 引脚需外接 1μF/6.3V 电容，且电容需靠近引脚摆放 |
