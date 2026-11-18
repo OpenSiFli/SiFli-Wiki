@@ -595,4 +595,5 @@ SF32LB57-DevKit-LCD 音频部分包含：
 - [SF32LB57x 用户手册](https://wiki.sifli.com/docs/product-index.html)
 - [SF32LB57x 硬件设计指南](https://wiki.sifli.com/hardware/SF32LB57x-HW-Application.html)
 - [SF32LB57x 芯片简介](https://wiki.sifli.com/docs/product-index.html)
-
+- [SF32LB57-MOD-WD 核心板硬件资料](https://downloads.sifli.com/hardware/files/documentation/SF32LB57-MOD-WD-HW-Docs.zip)
+- [SF32LB57-DevKit-LCD 开发板硬件资料](https://downloads.sifli.com/hardware/files/documentation/SF32LB57-DevKit-LCD-HW-Docs.zip)
