@@ -1,5 +1,5 @@
 @echo off
-chcp 65001 >nul 2>&1
+chcp 936 >nul 2>&1
 echo ================================
 echo SiFli-Wiki 开发环境设置脚本
 echo ================================
@@ -33,7 +33,7 @@ echo 正在升级 pip...
 python -m pip install --upgrade pip -i https://mirrors.ustc.edu.cn/pypi/simple --trusted-host mirrors.ustc.edu.cn
 
 echo 正在安装依赖包...
-pip install -r requirements.txt -i https://mirrors.ustc.edu.cn/pypi/simple --trusted-host mirrors.ustc.edu.cn
+python -m pip install -r requirements.txt -i https://mirrors.ustc.edu.cn/pypi/simple --trusted-host mirrors.ustc.edu.cn
 if %errorlevel% neq 0 (
     echo 错误: 依赖包安装失败
     pause
