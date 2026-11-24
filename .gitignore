@@ -10,3 +10,12 @@ wiki/
 # Virtual environment
 .venv/
 venv/
+source/_ext/__pycache__/*.pyc
+# Python和Batch脚本（本地开发用）
+*.py
+*.bat
+*.yml
+
+# AI 审查资料与结果（仅本地使用，不入库）
+AI-Doc/
+.workbuddy/memory/*.md
