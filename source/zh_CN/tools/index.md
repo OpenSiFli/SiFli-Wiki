@@ -59,6 +59,9 @@
     - Lauterbach公司的离线调试工具 [[使用方法](../faq/tools/trace32.md/)]
     - [Simulator for ARM/CORTEX/XSCALE
   simarm.zip](https://repo.lauterbach.com/download_demo.html)
+*   - SFW 波形转换工具
+    - 墨水屏（E-Paper）厂商波形 → SiFli 标准 bin（提供网页版，无需下载）
+    - [WaveformTool工具包](https://downloads.sifli.com/tools/WaveformTool/WaveformTool_latest.7z)
 :::
 
 
