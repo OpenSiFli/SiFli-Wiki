@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SFW 波形工具（网页版）</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{
+  --accent:#4A9FE0; --accent-deep:#2C7CC1; --accent-bg:#E4F0FB;
+  --text:#1F2937; --text-sub:#4B5563; --text-muted:#8A8F99;
+  --border:#E6E8EC; --sidebar:#F7F7F9; --content:#FFFFFF;
+  --input-bg:#F7F8FA; --log-bg:#FAFBFC; --ok:#22A06B; --err:#D9534F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:"Microsoft YaHei UI","Segoe UI",sans-serif;background:var(--content);
+  color:var(--text);display:flex;overflow:hidden}
+
+/* ── 侧边栏 ── */
+#sidebar{width:200px;background:var(--sidebar);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;padding:16px 10px;flex-shrink:0}
+.brand{display:flex;align-items:center;gap:9px;padding:0 8px 14px}
+.brand-logo{width:32px;height:32px;border-radius:9px;background:var(--accent);
+  color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;
+  justify-content:center;letter-spacing:.5px}
+.brand-name{font-size:14px;font-weight:700}
+.brand-ver{font-size:11px;color:var(--text-muted)}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav-item{padding:9px 14px;border-radius:10px;font-size:13.5px;color:var(--text-sub);
+  cursor:pointer;transition:background .15s,color .15s;user-select:none}
+.nav-item:hover{background:#EFF1F4}
+.nav-item.active{background:var(--accent-bg);color:var(--accent-deep);font-weight:600}
+.nav-sep{height:1px;background:#EAEBEF;margin:10px 8px}
+#sidebar .ver{margin-top:auto;padding:8px 10px;font-size:11px;color:var(--text-muted)}
+
+/* ── 主区域 ── */
+#main{flex:1;display:flex;flex-direction:column;min-width:0;padding:18px 24px 14px}
+#panes{flex:1;overflow-y:auto;min-height:0}
+.page{display:none}
+.page.active{display:block}
+
+.page-title h1{font-size:21px;font-weight:700}
+.page-title .sub{font-size:12.5px;color:var(--text-muted);margin-top:3px}
+.section{font-size:14.5px;font-weight:700;margin:16px 0 8px}
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;
+  padding:16px 18px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.row{display:flex;align-items:center;gap:10px;margin:8px 0}
+.row label{width:88px;font-size:13px;color:var(--text-sub);flex-shrink:0}
+input[type=text]{flex:1;border:1px solid var(--border);background:var(--input-bg);
+  border-radius:10px;padding:8px 12px;font-size:13px;color:var(--text);
+  outline:none;transition:border-color .15s;min-width:0}
+input[type=text]:focus{border-color:var(--accent)}
+.btn{border:none;border-radius:10px;padding:8px 16px;font-size:13px;cursor:pointer;
+  font-family:inherit;transition:filter .15s,background .15s;flex-shrink:0}
+.btn:hover{filter:brightness(.96)}
+.btn-ghost{background:#EAF4FC;color:var(--accent-deep)}
+.btn-primary{background:var(--accent);color:#fff;font-weight:600;padding:10px 24px;
+  border-radius:12px}
+.btn-primary:disabled{background:#D9DEE5;cursor:not-allowed}
+.btn-subtle{background:#F1F3F7;color:var(--text-sub);padding:6px 12px;border-radius:8px;
+  font-size:12px}
+.select{flex:1;border:1px solid var(--border);background:var(--input-bg);
+  border-radius:10px;padding:8px 10px;font-size:13px;color:var(--text);
+  font-family:inherit;outline:none;cursor:pointer;min-width:0}
+.seg{display:inline-flex;background:#F1F3F7;border-radius:12px;padding:3px;gap:2px}
+.seg span{padding:5px 13px;border-radius:9px;font-size:12.5px;color:var(--text-sub);
+  cursor:pointer;transition:all .15s;user-select:none;white-space:nowrap}
+.seg span.on{background:var(--accent);color:#fff;font-weight:600}
+.chk{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text-sub);
+  margin:6px 0 0 98px;cursor:pointer;user-select:none}
+.chk input{accent-color:var(--accent);width:15px;height:15px;cursor:pointer}
+.note{font-size:12px;color:var(--text-muted);margin-top:10px;line-height:1.7}
+.action{display:flex;justify-content:flex-end;align-items:center;gap:12px;margin-top:14px}
+.hint{font-size:12px;color:var(--text-muted)}
+
+/* 报告 / 格式说明 */
+.report{margin-top:14px;display:none}
+.report table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
+.report th,.report td{border-bottom:1px solid var(--border);padding:6px 8px;text-align:left}
+.report th{color:var(--text-muted);font-weight:600;font-size:11.5px}
+.badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11.5px;
+  font-weight:600}
+.badge-ok{background:#E7F6EE;color:var(--ok)}
+.badge-no{background:#FDECEC;color:var(--err)}
+.fmt-list{list-style:none}
+.fmt-list li{padding:9px 12px;border-radius:10px;margin:5px 0;font-size:13px;
+  line-height:1.65}
+.fmt-list li.ok{background:#F4FAF7}
+.fmt-list li.no{background:#FDF7F7}
+.fmt-list b{display:block;margin-bottom:2px}
+.fmt-list .desc{color:var(--text-sub);font-size:12.5px}
+
+/* ── 日志 ── */
+#logwrap{flex-shrink:0;padding-top:12px}
+#loghead{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+#loghead .t{font-size:14px;font-weight:700}
+#status{font-size:12px;color:var(--text-muted)}
+#status.ok{color:var(--ok)}#status.err{color:var(--err)}#status.run{color:var(--accent)}
+#log{height:150px;overflow-y:auto;background:var(--log-bg);border:1px solid var(--border);
+  border-radius:12px;padding:9px 12px;font-family:Consolas,monospace;font-size:12px;
+  color:#374151;white-space:pre-wrap;word-break:break-all;resize:vertical}
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <div class="brand">
+    <div class="brand-logo">SFW</div>
+    <div><div class="brand-name">SFW 波形工具</div><div class="brand-ver">网页版 v1.1.2</div></div>
+  </div>
+  <div class="nav">
+    <div class="nav-item active" data-page="convert">◈ 波形转换 → BIN</div>
+    <div class="nav-item" data-page="bin2bin">⇄ BIN → BIN</div>
+    <div class="nav-item" data-page="xlsx2bin">▤ XLSX → BIN</div>
+    <div class="nav-sep"></div>
+    <div class="nav-item" data-page="formats">☰ 支持格式说明</div>
+    <div class="nav-item" data-page="about">ⓘ 关于</div>
+  </div>
+  <div class="ver">所有转换均在本地浏览器完成，文件不会上传</div>
+</div>
+
+<div id="main">
+  <div id="panes">
+
+    <!-- 1 波形转换 → BIN -->
+    <div class="page active" id="page-convert">
+      <div class="page-title"><h1>◈ 波形转换 → BIN</h1>
+        <div class="sub">WBF / RKF / AWF 等非 bin 波形 → 项目标准 .bin，并列出模式、帧数与温区</div></div>
+      <div class="section">输入 / 输出</div>
+      <div class="card">
+        <div class="row"><label>波形文件</label>
+          <input type="text" id="cv-in" placeholder="选择 .wbf 或 .bin 文件">
+          <button class="btn btn-ghost" onclick="pickFile('cv-in',['wbf','bin'])">浏览</button></div>
+        <div class="row"><label>输入格式</label>
+          <div class="seg" id="cv-fmt">
+            <span class="on" data-v="auto">自动识别</span><span data-v="pvi">WBF 标准</span>
+            <span data-v="private">WBF 私有</span><span data-v="generic">RKF·AWF 等</span></div></div>
+        <div class="row"><label>输出 BIN</label>
+          <input type="text" id="cv-out" placeholder="输出文件名（自动生成，可修改）"></div>
+        <div class="row"><label>BIN 版本</label>
+          <input type="text" id="cv-ver" placeholder="留空使用默认值" style="max-width:220px;flex:none"></div>
+        <label class="chk"><input type="checkbox" id="cv-only">仅解析，不输出 bin（只查看模式 / 温区信息）</label>
+        <label class="chk"><input type="checkbox" id="cv-swap">交换新旧灰阶（默认关闭，画面刷新异常时才启用）</label>
+        <div class="note">自动识别顺序：WBF 标准 PVI → WBF 私有包装 → 通用扫描（RKF/AWF 等）。<br>
+          BIN 版本留空使用默认值；LUT 索引固定为 index = old_gray&lt;&lt;4 | new_gray。<br>
+          厂商 BIN / 标准 BIN 请使用「BIN → BIN」页转换。</div>
+        <div class="action"><span class="hint">所有输出均为标准 .bin，不导出原始波形表格</span>
+          <button class="btn btn-primary" id="cv-run">解析并转换</button></div>
+      </div>
+      <div class="card report" id="cv-report"></div>
+    </div>
+
+    <!-- 2 BIN → BIN -->
+    <div class="page" id="page-bin2bin">
+      <div class="page-title"><h1>⇄ BIN → BIN</h1>
+        <div class="sub">bin 文件之间的转换：厂商私有 bin / 标准 bin 统一重打包为项目标准 bin</div></div>
+      <div class="section">输入 / 输出</div>
+      <div class="card">
+        <div class="row"><label>输入 BIN</label>
+          <input type="text" id="b2-in" placeholder="选择 .bin 文件">
+          <button class="btn btn-ghost" onclick="pickFile('b2-in',['bin'])">浏览</button></div>
+        <div class="row"><label>输入格式</label>
+          <div class="seg" id="b2-fmt">
+            <span class="on" data-v="auto">自动识别</span><span data-v="stdbin">标准 BIN</span>
+            <span data-v="vendor">厂商 BIN</span></div></div>
+        <div class="row"><label>输出 BIN</label>
+          <input type="text" id="b2-out" placeholder="输出文件名（自动生成，可修改）"></div>
+        <div class="row"><label>输出版本</label>
+          <input type="text" id="b2-ver" placeholder="留空使用默认值" style="max-width:220px;flex:none"></div>
+        <label class="chk"><input type="checkbox" id="b2-swap">交换新旧灰阶（默认关闭，画面刷新异常时才启用）</label>
+        <div class="note">用于 bin 之间的重打包与版本调整，保持 LUT 索引 index = old_gray&lt;&lt;4 | new_gray；
+          厂商 bin 会自动跳过全常量空模式。</div>
+        <div class="action"><button class="btn btn-primary" id="b2-run">开始转换</button></div>
+      </div>
+      <div class="card report" id="b2-report"></div>
+    </div>
+
+    <!-- 3 XLSX → BIN -->
+    <div class="page" id="page-xlsx2bin">
+      <div class="page-title"><h1>▤ XLSX → BIN</h1>
+        <div class="sub">波形表格转换为项目标准 .bin</div></div>
+      <div class="section">输入 / 输出</div>
+      <div class="card">
+        <div class="row"><label>XLSX 文件</label>
+          <input type="text" id="xl-in" placeholder="选择 .xlsx 波形表格">
+          <button class="btn btn-ghost" onclick="pickFile('xl-in',['xlsx'])">浏览</button></div>
+        <div class="row"><label>输出 BIN</label>
+          <input type="text" id="xl-out" placeholder="输出文件名（自动生成，可修改）"></div>
+        <div class="row"><label>工作表</label>
+          <input type="text" id="xl-sheet" placeholder="留空处理全部数据表" style="max-width:260px;flex:none"></div>
+        <div class="row"><label>值映射</label>
+          <input type="text" id="xl-map" value="-15:2,0:0,15:1" style="max-width:260px;flex:none"></div>
+        <div class="row"><label>BIN 版本</label>
+          <input type="text" id="xl-ver" placeholder="留空则读取表内 Config" style="max-width:220px;flex:none"></div>
+        <div class="note">值映射：电压 → 2-bit 值。版本留空时优先读取表内 Config 工作表。</div>
+        <div class="action"><button class="btn btn-primary" id="xl-run">开始转换</button></div>
+      </div>
+      <div class="card report" id="xl-report"></div>
+    </div>
+
+    <!-- 4 支持格式说明 -->
+    <div class="page" id="page-formats">
+      <div class="page-title"><h1>☰ 支持格式说明</h1>
+        <div class="sub">本工具目前支持的输入格式，以及暂不支持格式的说明</div></div>
+      <div class="section">✅ 已支持</div>
+      <div class="card"><ul class="fmt-list">
+        <li class="ok"><b>WBF 标准 PVI <span class="badge badge-ok">已支持</span></b>
+          <div class="desc">E Ink 原始波形格式（柔性屏排线 Flash 中的格式），支持 4-bit（16 灰）与 5-bit（32 灰，自动降采样到 4-bit）。</div></li>
+        <li class="ok"><b>WBF 私有包装 <span class="badge badge-ok">已支持</span></b>
+          <div class="desc">厂商在 PVI 波形流外包裹私有 header 的变体，工具通过指针扫描自动提取波形段。</div></li>
+        <li class="ok"><b>厂商 BIN <span class="badge badge-ok">已支持</span></b>
+          <div class="desc">3072 字节私有 header + 固定布局波形区（16 模式 × 17 温区 × 51 帧）。自动跳过全常量空壳模式。</div></li>
+        <li class="ok"><b>标准 BIN <span class="badge badge-ok">已支持</span></b>
+          <div class="desc">本工具链输出的项目标准格式，支持重打包、版本调整与完整性回读验证。</div></li>
+        <li class="ok"><b>XLSX 波形表格 <span class="badge badge-ok">已支持</span></b>
+          <div class="desc">按模板约定排列的波形 Excel 表（Config 工作表 + 数据表），支持电压值映射与多 sheet 多模式。</div></li>
+      </ul></div>
+      <div class="section">🚧 暂不支持</div>
+      <div class="card"><ul class="fmt-list">
+        <li class="no"><b>RKF（Rockchip EBC 平台波形）<span class="badge badge-no">适配中</span></b>
+          <div class="desc">瑞芯微 EBC 控制器专用容器格式（RESET/DU/GC16/GL16/GLR16/GLD16/A2 七模式），文件头结构已公开。
+            内部多为 PVI 波形流，可先用「RKF·AWF 等 / 自动识别」尝试解析。</div></li>
+        <li class="no"><b>WRF（i.MX EPDC 波形）<span class="badge badge-no">暂不支持</span></b>
+          <div class="desc">Freescale / NXP i.MX508 及后续 EPDC 控制器的加载格式，常见于 Kindle 等设备。
+            网页版暂不支持，可在桌面版使用 wrf2sdk 脚本部分处理。</div></li>
+        <li class="no"><b>厂商 .h 头文件 LUT（SSD / UC 控制器）<span class="badge badge-no">暂不支持</span></b>
+          <div class="desc">Solomon Systech（SSD16xx）/ UltraChip（UC8xxx）SPI 屏常见的 C 头文件波形数组。
+            属控制器寄存器 LUT，无温度分区与模式索引约定，语义与 PVI 相位流不同，适配方案定义中。</div></li>
+        <li class="no"><b>IT8951 / OTP 内嵌波形 <span class="badge badge-no">暂不支持</span></b>
+          <div class="desc">IT8951 主控方案的波形固化在固件或 OTP 中，需先从固件镜像提取，暂不支持直接解析。</div></li>
+      </ul></div>
+    </div>
+
+    <!-- 5 关于 -->
+    <div class="page" id="page-about">
+      <div class="page-title"><h1>ⓘ 关于</h1><div class="sub">SFW 波形工具 —— EPD 波形转换工具集</div></div>
+      <div class="card" style="margin-top:16px">
+        <div style="font-size:17px;font-weight:700;margin-bottom:6px">SFW 波形工具（网页版） v1.1.2</div>
+        <div style="font-size:13px;color:var(--text-sub);line-height:1.8">面向 SiFli / E Ink 电子纸项目的波形转换工具。所有转换最终只输出项目标准 .bin，
+          不导出 C 源码或波形表格，避免厂商波形数据外泄。<br>
+          纯前端实现：文件解析与转换全部在本地浏览器完成，任何文件都不会上传到服务器。</div>
+        <div style="margin-top:14px;font-size:13px;line-height:2">
+          ◈ 波形转换 → BIN — WBF 标准 PVI（含 RK 平台）/ WBF 私有包装 / RKF·AWF 等私有 → 标准 .bin<br>
+          ⇄ BIN → BIN — 厂商私有 bin / 标准 bin 重打包与版本调整<br>
+          ▤ XLSX → BIN — 波形表格 → 标准 .bin
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:6px">环境信息</div>
+        <div id="about-env" style="font-size:13px;color:var(--text-sub);line-height:2"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 日志 -->
+  <div id="logwrap">
+    <div id="loghead">
+      <span class="t">运行日志</span><span id="status">就绪</span>
+      <span style="flex:1"></span>
+      <button class="btn btn-subtle" onclick="clearLog()">清空</button>
+    </div>
+    <div id="log"></div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════ UI 基础 ══════════════════ */
+const $ = id => document.getElementById(id);
+let fileCache = {};  // inputId -> {name, buf}
+
+document.querySelectorAll('.nav-item').forEach(el => {
+  el.onclick = () => {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    $('page-' + el.dataset.page).classList.add('active');
+  };
+});
+
+function pickFile(inputId, exts) {
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = exts.map(e => '.' + e).join(',') + ',*';
+  inp.onchange = () => {
+    if (!inp.files.length) return;
+    const f = inp.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      fileCache[inputId] = { name: f.name, buf: new Uint8Array(reader.result) };
+      const el = $(inputId);
+      el.value = f.name;
+      const outId = inputId.replace(/-in$/, '-out');
+      if ($(outId)) $(outId).value = f.name.replace(/\.[^.]+$/, '') + '.bin';
+      log('已选择文件: ' + f.name + ' (' + fmtSize(f.size) + ')');
+    };
+    reader.readAsArrayBuffer(f);
+  };
+  inp.click();
+}
+
+document.querySelectorAll('.seg').forEach(seg => {
+  seg.querySelectorAll('span').forEach(sp => {
+    sp.onclick = () => {
+      seg.querySelectorAll('span').forEach(s => s.classList.remove('on'));
+      sp.classList.add('on');
+    };
+  });
+});
+function segValue(id) {
+  const on = $(id).querySelector('span.on');
+  return on ? on.dataset.v : 'auto';
+}
+function fmtSize(n) {
+  return n.toLocaleString('zh-CN') + ' 字节';
+}
+function setStatus(text, cls) {
+  $('status').textContent = text;
+  $('status').className = cls || '';
+}
+function log(text) {
+  const el = $('log');
+  el.textContent += text + '\n';
+  el.scrollTop = el.scrollHeight;
+}
+function clearLog() { $('log').textContent = ''; setStatus('就绪', ''); }
+
+function download(name, bytes) {
+  const blob = new Blob([bytes], { type: 'application/octet-stream' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+}
+
+$('about-env').innerHTML =
+  '浏览器: ' + navigator.userAgent.split(' ').slice(-2).join(' ') + '<br>' +
+  '运行方式: 纯前端本地解析<br>' +
+  '输出格式: 项目标准 .bin';
+
+/* ══════════════════ 核心解析（移植自 src/wbf_parser.py） ══════════════════ */
+const MAGIC = 0xE9D7AB1E, DEFAULT_VERSION = 0x12;
+const FRAME_SIZE = 64, MAX_MODES = 16, HEADER_SIZE = 8 + MAX_MODES * 8;
+const PVI_MODE_NAMES = {0:'RESET',1:'DU',2:'GC16',3:'GL16',4:'GLR16',5:'GLD16',6:'A2',7:'DU4',8:'GCC16'};
+const STD_MODE_NAMES = {0:'GC16',1:'DU',2:'GC4',3:'INIT',5:'GL16',6:'A2',7:'DU4',8:'GLR16',9:'GLD16'};
+const FORMAT_LABELS = {pvi:'WBF 标准 PVI', private:'WBF 私有包装', generic:'通用扫描（RKF/AWF 等）', vendor:'厂商 BIN', stdbin:'标准 BIN'};
+
+function u32(b, o) { return (b[o] | (b[o+1] << 8) | (b[o+2] << 16) | (b[o+3] << 24)) >>> 0; }
+function i32(b, o) { return (b[o] | (b[o+1] << 8) | (b[o+2] << 16) | (b[o+3] << 24)) | 0; }
+
+function readPtr(buf, off) {
+  if (off + 4 > buf.length) return [0, false];
+  const a0 = buf[off], a1 = buf[off+1], a2 = buf[off+2], cs = buf[off+3];
+  return [a0 | (a1 << 8) | (a2 << 16), cs === ((a0 + a1 + a2) & 0xFF)];
+}
+
+function decodeFrame(fb) {
+  const vals = new Array(256);
+  for (let i = 0; i < 64; i++) {
+    const b = fb[i];
+    vals[i*4]   = (b >> 6) & 3;
+    vals[i*4+1] = (b >> 4) & 3;
+    vals[i*4+2] = (b >> 2) & 3;
+    vals[i*4+3] = b & 3;
+  }
+  return vals;
+}
+
+function packFrameBin(values) {           // bit7-6 = pixel0，与数据格式规范一致
+  const out = new Uint8Array(FRAME_SIZE);
+  for (let i = 0; i < 256; i++)
+    out[i >> 2] |= (values[i] & 3) << (6 - (i & 3) * 2);
+  return out;
+}
+
+function transposeFrame(values) {         // 交换新旧灰阶
+  const out = new Array(256);
+  for (let o = 0; o < 16; o++)
+    for (let n = 0; n < 16; n++)
+      out[n * 16 + o] = values[o * 16 + n];
+  return out;
+}
+
+function applySwap(parsed) {
+  for (const blocks of Object.values(parsed.mode_blocks))
+    for (const item of blocks)
+      item[1] = item[1].map(transposeFrame);
+}
+
+/* ── PVI 压缩波形流解码 ── */
+function pviDecodeWaveform(data, maxpic) {
+  const frames = [];
+  let table = Array.from({length: maxpic}, () => new Array(maxpic).fill(0));
+  let off = 0, fmt = 1, frame = 0, x = 0, y = 0;
+  while (frame < 256 && off < data.length) {
+    let token = data[off++];
+    if (token === 0xFF) break;
+    if (token === 0xFC) {
+      fmt = 1 - fmt;
+      if (off >= data.length) break;
+      token = data[off++];
+    }
+    let iters = 1;
+    if (fmt) {
+      if (off >= data.length) break;
+      iters += data[off++];
+    }
+    for (let k = 0; k < iters; k++) {
+      table[y][x]   = (token >> 0) & 3;
+      table[y][x+1] = (token >> 2) & 3;
+      table[y][x+2] = (token >> 4) & 3;
+      table[y][x+3] = (token >> 6) & 3;
+      x += 4;
+      if (x >= maxpic) {
+        x = 0; y++;
+        if (y >= maxpic) {
+          y = 0;
+          frames.push(table.map(r => r.slice()));
+          frame++;
+        }
+      }
+    }
+  }
+  return [frame, frames];
+}
+
+function descrambleFrames(frames) {
+  if (!frames.length) return [];
+  const n = frames[0].length, outAll = [];
+  for (const frame of frames) {
+    const out = Array.from({length: n}, () => new Array(n).fill(0));
+    for (let x = 0; x < n; x++) {
+      const xHi = x >> 4, xLo = x & 0xF;
+      for (let y = 0; y < n; y++) {
+        const yHi = y >> 4, yLo = y & 0xF;
+        out[y][x] = ((frame[yHi][xHi] & 3) << 2) | (frame[yLo][xLo] & 3);
+      }
+    }
+    outAll.push(out);
+  }
+  return outAll;
+}
+
+function frameToList(frame, maxpic) {
+  if (maxpic === 0x10) return frame.flat();
+  if (maxpic === 0x20) {
+    const out = [];
+    for (let y = 0; y < 32; y += 2)
+      for (let x = 0; x < 32; x += 2) out.push(frame[y][x]);
+    return out;
+  }
+  const step = maxpic / 16, out = [];
+  for (let y = 0; y < 16; y++)
+    for (let x = 0; x < 16; x++)
+      out.push(frame[Math.floor(y * step)][Math.floor(x * step)]);
+  return out;
+}
+
+/* ── PVI header ── */
+function pviHeader(b) {
+  const dv = new DataView(b.buffer, b.byteOffset, b.byteLength);
+  return {
+    file_length: dv.getUint32(0x04, true),
+    serial: dv.getUint32(0x08, true),
+    mode_version: b[0x10], wf_version: b[0x11], wf_subversion: b[0x12],
+    maxpic: [0x16,0x18,0x19,0x20,0x43].includes(b[0x10]) ? 0x20 : 0x10,
+    sc1: b[0x20], mode_number: b[0x25], temp_number: b[0x26],
+  };
+}
+
+function parsePVI(buf) {
+  const h = pviHeader(buf);
+  const tempTable = Array.from(buf.slice(0x30, 0x30 + h.temp_number + 1));
+  const mode_blocks = {}, modes = [];
+  const modeTableOff = h.sc1;
+
+  for (let mi = 0; mi <= h.mode_number; mi++) {
+    const [modeAddr, ok] = readPtr(buf, modeTableOff + mi * 4);
+    if (!ok || modeAddr >= buf.length) continue;
+    const blocks = [];
+    for (let ti = 0; ti <= h.temp_number; ti++) {
+      const [wfAddr, ok2] = readPtr(buf, modeAddr + ti * 4);
+      if (!ok2 || wfAddr === 0 || wfAddr >= buf.length) continue;
+      let wfEnd = buf.length;
+      for (let nxt = ti + 1; nxt <= h.temp_number; nxt++) {
+        const [a, ok3] = readPtr(buf, modeAddr + nxt * 4);
+        if (ok3 && wfAddr < a && a < wfEnd) { wfEnd = a; break; }
+      }
+      for (let nm = mi + 1; nm <= h.mode_number; nm++) {
+        const [a] = readPtr(buf, modeTableOff + nm * 4);
+        if (wfAddr < a && a < wfEnd) wfEnd = a;
+      }
+      const [count, frames] = pviDecodeWaveform(buf.slice(wfAddr, wfEnd), h.maxpic);
+      if (count === 0) continue;
+      let flat = frames;
+      if (h.maxpic === 0x10) flat = descrambleFrames(frames);
+      const flatFrames = flat.map(f => frameToList(f, h.maxpic));
+      const tmin = ti > 0 ? tempTable[ti - 1] : -100;
+      const tmax = ti < tempTable.length ? tempTable[ti] : 100;
+      blocks.push([[tmin, tmax], flatFrames]);
+    }
+    if (blocks.length) {
+      mode_blocks[mi] = blocks;
+      modes.push({index: mi, name: PVI_MODE_NAMES[mi] || ('MODE' + mi),
+        blocks: blocks.length, frames: blocks.reduce((s, b) => s + b[1].length, 0)});
+    }
+  }
+  return {format:'pvi', mode_blocks, modes, temp_table: tempTable, meta: {
+    file_size: buf.length, serial: h.serial,
+    wf_version: '0x' + h.wf_version.toString(16).toUpperCase().padStart(2,'0') + '.' +
+                h.wf_subversion.toString(16).toUpperCase().padStart(2,'0'),
+    maxpic: h.maxpic, temp_ranges: tempTable.length - 1}};
+}
+
+function parsePrivate(buf) {
+  const firstFc = buf.indexOf(0xFC);
+  const headerSize = firstFc > 0 ? firstFc : 603;
+  const tempTable = buf.length > 62 ? Array.from(buf.slice(46, 62)) : [];
+  const seen = new Set(), uniq = [];
+  for (let off = 0; off < Math.max(headerSize - 3, 0); off++) {
+    const [addr, ok] = readPtr(buf, off);
+    if (ok && addr >= headerSize && addr < buf.length && !seen.has(addr)) {
+      seen.add(addr); uniq.push(addr);
+    }
+  }
+  uniq.sort((a, b) => a - b);
+  const blocks = [];
+  for (let i = 0; i < uniq.length; i++) {
+    const end = i + 1 < uniq.length ? uniq[i+1] : buf.length;
+    const [count, frames] = pviDecodeWaveform(buf.slice(uniq[i], end), 0x10);
+    if (count === 0) continue;
+    const flatFrames = descrambleFrames(frames).map(f => frameToList(f, 0x10));
+    let tmin, tmax;
+    if (i < tempTable.length) {
+      tmin = i > 0 ? tempTable[i-1] : -100;
+      tmax = tempTable[i];
+    } else { tmin = 0; tmax = 100; }
+    blocks.push([[tmin, tmax], flatFrames]);
+  }
+  return {format:'private',
+    mode_blocks: blocks.length ? {0: blocks} : {},
+    modes: blocks.length ? [{index:0, name:'GC16', blocks:blocks.length,
+      frames:blocks.reduce((s,b) => s + b[1].length, 0)}] : [],
+    temp_table: tempTable,
+    meta: {file_size: buf.length, header_size: headerSize, segments: blocks.length}};
+}
+
+function parseVendor(buf) {
+  const wave = buf.slice(3072);
+  const totalFrames = Math.floor(wave.length / FRAME_SIZE);
+  let name = '';
+  for (let i = 0; i < 28 && buf[i]; i++) name += String.fromCharCode(buf[i]);
+  const temps = Array.from({length: 17}, (_, i) => -10 + i * 5);
+  const mode_blocks = {}, modes = [];
+  for (let m = 0; m < MAX_MODES; m++) {
+    const start = m * 17 * 51;
+    if (start >= totalFrames) break;
+    const blocks = [];
+    let empty = true;
+    for (let tb = 0; tb < 17; tb++) {
+      const base = start + tb * 51, frames = [];
+      for (let fi = 0; fi < 51; fi++) {
+        const idx = base + fi;
+        if (idx >= totalFrames) break;
+        frames.push(decodeFrame(wave.slice(idx * FRAME_SIZE, (idx + 1) * FRAME_SIZE)));
+      }
+      if (!frames.length) break;
+      if (frames.some(f => f.some(v => v))) empty = false;
+      const tmax = tb + 1 < 17 ? temps[tb + 1] : temps[tb] + 10;
+      blocks.push([[temps[tb], tmax], frames]);
+    }
+    if (empty) continue;
+    mode_blocks[m] = blocks;
+    modes.push({index: m, name: STD_MODE_NAMES[m] || ('MODE' + m),
+      blocks: blocks.length, frames: blocks.reduce((s, b) => s + b[1].length, 0)});
+  }
+  return {format:'vendor', mode_blocks, modes, temp_table: temps,
+    meta: {file_size: buf.length, name, total_frames: totalFrames, temp_ranges: 17}};
+}
+
+function parseStdBin(buf) {
+  const version = u32(buf, 4);
+  const mode_blocks = {}, modes = [];
+  for (let m = 0; m < MAX_MODES; m++) {
+    const numBlocks = u32(buf, 8 + m * 8), tableOff = u32(buf, 12 + m * 8);
+    if (numBlocks === 0) continue;
+    const blocks = [];
+    let off = tableOff;
+    for (let b = 0; b < numBlocks; b++) {
+      const tmin = i32(buf, off), tmax = i32(buf, off + 4),
+            fc = u32(buf, off + 8), woff = u32(buf, off + 12);
+      const frames = [];
+      for (let fi = 0; fi < fc; fi++)
+        frames.push(decodeFrame(buf.slice(woff + fi * FRAME_SIZE, woff + (fi + 1) * FRAME_SIZE)));
+      blocks.push([[tmin, tmax], frames]);
+      off += 16;
+    }
+    mode_blocks[m] = blocks;
+    modes.push({index: m, name: STD_MODE_NAMES[m] || ('MODE' + m),
+      blocks: blocks.length, frames: blocks.reduce((s, x) => s + x[1].length, 0)});
+  }
+  return {format:'stdbin', mode_blocks, modes, temp_table: [],
+    meta: {file_size: buf.length}};
+}
+
+function detectFormat(buf) {
+  const size = buf.length;
+  if (size >= 8 && u32(buf, 0) === MAGIC) return 'stdbin';
+  if (size >= 8) {
+    let asciiCnt = 0;
+    for (let i = 0; i < 10; i++) if (buf[i] >= 32 && buf[i] < 127) asciiCnt++;
+    if (u32(buf, 4) === size && asciiCnt < 8) return 'pvi';
+  }
+  if (size >= 3072 && (size - 3072) % FRAME_SIZE === 0) return 'vendor';
+  return 'private';
+}
+
+function parseAny(buf, fmt) {
+  fmt = fmt === 'auto' ? detectFormat(buf) : fmt;
+  switch (fmt) {
+    case 'pvi': return parsePVI(buf);
+    case 'private': case 'generic': return parsePrivate(buf);  // generic = RKF/AWF 等私有包装走通用扫描
+    case 'vendor': return parseVendor(buf);
+    case 'stdbin': return parseStdBin(buf);
+    default: throw new Error('未知格式: ' + fmt);
+  }
+}
+
+/* ── 生成标准 bin ── */
+function generateBinData(modeBlocks, version) {
+  const header = new Uint8Array(HEADER_SIZE);
+  const hdv = new DataView(header.buffer);
+  hdv.setUint32(0, MAGIC, true);
+  hdv.setUint32(4, version, true);
+  const chunks = [];
+  let bodyLen = 0;
+  for (const mode of Object.keys(modeBlocks).map(Number).sort((a, b) => a - b)) {
+    const blocks = modeBlocks[mode];
+    if (!blocks || !blocks.length) continue;
+    const firstTableOffset = HEADER_SIZE + bodyLen;
+    const tableChunks = [];
+    const waveStart = chunks.length;   // 本模式波形数据在 chunks 中的插入点
+    let waveLen = 0;
+    for (const [[tmin, tmax], frames] of blocks) {
+      const waveOffset = firstTableOffset + blocks.length * 16 + waveLen;
+      const dv = new DataView(new ArrayBuffer(16));
+      dv.setInt32(0, tmin, true); dv.setInt32(4, tmax, true);
+      dv.setUint32(8, frames.length, true); dv.setUint32(12, waveOffset, true);
+      tableChunks.push(new Uint8Array(dv.buffer));
+      for (const f of frames) {
+        chunks.push(packFrameBin(f));
+        waveLen += FRAME_SIZE;
+      }
+    }
+    chunks.splice(waveStart, 0, ...tableChunks);   // 表项插到本模式波形之前
+    hdv.setUint32(8 + mode * 8, blocks.length, true);
+    hdv.setUint32(12 + mode * 8, firstTableOffset, true);
+    bodyLen += blocks.length * 16 + waveLen;
+  }
+  const out = new Uint8Array(HEADER_SIZE + bodyLen);
+  out.set(header, 0);
+  let pos = HEADER_SIZE;
+  for (const chunk of chunks) { out.set(chunk, pos); pos += chunk.length; }
+  return out;
+}
+
+/* ══════════════════ XLSX（移植自 src/waveform_xlsx_to_cbin.py） ══════════════════ */
+const SHEET_MODE_MAP = {GC16:0, DU:1, GC4:2, INIT:3, GL16:5, A2:6, DU4:7, GLR16:8, GLD16:9};
+
+function parseValueMap(text) {
+  const out = {};
+  for (const part of text.split(',')) {
+    const kv = part.trim().split(':');
+    if (kv.length !== 2) throw new Error('值映射格式错误: ' + part);
+    out[parseInt(kv[0].trim())] = parseInt(kv[1].trim());
+  }
+  return out;
+}
+
+function xlsxReadConfig(wb) {
+  const config = {version: DEFAULT_VERSION, mode_mapping: {}};
+  if (!wb.SheetNames.includes('Config')) return config;
+  const rows = XLSX.utils.sheet_to_json(wb.Sheets['Config'], {header:1, defval:null, raw:true});
+  for (const row of rows)
+    if (row && row.length >= 2 && row[0] === 'version' && row[1] != null)
+      { config.version = parseInt(row[1]); break; }
+  let headerIdx = -1;
+  for (let i = 0; i < rows.length; i++)
+    if (rows[i] && rows[i].length >= 2 && rows[i][0] === 'sheet_name' && rows[i][1] === 'mode_index')
+      { headerIdx = i; break; }
+  if (headerIdx >= 0)
+    for (const row of rows.slice(headerIdx + 1))
+      if (row && row.length >= 2 && row[0] != null && row[1] != null)
+        config.mode_mapping[String(row[0]).trim()] = parseInt(row[1]);
+  return config;
+}
+
+function detectTempBlocks(rows) {
+  const tempRows = [];
+  for (let i = 1; i < rows.length; i++) {          // 跳过表头行
+    const v = rows[i] && rows[i].length > 0 ? rows[i][0] : null;
+    if (v != null && v !== '') {
+      const t = parseInt(v);
+      if (!isNaN(t) && (!tempRows.length || tempRows[tempRows.length-1][1] !== t))
+        tempRows.push([i, t]);
+    }
+  }
+  return tempRows.map(([startRow, temp], i) => [
+    startRow, temp,
+    i + 1 < tempRows.length ? tempRows[i+1][1] : Math.max(temp + 10, 100)]);
+}
+
+function extractBlock(rows, startRow, frameCount, valueMap) {
+  const frames = Array.from({length: frameCount}, () => new Array(256).fill(0));
+  for (let i = 0; i < 256; i++) {
+    const row = rows[startRow + i];
+    if (!row) throw new Error('数据行不足：需要 256 行/温区块，实际不足（起始行 ' + startRow + '）');
+    const oldG = parseInt(row[1]), newG = parseInt(row[2]);
+    if (isNaN(oldG) || isNaN(newG) || oldG < 0 || oldG > 15 || newG < 0 || newG > 15)
+      throw new Error('灰阶越界（行 ' + (startRow + i) + '）: ' + oldG + '→' + newG);
+    const idx = oldG * 16 + newG;
+    for (let f = 0; f < frameCount; f++) {
+      let raw = row[4 + f];
+      if (raw == null || raw === '') raw = 0;
+      raw = parseInt(raw);
+      if (!(raw in valueMap))
+        throw new Error('非法电压值（行 ' + (startRow + i) + '，帧 ' + (f+1) + '）: ' + raw);
+      frames[f][idx] = valueMap[raw];
+    }
+  }
+  return frames;
+}
+
+function convertXlsx(buf, sheetName, valueMapText, versionOverride) {
+  if (typeof XLSX === 'undefined')
+    throw new Error('XLSX 解析库未加载（需联网加载 SheetJS），请检查网络后刷新页面');
+  const wb = XLSX.read(buf, {type: 'array'});
+  const config = xlsxReadConfig(wb);
+  const binVersion = versionOverride != null ? versionOverride : config.version;
+  const dataSheets = wb.SheetNames.filter(n => n !== 'Config');
+  if (!dataSheets.length) throw new Error('表中没有数据工作表');
+  const sheetsToProcess = sheetName ? [sheetName] : dataSheets;
+  const valueMap = parseValueMap(valueMapText);
+  const modeBlocks = {};
+  let totalFrames = 0;
+  for (const sn of sheetsToProcess) {
+    if (!wb.Sheets[sn]) throw new Error('工作表不存在: ' + sn);
+    const mode = sn in config.mode_mapping ? config.mode_mapping[sn]
+               : (SHEET_MODE_MAP[sn.toUpperCase()] ?? 0);
+    const rows = XLSX.utils.sheet_to_json(wb.Sheets[sn], {header:1, defval:null, raw:true});
+    log('工作表: ' + sn + ' → mode ' + mode + '，行数 ' + rows.length);
+    const tempBlocks = detectTempBlocks(rows);
+    if (!tempBlocks.length) { log('  ⚠ 未找到温区数据块，跳过'); continue; }
+    const blocksData = [];
+    for (const [startRow, tmin, tmax] of tempBlocks) {
+      let fc = 45;
+      const d = rows[startRow] ? parseInt(rows[startRow][3]) : NaN;
+      if (!isNaN(d) && d > 0) fc = d;
+      blocksData.push([[tmin, tmax], extractBlock(rows, startRow, fc, valueMap)]);
+    }
+    log('  ' + blocksData.length + ' 个温区块: ' +
+      blocksData.map(([[a, b], fs]) => a + '~' + b + '℃(' + fs.length + '帧)').join('  '));
+    modeBlocks[mode] = blocksData;
+    totalFrames += blocksData.reduce((s, b) => s + b[1].length, 0);
+  }
+  return {data: generateBinData(modeBlocks, binVersion), version: binVersion,
+    modes: Object.keys(modeBlocks).map(Number).sort((a,b)=>a-b), totalFrames};
+}
+
+/* ══════════════════ 报告渲染 ══════════════════ */
+function renderReport(container, parsed, fileName) {
+  const m = parsed.meta;
+  let html = '<table><tr><th>文件</th><td>' + fileName + '（' + fmtSize(m.file_size||0) + '）</td></tr>';
+  html += '<tr><th>格式</th><td>' + (FORMAT_LABELS[parsed.format] || parsed.format) + '</td></tr>';
+  if (parsed.format === 'pvi') {
+    html += '<tr><th>波形版本</th><td>' + m.wf_version + '　灰度精度: ' +
+      (m.maxpic === 0x20 ? '5-bit（导出时降采样为 4-bit）' : '4-bit') + '</td></tr>';
+  } else if (parsed.format === 'private') {
+    html += '<tr><th>结构</th><td>私有头 ' + m.header_size + ' 字节，波形段 ' + m.segments + ' 个（内部为 PVI 波形数据）</td></tr>';
+  } else if (parsed.format === 'vendor') {
+    html += '<tr><th>面板标识</th><td>' + m.name + '　总帧数: ' + m.total_frames.toLocaleString() + '</td></tr>';
+  }
+  html += '</table>';
+  html += '<table><tr><th>模式</th><th>名称</th><th>温区块</th><th>帧数</th></tr>';
+  for (const mi of parsed.modes)
+    html += '<tr><td>' + mi.index + '</td><td>' + mi.name + '</td><td>' + mi.blocks +
+      '</td><td>' + mi.frames.toLocaleString() + '</td></tr>';
+  html += '</table>';
+  const totalFrames = parsed.modes.reduce((s, mi) => s + mi.frames, 0);
+  html += '<div class="note">共 ' + parsed.modes.length + ' 个模式 / ' +
+    totalFrames.toLocaleString() + ' 帧。' +
+    (parsed.temp_table.length ? ' 温区: ' + parsed.temp_table.join(', ') + ' ℃' : '') + '</div>';
+  container.innerHTML = html;
+  container.style.display = 'block';
+}
+
+function runConvert(inputId, outId, fmtId, verId, onlyId, swapId, reportId, okMsg) {
+  clearReport(reportId);
+  const file = fileCache[inputId];
+  if (!file) return alert('请先选择文件');
+  const only = onlyId ? $(onlyId).checked : false, swap = $(swapId).checked;
+  if (!only && !$(outId).value.trim()) return alert('请指定输出文件名');
+  setStatus('运行中…', 'run'); log('▶ 开始解析 ' + file.name);
+  setTimeout(() => {
+    try {
+      const parsed = parseAny(file.buf, segValue(fmtId));
+      if (swap) { applySwap(parsed); log('[swap] 已交换新旧灰阶顺序'); }
+      renderReport($(reportId), parsed, file.name);
+      log('解析完成: ' + parsed.modes.length + ' 个模式');
+      if (!only) {
+        let version = parseInt($(verId).value.trim(), 0);
+        if (isNaN(version)) version = DEFAULT_VERSION;
+        const data = generateBinData(parsed.mode_blocks, version);
+        if (data.length <= HEADER_SIZE) throw new Error('没有可导出的波形数据');
+        download($(outId).value.trim(), data);
+        log('[OK] 已输出: ' + $(outId).value.trim() + '（' + fmtSize(data.length) + '，模式 ' +
+          Object.keys(parsed.mode_blocks).join(', ') + '）');
+      }
+      setStatus('完成', 'ok'); log('✔ ' + okMsg);
+    } catch (err) {
+      setStatus('失败', 'err'); log('✘ ' + (err.message || err));
+      console.error(err);
+    }
+  }, 30);
+}
+
+function clearReport(id) { $(id).style.display = 'none'; $(id).innerHTML = ''; }
+
+$('cv-run').onclick = () => runConvert('cv-in', 'cv-out', 'cv-fmt', 'cv-ver',
+  'cv-only', 'cv-swap', 'cv-report', '波形转换完成');
+$('b2-run').onclick = () => runConvert('b2-in', 'b2-out', 'b2-fmt', 'b2-ver',
+  null, 'b2-swap', 'b2-report', 'BIN 转换完成');
+
+$('xl-run').onclick = () => {
+  clearReport('xl-report');
+  const file = fileCache['xl-in'];
+  if (!file) return alert('请先选择 XLSX 文件');
+  if (!$('xl-out').value.trim()) return alert('请指定输出文件名');
+  setStatus('运行中…', 'run'); log('▶ 开始转换 ' + file.name);
+  setTimeout(() => {
+    try {
+      const verText = $('xl-ver').value.trim();
+      const r = convertXlsx(file.buf, $('xl-sheet').value.trim() || null,
+        $('xl-map').value.trim() || '-15:2,0:0,15:1',
+        verText ? parseInt(verText, 0) : null);
+      download($('xl-out').value.trim(), r.data);
+      log('[OK] 已输出: ' + $('xl-out').value.trim() + '（' + fmtSize(r.data.length) +
+        '，模式 ' + r.modes.join(', ') + '，' + r.totalFrames.toLocaleString() + ' 帧）');
+      setStatus('完成', 'ok'); log('✔ XLSX 转换完成');
+    } catch (err) {
+      setStatus('失败', 'err'); log('✘ ' + (err.message || err));
+      console.error(err);
+    }
+  }, 30);
+};
+</script>
+</body>
+</html>

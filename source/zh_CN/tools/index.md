@@ -21,6 +21,8 @@
 
 [打开 SiFli Web 工具](https://wiki.sifli.com/tools/sftool/index.html)
 
+[打开墨水屏波形转换工具（网页版）](https://wiki.sifli.com/tools/epd-waveform/index.html)
+
 ```
 
 :::{list-table} 常用工具列表
@@ -72,5 +74,5 @@
 屏幕模组调试
 SFTool
 bin2bmp工具
-<!-- 墨水屏波形转换工具 -->
+墨水屏波形转换工具
 ```
