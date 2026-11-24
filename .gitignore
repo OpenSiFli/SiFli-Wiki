@@ -18,3 +18,4 @@ source/_ext/__pycache__/*.pyc
 
 # AI 审查资料与结果（仅本地使用，不入库）
 AI-Doc/
+.workbuddy/memory/*.md
