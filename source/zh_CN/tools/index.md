@@ -21,7 +21,7 @@
 
 [打开 SiFli Web 工具](https://wiki.sifli.com/tools/sftool/index.html)
 
-[打开墨水屏波形转换工具（网页版）](https://wiki.sifli.com/tools/epd-waveform/index.html)
+[打开墨水屏波形转换工具（网页版）](https://wiki.sifli.com/_static/epd-waveform/index.html)
 
 ```
 
