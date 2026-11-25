@@ -61,6 +61,7 @@ SiFli Technologies
 
     silicon/index
     hardware/index
+    self-check/index
     board/index
     module/index
 

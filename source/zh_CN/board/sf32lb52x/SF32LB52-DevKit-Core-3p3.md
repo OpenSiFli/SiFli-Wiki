@@ -353,7 +353,7 @@ SF32LB52-DevKit-Core-3p3是基于思澈科技SF32LB52BU56/SF32LB52JUD6芯片的�
 
 ## 6. 相关文档
 
-- [SF32LB52X芯片技术规格书](https://downloads.sifli.com/user%20manual/DS5202-SF32LB52X-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p2p5.pdf)
-- [SF32LB52X用户手册](https://downloads.sifli.com/docs/user%20manual/SF32LB52x/UM5201%E2%80%90SF32LB52x%E2%80%90CN.pdf)
+- [SF32LB52X芯片技术规格书](https://downloads.sifli.com/docs/Datasheet/SF32LB52X/DS5202-SF32LB52X-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p2p6.pdf)
+- [SF32LB52X用户手册](https://downloads.sifli.com/docs/user%20manual/SF32LB52x/UM5201-SF32LB52x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V0p8p8.pdf)
 - [SF32LB52-DevKit-Core-3p3设计图纸](https://downloads.sifli.com/hardware/files/documentation/ProPrj_SF32LB52-DevKit-Core-3p3-V100_2025-06-10.epro?)
 - [SF32LB52-DevKit-LCD转接板制作指南](SF-DevKit-LCM-Adapter)

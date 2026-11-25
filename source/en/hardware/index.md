@@ -1,5 +1,9 @@
 # Chip Hardware Design Guide
 
+## SF32LB57x Series
+
+[Hardware Design Guide](/hardware/SF32LB57x-HW-Application)
+
 ## SF32LB52x Series
 
 Chips with suffixes 0, 3, 5, and 7 belong to the SF32LB52x series. They are powered by lithium batteries and support USB charging.
@@ -57,6 +61,7 @@ SF32LB520-3-5-7-HW-Application
 SF32LB52B-E-G-J-HW-Application
 SF32LB56xU-HW-Application
 SF32LB56xV-HW-Application
+SF32LB57x-HW-Application
 SF32LB58x-HW-Application
 SF32-auto-download
 SF32LB55x-HW-Application

@@ -353,7 +353,7 @@ Open-source contributors can apply for free samples and join QQ group 674699679 
 
 ## 6. Related Documents
 
-- [SF32LB52X Chip Datasheet](https://downloads.sifli.com/user%20manual/DS5202-SF32LB52X-Datasheet%20V0p2p5.pdf)
-- [SF32LB52X User Manual](https://downloads.sifli.com/docs/user%20manual/SF32LB52x/UM5201%E2%80%90SF32LB52x%E2%80%90EN.pdf)
+- [SF32LB52X Chip Datasheet](https://downloads.sifli.com/docs/Datasheet/SF32LB52X/DS5202-SF32LB52X-Datasheet%20V0p2p6.pdf)
+- [SF32LB52X User Manual](https://downloads.sifli.com/docs/user%20manual/SF32LB52x/UM5201-SF32LB52x-User%20Manual%20V0p8p8.pdf)
 - [SF32LB52-DevKit-Core-3p3 Design Drawings](https://downloads.sifli.com/hardware/files/documentation/ProPrj_SF32LB52-DevKit-Core-3p3-V100_2025-06-10.epro?)
 - [SF32LB52-DevKit-LCD Adapter Board Fabrication Guide](SF-DevKit-LCM-Adapter)
