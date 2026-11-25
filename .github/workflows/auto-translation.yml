@@ -113,11 +113,17 @@ jobs:
         run: |
           BRANCH_NAME="auto-translation-${{ steps.direction.outputs.target_branch }}-${{ github.run_number }}"
 
+          # 保存翻译结果，避免切换目标分支时覆盖工作区变更
+          git stash push --include-untracked -m "Auto translation changes"
+
           # 切换到目标分支
           git checkout ${{ steps.direction.outputs.target_branch }}
           
           # 创建新分支
           git checkout -b "$BRANCH_NAME"
+
+          # 在目标分支上恢复翻译结果
+          git stash pop
           
           # 提交更改
           git add -A
