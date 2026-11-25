@@ -816,8 +816,8 @@ TVS 管接地脚尽量避免走长线再连接到地，如图5-28所示。
 
 ## 相关文档
 
-- [SF32LB52x芯片技术规格书](https://downloads.sifli.com/silicon/DS0052-SF32LB52x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V2p4.pdf?)
-- [SF32LB52x用户手册](https://downloads.sifli.com/silicon/UM0052-SF32LB52x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V0p3.pdf?)
+- [SF32LB52x芯片技术规格书](https://downloads.sifli.com/docs/Datasheet/SF32LB52x/DS5201-SF32LB52x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V2p5p5.pdf)
+- [SF32LB52x用户手册](https://downloads.sifli.com/docs/user%20manual/SF32LB52x/UM5201-SF32LB52x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V0p8p8.pdf)
 - [SF32LB52-硬件参考设计包](https://downloads.sifli.com/hardware/files/documentation/SF32LB52-%E7%A1%AC%E4%BB%B6%E5%8F%82%E8%80%83%E8%AE%BE%E8%AE%A1-20250619.zip?)
 
 

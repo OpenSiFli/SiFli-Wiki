@@ -131,7 +131,7 @@ SF32LB52X - 3.3V供电版本
 
       **芯片文档**
       
-      * 芯片简介（`中文 <https://downloads.sifli.com/docs/Product%20Brief/SF32LB52x/PB5202-SF32LB52X-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V0p1.pdf>`__ | `English <https://downloads.sifli.com/docs/Datasheet/SF32LB52X/PB5202-SF32LB52X-Product%20Brief%20V0p1.pdf>`__）
+      * 芯片简介（`中文 <https://downloads.sifli.com/docs/Product%20Brief/SF32LB52x/PB5202-SF32LB52X-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V0p1.pdf>`__ | `English <https://downloads.sifli.com/docs/Product%20Brief/SF32LB52x/PB5202-SF32LB52X-Product%20Brief%20V0p1.pdf>`__）
       * 芯片规格书（`中文 <https://downloads.sifli.com/docs/Datasheet/SF32LB52X/DS5202-SF32LB52X-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p2p6.pdf>`__ | `English <https://downloads.sifli.com/docs/Datasheet/SF32LB52X/DS5202-SF32LB52X-Datasheet%20V0p2p6.pdf>`__）
       * 用户手册（`中文 <https://downloads.sifli.com/docs/user%20manual/SF32LB52x/UM5201-SF32LB52x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V0p8p8.pdf>`__ | `English <https://downloads.sifli.com/docs/user%20manual/SF32LB52x/UM5201-SF32LB52x-User%20Manual%20V0p8p8.pdf>`__）
       * 硬件设计指南（`设计指南 <https://wiki.sifli.com/hardware/SF32LB52B-E-G-J-HW-Application.html>`__）
@@ -194,8 +194,8 @@ SF32LB56x 系列
 
       **芯片文档**
       
-      * 芯片简介（`中文 <https://downloads.sifli.com/docs/Datasheet/sf32lb56/DS5601-SF32LB56x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V1p9p4.pdf>`__ | `English <https://downloads.sifli.com/docs/Datasheet/sf32lb56/DS5601-SF32LB56x-Datasheet%20V1p9p4.pdf>`__）
-      * 芯片规格书（`中文 <https://downloads.sifli.com/docs/Datasheet/sf32lb56/DS5601-SF32LB56x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V1p9p3.pdf>`__ | `English <https://downloads.sifli.com/docs/Datasheet/sf32lb56/DS5601-SF32LB56x-Datasheet%20V1p9p3.pdf>`__）
+      * 芯片简介（`中文 <https://downloads.sifli.com/docs/Product%20Brief/SF32LB56x/PB0056-SF32LB56x-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V1p2.pdf>`__ | `English <https://downloads.sifli.com/docs/Product%20Brief/SF32LB56x/PB0056-SF32LB56x-Product%20Brief%20V1p2.pdf>`__）
+      * 芯片规格书（`中文 <https://downloads.sifli.com/docs/Datasheet/sf32lb56/DS5601-SF32LB56x-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V1p9p4.pdf>`__ | `English <https://downloads.sifli.com/docs/Datasheet/sf32lb56/DS5601-SF32LB56x-Datasheet%20V1p9p4.pdf>`__）
       * 用户手册（`中文 <https://downloads.sifli.com/docs/user%20manual/SF32LB56x/UM5601-SF32LB56x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V1p0p5.pdf>`__ | `English <https://downloads.sifli.com/docs/user%20manual/SF32LB56x/UM5601-SF32LB56x-User%20mannual%20V1p0p5.pdf>`__）
       
       **模组文档**
@@ -247,7 +247,7 @@ SF30147 系列
       **芯片文档**
       
       * 芯片简介（`中文 <https://downloads.sifli.com/silicon/PB0002-SF30147-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V0p9.pdf>`__ | `English <https://downloads.sifli.com/silicon/PB0002-SF30147-Product%20Brief%20V0p9.pdf>`__）
-      * 芯片规格书（`中文 <https://downloads.sifli.com/docs/Datasheet/sf3017/DS0002-SF30147-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p7.pdf>`__ | `English <https://downloads.sifli.com/silicon/DS0002-SF30147-Datasheet%20V0p6.pdf>`__）
+      * 芯片规格书（`中文 <https://downloads.sifli.com/docs/Datasheet/sf3017/DS0002-SF30147-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p7.pdf>`__ | English）
 
    .. grid-item-card:: 软件文档
       :class-card: software-docs
