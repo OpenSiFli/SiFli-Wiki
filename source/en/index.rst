@@ -40,6 +40,11 @@ SiFli Technologies
     docs/product-index
     .. docs/docs
     
+.. toctree::
+    :caption: Latest Recommendations
+    :hidden:
+
+    SiFli EPD Platform <https://docs.sifli.com/projects/epd-platform/>
 
 
 
