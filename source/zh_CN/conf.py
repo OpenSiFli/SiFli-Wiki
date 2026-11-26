@@ -56,6 +56,7 @@ html_theme_options = {
         {"title": "入门指南", "url": "docs/index"},
         {"title": "API文档", "url": "https://docs.sifli.com/projects/sdk/latest/sf32lb52x/index.html", "external": True},
         {"title": "Solution文档", "url": "https://docs.sifli.com/projects/solution/0.introduction/index.html", "external": True},
+        {"title": "EPD Platform文档", "url": "https://docs.sifli.com/projects/epd-platform/", "external": True},
         {"title": "关于我们", "url": "about/index"},
     ],
 }
