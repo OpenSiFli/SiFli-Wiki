@@ -271,7 +271,7 @@ SF30147 Series
       
       * Chip Product Brief (`Chinese <https://downloads.sifli.com/silicon/PB0002-SF30147-%E4%BA%A7%E5%93%81%E7%AE%80%E4%BB%8B%20V0p9.pdf>`__ | `English <https://downloads.sifli.com/silicon/PB0002-SF30147-Product%20Brief%20V0p9.pdf>`__)
 
-      * Chip Datasheet (`Chinese <https://downloads.sifli.com/docs/Datasheet/sf3017/DS0002-SF30147-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p7.pdf>`__ | English)
+      * Chip Datasheet (`Chinese <https://downloads.sifli.com/docs/Datasheet/sf3017/DS0002-SF30147-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p7.pdf>`__ | `English <https://downloads.sifli.com/docs/Datasheet/sf3017/DS0002-SF30147-Datasheet%20V0p7.pdf>`__)
 
    .. grid-item-card:: Software Documentation
       :class-card: software-docs
