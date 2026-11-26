@@ -55,6 +55,7 @@ html_theme_options = {
         {"title": "User Guide", "url": "docs/index"},
         {"title": "Examples", "url": "https://docs.sifli.com/projects/sdk/v2.3/sf32lb52x/example/hal/index.html", "external": True},
         {"title": "API Documentation", "url": "https://docs.sifli.com/projects/sdk/v2.3/sf32lb52x/api/index.html", "external": True},
+        {"title": "EPD Platform Documentation", "url": "https://docs.sifli.com/projects/epd-platform/", "external": True},
         {"title": "About Us", "url": "about/index"},
     ],
 }
