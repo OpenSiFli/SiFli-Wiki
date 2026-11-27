@@ -305,7 +305,7 @@ SF32LB57-DevKit-Core-3p3是基于思澈科技SF32LB57ZUN3N6或SF32LB57ZUN7N6芯�
 
 通过FPC-16p排线可以直接接**1.85inch AMOLED Module**屏。
 
-```{image} assets/FPC-16P-Adapter.png
+```{image} assets/57-FPC-16P-Adapter.png
 :width: 80%
 :align: center
 ```
@@ -322,7 +322,7 @@ SF32LB57-DevKit-Core-3p3是基于思澈科技SF32LB57ZUN3N6或SF32LB57ZUN7N6芯�
 
 ### PCB元件位置查询
 
-<a href="../../_static/SF32LB57-DevKit-Core-3p3-%E8%BE%85%E5%8A%A9%E7%84%8A%E6%8E%A5.html">SF32LB57-DevKit-Core-3p3-PCB</a>
+<a href="../../_static/SF32LB57-DevKit-Core-3p3-辅助焊接.html">SF32LB57-DevKit-Core-3p3-PCB</a>
 
 ## 5. 样品获取
 
@@ -331,7 +331,7 @@ SF32LB57-DevKit-Core-3p3是基于思澈科技SF32LB57ZUN3N6或SF32LB57ZUN7N6芯�
 
 ## 6. 相关文档
 
-- [SF32LB57X芯片技术规格书](https://downloads.sifli.com/user%20manual/DS5202-SF32LB57X-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p2p5.pdf)
-- [SF32LB57X用户手册](https://downloads.sifli.com/docs/user%20manual/SF32LB57x/UM5201%E2%80%90SF32LB57x%E2%80%90CN.pdf)
-- [SF32LB57-DevKit-Core-3p3设计图纸](https://downloads.sifli.com/hardware/files/documentation/ProPrj_SF32LB57-DevKit-Core-3p3-V100_2025-06-10.epro?)
+- [SF32LB57X芯片技术规格书](https://downloads.sifli.com/docs/Datasheet/%E5%B8%B8%E4%BE%9B%E7%94%B5/DS5702-SF32LB57X-%E8%8A%AF%E7%89%87%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%20V0p2p3.pdf)
+- [SF32LB57X用户手册](https://downloads.sifli.com/docs/Datasheet/%E9%94%82%E7%94%B5/UM5701-SF32LB57x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V0p1p1.pdf)
+- [SF32LB57-DevKit-Core-3p3设计图纸](https://downloads.sifli.com/hardware/files/documentation/SF32LB57-DevKit-Core-3p3-V100_2026-10-25.zip)
 - [SF32LB57-DevKit-LCD转接板制作指南](SF-DevKit-LCM-Adapter)
