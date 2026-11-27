@@ -335,3 +335,4 @@ SF32LB57-DevKit-Core-3p3是基于思澈科技SF32LB57ZUN3N6或SF32LB57ZUN7N6芯�
 - [SF32LB57X用户手册](https://downloads.sifli.com/docs/Datasheet/%E9%94%82%E7%94%B5/UM5701-SF32LB57x-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C%20V0p1p1.pdf)
 - [SF32LB57-DevKit-Core-3p3设计图纸](https://downloads.sifli.com/hardware/files/documentation/SF32LB57-DevKit-Core-3p3-V100_2026-10-25.zip)
 - [SF32LB57-DevKit-LCD转接板制作指南](SF-DevKit-LCM-Adapter)
+- [硬件知识库-查询信息和原理图审图](https://github.com/OpenSiFli/SiFli-HKB)
