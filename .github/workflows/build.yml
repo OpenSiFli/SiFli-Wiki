@@ -53,12 +53,21 @@ jobs:
 
       - name: Configure COSCMD
         run: |
-          coscmd config -a ${{ secrets.COS_DOCS_SECRET_ID }} -s ${{ secrets.COS_DOCS_SECRET_KEY }} -b ${{ secrets.COS_DOCS_BUCKET }} -r ${{ secrets.COS_DOCS_REGION }} -m 20
+          coscmd config -a ${{ secrets.COS_DOCS_SECRET_ID }} -s ${{ secrets.COS_DOCS_SECRET_KEY }} -b ${{ secrets.COS_DOCS_BUCKET }} -r ${{ secrets.COS_DOCS_REGION }} -m 5
 
       - name: Upload to COS
         run: |
           cd main-repo
-          coscmd upload -rs --delete --yes ./build/ /
+          for attempt in 1 2 3; do
+            if coscmd upload -rs --delete --yes ./build/ /; then
+              break
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              echo "COS upload failed after 3 attempts." >&2
+              exit 1
+            fi
+            sleep $((attempt * 30))
+          done
           echo "Uploaded documentation for wiki to COS successfully."
       
       - name: Install TCCLI

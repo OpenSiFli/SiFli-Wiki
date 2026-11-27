@@ -45,8 +45,8 @@ html_theme_options = {
     "og_image_url": "https://wiki.sifli.com/_static/og-image.png",
     "announcement": """
         <div style="text-align: center">
-            SiFli Solution is now fully open: a production-ready solution set that accelerates projects from prototype to mass production.
-            <a href='https://docs.sifli.com/projects/solution/0.introduction/index.html'>Solution Documentation</a>.
+            SiFli EPD Platform is now fully open: from hardware to application, everything is open source.
+            <a href='https://docs.sifli.com/projects/epd-platform/'>EPD Platform Documentation</a>.
         </div>
     """,
     "github_url": "https://github.com/OpenSiFli",
@@ -55,6 +55,7 @@ html_theme_options = {
         {"title": "User Guide", "url": "docs/index"},
         {"title": "Examples", "url": "https://docs.sifli.com/projects/sdk/v2.3/sf32lb52x/example/hal/index.html", "external": True},
         {"title": "API Documentation", "url": "https://docs.sifli.com/projects/sdk/v2.3/sf32lb52x/api/index.html", "external": True},
+        {"title": "EPD Platform Documentation", "url": "https://docs.sifli.com/projects/epd-platform/", "external": True},
         {"title": "About Us", "url": "about/index"},
     ],
 }

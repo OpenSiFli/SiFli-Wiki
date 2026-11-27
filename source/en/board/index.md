@@ -125,6 +125,27 @@ Next-generation development board based on the SF32LB58 chip
 ```
 ````
 
+### SF32LB57 Series
+
+````{grid} 1 2 2 3
+:gutter: 3
+
+```{grid-item-card} SF32LB57-DevKit-LCD
+:class-card: board-card
+
+High-performance LCD development board based on the SF32LB57 module
+
+**Key Features:**
+- ✓ Higher performance
+- ✓ More features
+- ✓ More optimized design
+- ✓ Broader applications
+
++++
+[View Details →](sf32lb57x/SF32LB57-DevKit-LCD)
+```
+````
+
 ```{toctree}
 :hidden:
 
@@ -138,6 +159,7 @@ sf32lb52x/SF32LB52-DevKit-Nano
 sf32lb52x/SF32LB52-DevKit-Core-3p3
 sf32lb52x/SF32LB52-OED-6'-EPD
 sf32lb56x/SF32LB56-DevKit-LCD
+sf32lb57x/SF32LB57-DevKit-LCD
 sf32lb58x/SF32LB58-DevKit-LCD
 
 ```

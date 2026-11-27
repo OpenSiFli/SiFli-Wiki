@@ -40,9 +40,15 @@
     docs/product-index
     .. docs/docs
     
+.. toctree::
+    :caption: 最新推荐
+    :hidden:
+
+    SiFli EPD Platform <https://docs.sifli.com/projects/epd-platform/>
 
 
 
+    
 .. toctree::
     :caption: 软件开发
     :hidden:

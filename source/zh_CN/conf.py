@@ -46,8 +46,8 @@ html_theme_options = {
     "og_image_url": "https://wiki.sifli.com/_static/og-image.png",
     "announcement": """
         <div style="text-align: center">
-            思澈 Solution 全面开放：一套产品级方案，加速从原型到量产
-            <a href='https://docs.sifli.com/projects/solution/0.introduction/index.html'>Solution文档</a>.
+            思澈 EPD Platform 全面开放：从硬件到应用，全部开源:
+            <a href='https://docs.sifli.com/projects/epd-platform/'> EPD Platform文档</a>.
         </div>
     """,
     "github_url": "https://github.com/OpenSiFli",
@@ -56,6 +56,7 @@ html_theme_options = {
         {"title": "入门指南", "url": "docs/index"},
         {"title": "API文档", "url": "https://docs.sifli.com/projects/sdk/latest/sf32lb52x/index.html", "external": True},
         {"title": "Solution文档", "url": "https://docs.sifli.com/projects/solution/0.introduction/index.html", "external": True},
+        {"title": "EPD Platform文档", "url": "https://docs.sifli.com/projects/epd-platform/", "external": True},
         {"title": "关于我们", "url": "about/index"},
     ],
 }

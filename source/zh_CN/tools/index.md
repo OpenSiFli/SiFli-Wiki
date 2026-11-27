@@ -21,6 +21,8 @@
 
 [打开 SiFli Web 工具](https://wiki.sifli.com/tools/sftool/index.html)
 
+[打开墨水屏波形转换工具（网页版）](https://wiki.sifli.com/_static/epd-waveform/index.html)
+
 ```
 
 :::{list-table} 常用工具列表
@@ -57,6 +59,9 @@
     - Lauterbach公司的离线调试工具 [[使用方法](../faq/tools/trace32.md/)]
     - [Simulator for ARM/CORTEX/XSCALE
   simarm.zip](https://repo.lauterbach.com/download_demo.html)
+*   - SFW 波形转换工具
+    - 墨水屏（E-Paper）厂商波形 → SiFli 标准 bin（提供网页版，无需下载）
+    - [WaveformTool工具包](https://downloads.sifli.com/tools/WaveformTool/WaveformTool_latest.7z)
 :::
 
 
@@ -72,5 +77,5 @@
 屏幕模组调试
 SFTool
 bin2bmp工具
-<!-- 墨水屏波形转换工具 -->
+墨水屏波形转换工具
 ```

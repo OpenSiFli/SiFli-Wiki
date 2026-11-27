@@ -504,7 +504,7 @@ To make it easier for developers to use SiFli development boards to debug displa
 - SF32LB56-DevKit-LCD
 	- [40p-0.5mm Pitch-5cm Length-Reverse-FPC](https://detail.tmall.com/item.htm?detail_redpacket_pop=true&id=680458377217&ltk2=1750067224011jye1g23u8nodzodf4cqbwg&ns=1&priceTId=213e035a17500671977881818e1d06&query=FPC%2022P%200.5&skuId=5791728402036&spm=a21n57.1.hoverItem.4&utparam=%7B%22aplus_abtest%22%3A%229f477038981a766efe59de49bfe14d1d%22%7D&xxc=ad_ztc)
 - SF32LB58-DevKit-LCD
-	- [40p-0.5mm Pitch-5cm Length-Forward-FPC](http://10.23.10.196:19000/web-file/hardware/files/documentation/FPC_40p_to_1p85-AMOLED-Module%E8%BD%AF%E6%8E%92%E7%BA%BF_2025-07-04.epro?)
+	- [40p-0.5mm Pitch-5cm Length-Forward-FPC](https://detail.tmall.com/item.htm?ali_refid=a3_430582_1006%3A2552485180%3AH%3ApB0ALWY4zv5DZeJm6aNXmcjEnkybG3us%3A6cad54141ad891cdf2478d26608a1791&ali_trackid=282_6cad54141ad891cdf2478d26608a1791&id=947280228892&mi_id=0000caqk_elhgz9toA3Dftwk3YrjPFiMsUAqlxPqhdQ2wxE&mm_sceneid=1_0_7751892755_0_0&skuId=5854324645376&spm=a21n57.1.hoverItem.1&utparam=%7B%22aplus_abtest%22%3A%2249aeb228a86d236de39041cedf696fdc%22%7D&xxc=ad_ztc)
 
 #### Development Board and Display Installation Method
 
