@@ -9,14 +9,14 @@
 
 SF32LB57-DevKit-Core-3p3是基于思澈科技SF32LB57ZUN3N6或SF32LB57ZUN7N6芯片的开发板，尺寸为30.88mm*68mm。板边排针采用蛇形孔设计，可免焊接插接使用。开发板支持GPIO、UART、I2C、SPI、LCD、I2S、GPADC、PWM和模拟音频输入输出。
 
-```{image} assets/Core-3p3_Front_look.png
+```{image} assets/SF32LB57-DevKit-Core-3p3-Front_look.png
 :width: 20%
 :align: center
 ```
 
 <div align="center"> 开发板实物正面照 </div>  <br>  <br>  <br>
 
-```{image} assets/Core-3p3_Back_look.png
+```{image} assets/SF32LB57-DevKit-Core-3p3-Back_look.png
 :width: 20%
 :align: center
 ```
